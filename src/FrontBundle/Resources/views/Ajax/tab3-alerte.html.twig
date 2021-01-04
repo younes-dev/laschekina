@@ -1,0 +1,52 @@
+
+{% if alertBoxMedia != null and alertBoxMedia != null  %}
+
+    {% for item in alertBoxMedia %}
+    {#    <div class="item-timeline   {% if item.medias.typemedia.title == "cinema" %} cinema  {% elseif item.medias.typemedia.title == "programme" %} tv  {% elseif item.medias.typemedia.title == "concert" %}  concert {% elseif item.medias.typemedia.title == "spectacle" %} spectacle {% elseif item.medias.typemedia.title == "radio" %} radio {% else %} peoples {% endif %}">
+
+           <div class="date-timeline">
+                <h4><a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" >{{ item.medias.startdate|date('d-m-Y')~" "~ item.medias.starttime  }}</a></h4>
+                <span><a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" >{{  item.medias.title[:13] }}</a></span>
+                <small><a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" >{{ item.medias.channel }}</a></small>
+            </div>
+            <div class="content-timeline">
+                <div class="img-timeline">
+                    <div class="img-size " >
+                        <img src="{{ path_picture ~ item.medias.picture }}" alt="" class="img-rounded" style="width: 68px;  height: 68px;" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+#}
+
+        <div class="item-timeline
+             {% if item.medias.typemedia.title == "cinema" %} cinema  {% elseif item.medias.typemedia.title == "programme" %} tv  {% elseif item.medias.typemedia.title == "concert" %}  concert {% elseif item.medias.typemedia.title == "spectacle" %} spectacle {% elseif item.medias.typemedia.title == "radio" %} radio {% else %} peoples {% endif %}">
+            <div class="date-timeline">
+                <span><a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}">{{ item.medias.title[:13] }}</a></span>
+                <small><a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}">{{ item.medias.channel }}</a></small>
+                <h5>
+                    <a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}">{{ item.medias.startdate|date('d-m-Y')~" "~ item.medias.starttime }}</a>
+                </h5>
+            </div>
+            <div class="content-timeline">
+                <div class="img-timeline">
+                    <div class="img-size ">
+                        <img src="{{ path_picture ~ item.medias.picture }}" alt="" class="img-rounded img-alert"/>
+                    </div>
+                </div>
+                <p>{{ item.medias.shortdescription[:90] }} ...</p>
+
+            </div>
+        </div>
+
+    {% endfor %}
+{% else %}
+    <div class="no-image">
+
+            <img src="{{ asset("assets/images/alerte.jpg") }}" style=" width: 100%; height: 325px;" >
+
+    </div>
+
+{% endif %}
+

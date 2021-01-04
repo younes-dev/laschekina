@@ -1,0 +1,420 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block title %}  {{ 'page.video'|trans }}{% endblock %}
+{% block stylesheets %}
+	<!-- video -->
+	<link rel="stylesheet" href="{{ asset('dev/front/video/css/elite.css') }}" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="{{ asset('dev/front/video/css/elite-font-awesome.css') }}" type="text/css">
+	<link rel="stylesheet" href="{{ asset('dev/front/video/css/jquery.mCustomScrollbar.css') }}" type="text/css">
+	<!-- end video -->
+	<style>
+		.padding-top-0{
+			padding-top: 0 !important;
+		}
+		.elite_vp_mainContainer{
+			position: relative !important;
+			margin-bottom: 40px !important;
+		}
+	</style>
+{% endblock %}
+{% block imgscreen %}
+	<!-- gallerie -->
+	<div class="owl-carousel accueil-gallerie owl-theme">
+        {% for entity in gallerysBanners %}
+			<a href="{{ path_picture~entity.picture }}" class="item fancybox">
+				<div class="img-resize imgLiquid">
+                    {% if entity.bannerpicture is defined %}
+						<img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                    {% else %}
+						<img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                    {% endif %}
+				</div>
+			</a>
+        {% endfor %}
+	</div>
+	<!-- End gallerie -->
+{% endblock %}
+{% block body %}
+	<div class="content-page inner-xs padding-top-0 ">
+
+
+		<div class="container width-100">
+			<div class="col-md-9 col-sm-9 col-xs-12">
+
+
+				<div class="box-page-bg clearfix padding-20">
+                    {% for flashMessage in app.session.flashbag.get('messagingcastingalerte') %}
+						<br/>
+						<div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                            {{ flashMessage }}
+						</div>
+                    {% endfor %}
+					<h2>{{ 'page.video'|trans }}</h2>
+					<div id="Elite_video_player"></div>
+					<div class="clearfix"></div>
+					<div class="borders col-md-12" style="    margin-bottom: 20px;  min-height: 340px;display: flow-root;">
+						<div class="img-container  col-md-2 col-xs-12">
+							<div class="author-avatar img-resize imgLiquid" style="     transform: translateY(1%)!important; border-radius: 0 !important;   width: 190px !important;    height: 230px !important;">
+                                {%if listePhotos  != null %}
+									<img src="{{ path_picture ~  listePhotos[0].picture }}" class="avatar-acteur">
+                                {% elseif user.pictureprofil != null %}
+									<img src="{{ path_picture ~ user.pictureprofil}}" class="avatar-acteur">
+                                {% else %}
+									<img src="{{ asset('assets/images/avatar.png') }}" class="avatar-acteur">
+                                {% endif %}
+								<div class="    {% if user.coloremotioncard == null %}  energique {% else %}   {{ user.coloremotioncard }} {% endif %}    title-vip-name   "
+									 style=" left: 0 !important;     padding: 5px;    font-size: 14px; ">
+                                    {{ user.prenom ~" "~ user.nom}}
+								</div>
+							</div>
+						</div>
+						<div class=" col-md-10  col-xs-12" style="    overflow: auto;   height: 300px;   margin-top: 10px;"  >
+							<p >
+                                {% if user.description != null  %}
+                                    {{ user.description|raw }}
+                                {% else %}
+									Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression
+                                {% endif %}
+							</p>
+						</div>
+					</div>
+                    {% if listePhotos|length > 0 %}
+						<div class="clearfix"></div>
+						<div class="col-md-12">
+							<h3>{{ 'photos'|trans }}</h3>
+						</div>
+						<div class="photo-vip row">
+							<div class="col-md-4 col-sm-4 col-xs-12 padd-right">
+								<a href="{{ path_picture ~ listePhotos[0].picture }}" class="fancybox">
+									<div class="big-photo-vip img-resize imgLiquid">
+										<img src="{{ path_picture ~ listePhotos[0].picture }}">
+									</div>
+								</a>
+							</div>
+							<div class="col-md-4 col-sm-4 col-xs-12 no-padd ">
+                                {% if listePhotos|length > 1 %}
+									<a href="{{ path_picture ~ listePhotos[1].picture }}" class="fancybox">
+										<div class="small-photo-vip img-resize imgLiquid">
+											<img src="{{ path_picture ~ listePhotos[1].picture }}">
+										</div>
+									</a>
+                                {% endif %}
+                                {% if listePhotos|length > 2 %}
+									<a href="{{ path_picture ~ listePhotos[2].picture }}" class="fancybox">
+										<div class="small-photo-vip img-resize imgLiquid">
+											<img src="{{ path_picture ~ listePhotos[2].picture }}">
+										</div>
+									</a>
+                                {% endif %}
+							</div>
+							<div class="col-md-4 col-sm-4 col-xs-12 padd-left">
+                                {% if listePhotos|length > 3 %}
+									<a href="{{ path_picture ~ listePhotos[3].picture }}" class="fancybox">
+										<div class="small-photo-vip img-resize imgLiquid">
+											<img src="{{ path_picture ~ listePhotos[3].picture }}">
+										</div>
+									</a>
+                                {% endif %}
+                                {% if listePhotos|length > 4 %}
+									<a href="{{ path_picture ~ listePhotos[4].picture }}" class="fancybox">
+										<div class="small-photo-vip img-resize imgLiquid">
+											<img src="{{ path_picture ~ listePhotos[4].picture }}">
+										</div>
+									</a>
+                                {% endif %}
+							</div>
+						</div>
+                    {% endif %}
+					<div class="clearfix"></div>
+
+					{% if app.user != null and castingReponse.casting.member.id == app.user.id %}
+					<div class="col-md-12" style=" margin-top: 50px;">
+						<form action="#" method="post"
+							  enctype="multipart/form-data">
+
+							<div class="row mag-bttom-sm">
+								<div class="form-group clearfix">
+									<div class="col-md-3 col-xs-12 col-md-offset-3 padding-bottom-10" style="font-weight: bold;" >  {{ 'casting.partage'|trans }}  <br/></div>
+									<div  class="col-md-3 col-xs-12 padding-0" >
+										<input  type="text" class="width-100"  >
+									</div>
+								</div>
+								<div class="form-group clearfix">
+									<div class="col-md-3 col-xs-12 col-md-offset-3 font-weight-bold padding-bottom-10"  >  {{ 'casting.laissier_choisir'|trans }}  <br/> </div>
+									<div  class="col-md-3 col-xs-12 btn-casting-submit "  >
+										<a href="#"   class="color-white">   {{ 'casting.candidature_publiee'|trans }} </a>
+									</div>
+								</div>
+								<div class="form-group clearfix">
+									<div class="col-md-3 col-xs-12 col-md-offset-3 font-weight-bold padding-bottom-10"  >  {{ 'casting.accepter_candidature'|trans }}  <br/></div>
+									{% if castingReponse.resultat == null %}
+									<div  class="col-md-3 col-xs-12 btn-casting-submit"  >
+										<a href="#" onclick="notificationCandidat()"  class="color-white">   {{ 'casting.notification'|trans }} </a>
+											</div>
+							{% elseif  castingReponse.resultat == 1 %}
+									<div  class="col-md-3 col-xs-12 btn-success"  >
+										<a href="#" class="btn btn-success btn-casting width-100 col-md-12 col-sm-12 col-xs-12  "  class="color-white">  {{ 'btn.postuler-accepter'|trans }} </a>
+										</div>
+								{% elseif  castingReponse.resultat == 2 %}
+									<div  class="col-md-3 col-xs-12  btn-danger"  >
+										<a href="#" class="btn btn-danger btn-casting width-100 col-md-12 col-sm-12 col-xs-12  "  class="color-white">  {{ 'btn.postuler-annuler'|trans }}</a>
+											</div>
+							{% endif %}
+								</div>
+								<div class="form-group clearfix">
+									<div class="col-md-3 col-xs-12 col-md-offset-3 font-weight-bold padding-bottom-10"   >{{ 'casting.contacter_candidat'|trans }}  <br/></div>
+									<div  class="col-md-3 col-xs-12 btn-casting-submit"   >
+										<a href="#" onclick="contacterCandidat()"  class="color-white">   {{ 'casting.send_message'|trans }}  </a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+
+				<div class="col-md-12  box-page-bg ">
+
+					<h3 style="margin-top: 0;">{{ 'collection_tourne'|trans }}</h3>
+
+
+					<div class="list-vip">
+                        {% for item in listeVIP %}
+
+
+							<div class="vip-block clearfix">
+
+								<div class="vip-img img-resize imgLiquid">
+									<a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username , 'id': item.id}) }}" >  {% if item.pictureprofil != null %}
+											<img src="{{ path_picture ~ item.pictureprofil }}" >
+                                        {% else %}
+											<img src="{{ asset('assets/images/avatar.png') }}" >
+                                        {% endif %} </a></div>
+
+								<div class="vip-info">
+									<a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username  , 'id': item.id}) }}" >
+										<span>    {{   item.prenom ~" "~   item.nom }}   </span>
+									</a>
+								</div>
+
+
+							</div>
+
+                        {% endfor %}
+					</div>
+
+
+				</div>
+
+                {% if user.caPub == null %}
+                    {{ render(controller('FrontBundle:Template:pub' )) }}
+                {% else %}
+					<div class="box-page-bg clearfix">
+						<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+						<ins class="adsbygoogle"
+							 style="display:block"
+							 data-ad-client="{{ user.caPub }}"
+							 data-ad-slot="6236382272"
+							 data-ad-format="auto"
+							 data-full-width-responsive="true"></ins>
+						<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+					</div>
+                {% endif %}
+				<div class="box-page-bg clearfix">
+                    {{ include('FrontBundle:Ajax:facebook.html.twig', {  'vipUser': user }) }}
+				</div>
+                {% if user.twitter != null %}
+					<div class="box-page-bg clearfix">
+						<a class="twitter-timeline" data-height="430"
+						   href="https://twitter.com/{{ user.twitter }}">Tweets </a>
+					</div>
+                {% endif %}
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+			</div>
+		</div>
+	</div>
+
+
+	<div id="notification-candidat" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<form action="{{ path('casting_notification', {'idUserreceiver': user.id , 'idCastingReponse' : idCastingReponse}) }}" method="post">
+					<div class="modal-body text-center">
+
+
+						<h4 class="title-modal">{{ 'casting.notification'|trans }}</h4>
+						
+						
+						<p> Résultat :
+
+						<input name="resultat" value="1" type="radio" checked style="margin-left: 10px;"> {{ 'btn.postuler-accepter'|trans}}
+					 	<input name="resultat" value="2" type="radio"  style="margin-left: 10px;"> {{ 'btn.postuler-annuler'|trans}}
+					  </p>
+						
+					
+						<p> Remarque : </p>
+
+
+						<textarea class=" form-control " name="message"></textarea>
+				 	</div>
+
+					<div class="modal-footer text-center">
+						<input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+						<button type="button" class="btn btn-default btn-md"
+								data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+
+
+	<div id="contacter-candidat" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<form action="{{ path('casting_msgenvoye', {'idUserreceiver': user.id , 'idCastingReponse' : idCastingReponse}) }}" method="post">
+					<div class="modal-body text-center">
+
+
+						<h4  class="title-modal">{{ 'casting.send_message'|trans }}</h4>
+						<p> Message</p>
+
+
+						<textarea class=" form-control " name="message"></textarea>
+				 	</div>
+
+					<div class="modal-footer text-center">
+						<input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+						<button type="button" class="btn btn-default btn-md"
+								data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+
+{% endblock %}
+{% block javascripts %}
+	<script src="{{ asset('dev/front/video/js/froogaloop.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('dev/front/video/js/jquery.mCustomScrollbar.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('dev/front/video/js/THREEx.FullScreen.js') }}"></script>
+	<script src="{{ asset('dev/front/video/js/videoPlayer.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('dev/front/video/js/Playlist.js') }}" type="text/javascript"></script>
+	<script type="text/javascript" src="{{ asset('dev/front/video/js/ZeroClipboard.js') }}"></script>
+	<script type="text/javascript" charset="utf-8">
+        $(document).ready(function($)
+        {
+            videoPlayer = $("#Elite_video_player").Video({   //ALL PLUGIN OPTIONS
+
+                instanceName:"player1",
+                instanceTheme:"dark",
+                autohideControls:3,
+                hideControlsOnMouseOut:"No",
+                playerLayout: "fixedSize",
+                videoPlayerWidth:1006,
+                videoPlayerHeight:420,
+                lightBox:false,
+                lightBoxAutoplay: false,
+                lightBoxThumbnail:"images/preview_images/poster.jpg",
+                lightBoxThumbnailWidth: 400,
+                lightBoxThumbnailHeight: 220,
+                lightBoxCloseOnOutsideClick: true,
+                playlist:"Right playlist",
+                playlistScrollType:"light",
+                playlistBehaviourOnPageload:"opened (default)",
+                autoplay:true,
+                colorAccent:"#cc181e",
+                vimeoColor:"00adef",
+                youtubeControls:"custom controls",
+                youtubeSkin:"light",
+                youtubeColor:"white",
+                youtubeShowRelatedVideos:"No",
+                videoPlayerShadow:"effect1",
+                loadRandomVideoOnStart:"No",
+                shuffle:"No",
+                posterImg:"images/preview_images/poster.jpg",
+                onFinish:"Lire la vidéo suivante",
+                nowPlayingText:"Yes",
+                fullscreen:"Fullscreen native",
+                rightClickMenu:true,
+                hideVideoSource:false,
+                showAllControls:true,
+                allowSkipAd:true,
+                infoShow:"Yes",
+                shareShow:"Yes",
+                facebookShow:"Yes",
+                twitterShow:"Yes",
+                mailShow:"Yes",
+                facebookShareName:"Elite video player",
+                facebookShareLink:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434",
+                facebookShareDescription:"Elite Video Player is stunning, modern, responsive, fully customisable high-end video player for WordPress that support advertising and the most popular video platforms like YouTube, Vimeo or self-hosting videos (mp4).",
+                facebookSharePicture:"https://0.s3.envato.com/files/123866118/preview.jpg",
+                twitterText:"Elite video player",
+                twitterLink:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434",
+                twitterHashtags:"wordpressvideoplayer",
+                twitterVia:"Creative media",
+                googlePlus:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434",
+                logoShow:"Yes",
+                logoClickable:"Yes",
+                logoPath:"images/logo/logo.png",
+                logoGoToLink:"http://codecanyon.net/",
+                logoPosition:"bottom-left",
+                embedShow:"Yes",
+                embedCodeSrc:"www.yourwebsite.com/videoplayer/index.html",
+                embedCodeW:"746",
+                embedCodeH:"420",
+                embedShareLink:"www.yourwebsite.com/videoplayer/index.html",
+                youtubePlaylistID:"",
+                youtubeChannelID:"",
+                //manual playlist
+                videos:[
+                    {% for item in castings %}
+
+                    {
+                        videoType:"HTML5",
+                        title:"{{ item.videoCasting.title }}",
+                        mp4:"{{ path_picture~  item.videoCasting.path   }}",
+                        description:" ",
+                        thumbImg:" {% if item.videoCasting.casting.member.pictureprofil != null %}{{-  path_picture~item.videoCasting.casting.member.pictureprofil -}} {% else %}{{ asset('assets/images/avatar.png') }}{% endif %}",
+                        info:" "
+
+                    },
+
+                    {
+                        videoType:"HTML5",
+                        title:"{{ item.member }}",
+                        mp4:"{{ path_picture~  item.path   }}",
+                        description:" ",
+                        thumbImg:" {% if item.member.pictureprofil != null %}{{-  path_picture~item.member.pictureprofil -}} {% else %}{{ asset('assets/images/avatar.png') }}{% endif %}",
+                        info:" "
+
+                    },
+                    {% endfor %}
+
+                ]
+            });
+        });
+	</script>
+
+	<script>
+		function contacterCandidat() {
+            $("#contacter-candidat").modal();
+        }
+		
+			function notificationCandidat() {
+            $("#notification-candidat").modal();
+        }
+		
+		</script>
+{% endblock %}

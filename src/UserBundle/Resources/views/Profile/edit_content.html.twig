@@ -1,0 +1,79 @@
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">  {{  'profile.edit.submit'|trans }} </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {{ form_start(form, {'method': 'post', 'action': path('user_profile_edit'), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+        <div class="form-body">
+            <div class="form-group">
+                <label>{{ form_label(form.username  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.username  ) }} </span>
+                    {{ form_widget(form.username) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.email  ) }}</label>
+                <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.email  ) }} </span>
+                    {{ form_widget(form.email) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ form_label(form.current_password  ) }}</label>
+                <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.current_password  ) }} </span>
+                    {{ form_widget(form.current_password ) }}
+
+                </div>
+            </div>
+
+              <div class="form-group" style="display: none">
+                 {{ form_widget(form.etatMessenger ) }}
+                 {{ form_widget(form.listamis ) }}
+                 {{ form_widget(form.instagram ) }}
+                 {{ form_widget(form.facebook ) }}
+                 {{ form_widget(form.pays ) }}
+                 {{ form_widget(form.twitter ) }}
+                 {{ form_widget(form.instagram ) }}
+                 {{ form_widget(form.adresse ) }}
+                 {{ form_widget(form.codepostal ) }}
+                 {{ form_widget(form.ville ) }}
+                 {{ form_widget(form.nom ) }}
+                 {{ form_widget(form.prenom ) }}
+                 {{ form_widget(form.datenaissance ) }}
+                 {{ form_widget(form.telephone ) }}
+                 {{ form_widget(form.pictureprofil ) }}
+                 {{ form_widget(form.picturecover ) }}
+                 {{ form_widget(form.showmapphoto ) }}
+                 {{ form_widget(form.showposotion ) }}
+        </div>
+
+
+
+
+
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{  'profile.edit.submit'|trans }}  </button>
+            <a href="{{ path('user_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+

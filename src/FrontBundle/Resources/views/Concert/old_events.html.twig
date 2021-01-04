@@ -1,0 +1,191 @@
+{% if  oldEvents != null or crawlerconcerts != null %}
+{#
+<div class="clearfix mag-top-40">
+
+    <div class="container">
+
+        <div class="col-md-12 col-xs-12 col-sm-12">
+
+            <div class="title-pg">
+                <h3>{{ 'tous_evenements'|trans }} <i class="zmdi zmdi-chevron-right"></i></h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div  class="owl-carousel video-caroussel owl-theme">
+            {% if oldEvents != null %}
+            {% set count = 0 %}
+            <div class="item">
+                {% for entity in oldEvents %}
+                {% set count = count + 1 %}
+                <div class="col-md-3 col-xs-12 col-sm-4">
+
+                    <div class="post video-post">
+                        <div class="inner-post">
+
+                            <div class="image-post  color3">
+                                <div class="ribbon"><span>{{ entity.startdate|date('d') }}</span><small>{{ entity.startdate|date('m') }}</small><span>{{ entity.startdate|date('Y') }}</span></div>
+                                <div class="img-resize imgLiquid" >
+
+                                    {% if entity.picture != null %}
+                                        <img src="{{  path_picture ~ entity.picture }}"  alt=""/>
+                                    {% elseif entity.backgroundpicture != null %}
+                                        <img src="{{ path_picture ~ entity.backgroundpicture }}">
+                                    {% else %}
+                                        <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""  />
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                            <div class="inner-post-content">
+
+
+                                <h3> <a href="{{ path('front_end_show_media',{'id':  entity.id}) }}"  >{{ entity.title }}</a></h3>
+
+                                <p>{{ entity.shortdescription[:200] }}
+                                </p>
+
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                {% if oldEvents|length > count and  count is divisible by(4) %}
+            </div>
+            <div class="item">
+                {% endif %}
+                {% if oldEvents|length == count %}
+            </div>
+            {% endif %}
+            {% endfor %}
+       {% endif %}
+
+            {% if crawlerconcerts != null %}
+            {% set count = 0 %}
+            <div class="item">
+                {% for entity in crawlerconcerts|reverse %}
+                {% set count = count + 1 %}
+                <div class="col-md-3 col-xs-12 col-sm-4">
+
+                    <div class="post video-post">
+                        <div class="inner-post">
+
+                            <div class="image-post  color3">
+                                <div class="img-resize imgLiquid" >
+                                    {% if entity.picture != null %}
+                                        <img src="{{  path_picture ~ entity.picture }}" alt=""/>
+                                    {% else %}
+                                        <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="inner-post-content">
+
+
+                                <h3> <a href="{{ path('front_end_show_crawler_media',{'id': entity.id , 'tyemedia': 'concert'}) }}"  >{{ entity.title }}</a></h3>
+
+
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                {% if crawlerconcerts|length > count and  count is divisible by(4) %}
+            </div>
+            <div class="item">
+                {% endif %}
+                {% if crawlerconcerts|length == count %}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+#}
+
+    <div class="clearfix videos-film people-video mag-top-40 bg-white inner-vs">
+        <div class="container">
+
+
+            <div class="col-md-12 col-xs-12 col-sm-12">
+                <h3>{{ 'tous_evenements'|trans }} <i class="zmdi zmdi-chevron-right"></i></h3>
+                <div class="list-program row mag-top-20">
+
+                    <div class="col-md-12 col-xs-12 col-sm-12 tousPeople">
+
+                        {% for entity in oldEvents  %}
+                            <div class="col-md-3 col-xs-12 col-sm-4 item" id="{{ entity.id }}" >
+                                <div class="post video-post">
+                                    <div class="inner-post" >
+                                        <div class="image-post">
+                                            <div class="ribbon "><span>{{ entity.startdate|date('d') }}</span><small>{{ entity.startdate|date('m') }}</small><span>{{ entity.startdate|date('Y') }}</span></div>
+
+                                            <div class="img-resize imgLiquid">
+                                                {% if entity.pictureHome != null %}
+                                                    <img src="{{ path_picture ~ entity.pictureHome }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                                {% elseif entity.picture != null %}
+                                                    <img src="{{ path_picture ~ entity.picture }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                                {% elseif entity.backgroundpicture != null %}
+                                                    <img src="{{ path_picture ~ entity.backgroundpicture }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                                {% else %}
+                                                    <img src="{{ asset('assets/images/no-image.jpg') }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="inner-post-content" style="   border: 1px solid #a7a7a7cc; padding: 10px !important;height: 120px;">
+                                            <h3><a href="{{ path('front_end_show_media',{'id': entity.id}) }}">
+
+                                                    {% if entity.titleHome != null  %} {{ entity.titleHome[:40] }} {% else %} {{ entity.title[:40] }} {% endif %}
+                                                </a></h3>
+                                            <p>{{ entity.shortdescription[:80] }}
+                                                {% if entity.shortdescription|length > 80    %} .. {% endif %}
+                                                <br/>
+
+                                                <span>  {{ entity.channel }}</span>
+
+                                                {% if entity.title  in [ 'programme'  , 'concert' , 'radio' , 'spectacle' ] %}
+
+                                                    <span>
+                                                        <i class="glyphicon glyphicon-time"></i>
+
+                                                                    {% set timeResultat = entity.id|getTimeStart %}
+                                                                    {% if timeResultat != null %}
+                                                                        {{ timeResultat}}
+                                                                    {% endif %}
+                                                    </span>
+                                                {% endif %}
+
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endif %}
+

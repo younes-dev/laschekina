@@ -1,0 +1,76 @@
+<div class="load-page">
+    <div class=" logo-page">
+        <a href="#page" data-toggle="open-site">
+        <img src="{{ asset('assets/images/logo.png') }}" class="img-responsive" />
+            </a>
+    </div>
+    <div class="home-holder" style='background-image: url("{{  path_picture~gallerys_index[0].coverpicture }}"); '></div>
+    <!-- Page Content -->
+
+    <div class="carreau">
+       {% for entity in gallerys_index %}
+
+        <a href="{{  path_picture~entity.coverpicture }}" class="carreau-sm">
+
+            <img src="{{  path_picture~entity.losangepicture }}" alt="" />
+         </a>
+       {% endfor %}
+    </div>
+    {% if app.user != null   %}
+        <div class="nom-page">
+        {% if  app.user.nom != null and app.user.prenom != null  %} 
+        
+        {{ app.user.prenom  ~" "~ app.user.nom }} 
+        
+        {% else %}{{ app.user.username }}{% endif %}</div>
+   {% endif %}
+    <div class="button-position">
+        <i class="zmdi zmdi-swap"></i></div>
+    <div class=" col-xs-12 mobile-vip">
+
+        <div class="clearfix row-centered">
+
+            <div class="col-centered">
+
+                <ul>
+
+                    {% for entity in gallerys_index %}
+                    <li>
+
+                        <div class="diamond">
+                            <div class="diamond-content">
+                                <a href="{{ path_picture~entity.coverpicture }}" class="carreau-sm">
+
+                                    <img src="{{ path_picture~entity.losangepicture }}" alt="" />
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-4 col-sm-offset-4 col-md-3 col-md-offset-4 form-home">
+        <form action="{{ path('front_end_research') }}" method="post">
+            <div class="input-group">
+                <input class="form-control" name="searchWord" aria-label="Text input with multiple buttons">
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default" aria-label="Help"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+			<span class="scroll-btn-acceuil">
+				<a href="#page" data-toggle="open-site">
+					<span class="mouse">
+						<span>
+						</span>
+					</span>
+                </a>
+			</span>
+</div>

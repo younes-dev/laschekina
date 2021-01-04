@@ -1,0 +1,901 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block title %}
+    {% if media.typemedia.title == "concert" %}
+        {{ 'page.concert'|trans }}
+    {% elseif media.typemedia.title == "spectacle" %}
+        {{ 'page.spectale'|trans }}
+    {% elseif media.typemedia.title == "programme" %}
+        {{ 'page.television'|trans }}
+    {% endif %}
+    {{ media.title }}
+{% endblock %}
+
+    {% block style %}
+        <link rel="canonical" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
+
+    {% endblock %}
+{% block  meta %}
+    <!--- share  of facbook -->
+    <meta property="og:description" content=" {{ media.shortdescription }}"/>
+    <meta name="description" content="{{ media.shortdescription }}">
+    <meta property="og:url" content="{{ absolute_url( path('front_end_show_media',{'id': media.id}) ) }}"/>
+    <meta property="og:title" content="{{ media.title }}"/>
+    {% if media.pictureHome != null %}
+        <meta property="og:image" content="{{ path_picture ~ media.pictureHome }}"/>
+    {% elseif media.backgroundpicture != null %}
+        <meta property="og:image" content="{{ path_picture ~ media.backgroundpicture }}"/>
+    {% else %}
+        <meta property="og:image" content="{{ path_picture|getImageDefault()}}"/>
+    {% endif %}
+    <!--- share  of google plus -->
+
+    <link rel="canonical" href="{{ path('front_end_show_media',{'id': media.id}) }}"/>
+    <!--- share  of twitter -->
+    <link rel="me" href="https://twitter.com/vipcrossing">
+    <style>
+
+        #dtDynamicVerticalScrollExample_filter{
+            display: none;
+        }
+        #dtDynamicVerticalScrollExample_info{
+            display: none;
+        }
+        .full-width{
+            position: static !important;
+        }
+        label {
+            display: block;
+            cursor: pointer;
+            line-height: 2;
+            font-size: 1em;
+        }
+        [type="radio"] {
+            clip: rect(0 0 0 0);
+            position: absolute;
+        }
+        [type="radio"] + span {
+            display: block;
+        }
+        [type="radio"]:checked + span:before {
+            box-shadow: 0 0 0 0.2em #d2d2d2;
+            background:  #fc5722;
+        }
+        [type="radio"] + span:before {
+            content: '';
+            width: 1em;
+            height: 1em;
+            border-radius: 1em;
+            display: inline-block;
+            border: 0.125em solid #fff;
+            transition: 0.5s ease all;
+            vertical-align: -0.25em;
+            box-shadow: 0 0 0 0.15em #000;
+            margin-right: 0.75em;
+        }
+
+        #example_filter{
+            float: right;
+        }
+
+        #example_paginate{
+            float: right;
+        }
+    </style>
+{% endblock %}
+{% block imgscreen %}
+    <div class="bg-post">
+        <div class="img-resize imgLiquid">
+            {% if  media.backgroundpicture != null %}
+                <img src="{{ path_picture ~ media.backgroundpicture }}">
+            {% else %}
+                <img src="{{ path_picture|getImageDefault()}}">
+            {% endif %}
+        </div>
+        <div class="inner-item">
+            <span>{{ media.title }}</span>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    {% set counteur = 0 %}
+    {{ app.session.set('counteur', counteur ) }}
+
+    <div class="bg-color-white content-page inner-xs ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-xs-12 col-sm-8">
+                    <div class="social-content ">
+                        <div class="share-content">
+                  <span>{{ 'partager'|trans }}
+                      <i class="zmdi zmdi-share"></i>
+                  </span>
+                            <div class="clearfix">
+                                <div class="btn-share">
+                                    <a class="twitter-share-button"
+                                       href="https://twitter.com/intent/tweet?text=Hello%20world">
+                                        Tweet</a>
+                                </div>
+                                <div class="btn-share ">
+                                    <div class="fb-share-button padding-top-span"
+                                         data-href="{{ path('front_end_show_media',{'id': media.id}) }}"
+                                         data-layout="button_count"
+                                         data-size="small" data-mobile-iframe="true">
+                                        <a class="fb-xfbml-parse-ignore" target="_blank"
+                                           href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Partager</a>
+                                    </div>
+                                </div>
+                                <div class="btn-share">
+                                    <!-- Place this tag where you want the share button to render. -->
+                                    <div class="g-plus" data-action="share"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <div class="right-block">
+                            <ul>
+                                {%  if is_granted("ROLE_SUPER_ADMIN")  %}
+                                    <li>
+                        <span  >
+                        <a  target="_blank" href="{{ path('medias_edit', {'id': media.id}) }}" class="btn btn-icon mobile-width "
+                            data-toggle="tooltip"
+                            title=" {{ "btn.edit"|trans }}"><i
+                                    class="zmdi zmdi-edit"></i></a>
+                        </span>
+                                    </li>
+                                {% endif %}
+                                <li >
+                                    <a    class="btn btn-icon like mobile-width "  >
+                                        <span  > {{ media.nbrShow|convertirNbrShow }}  {% if media.NbrShow > 1  %}  {{ 'media_views'|trans }} {% else %} {{ 'media_view'|trans }} {% endif %} </span>
+                                        <i class="zmdi zmdi-eye" style="margin-left: 10px;"></i>
+                                    </a>
+                                </li>
+                                {% if app.user != null %}
+                                    <li>
+                        <span id="likeMedia">
+                        {{ include('MembreBundle:Box:ajaxboxLike.html.twig', { 'LikeUserMedia': LikeUserMedia ,'item': media  }) }}
+                        </span>
+                                    </li>
+                                    <li>
+                        <span id="box">
+                        {{ include('MembreBundle:Box:ajaxbox.html.twig', { 'itemInBox': mediaInBox ,'item': media , "typebox" :  media.typemedia.title }) }}
+                        </span>
+                                        <img id="loading" src="{{ asset('dev/front/images/loading.gif') }}"     style="display: none;">
+                                    </li>
+                                {% else %}
+                                    <li>
+                        <span id="likeMedia">
+                        <a    onclick="openModelLogin()"  class="btn btn-icon like mobile-width " data-toggle="tooltip"   >
+                        {% if LikeUserMedia|length > 0  %}  {{ LikeUserMedia|length  }} {% else %} 1 {% endif %}
+                            <i class="zmdi zmdi-thumb-up"  style="margin-left: 10px;"></i>
+                        </a>
+                        </span>
+                                    </li>
+                                    <li>
+                        <span id="likeMedia">
+                        <a  onclick="openModelLogin()"  class="btn btn-icon like mobile-width  " data-toggle="tooltip"  >
+                        {% if media.box|length > 0  %}   {{ media.box|length  }} {% else %} 0 {% endif %}
+                            <i   class="zmdi zmdi-favorite-outline" style="margin-left: 10px;"></i>
+                        </a>
+                        </span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="post-content mag-bot-20">
+                        {% if media.urlvideo != null %}
+                            <div class="video-inner-post">
+                                <div class="box-video  big-video-post-inner">
+                                    <a href="{{ media.urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+                                        <div class="box-page">
+                                            <div class="img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ media.picture }}" alt=""/>
+                                            </div>
+                                            <div class="play-btn">
+                                                <i class="zmdi zmdi-play-circle"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <ul>
+                            <li>{{ 'form.channel'|trans ~" : "~ media.channel }}</li>
+                         </ul>
+
+
+                        {{ media.detaileddescription|raw }}
+                        {% if media.listedates|length > 0 and media.typemedia.title != "people" %}
+                            <div id="divDtDynamicVerticalScrollExample"  style="  margin-top: 20px">
+
+                                 <table id="dtDynamicVerticalScrollExample"  class="table table-striped table-bordered table-sm" cellspacing="0" style="width:100% ;">
+
+                               <thead>
+        <tr>
+             <th style="display:none ">N°</th>
+             <th>{{'form.startdate'|trans}}</th>
+            <th>{{'form.enddate'|trans}}</th>
+            <th>{{'form.startTime'|trans}}</th>
+            <th>{{'form.endTime'|trans}}</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+     {% for date in media.listedates %}
+     {% if "now"|date('Y-m-d') < date.endDate|date('Y-m-d') or ( date.id|trueTime() == true and  "now"|date('Y-m-d') == date.endDate|date('Y-m-d') ) %}
+       {% set counteur = 1 %}
+  
+        <tr>
+            <td style="display:none ">{{date.id}}</td>
+            <td>{{date.startDate|date('d/m/Y')}}</td>
+            <td>{{ date.endDate|date('d/m/Y') }}</td>
+            <td>{{date.starttime }}</td>
+            <td>{{date.endtime }}</td>
+        </tr>
+     {% endif %}
+         {% endfor %}
+         {% if counteur == 0 %}
+         <tr>
+                                            <td colspan="5" class="text-center">
+                                                <div class="m-alert m-alert--icon m-alert--icon-solid m-alert--outline alert alert-brand alert-dismissible fade show" role="alert" style="width: 100%;">
+                                                    <div class="m-alert__icon">
+                                                        <i class="fa fa-info"></i>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="m-alert__text">
+                                                        <strong>
+                                                            Aucune
+                                                        </strong>
+                                                        donn&eacute;e est disponible pour cette rubrique actuellement.
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+    </tbody>
+</table>
+
+                           </div>
+       {% endif %}
+
+                        {% if media.questions|length > 0 %}
+                            <br/>
+                            <div class="clearfix"></div>
+                            <div class="footer-accueil" style="display: flex;">
+                                <div class="container">
+                                    <div  class="bloc1 color1">
+                                        <h3 class="titre">
+                                            <span>    {{ 'media_question'|trans }}    </span>
+                                        </h3>
+                                        <div id="question-bloc">
+                                            {% for item in media.questions %}
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1" style="font-size: 20px;   font-family: monospace;">{{ item.question }}</label>
+                                                </div>
+                                                <label for="logiciel">
+                                                    <input type="hidden" id="idQuestion" value="{{ item.id }}">
+                                                    <input type="radio" name="radiobtn" id="logiciel" checked value="1">  <span>OUI</span>
+                                                </label>
+                                                <label for="web" style="margin-left: 20px">
+                                                    <input type="radio" class="ml-10" name="radiobtn" id="web" value="0"> <span>NON</span>
+                                                </label>
+                                            {% endfor %}
+                                            <div class="form-group" id="btn_question">
+                                                <a href="javascript:void(0)" onclick="Question()" class="btn btn-big  "  style="float: right;  background: #fc5722; color: #FFFFFF" id="Inviter">
+                                                    {{ 'form.envoyer'|trans }}
+                                                </a>
+                                            </div>
+                                            <div class="form-group" id="loading_question" style="display: none;">
+                                                <img   src="{{ asset('dev/front/images/loading.gif') }}"  style="float: right; "  >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <hr/>
+                        {% endif %}
+                        {% if media.urlradio != null %}
+                            <br/>
+                            <div class="clearfix"></div>
+                            <b><a href="{{ media.urlradio }}" target="_blank">{{ 'lien_radio'|trans }}</a></b>
+                        {% endif %}
+                    </div>
+                    <div class="clearfix"></div>
+                    {% if Listeacteurs != null or  Listepersonnages != null %}
+                        <div class="col-md-12">
+                            <h4>{{ 'acteurs_actrices'|trans }} </h4>
+                            <div class="clearfix"></div>
+                            {% set count =  Listeacteurs|length + Listepersonnages|length %}
+                            {% if count > 5 %}
+                                <div class=" owl-carousel  list-videos  ">
+                                    {% for item in Listeacteurs %}
+                                        <div class="item">
+                                            <a href="{{ path('collection',{'activeTab': "vip" , 'fullName': item.username  , 'id': item.id}) }}"
+                                               class="content-movie">
+                                                <div class="img-container">
+                                                    {% if item.pictureprofil != null %}
+                                                        <div class="img-resize imgLiquid"><img
+                                                                    src="{{ path_picture ~ item.pictureprofil }}"
+                                                                    class="img-responsive"
+                                                            ></div>
+                                                    {% else %}
+                                                        <div class="img-resize imgLiquid"><img
+                                                                    src="{{ asset('assets/images/avatar.png') }}"
+                                                                    class="img-responsive"
+                                                            ></div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class=" style-title-name  title-vip-name {% if item.coloremotioncard == null %}title-vip-name-color{% else %}   {{ item.coloremotioncard }} {% endif %} ">
+                                                    {{ item.nom  ~" "~ item.prenom }}
+                                                    <img src="{{ asset('assets/images/icone_logo.png') }}"
+                                                         style="width: 16px ; margin-top: -6px">
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                    {% for item in Listepersonnages %}
+                                        <div class="item">
+                                            <a href="{{ path('front_end_profil_personnage' ,{'id': item.id }) }}"
+                                               class="content-movie">
+                                                <div class="img-container">
+                                                    {% if item.image != null %}
+                                                        <div class="img-resize imgLiquid"><img
+                                                                    src="{{ path_picture ~ item.image }}"
+                                                                    class="img-responsive"
+                                                            ></div>
+                                                    {% else %}
+                                                        <div class="img-resize imgLiquid"><img
+                                                                    src="{{ asset('assets/images/avatar.png') }}"
+                                                                    class="img-responsive"
+                                                            ></div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class=" style-title-name  title-vip-name  title-vip-personnages-name-color ">
+                                                    {{ item.nom ~" "~ item.prenom }}
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {% for item in Listeacteurs %}
+                                    <div class="col-md-3">
+                                        <a href="{{ path('collection',{'activeTab': "vip" , 'fullName': item.username  , 'id': item.id}) }}"
+                                           class="content-movie">
+                                            <div class="img-container">
+                                                {% if item.pictureprofil != null %}
+                                                    <div><img class="height-265"
+                                                              src="{{ path_picture ~ item.pictureprofil }}"
+                                                              style="width: 100%; "
+                                                        ></div>
+                                                {% else %}
+                                                    <div><img class="height-265"
+                                                              src="{{ asset('assets/images/avatar.png') }}"
+                                                              style="width: 100%; "
+                                                        ></div>
+                                                {% endif %}
+                                            </div>
+                                            <div style="     font-size: 16px !important; width: 87%;"
+                                                 class=" style-title-name  title-vip-name {% if item.coloremotioncard == null %}title-vip-name-color{% else %}   {{ item.coloremotioncard }} {% endif %} ">
+                                                {{ item.nom  ~" "~ item.prenom }}
+                                                <img src="{{ asset('assets/images/icone_logo.png') }}"
+                                                     style="width: 17px;  margin-top: 4px;  float: right;">
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                                {% for item in Listepersonnages %}
+                                    <div class="col-md-3">
+                                        <a href="{{ path('front_end_profil_personnage' ,{'id': item.id }) }}"
+                                           class="content-movie">
+                                            <div class="img-container">
+                                                {% if item.image != null %}
+                                                    <div><img  class="height-265"
+                                                               src="{{ path_picture ~ item.image }}"
+                                                               style="width: 100%; "
+                                                        ></div>
+                                                {% else %}
+                                                    <div class="img-resize imgLiquid"><img  class="height-265"
+                                                                                            src="{{ asset('assets/images/avatar.png') }}"
+                                                                                            style="width: 100%; "
+                                                        ></div>
+                                                {% endif %}
+                                            </div>
+                                            <div style="font-size: 16px !important;  width: 87%;"
+                                                 class=" style-title-name  title-vip-name  title-vip-personnages-name-color ">
+                                                {{ item.nom ~" "~ item.prenom }}
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                    {{ include('FrontBundle:Medias:commentaire_media.html.twig', { 'media': media }) }}
+                    {% if  listePhotos != null or listeNews != null %}
+                        <hr class="margin-top-bottom"/>
+                        {% if listePhotos != null %}
+                            <div class="margin-top-bottom clearfix"></div>
+                            <div class="col-md-12">
+                                <h4>{{ 'photos'|trans }}</h4>
+                            </div>
+                            <div class="photo-vip">
+                                <div class="col-md-4 col-sm-4 col-xs-12 padd-right">
+                                    <a href="{{ path_picture ~ listePhotos[0].picture }}" class="fancybox">
+                                        <div class="big-photo-vip img-resize imgLiquid">
+                                            <img src="{{ path_picture ~ listePhotos[0].picture }}">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-padd ">
+                                    {% if listePhotos|length > 1 %}
+                                        <a href="{{ path_picture ~ listePhotos[1].picture }}" class="fancybox">
+                                            <div class="small-photo-vip img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ listePhotos[1].picture }}">
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                    {% if listePhotos|length > 2 %}
+                                        <a href="{{ path_picture ~ listePhotos[2].picture }}" class="fancybox">
+                                            <div class="small-photo-vip img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ listePhotos[2].picture }}">
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 padd-left">
+                                    {% if listePhotos|length > 3 %}
+                                        <a href="{{ path_picture ~ listePhotos[3].picture }}" class="fancybox">
+                                            <div class="small-photo-vip img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ listePhotos[3].picture }}">
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                    {% if listePhotos|length > 4 %}
+                                        <a href="{{ path_picture ~ listePhotos[4].picture }}" class="fancybox">
+                                            <div class="small-photo-vip img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ listePhotos[4].picture }}">
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if listeNews != null %}
+                            <div class="margin-top-bottom clearfix"></div>
+                            <div class="col-md-12">
+                                <h4>{{ 'collection_news'|trans }}</h4>
+                            </div>
+                            <div class="news-block" id="Liste_news_vip">
+                                {% for item in listeNews %}
+                                    <div class="post-news clearfix">
+                                        <div class="col-md-4 col-sm-4 col-xs-12 ">
+                                            <div class="image-holder-content">
+                                                <a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                                                    <div class="small-photo-vip img-resize imgLiquid">
+                                                        <img src="{{ path_picture ~ item.picture }}">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <div class="post-news-content">
+                                                <h4 id="id-news-title-{{ item.id }}">{{ item.title }}</h4>
+                                                <div style="display: none"
+                                                   id="id-news-description-{{ item.id }}"> {{ item.description|raw }} </div>
+                                                <p id="news-description-{{ item.id }}">
+                                                    {{ item.descriptionCourt[:200] }} {% if  item.descriptionCourt|length > 200 %}... {% endif %}
+                                                </p>
+                                                <a href="#" type="button"
+                                                   onclick='OpenmodalNews({{ item.id }} )'>{{ 'collection_lire_suite'|trans }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% include 'MembreBundle:Modal:news.html.twig' %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="col-md-4 col-xs-12 col-sm-4 ">
+                    <div class="news-block-content mag-bot-40">
+                        <h2>{{ 'other_media'|trans }}</h2>
+                        {% for entity in mediaListe %}
+                            <div class="inner-news row">
+                                <div class="col-md-5 col-xs-5 col-sm-5">
+                                    <a href="{{ path('front_end_show_media',{'id':  entity.id}) }}">
+                                        <div class="img-resize imgLiquid">
+                                            {% if entity.pictureHome != null %}
+                                                <img src="{{ path_picture ~ entity.pictureHome }}" alt="" />
+                                            {% else %}
+                                                <img src="{{ path_picture ~ entity.picture }}" alt="" />
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-7 col-xs-7 col-sm-7">
+                                    <div class="info-news">
+                                        <h3><a href="{{ path('front_end_show_media',{'id':  entity.id}) }}"
+                                               class="fond-black">
+                                                {% if  entity.titleHome != null  %}
+                                                    {{ entity.titleHome[:35] }} {% if  entity.titleHome|length > 35  %} .. {% endif %}
+                                                {% else %}
+                                                    {{ entity.title[:35] }}  {% if entity.title|length > 35 %}...{% endif %}
+                                                {% endif %}
+                                            </a>
+                                        </h3>
+                                        <p style="    text-align: inherit !important;">{% if entity.shortdescription != null %}
+                                                {{ entity.shortdescription[:50]~"..." }}<br/>
+                                            {% endif %}
+                                            <a href="{{ path('front_end_show_media',{'id':  entity.id}) }}"
+                                               class="fond-black">
+                                                {% set dateResultat = entity.id|getDateStart %}
+                                                {% if dateResultat != null %}
+
+                                                <b>{{ dateResultat|date('d/m/Y') }}</b>
+                                                {% endif %}
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {{ render(controller('FrontBundle:Template:pub' )) }}
+                    {% if Tweeteracteur|length > 1 %}
+                        <div id="twitter-ticker">
+                            <div>
+                                <h5>Twiteer box </h5>
+                                <hr/>
+                            </div>
+                            <div id="tweet-container">
+                                <img id="loading-tweet"
+                                     src="{{ asset('dev/front/images/loading.gif') }}"
+                                     width="16"
+                                     height="11" alt="Loading.."/>
+                            </div>
+                            <hr>
+                        </div>
+                    {% elseif Tweeteracteur|length == 1 %}
+                        <div >
+                            <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/{{ Tweeteracteur[0].twitter }}" >Tweet  </a>
+                            <script src="https://platform.twitter.com/widgets.js"></script>
+                            <hr>
+                        </div>
+                    {% else %}
+                        <div  >
+                            <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/vipcrossing" >Tweet </a>
+                            <script src="https://platform.twitter.com/widgets.js"></script>
+                            <hr>
+                        </div>
+                    {% endif %}
+                    {% if media.sowPub == 1 %}
+                        {% set countAlert =  mediasToDay|length  + mediasToDayRDV|length  %}
+                        {% if  countAlert > 0 %}
+                            <div class="news-block-content mag-bot-40">
+                                <h2>{{ 'alertes'|trans }} </h2>
+                                <div class="info-alert">
+                                    {% for entity in mediasToDay %}
+                                        <div class="inner-news row">
+                                            <div class="col-md-5 col-xs-5 col-sm-5">
+                                                <a href="{{ path('front_end_show_media',{'id':  entity.id}) }}">
+                                                    <div class="img-resize imgLiquid">
+                                                        {% if entity.pictureHome != null %}
+                                                            <img src="{{ path_picture ~ entity.pictureHome }}" alt="" />
+                                                        {% else %}
+                                                            <img src="{{ path_picture ~ entity.picture }}" alt="" />
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-7 col-xs-7 col-sm-7">
+                                                <div class="info-news">
+                                                    <h3><a href="{{ path('front_end_show_media',{'id':  entity.id}) }}"
+                                                           class="fond-black">
+                                                            {% if  entity.titleHome != null  %}
+                                                                {{ entity.titleHome[:35] }} {% if  entity.titleHome|length > 35  %} .. {% endif %}
+                                                            {% else %}
+                                                                {{ entity.title[:35] }}  {% if entity.title|length > 35 %}...{% endif %}
+                                                            {% endif %}
+                                                        </a>
+                                                    </h3>
+                                                    <p style="    text-align: inherit !important;">{% if entity.shortdescription != null %}
+                                                            {{ entity.shortdescription[:50]~"..." }}<br/>
+                                                        {% endif %}
+                                                        <a href="{{ path('front_end_show_media',{'id':  entity.id}) }}"
+                                                           class="fond-black">
+                                                            {% set dateResultat = entity.id|getDateStart %}
+                                                            {% if dateResultat != null %}
+
+                                                            <b>{{ dateResultat|date('d/m/Y')  }}</b>
+                                                            {% endif %}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    {% for entity in mediasToDayRDV %}
+                                        <div class="inner-news row">
+                                            <div class="col-md-5 col-xs-5 col-sm-5">
+                                                <a href="{{ path('collection',{'activeTab': "rendez-vous" , 'fullName': entity.vip.id  , 'id': entity.vip.id}) }}">
+                                                    <div class="img-resize imgLiquid">
+                                                        {% if entity.vip.pictureprofil != null %}
+                                                            <img src="{{ path_picture ~ entity.vip.pictureprofil }}" alt="" />
+                                                        {% else %}
+                                                            <img src="{{ asset('assets/images/avatar.png') }}" alt="" />
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-7 col-xs-7 col-sm-7">
+                                                <div class="info-news">
+                                                    <h3><a href="{{ path('collection',{'activeTab': "rendez-vous" , 'fullName': entity.vip.username  , 'id': entity.vip.id}) }}"
+                                                           class="fond-black">
+                                                            {{ entity.title[:35] }} {% if  entity.title|length > 35  %} .. {% endif %}
+                                                        </a>
+                                                    </h3>
+                                                    <p style="    text-align: inherit !important;">
+                                                        {% if entity.description != null %}
+                                                            {{ entity.description[:50]~"..." }}<br/>
+                                                        {% endif %}
+                                                        <a href="{{ path('collection',{'activeTab': "rendez-vous" , 'fullName': entity.vip.username  , 'id': entity.vip.id}) }}"
+                                                           class="fond-black">
+                                                            {% set dateResultat = entity.id|getDateStart %}
+                                                            {% if dateResultat != null %}
+
+                                                            <b>{{ dateResultat|date('d/m/Y')  }}</b>
+                                                            {% endif %}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {{ render(controller('FrontBundle:Template:pub' )) }}
+                    {% endif %}
+                </div>
+            </div>
+            {% if nextMedias|length > 0 %}
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <div class="footer-accueil">
+                            <div class="container">
+                                <div id="concert-bloc " class="bloc1 color3">
+                                    <h3 class="titre">
+                                        <span>    {{ 'prochaains_evenements'|trans }}  </span>
+                                    </h3>
+                                    <div class="  owl-carousel  home-vids">
+                                        {% for item in nextMedias %}
+                                            <div class="item">
+                                                <a href="{{ path('front_end_show_media',{'id': item.id}) }}"
+                                                   class="content-movie">
+                                                    <div class="img-container">
+                                                        {% set dateResultat = item.id|getDateStart %}
+                                                        {% if dateResultat != null %}
+                                                            <div class="ribbon">
+                                                                <span>{{ dateResultat|date('d') }}   </span>
+                                                                <small>{{ dateResultat|date('m') }}   </small>
+                                                                <span>{{ dateResultat|date('Y') }}   </span>
+                                                            </div>
+                                                        {% elseif item.startdate != null %}
+                                                            <div class="ribbon">
+                                                                <span>{{ item.startdate|date('d') }}</span>
+                                                                <small>{{ item.startdate|date('m') }}</small>
+                                                                <span>{{ item.startdate|date('Y') }}</span>
+                                                            </div>
+                                                        {% endif %}
+
+
+                                                        <div class="img-resize imgLiquid">
+                                                            {% if item.pictureHome != null %}
+                                                                <img src="{{ path_picture ~ item.pictureHome }}" alt="" />
+                                                            {% else %}
+                                                                <img src="{{ path_picture ~ item.picture }}" alt="" />
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="footer-movie">
+                                                         <span>
+                                                                <i class="glyphicon glyphicon-time"></i>
+
+                                                                                 {% set timeResultat = item.id|getTimeStart %}
+                                                                                 {% if timeResultat != null %}
+                                                                                     {{ timeResultat}}
+                                                                                 {% endif %}
+                                                            </span>
+                                                            <span>  {{ item.channel }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <h5>
+                                                        {% if  item.titleHome != null  %}
+                                                            {{ item.titleHome[:40] }} {% if  item.titleHome|length > 40  %} .. {% endif %}
+                                                        {% else %}
+                                                            {{ item.title[:40] }} {% if item.title|length > 40 %}...{% endif %}
+                                                        {% endif %}
+                                                    </h5>
+                                                    <p>
+                                                        {{ item.shortdescription[:90]~"..." }}
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if app.user == null  %}
+        <div class="modal fade" id="modal-alert-no-connect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog"  >
+                <div class="modal-content">
+                    <div class="modal-body modalBodyDelete">
+                        {{'alert_like_book'|trans}}
+                    </div>
+                    <div class="modal-footer modalFooterDelete">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">  {{'modal_close'|trans}}  </button>
+                        <a href="{{ path('fos_user_security_login') }}" class="btn btn-orange">{{'authentication.btn'|trans}} </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block javascriptsblock %}
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            {%  if  app.session.get('counteur') ==  1 %}
+
+            $('#dtDynamicVerticalScrollExample').DataTable( {
+                scrollY:        '17vh',
+                scrollCollapse: true,
+                paging:         false,
+                "aoColumns": [
+                    {"bSortable": false},
+                    {"bSortable": false},
+                    {"bSortable": false},
+                    {"bSortable": false},
+                    {"bSortable": false}
+                ]
+            } );
+
+            {% else %}
+            $("#divDtDynamicVerticalScrollExample").hide();
+            {% endif %}
+        } );
+</script>
+    {% endblock %}
+        {% block javascripts %}
+
+
+
+    <script>
+
+        {% if app.user == null  %}
+        function openModelLogin() {
+            $('#modal-alert-no-connect').modal();
+        }
+        {% endif %}
+        {% if Tweeteracteur|length > 1 %}
+        $(function () {
+
+            var tweetUsers = [{% for item in Tweeteracteur %}  '{{ item.twitter }}'  {% if loop.index <  Tweeteracteur|length %} , {% endif %}{% endfor %}],
+                container = $('#tweet-container');
+
+            $('#twitter-ticker').slideDown('slow');
+
+            $.post('{{ path('front_end_proxy') }}', {handles: tweetUsers}, function (response) {
+
+                // Empty the container
+                container.html('');
+
+                $.each(response.statuses, function () {
+
+                    var str = ' <div class="tweet">\
+              <div class="avatar-tweet"><a href="http://twitter.com/' + this.user.screen_name + '" target="_blank"><img src="' + this.user.profile_image_url + '" alt="' + this.from_user + '" /></a></div>\
+              <div class="user"><a href="http://twitter.com/' + this.user.screen_name + '" target="_blank">' + this.user.screen_name + '</a></div>\
+              <div class="time">' + relativeTime(this.created_at) + '</div>\
+              <div class="txt">' + formatTwitString(this.text) + '</div>\
+              </div>';
+
+                    container.append(str);
+
+                });
+
+                // Initialize the jScrollPane plugin
+                container.jScrollPane({
+                    mouseWheelSpeed: 25
+                });
+
+            });
+
+            // Helper functions
+
+            function formatTwitString(str) {
+                str = ' ' + str;
+                str = str.replace(/((ftp|https?):\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?)/gm, '<a href="$1" target="_blank">$1</a>');
+                str = str.replace(/([^\w])\@([\w\-]+)/gm, '$1@<a href="http://twitter.com/$2" target="_blank">$2</a>');
+                str = str.replace(/([^\w])\#([\w\-]+)/gm, '$1<a href="http://twitter.com/search?q=%23$2" target="_blank">#$2</a>');
+                return str;
+            }
+
+            function relativeTime(pastTime) {
+                var origStamp = Date.parse(pastTime);
+                var curDate = new Date();
+                var currentStamp = curDate.getTime();
+
+                var difference = parseInt((currentStamp - origStamp) / 1000);
+
+                if (difference < 0) return false;
+
+                if (difference <= 5) return "Just now";
+                if (difference <= 20) return "Seconds ago";
+                if (difference <= 60) return "A minute ago";
+                if (difference < 3600) return parseInt(difference / 60) + " minutes ago";
+                if (difference <= 1.5 * 3600) return "One hour ago";
+                if (difference < 23.5 * 3600) return Math.round(difference / 3600) + " hours ago";
+                if (difference < 1.5 * 24 * 3600) return "One day ago";
+
+                var dateArr = pastTime.split(' ');
+                return dateArr[4].replace(/\:\d+$/, '') + ' ' + dateArr[2] + ' ' + dateArr[1] + (dateArr[3] != curDate.getFullYear() ? ' ' + dateArr[3] : '');
+            }
+
+        });
+        {% endif %}
+
+
+        /**** Add Or Remove user to Box *****/
+        function Question() {
+            $('#btn_question').hide();
+            $('#loading_question').show();
+            var radios = document.getElementsByName('radiobtn');
+
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    // do whatever you want with the checked radio
+                    valueRadio = radios[i].value ;
+
+                    // only one radio can be logically checked, don't check the rest
+                    break;
+                }
+            }
+            var data = {
+                'id': $("#idQuestion").val(),
+                'valueRadio': valueRadio,
+            };
+            var url = '{{ path('front_end_add_question') }}';
+            $.ajax({
+                url: url, // La ressource ciblée
+                type: 'POST', // Le type de la requête HTTP.
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    $('#loading').hide();
+                    $('#question-bloc').html(data.alerteHtml);
+
+
+                },
+
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+
+    </script>
+
+
+{% endblock %}

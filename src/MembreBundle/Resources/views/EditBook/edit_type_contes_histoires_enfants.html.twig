@@ -1,0 +1,71 @@
+ 
+                    
+                 
+                     <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                            <label class="label-control">Title   </label>
+
+                            <input type="text" name="title" maxlength="255" value="{{ media.title }}" class="form-control ">
+
+                        </div>
+                    </div>
+                                       
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm"  id="upload-book-image-couverture">
+
+                              <label class="label-control sign-up-label"> {{ 'form.statusMedia'|trans }}</label>
+                                  
+                                               <select name="statusMedia" class="form-control">
+                                        <option value="Moi uniquement" {% if media.statusMedia =="Moi uniquement" %} selected {% endif %}>Moi uniquement</option>
+                                          <option value="Public"  {% if media.statusMedia =="Public" %} selected {% endif %} >Public</option>
+                                      <option value="Membre"  {% if media.statusMedia =="Membre" %} selected {% endif %} >Membre</option>
+                                    </select>
+
+                               </div>
+ 
+ 
+                        </div>
+                       <div class="form-group clearfix">
+                           <div class="col-md-12 mag-bttom-sm"  id="upload-book-image-couverture">
+                      
+                              <label class="label-control sign-up-label"> {{ 'form.picture'|trans }}</label>
+                                 <input type="file" name="picture" id="picture" data-label="Choisir image de livre" data-preview="on">
+
+                               </div>
+ 
+ 
+                        </div>
+                    
+                            
+
+                   
+                    
+                     <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                        <span style="" id="description-book">
+                           <label class="label-control sign-up-label">  {{ 'form.descriptionCourt'|trans }} <br/> {{ 'form.remarque_description'|trans }}</label>
+                           <textarea style="height: 100px;" maxlength="300" name="descriptionCourt" class="form-control " id="descriptionCourt">
+                           {{- media.descriptionCourt|raw -}}  
+                           </textarea>
+                         </span>
+
+                        </div>
+                    </div>
+                    
+                                <div class="form-group clearfix">
+                                <div class="col-md-12 mag-bttom-sm">
+                                <span style="" id="contenu-book">
+                                <label class="label-control sign-up-label">   {{ 'form.description'|trans }} </label>
+                                <textarea style="height: 100px;"   name="descriptionHistoires" class="form-control ckeditor" id="descriptionHistoires">
+                                                   {{- media.description|raw -}}
+                                    
+                                 
+                                </textarea>
+                                </span>
+
+                                </div>
+                            </div>
+                       
+
+                        <input  type="hidden"   name="typeMedia" id="typeMedia" value="{{  media.typeMedia }}">
+                             

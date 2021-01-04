@@ -1,0 +1,238 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}
+    {% set menuactive = app.session.get('menuactive') %}
+    {% set page =  'page.'~menuactive %}
+    {{ page|trans }}
+{% endblock %}
+
+{% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                {% set menuactive = app.session.get('menuactive') %}
+                {% set page =  'page.'~menuactive %}
+                <a href="{{ path('content_index',{'type_content': menuactive}) }}"> <span> {{ page|trans }} </span></a>
+            </li>
+            <li>
+                <a href="#"> <span> {{ 'page-breadcrumb.edit'|trans }} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+
+
+    {% block body %}
+
+    {% set menuactive = app.session.get('menuactive') %}
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.edit'|trans }}  </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {{ form_start(edit_form, {'method': 'post', 'action': path('information_edit',{'id': information.id }), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+        <div class="form-body">
+
+            <div class="form-group">
+                <label>{{ form_label(edit_form.adress  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.adress  ) }} </span>
+                    {{ form_widget(edit_form.adress) }}
+
+                </div>
+            </div>
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.email  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.email  ) }} </span>
+                    {{ form_widget(edit_form.email) }}
+
+                </div>
+            </div>
+    <div class="form-group">
+                <label>{{ form_label(edit_form.phone  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.phone  ) }} </span>
+                    {{ form_widget(edit_form.phone) }}
+
+                </div>
+            </div>
+ 
+    <div class="form-group">
+                <label>{{ form_label(edit_form.tax  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.tax  ) }} </span>
+                    {{ form_widget(edit_form.tax) }}
+
+                </div>
+            </div>
+
+    <div class="form-group">
+                <label>{{ form_label(edit_form.backgroundpicture  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.backgroundpicture  ) }} </span>
+                    {{ form_widget(edit_form.backgroundpicture) }}
+
+                </div>
+            </div>
+
+  <div class="form-group">
+                <label>{{ form_label(edit_form.facebook  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.facebook  ) }} </span>
+                    {{ form_widget(edit_form.facebook) }}
+
+                </div>
+            </div>
+
+   <div class="form-group">
+                <label>{{ form_label(edit_form.twitter  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.twitter  ) }} </span>
+                    {{ form_widget(edit_form.twitter) }}
+
+                </div>
+            </div>
+
+   <div class="form-group">
+                <label>{{ form_label(edit_form.googleplus  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.googleplus  ) }} </span>
+                    {{ form_widget(edit_form.googleplus) }}
+
+                </div>
+            </div>
+
+
+   <div class="form-group">
+                <label>{{ form_label(edit_form.linkedin  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.linkedin  ) }} </span>
+                    {{ form_widget(edit_form.linkedin) }}
+
+                </div>
+            </div>
+
+
+   <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionPub  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionPub  ) }} </span>
+                    {{ form_widget(edit_form.descriptionPub) }}
+
+                </div>
+            </div>
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionContactfr  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionContactfr  ) }} </span>
+                    {{ form_widget(edit_form.descriptionContactfr) }}
+
+                </div>
+            </div>
+
+
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionContacten  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionContacten  ) }} </span>
+                    {{ form_widget(edit_form.descriptionContacten) }}
+
+                </div>
+            </div>
+
+
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionContactes  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionContactes  ) }} </span>
+                    {{ form_widget(edit_form.descriptionContactes) }}
+
+                </div>
+            </div>
+
+
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionpopupfr  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionpopupfr  ) }} </span>
+                    {{ form_widget(edit_form.descriptionpopupfr) }}
+
+                </div>
+            </div>
+
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionpopupen  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionpopupen  ) }} </span>
+                    {{ form_widget(edit_form.descriptionpopupen) }}
+
+                </div>
+            </div>
+
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionpopupes  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionpopupes  ) }} </span>
+                    {{ form_widget(edit_form.descriptionpopupes) }}
+
+                </div>
+            </div>
+
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionfr  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionfr  ) }} </span>
+                    {{ form_widget(edit_form.descriptionfr) }}
+
+                </div>
+            </div>
+
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptionen  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptionen  ) }} </span>
+                    {{ form_widget(edit_form.descriptionen) }}
+
+                </div>
+            </div>
+
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.descriptiones  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.descriptiones  ) }} </span>
+                    {{ form_widget(edit_form.descriptiones) }}
+
+                </div>
+            </div>
+
+<textarea name="editor1" id="editor1"></textarea>
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+            <a href="{{ path('information_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+        </div>
+        {{ form_end(edit_form) }}
+    </div>
+</div>
+
+
+
+{% endblock %}

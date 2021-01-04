@@ -1,0 +1,1181 @@
+<?php
+
+namespace BackBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+ * Medias
+ *
+ * @ORM\Table(name="medias")
+ * @ORM\Entity(repositoryClass="BackBundle\Repository\MediasRepository")
+ */
+class Medias
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
+     */
+    private $title;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title_home", type="string", length=255, nullable=true)
+     */
+    private $titleHome;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="detailed_description", type="text", nullable=true)
+     */
+    private $detaileddescription;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="short_description", type="text", nullable=true)
+     */
+    private $shortdescription;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="source_video", type="string", length=255, nullable=true)
+     */
+    private $sourcevideo;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=255, nullable=true)
+     */
+    private $location;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lat", type="string", length=255, nullable=true)
+     */
+    private $lat;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lng", type="string", length=255, nullable=true)
+     */
+    private $lng;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url_video", type="string", length=255, nullable=true)
+     */
+    private $urlvideo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="start_date", type="date", nullable=true)
+     */
+    private $startdate;
+
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="end_date", type="date", nullable=true)
+     */
+    private $enddate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="start_time" , type="string", length=255, nullable=true)
+     */
+    private $starttime;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="channel", type="string", length=255, nullable=true)
+     */
+    private $channel;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="sow_pub", type="boolean", nullable=true)
+     */
+    private $sowPub;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CommentaireMedia", cascade={"persist"} , mappedBy="media" )
+     */
+    protected $commentaire;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PersonnageMedia", cascade={"persist"} , mappedBy="media" )
+     */
+    protected $personnageMedia;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Personnage", cascade={"persist"} , inversedBy="medias" )
+     * @ORM\JoinTable(name="medias_personnage")
+     */
+    protected $personnage;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nbr_show", type="integer"  , nullable=true)
+     */
+    private $nbrShow;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Gallerys", cascade={"persist"} , mappedBy="media" )
+     */
+    protected $gallerys;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Rendezvous", cascade={"persist"} , mappedBy="media" )
+     */
+    protected $rendezvous;
+
+    /**
+     * @ORM\OneToMany(targetEntity="LikeMedia", cascade={"persist"} , mappedBy="media" )
+     */
+    protected $likemedia;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Questions", cascade={"persist"} , mappedBy="media" )
+     */
+    protected $questions;
+
+  /**
+     * @ORM\OneToMany(targetEntity="Box", cascade={"persist"} , mappedBy="medias" )
+     */
+    protected $box;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="picture", type="string", length=255, nullable=true)
+     * @Assert\Image(
+     *     minWidth  = 600,
+     *     minHeight = 600,
+     *     mimeTypes = {
+     *          "image/png",
+     *          "image/jpeg",
+     *          "image/jpg",
+     *      }
+     *     )
+     */
+    private $picture;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="picture_home", type="string", length=255, nullable=true)
+     * @Assert\Image(
+     *     minWidth  = 300,
+     *     minHeight = 240,
+     *     maxWidth  = 305,
+     *     maxHeight = 245,
+     *     mimeTypes = {
+     *          "image/png",
+     *          "image/jpeg",
+     *          "image/jpg",
+     *      }
+     *     )
+     */
+    private $pictureHome;
+   /**
+     * @var string
+     *
+     * @ORM\Column(name="background_picture", type="string", length=255, nullable=true)
+     * @Assert\Image(
+     *     minWidth  = 1920,
+     *     minHeight = 600,
+     *     mimeTypes = {
+     *          "image/png",
+     *          "image/jpeg",
+     *          "image/jpg",
+     *          }
+     *     )
+     */
+    private $backgroundpicture;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\UserBundle\Entity\User", cascade={"persist"} , inversedBy="medias" )
+     * @ORM\JoinTable(name="medias_users")
+     */
+    protected $users;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User", inversedBy="evants")
+     * @ORM\JoinColumn(name="User_id", referencedColumnName="id")
+     */
+    private $user;
+
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TypeMedia", inversedBy="medias" )
+     * @ORM\JoinColumn(name="media_type", referencedColumnName="id",nullable=true ,onDelete="CASCADE")
+     */
+    protected $typemedia;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TypeContentMedia", inversedBy="media"  )
+     * @ORM\JoinColumn(name="type_content_media_id", referencedColumnName="id",nullable=true ,onDelete="CASCADE")
+     */
+    protected $typeContentMedia;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Vod", inversedBy="media" )
+     * @ORM\JoinColumn(name="id_vod", referencedColumnName="id",nullable=true ,onDelete="CASCADE")
+     */
+    protected $vod;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="languge", type="string", length=255, nullable=true)
+     */
+    private $languge;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ListeDates", cascade={"persist"},  mappedBy="media" )
+     */
+    protected $listedates;
+
+
+   /**
+     * @var string
+     *
+     * @ORM\Column(name="url_radio", type="string", length=255, nullable=true)
+     */
+    private $urlradio;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Medias
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set detaileddescription
+     *
+     * @param string $detaileddescription
+     *
+     * @return Medias
+     */
+    public function setDetaileddescription($detaileddescription)
+    {
+        $this->detaileddescription = $detaileddescription;
+
+        return $this;
+    }
+
+    /**
+     * Get detaileddescription
+     *
+     * @return string
+     */
+    public function getDetaileddescription()
+    {
+        return $this->detaileddescription;
+    }
+
+    /**
+     * Set shortdescription
+     *
+     * @param string $shortdescription
+     *
+     * @return Medias
+     */
+    public function setShortdescription($shortdescription)
+    {
+        $this->shortdescription = $shortdescription;
+
+        return $this;
+    }
+
+    /**
+     * Get shortdescription
+     *
+     * @return string
+     */
+    public function getShortdescription()
+    {
+        return $this->shortdescription;
+    }
+
+    /**
+     * Set sourcevideo
+     *
+     * @param string $sourcevideo
+     *
+     * @return Medias
+     */
+    public function setSourcevideo($sourcevideo)
+    {
+        $this->sourcevideo = $sourcevideo;
+
+        return $this;
+    }
+
+    /**
+     * Get sourcevideo
+     *
+     * @return string
+     */
+    public function getSourcevideo()
+    {
+        return $this->sourcevideo;
+    }
+
+    /**
+     * Set urlvideo
+     *
+     * @param string $urlvideo
+     *
+     * @return Medias
+     */
+    public function setUrlvideo($urlvideo)
+    {
+        $this->urlvideo = $urlvideo;
+
+        return $this;
+    }
+
+    /**
+     * Get urlvideo
+     *
+     * @return string
+     */
+    public function getUrlvideo()
+    {
+        return $this->urlvideo;
+    }
+    
+    /**
+     * Set enddate
+     *
+     * @param \DateTime $enddate
+     *
+     * @return Medias
+     */
+    public function setEnddate($enddate)
+    {
+        $this->enddate = $enddate;
+
+        return $this;
+    }
+
+    /**
+     * Get enddate
+     *
+     * @return \DateTime
+     */
+    public function getEnddate()
+    {
+        return $this->enddate;
+    }
+
+    /**
+     * Set startdate
+     *
+     * @param \DateTime $startdate
+     *
+     * @return Medias
+     */
+    public function setStartdate($startdate)
+    {
+        $this->startdate = $startdate;
+
+        return $this;
+    }
+
+    /**
+     * Get startdate
+     *
+     * @return \DateTime
+     */
+    public function getStartdate()
+    {
+        return $this->startdate;
+    }
+
+    /**
+     * Set starttime
+     *
+     * @param string $starttime
+     *
+     * @return Medias
+     */
+    public function setStarttime($starttime)
+    {
+        $this->starttime = $starttime;
+
+        return $this;
+    }
+
+    /**
+     * Get starttime
+     *
+     * @return string
+     */
+    public function getStarttime()
+    {
+        return $this->starttime;
+    }
+
+    /**
+     * Set channel
+     *
+     * @param string $channel
+     *
+     * @return Medias
+     */
+    public function setChannel($channel)
+    {
+        $this->channel = $channel;
+
+        return $this;
+    }
+
+    /**
+     * Get channel
+     *
+     * @return string
+     */
+    public function getChannel()
+    {
+        return $this->channel;
+    }
+
+    /**
+     * Set picture
+     *
+     * @param string $picture
+     *
+     * @return Medias
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return string
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * Set backgroundpicture
+     *
+     * @param string $backgroundpicture
+     *
+     * @return Medias
+     */
+    public function setBackgroundpicture($backgroundpicture)
+    {
+        $this->backgroundpicture = $backgroundpicture;
+
+        return $this;
+    }
+
+    /**
+     * Get backgroundpicture
+     *
+     * @return string
+     */
+    public function getBackgroundpicture()
+    {
+        return $this->backgroundpicture;
+    }
+
+    /**
+     * Set languge
+     *
+     * @param string $languge
+     *
+     * @return Medias
+     */
+    public function setLanguge($languge)
+    {
+        $this->languge = $languge;
+
+        return $this;
+    }
+
+    /**
+     * Get languge
+     *
+     * @return string
+     */
+    public function getLanguge()
+    {
+        return $this->languge;
+    }
+
+    /**
+     * Set urlradio
+     *
+     * @param string $urlradio
+     *
+     * @return Medias
+     */
+    public function setUrlradio($urlradio)
+    {
+        $this->urlradio = $urlradio;
+
+        return $this;
+    }
+
+    /**
+     * Get urlradio
+     *
+     * @return string
+     */
+    public function getUrlradio()
+    {
+        return $this->urlradio;
+    }
+
+    /**
+     * Add commentaire
+     *
+     * @param \BackBundle\Entity\CommentaireMedia $commentaire
+     *
+     * @return Medias
+     */
+    public function addCommentaire(\BackBundle\Entity\CommentaireMedia $commentaire)
+    {
+        $this->commentaire[] = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaire
+     *
+     * @param \BackBundle\Entity\CommentaireMedia $commentaire
+     */
+    public function removeCommentaire(\BackBundle\Entity\CommentaireMedia $commentaire)
+    {
+        $this->commentaire->removeElement($commentaire);
+    }
+
+    /**
+     * Get commentaire
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaire()
+    {
+        return $this->commentaire;
+    }
+
+    /**
+     * Add box
+     *
+     * @param \BackBundle\Entity\Box $box
+     *
+     * @return Medias
+     */
+    public function addBox(\BackBundle\Entity\Box $box)
+    {
+        $this->box[] = $box;
+
+        return $this;
+    }
+
+    /**
+     * Remove box
+     *
+     * @param \BackBundle\Entity\Box $box
+     */
+    public function removeBox(\BackBundle\Entity\Box $box)
+    {
+        $this->box->removeElement($box);
+    }
+
+    /**
+     * Get box
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBox()
+    {
+        return $this->box;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \UserBundle\Entity\User $user
+     *
+     * @return Medias
+     */
+    public function addUser(\UserBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \UserBundle\Entity\User $user
+     */
+    public function removeUser(\UserBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add personnage
+     *
+     * @param \BackBundle\Entity\Personnage $personnage
+     *
+     * @return Medias
+     */
+    public function addPersonnage(\BackBundle\Entity\Personnage $personnage)
+    {
+        $this->personnage[] = $personnage;
+
+        return $this;
+    }
+
+    /**
+     * Remove personnage
+     *
+     * @param \BackBundle\Entity\Personnage $personnage
+     */
+    public function removePersonnage(\BackBundle\Entity\Personnage $personnage)
+    {
+        $this->personnage->removeElement($personnage);
+    }
+
+    /**
+     * Get personnage
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPersonnage()
+    {
+        return $this->personnage;
+    }
+
+    /**
+     * Set typemedia
+     *
+     * @param \BackBundle\Entity\TypeMedia $typemedia
+     *
+     * @return Medias
+     */
+    public function setTypemedia(\BackBundle\Entity\TypeMedia $typemedia = null)
+    {
+        $this->typemedia = $typemedia;
+
+        return $this;
+    }
+
+    /**
+     * Get typemedia
+     *
+     * @return \BackBundle\Entity\TypeMedia
+     */
+    public function getTypemedia()
+    {
+        return $this->typemedia;
+    }
+
+    /**
+     * Add gallery
+     *
+     * @param \BackBundle\Entity\Gallerys $gallery
+     *
+     * @return Medias
+     */
+    public function addGallery(\BackBundle\Entity\Gallerys $gallery)
+    {
+        $this->gallerys[] = $gallery;
+
+        return $this;
+    }
+
+    /**
+     * Remove gallery
+     *
+     * @param \BackBundle\Entity\Gallerys $gallery
+     */
+    public function removeGallery(\BackBundle\Entity\Gallerys $gallery)
+    {
+        $this->gallerys->removeElement($gallery);
+    }
+
+    /**
+     * Get gallerys
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGallerys()
+    {
+        return $this->gallerys;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     *
+     * @return Medias
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param string $lat
+     *
+     * @return Medias
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return string
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set lng
+     *
+     * @param string $lng
+     *
+     * @return Medias
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * Get lng
+     *
+     * @return string
+     */
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * Set vod
+     *
+     * @param \BackBundle\Entity\Vod $vod
+     *
+     * @return Medias
+     */
+    public function setVod(\BackBundle\Entity\Vod $vod = null)
+    {
+        $this->vod = $vod;
+
+        return $this;
+    }
+
+    /**
+     * Get vod
+     *
+     * @return \BackBundle\Entity\Vod
+     */
+    public function getVod()
+    {
+        return $this->vod;
+    }
+
+    /**
+     * Set titleHome
+     *
+     * @param string $titleHome
+     *
+     * @return Medias
+     */
+    public function setTitleHome($titleHome)
+    {
+        $this->titleHome = $titleHome;
+
+        return $this;
+    }
+
+    /**
+     * Get titleHome
+     *
+     * @return string
+     */
+    public function getTitleHome()
+    {
+        return $this->titleHome;
+    }
+
+    /**
+     * Set pictureHome
+     *
+     * @param string $pictureHome
+     *
+     * @return Medias
+     */
+    public function setPictureHome($pictureHome)
+    {
+        $this->pictureHome = $pictureHome;
+
+        return $this;
+    }
+
+    /**
+     * Get pictureHome
+     *
+     * @return string
+     */
+    public function getPictureHome()
+    {
+        return $this->pictureHome;
+    }
+
+    /**
+     * Set nbrShow
+     *
+     * @param integer $nbrShow
+     *
+     * @return Medias
+     */
+    public function setNbrShow($nbrShow)
+    {
+        $this->nbrShow = $nbrShow;
+
+        return $this;
+    }
+
+    /**
+     * Get nbrShow
+     *
+     * @return integer
+     */
+    public function getNbrShow()
+    {
+        return $this->nbrShow;
+    }
+
+    /**
+     * Set typeContentMedia
+     *
+     * @param \BackBundle\Entity\TypeContentMedia $typeContentMedia
+     *
+     * @return Medias
+     */
+    public function setTypeContentMedia(\BackBundle\Entity\TypeContentMedia $typeContentMedia = null)
+    {
+        $this->typeContentMedia = $typeContentMedia;
+
+        return $this;
+    }
+
+    /**
+     * Get typeContentMedia
+     *
+     * @return \BackBundle\Entity\TypeContentMedia
+     */
+    public function getTypeContentMedia()
+    {
+        return $this->typeContentMedia;
+    }
+
+    /**
+     * Add question
+     *
+     * @param \BackBundle\Entity\Questions $question
+     *
+     * @return Medias
+     */
+    public function addQuestion(\BackBundle\Entity\Questions $question)
+    {
+        $this->questions[] = $question;
+
+        return $this;
+    }
+
+    /**
+     * Remove question
+     *
+     * @param \BackBundle\Entity\Questions $question
+     */
+    public function removeQuestion(\BackBundle\Entity\Questions $question)
+    {
+        $this->questions->removeElement($question);
+    }
+
+    /**
+     * Get questions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
+
+
+
+    /**
+     * Add personnageMedia
+     *
+     * @param \BackBundle\Entity\PersonnageMedia $personnageMedia
+     *
+     * @return Medias
+     */
+    public function addPersonnageMedia(\BackBundle\Entity\PersonnageMedia $personnageMedia)
+    {
+        $this->personnageMedia[] = $personnageMedia;
+
+        return $this;
+    }
+
+    /**
+     * Remove personnageMedia
+     *
+     * @param \BackBundle\Entity\PersonnageMedia $personnageMedia
+     */
+    public function removePersonnageMedia(\BackBundle\Entity\PersonnageMedia $personnageMedia)
+    {
+        $this->personnageMedia->removeElement($personnageMedia);
+    }
+
+    /**
+     * Get personnageMedia
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPersonnageMedia()
+    {
+        return $this->personnageMedia;
+    }
+
+    /**
+     * Set sowPub
+     *
+     * @param boolean $sowPub
+     *
+     * @return Medias
+     */
+    public function setSowPub($sowPub)
+    {
+        $this->sowPub = $sowPub;
+
+        return $this;
+    }
+
+    /**
+     * Get sowPub
+     *
+     * @return boolean
+     */
+    public function getSowPub()
+    {
+        return $this->sowPub;
+    }
+
+    /**
+     * Add likemedia
+     *
+     * @param \BackBundle\Entity\LikeMedia $likemedia
+     *
+     * @return Medias
+     */
+    public function addLikemedia(\BackBundle\Entity\LikeMedia $likemedia)
+    {
+        $this->likemedia[] = $likemedia;
+
+        return $this;
+    }
+
+    /**
+     * Remove likemedia
+     *
+     * @param \BackBundle\Entity\LikeMedia $likemedia
+     */
+    public function removeLikemedia(\BackBundle\Entity\LikeMedia $likemedia)
+    {
+        $this->likemedia->removeElement($likemedia);
+    }
+
+    /**
+     * Get likemedia
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikemedia()
+    {
+        return $this->likemedia;
+    }
+  
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->commentaire = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->personnageMedia = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->personnage = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->gallerys = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rendezvous = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->likemedia = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->box = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->setNbrShow(0);
+   
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add rendezvous
+     *
+     * @param \BackBundle\Entity\Rendezvous $rendezvous
+     *
+     * @return Medias
+     */
+    public function addRendezvous(\BackBundle\Entity\Rendezvous $rendezvous)
+    {
+        $this->rendezvous[] = $rendezvous;
+
+        return $this;
+    }
+
+    /**
+     * Remove rendezvous
+     *
+     * @param \BackBundle\Entity\Rendezvous $rendezvous
+     */
+    public function removeRendezvous(\BackBundle\Entity\Rendezvous $rendezvous)
+    {
+        $this->rendezvous->removeElement($rendezvous);
+    }
+
+    /**
+     * Get rendezvous
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRendezvous()
+    {
+        return $this->rendezvous;
+    }
+}

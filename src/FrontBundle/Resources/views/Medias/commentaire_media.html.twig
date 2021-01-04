@@ -1,0 +1,115 @@
+<div class="comment-content">
+    {% if app.user and (is_granted('ROLE_MEMBRE') or is_granted('ROLE_VIP')) %}
+
+
+        <div class="comment-block-inner clearfix">
+            <div class="col-md-2 col-xs-3 col-sm-2">
+                <div class="avatar">
+                    <div class="img-resize imgLiquid">
+                        {% if app.user.pictureprofil != null %}
+
+                            <img src="{{ path_picture ~ app.user.pictureprofil }}">
+                        {% else %}
+                            <img src="{{ path_picture|getImageDefault()}}">
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-10 col-xs-9 col-sm-9">
+
+
+                <div class="input-comment">
+                    {% for flashMessage in app.session.flashbag.get('commentairesuccess') %}
+                        <br/>
+                        <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                    <form action="{{ path('front_end_add_commentaire',{'id': media.id }) }}" method="POST">
+                        <div class="form-group">
+                         <textarea class="form-control" rows="4" name="commentaire" required  placeholder="Ecrire ton commentaire...."></textarea>
+                        </div>
+
+
+                        <div class="form-group pull-right">
+
+                            <button type="submit" class="btn btn-orange btn-lg"><i
+                                        class="zmdi zmdi-comment-more"></i>{{ 'commenter'|trans }}
+                            </button>
+
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+    {% if media.commentaire != null %}
+    <div class="liste-comment">
+        {% for item in media.commentaire %}
+
+            <div class="comments-liste  row">
+            <div class="comment-main-level">
+                <div class="comment-avatar text-center  col-md-2 col-xs-3 col-sm-2">
+
+                    <div class="img-resize imgLiquid">
+
+                        {% if item.users.pictureprofil != null %}
+
+                            <img src="{{ path_picture ~ item.users.pictureprofil }}">
+                        {% else %}
+                            <img src="{{ path_picture|getImageDefault()}}">
+                        {% endif %}
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-10 col-xs-9 col-sm-10">
+                    <div class="comment-box ">
+                        <div class="comment-head">
+                            <h6 class="comment-name">
+                            <a href="{{ path('collection',{'activeTab': "vip" , 'fullName': item.users.username   ,  'id': item.users.id}) }}">
+                              
+              
+                {% if item.users.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{ item.users.prenom ~" "~ item.users.nom }}
+                {% if item.users.roles[0] == "ROLE_VIP"    and  item.users.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if item.users.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif item.users.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif item.users.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif item.users.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+     
+                             </a></h6>
+                            <span>{{ item.datecreate|date('d/m/Y H:m') }}</span>
+
+                        </div>
+                        <div class="comment-content">
+                          {{ item.description }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+       </div>
+    {% endif %}
+</div>

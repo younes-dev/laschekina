@@ -1,0 +1,20 @@
+category_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Category:index" }
+    methods:  GET
+
+
+category_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Category:new" }
+    methods:  [GET, POST]
+
+category_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Category:edit" }
+    methods:  [GET, POST]
+
+category_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Category:delete" }
+    methods:  [GET, POST]

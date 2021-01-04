@@ -1,0 +1,11 @@
+ {% if itemInBox != null %}
+     <a onclick="AddOrRemoveBoxPersonnage({{ item.id }} ,'remove'  )" class="btn btn-icon btn-cartoon"
+        
+        title="{{ 'box_delete'|trans }}"><i
+                 class="zmdi zmdi-favorite"></i></a>
+ {% else %}
+     <a onclick="AddOrRemoveBoxPersonnage({{ item.id }} ,'add' )" class="btn btn-icon btn-cartoon"
+        
+        title="{{ 'box_add'|trans }}"><i
+                 class="zmdi zmdi-favorite-outline"></i></a>
+ {% endif %}

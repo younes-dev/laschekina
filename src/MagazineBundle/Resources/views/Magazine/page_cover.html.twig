@@ -1,0 +1,83 @@
+<div id='cover'>
+    <img src="{{ path_picture ~ coverImage.picture }}">
+
+    <div class="logo-mag"><img src="{{ asset('dev/magzine/images/logo-mag.png') }}"/></div>
+
+    <div class="bottom-cover">
+
+        <div class="vip-list">
+            <ul>
+                {% for entity in ListeVIP %}
+                <li>
+                    {% if entity.pictureprofil != null %}
+                        <img src="{{ path_picture ~ entity.pictureprofil }}" >
+                    {% else %}
+                        <img src="{{ asset('assets/images/avatar.png') }}">
+                    {% endif %}
+                </li>
+                {% endfor %}
+
+
+
+            </ul>
+
+        </div>
+
+        <div class="programe-mag clear">
+
+            {% if listProgramme != null  %}
+            <div class="prgram-inner-content">
+                <h4>{{ 'page.programme'|trans }}</h4>
+
+                <ul>
+                    {% for entity in listProgramme %}
+                        <li><span>{{ entity.title[:20] }}</span></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            {% endif %}
+
+            {% if listCinema != null  %}
+            <div class="prgram-inner-content ">
+                <h4>{{ 'page.cinema'|trans }}</h4>
+                <ul>
+                    {% for entity in listCinema %}
+                        <li><span>{{ entity.title[:20] }}</span></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            {% endif %}
+            {% if listConcert != null  %}
+            <div class="prgram-inner-content ">
+                <h4>{{ 'page.concert'|trans }}</h4>
+
+                <ul>
+                    {% for entity in listConcert %}
+                    <li><span>{{ entity.title[:20] }}</span></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        {% endif %}
+
+            {% if listSpectacle != null  %}
+            <div class="prgram-inner-content ">
+                <h4>{{ 'page.spectacle'|trans }}</h4>
+                <ul>
+                    {% for entity in listSpectacle %}
+                        <li><span>{{ entity.title[:20] }}</span></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            {% endif %}
+
+
+
+        </div>
+
+    </div>
+
+</div>

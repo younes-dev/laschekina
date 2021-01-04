@@ -1,0 +1,9 @@
+information_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Information:index" }
+    methods:  GET
+
+information_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Information:edit" }
+    methods:  [GET, POST]

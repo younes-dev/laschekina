@@ -1,0 +1,8 @@
+vip_in_home:
+    path:     /vip-in-home
+    defaults: { _controller: "BackBundle:Vip:index" }
+
+
+vip_delete_in_home:
+    path:     /vip-delete-in-home/{id}
+    defaults: { _controller: "BackBundle:Vip:delete" }

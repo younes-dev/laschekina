@@ -1,0 +1,144 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}{{ 'page.gallery_crossing_cartoon'|trans }}{% endblock %}
+{% block hiarche %}
+
+    {% set menuactive = app.session.get('menuactive') %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('gallery_crossing_cartoon_index') }}">
+                    <span> {{ 'page.gallery_crossing_cartoon'|trans }} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        {% set menuactive = app.session.get('menuactive') %}
+        {% set step = app.session.get('step') %}
+        {% set picture = app.session.get('picture') %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.add'|trans }}
+                              </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        {{ form_start(form, {'method': 'post', 'action': path('gallery_crossing_cartoon_index'), 'attr': {'class': 'form-horizontal'}}) }}
+
+                        
+                        {% for flashMessage in app.session.flashbag.get('GallerysCrossingCartoonsuccess') %}
+                            <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-body">
+
+                            <div class="form-group" >
+                                <label>{{ form_label(form.path  ) }}</label>
+                                <div class="input-group">
+                                    <span class="error-message">  {{ form_errors(form.path  ) }} </span>
+                                    {{ form_widget(form.path) }}
+
+                                </div>
+                            </div>
+                             
+                             
+                        </div>
+                        
+                               <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+                             
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase"> {{ 'page.image_fond'|trans }} </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <div id="draggable" class="col-md-12 ui-sortable"> 
+                                        {% for gallery in gallerys %}
+                                            <div class="col-md-2 col-sm-12">
+                                            <div class="panel panel-profile">
+                                                    <div class="panel-body">
+                                                        <div class="user-card dim-user-card">
+                                                             
+                                                                <a href="{{ path_picture~gallery.path }}"
+                                                                   target="_blank" class="item fancybox">
+                                                                    <img src="{{ thumb_url_image_banner_back~gallery.path }}"
+                                                                         class="img-responsive   centre-img ">
+                                                                </a> 
+                                                        </div>
+                                                        <hr class="outsider">
+                                                        <div class="text-center">
+                                                            <a href="{{ path('gallery_crossing_cartoon_state',{'id':gallery.id}) }}">
+                                                                <h3>
+                                                                    {% if gallery.enable == 1 %}
+                                                                        <i class="fa  fa fa-eye"></i>
+                                                                    {% else %}
+                                                                        <i class="fa fa-eye-slash"></i>
+                                                                    {% endif %}
+                                                                </h3>
+                                                            </a>
+                                                            <a data-toggle="modal" id="sup192"
+                                                               href="#myModal{{ gallery.id }}" type="button"
+                                                               class="btn btn-danger">
+                                                                Supprimer</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% for entity in gallerys %}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ entity.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title">  {{ 'message_alert_remove'|trans }}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h2>  {{ 'message_validation_remove'|trans }} </h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"> {{ 'btn.cancel'|trans }}  </button>
+                            <a href="{{ path('gallery_crossing_cartoon_delete', {'id': entity.id}) }}">
+                                <button type="button" class="btn btn-danger"><i
+                                            class="fa fa-trash"></i> {{ 'btn.remove'|trans }} </button>
+                            </a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endfor %}
+    {% endblock %}

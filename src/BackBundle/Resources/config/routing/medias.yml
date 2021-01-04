@@ -1,0 +1,48 @@
+medias_index:
+    path:     /{typemedia}/{languge}/index
+    defaults: { _controller: "BackBundle:Medias:index" }
+    methods:  GET
+
+medias_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Medias:new" }
+    methods:  [GET, POST]
+
+medias_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Medias:show" }
+    methods:  GET
+
+medias_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Medias:edit" }
+    methods:  [GET, POST]
+
+medias_deleteListeDates:
+    path:     /id/deleteListeDates
+    defaults: { _controller: "BackBundle:Medias:deleteListeDates" }
+
+medias_editt:
+    path:     /editt
+    defaults: { _controller: "BackBundle:Medias:editt" }
+    methods:  [GET, POST]
+
+medias_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Medias:delete" }
+    methods:  [GET, POST]
+
+commentaire_delete:
+    path:     /{id}/commentaire/delete
+    defaults: { _controller: "BackBundle:Medias:commentairedelete" }
+    methods:  [GET, POST]
+
+medias_date_delete:
+    path:     /{id}/{idMedia}/date/delete
+    defaults: { _controller: "BackBundle:Medias:dateDelete" }
+    methods:  [GET, POST]
+
+medias_edit_date_delete:
+    path:     /{id}/{idMedia}/edit-media/date/delete
+    defaults: { _controller: "BackBundle:Medias:dateDeleteEdit" }
+    methods:  [GET, POST]

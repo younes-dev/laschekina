@@ -1,0 +1,582 @@
+{% extends '::content-frontend.html.twig' %}
+
+{% block title %}  {{ 'page.home'|trans }}{% endblock %}
+ {% block stylesheets %}
+     <link href="{{ asset('dev/front/css/auto-complete.css') }}" rel="stylesheet">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
+ {% endblock %}
+   {% block contentbody %}
+<body class="first">
+<!--- meta of facbook -->
+<div id="fb-root"></div>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.9";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<!-- End meta of facbook-->
+
+{% if  app.user == null and app.session.get('page') != 'home' %}
+    {{ include('FrontBundle:Front:load_page.html.twig', { 'gallerys_index': gallerys_index }) }}
+{% endif %}
+
+<div id="page" {% if  app.user == null and app.session.get('page') != 'home' %} class="hidden" {% endif %}>
+
+    <nav class="navbar" id="header">
+
+        {{ render(controller( 'FrontBundle:Front:menu' ,  { 'rout': app.request.attributes.get('_route') }   )) }}
+
+    </nav>
+
+    <div id="content">
+        <!-- gallerie -->
+        <div class="owl-carousel accueil-gallerie owl-theme">
+
+            {% for entity in gallerys_banner %}
+                <a href="{{ path_picture~entity.picture }}"
+                 title="<a href='{{ path('collection',{'activeTab': 'vip' , 'fullName': entity.member.username , 'id': entity.member.id}) }}' style=' color: #ff5722;'>
+                 {{ entity.member.prenom  ~' ' ~ entity.member.nom}} {% if entity.member.fan == 1 %} - FAN {% endif %}</a>"
+                  
+               
+                 
+                   data-caption="test"  class="item fancybox">
+                    <div class="img-resize imgLiquid">
+                        {% if entity.bannerpicture is defined %}
+                            <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                        {% else %}
+                            <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        {% for personnage in personnageMediasBanners %}
+                 {% if personnage.image != null  %}
+                                <a href="{{ path_picture ~ 'personnage_media/' ~ personnage.image }}"
+                                title="<a href='{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id' : personnage.id }) }}' style=' color: #ff5722;'>
+                                {{ personnage.personnage }} </a>"
+                                
+                            
+                                
+                                data-caption="test"  class="item fancybox">
+                                    <div class="img-resize imgLiquid">
+                                            <img src="{{  path_picture ~ 'personnage_media/' ~ personnage.image }}" alt="" class="resizeme "/>
+                                    
+                                    </div>
+                                </a>
+                
+                        {% endif %}
+            {% endfor %}
+        </div>
+        <!-- End gallerie -->
+        <div id="center_colmun" class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="accueil-bloc home-slider-1">
+                        <div class="holder">
+                            <div id="Liste_membre_home" >
+                                <img id="loading-search" src="{{ asset('dev/front/images/loading.gif') }}"
+                                     class="displayed" style="margin-bottom:8px ;display: none;">
+
+                                <div class="list-slider owl-carousel caroussel-Liste-membre-home "
+                                     id="content_Liste_membre_home">
+
+                                    {% for item in ListeVIP %}
+                                        <a class="item img-thumb" data-toggle="tab" onclick="getVipUser({{ item.id }})"
+                                           href="#home-slider-1-bloc-{{ item.id }} ">
+                                            <div class="img-resize imgLiquid ">
+
+                                                {% if item.pictureprofil != null %}
+                                                    <img src="{{ path_picture ~ item.pictureprofil }}" alt=""
+                                                         class="image-resize img-responsive media-object img-circle">
+                                                {% else %}
+                                                    <img src="{{ asset('assets/images/avatar.png') }}" alt=""
+                                                         class="image-resize img-responsive media-object img-circle">
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="tab-content">
+
+                                <div id="home-slider-1-bloc-{{ ListeVIP[0].id }}"
+                                     class="content-slider-1 tab-pane fade in  active ">
+
+                                    <div class="row" id="pictureCourant">
+                                           {{ include('FrontBundle:Ajax:photosCourant.html.twig', { 'Photos': ListePhotos , 'vipUser': ListeVIP[0] , "photosshowHome" :photosshowHome  }) }}
+                                    
+                                   </div>
+
+                                    <div class="separateur"></div>
+                                    <div class="row" id="ListeNews">
+                                        {{ include('FrontBundle:Ajax:news.html.twig', { 'ListeNews': ListeNews , 'vipUser': ListeVIP[0]}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accueil-bloc home-slider-2">
+                        <div class="holder">
+                            <div id="ListePhotos" class="images-container-2">
+                                {{ include('FrontBundle:Ajax:photos.html.twig', { 'ListePhotos': ListePhotos }) }}
+
+                            </div>
+                            <div class="bloc2" id="instagram">
+
+                                {{ include('FrontBundle:Ajax:instagram.html.twig', { 'vipUser': ListeVIP[0] }) }}
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="accueil-bloc home-slider-3" id="facebook">
+
+                        {{ include('FrontBundle:Ajax:facebook.html.twig', {  'vipUser': ListeVIP[0] }) }}
+
+                    </div>
+                    <div class="accueil-bloc-modal videos-box" tabindex="-1">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="window"><span
+                                            aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <div class="dropdown">
+                                    <a href="#" aria-haspopup="true"
+                                       aria-expanded="true"><h4
+                                                class="modal-title">{{ 'collection_videos'|trans }} </h4></a>
+
+                                </div>
+                            </div>
+                            <div class="modal-body" id="ListeVideos">
+
+                                {{ include('FrontBundle:Ajax:videos.html.twig', { 'ListeVideos': ListeVideos }) }}
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accueil-bloc-modal twitter-box" tabindex="-1">
+                        <div class="modal-content" id="twitter">
+
+
+                            {{ include('FrontBundle:Ajax:twitter.html.twig', { 'vipUser': ListeVIP[0] }) }}
+
+                        </div>
+                    </div>
+                    <div class="accueil-bloc-modal timeline-box" tabindex="-1">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="window"><span
+                                            aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+
+                                <h4 class="modal-title">{{ 'alertes'|trans }} </h4>
+
+                            </div>
+                            <div class="modal-body">
+
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab"
+                                                          href="#tab1-alerte">{{ 'alertes-tab1'|trans }}</a></li>
+                                    <li><a data-toggle="tab" href="#tab2-alerte">{{ 'alertes-tab2'|trans }} <span
+                                                    class="badge-alerte"
+                                                    id="notif_alerte" {% if mediasToDay|length == 0 %} style="display: none" {% endif %}>{{ mediasToDay|length }}</span></a>
+                                    </li>
+                                    {% if app.user != null %}
+                                        <li><a data-toggle="tab" href="#tab3-alerte">{{ 'alertes-tab3'|trans }}</a></li>
+                                    {% endif %}
+                                </ul>
+
+
+                                <div class="timeline">
+
+                                    <div class="tab-content">
+                                        <div id="tab1-alerte" class="tab-pane fade in active">
+
+                                            {{ include('FrontBundle:Ajax:tab1-alerte.html.twig', { 'Listealerte': alerteVip , 'alerteRendezvous' : alerteRendezvous }) }}
+                                        </div>
+
+                                        <div id="tab2-alerte" class="tab-pane fade">
+                                            {{ include('FrontBundle:Ajax:tab2-alerte.html.twig', {  'mediasToDay': mediasToDay }) }}
+                                        </div>
+                                        {% if app.user != null %}
+
+                                            <div id="tab3-alerte" class="tab-pane fade">
+                                                {{ include('FrontBundle:Ajax:tab3-alerte.html.twig', {  'alertBoxMedia': alertBoxMedia }) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {{ allMediaHtml|raw }}
+        {{ footerHtml|raw }}
+
+
+
+        {% endblock %}
+
+        {% block javascripts %}
+            {% if vipouup != null %}
+            <script src="{{ asset('dev/front/js/vip-modal.js') }}"></script>
+            {% endif %}
+
+            <script src="{{ asset('dev/front/js/embeds.js') }}"></script>
+            <script src="{{ asset('dev/front/js/auto-complete.js') }}"></script>
+            <script src="{{ asset('dev/front/js/jquery.blockUI.js') }}"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+            <script>
+
+                function getVipUser(id) {
+                    startloading();
+                    var data = {'id': id};
+                    var url = '{{ path('front_end_media_ajax') }}';
+                    $.ajax({
+                        url: url, // La ressource ciblée
+                        type: 'POST', // Le type de la requête HTTP.
+                        cache: false,
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            $('#facebook').html(data.facebook);
+                            $('#pictureCourant').html(data.current);
+                            $('#ListeNews').html(data.news);
+                            $('#ListePhotos').html(data.photos);
+                            $('#instagram').html(data.instagram);
+                            $('#ListeVideos').html(data.videos);
+                            $('#twitter').html(data.twitter);
+                            $('#tab1-alerte').html(data.alerte);
+
+                            $(".small-caroussel-vip").owlCarousel({
+                                loop: true,
+                                items: 1,
+                                dots: true,
+                                navs: false,
+                                singleItem: true
+                            });
+                        },
+                        complete: function (xhr, data) {
+                            window.instgrm.Embeds.process();
+                            FB.XFBML.parse();
+                            endloading();
+
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                }
+                setInterval(ajaxCall, 900000); //900000 MS == 5 minutes
+                function ajaxCall() {
+                    var url = '{{ path('front_end_media_alerte_ajax') }}';
+                    $.ajax({
+                        url: url, // La ressource ciblée
+                        type: 'POST', // Le type de la requête HTTP.
+                        cache: false,
+                        dataType: "json",
+                        success: function (data) {
+                            $('#tab2-alerte').html(data.alerte);
+                            if (data.notif == 0) {
+                                $('#notif_alerte').hide();
+                            } else {
+                                $('#notif_alerte').html(data.notif);
+                            }
+
+                        },
+
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+
+                }
+                function endloading() {
+                    $(document).ajaxStop($.unblockUI);
+                }
+                function startloading() {
+                    $.blockUI({message: '<img src="{{ asset('dev/front/images/loading.gif') }}" />'});
+                }
+                var demo1 = new autoComplete({
+                    selector: '#search-member',
+                    minChars: 1,
+                    source: function (term, suggest) {
+                        ajaxGetUserHome();
+                        term = term.toLowerCase();
+                        var choices = [
+                            {% for item in listeMembre %}
+                            '{{ item.prenom ~" "~ item.nom }} {% if item.fan == 1 %} - FAN {% endif %}' {% if  listeMembre|length > loop.index %}, {% endif %}
+                            {% endfor %}
+                        ];
+                        var suggestions = [];
+                        for (i = 0; i < choices.length; i++)
+                            if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
+                        suggest(suggestions);
+
+                    }
+                });
+                function ajaxGetUserHome() {
+                    $('#content_Liste_membre_home').hide();
+                    $('#loading-search').show();
+
+                    var data = {
+                        'search_member': $('#search-member').val(),
+                        'type_search_member': 'search_member_home'
+                    };
+                    var url = '{{ path('collection_get_user') }}';
+                    $.ajax({
+                        url: url, // La ressource ciblée
+                        type: 'POST', // Le type de la requête HTTP.
+                        cache: false,
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+
+                            $('#loading-search').hide();
+                            $('#Liste_membre_home').html(data.friendsLlist);
+                            var numbreshowMobile = 0;
+                            var numbreshowWeb = 0;
+                            if (data.countMembre > 3) {
+                                numbreshowMobile = 4;
+                            } else {
+                                numbreshowMobile = data.countMembre;
+                            }
+                            if (data.countMembre > 6) {
+                                numbreshowWeb = 7;
+                            } else {
+                                numbreshowWeb = data.countMembre;
+                            }
+                            console.log("numbreshowMobile" + numbreshowMobile);
+                            console.log("numbreshowWeb" + numbreshowWeb);
+                            console.log("countMembre" + data.countMembre);
+                            if (data.countMembre  == 1) {
+                            $(".caroussel-Liste-membre-home").owlCarousel({
+                                nav: true,
+                                singleItem: true,
+                                margin: 10,
+                                navText: ['<i class="glyphicon glyphicon-chevron-left"></i>', '<i class="glyphicon glyphicon-chevron-right"></i>'],
+                                responsive: {
+                                    0: {
+                                        items: numbreshowMobile
+                                    },
+                                    400: {
+                                        items: numbreshowWeb
+                                    }
+                                }
+                            });
+                            }
+                            else{
+                                $(".caroussel-Liste-membre-home").owlCarousel({
+                                    loop:true,
+                                    nav: true,
+                                    singleItem: true,
+                                    margin: 10,
+                                    navText: ['<i class="glyphicon glyphicon-chevron-left"></i>', '<i class="glyphicon glyphicon-chevron-right"></i>'],
+                                    responsive: {
+                                        0: {
+                                            items: numbreshowMobile
+                                        },
+                                        400: {
+                                            items: numbreshowWeb
+                                        }
+                                    }
+                                });
+                            }
+                        },
+
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+
+                }
+
+ {% for flashMessage in app.session.flashbag.get('showVipHome') %}
+       
+                  $(function() {
+                          toastr.success(' {{ flashMessage }}', 'Alert');
+                      });
+            {% endfor %}
+     
+            </script>
+
+
+            <!-- Quantcast Choice. Consent Manager Tag v2.0 (for TCF 2.0) -->
+            <script type="text/javascript" async=true>
+                (function() {
+                    var host = window.location.hostname;
+                    var element = document.createElement('script');
+                    var firstScript = document.getElementsByTagName('script')[0];
+                    var milliseconds = new Date().getTime();
+                    var url = 'https://quantcast.mgr.consensu.org'
+                        .concat('/choice/', 'EkKePjhcybC6a', '/', host, '/choice.js')
+                        .concat('?timestamp=', milliseconds);
+                    var uspTries = 0;
+                    var uspTriesLimit = 3;
+                    element.async = true;
+                    element.type = 'text/javascript';
+                    element.src = url;
+
+                    firstScript.parentNode.insertBefore(element, firstScript);
+
+                    function makeStub() {
+                        var TCF_LOCATOR_NAME = '__tcfapiLocator';
+                        var queue = [];
+                        var win = window;
+                        var cmpFrame;
+
+                        function addFrame() {
+                            var doc = win.document;
+                            var otherCMP = !!(win.frames[TCF_LOCATOR_NAME]);
+
+                            if (!otherCMP) {
+                                if (doc.body) {
+                                    var iframe = doc.createElement('iframe');
+
+                                    iframe.style.cssText = 'display:none';
+                                    iframe.name = TCF_LOCATOR_NAME;
+                                    doc.body.appendChild(iframe);
+                                } else {
+                                    setTimeout(addFrame, 5);
+                                }
+                            }
+                            return !otherCMP;
+                        }
+
+                        function tcfAPIHandler() {
+                            var gdprApplies;
+                            var args = arguments;
+
+                            if (!args.length) {
+                                return queue;
+                            } else if (args[0] === 'setGdprApplies') {
+                                if (
+                                    args.length > 3 &&
+                                    args[2] === 2 &&
+                                    typeof args[3] === 'boolean'
+                                ) {
+                                    gdprApplies = args[3];
+                                    if (typeof args[2] === 'function') {
+                                        args[2]('set', true);
+                                    }
+                                }
+                            } else if (args[0] === 'ping') {
+                                var retr = {
+                                    gdprApplies: gdprApplies,
+                                    cmpLoaded: false,
+                                    cmpStatus: 'stub'
+                                };
+
+                                if (typeof args[2] === 'function') {
+                                    args[2](retr);
+                                }
+                            } else {
+                                queue.push(args);
+                            }
+                        }
+
+                        function postMessageEventHandler(event) {
+                            var msgIsString = typeof event.data === 'string';
+                            var json = {};
+
+                            try {
+                                if (msgIsString) {
+                                    json = JSON.parse(event.data);
+                                } else {
+                                    json = event.data;
+                                }
+                            } catch (ignore) {}
+
+                            var payload = json.__tcfapiCall;
+
+                            if (payload) {
+                                window.__tcfapi(
+                                    payload.command,
+                                    payload.version,
+                                    function(retValue, success) {
+                                        var returnMsg = {
+                                            __tcfapiReturn: {
+                                                returnValue: retValue,
+                                                success: success,
+                                                callId: payload.callId
+                                            }
+                                        };
+                                        if (msgIsString) {
+                                            returnMsg = JSON.stringify(returnMsg);
+                                        }
+                                        event.source.postMessage(returnMsg, '*');
+                                    },
+                                    payload.parameter
+                                );
+                            }
+                        }
+
+                        while (win) {
+                            try {
+                                if (win.frames[TCF_LOCATOR_NAME]) {
+                                    cmpFrame = win;
+                                    break;
+                                }
+                            } catch (ignore) {}
+
+                            if (win === window.top) {
+                                break;
+                            }
+                            win = win.parent;
+                        }
+                        if (!cmpFrame) {
+                            addFrame();
+                            win.__tcfapi = tcfAPIHandler;
+                            win.addEventListener('message', postMessageEventHandler, false);
+                        }
+                    };
+
+                    if (typeof module !== 'undefined') {
+                        module.exports = makeStub;
+                    } else {
+                        makeStub();
+                    }
+
+                    var uspStubFunction = function() {
+                        var arg = arguments;
+                        if (typeof window.__uspapi !== uspStubFunction) {
+                            setTimeout(function() {
+                                if (typeof window.__uspapi !== 'undefined') {
+                                    window.__uspapi.apply(window.__uspapi, arg);
+                                }
+                            }, 500);
+                        }
+                    };
+
+                    var checkIfUspIsReady = function() {
+                        uspTries++;
+                        if (window.__uspapi === uspStubFunction && uspTries < uspTriesLimit) {
+                            console.warn('USP is not accessible');
+                        } else {
+                            clearInterval(uspInterval);
+                        }
+                    };
+
+                    if (typeof window.__uspapi === 'undefined') {
+                        window.__uspapi = uspStubFunction;
+                        var uspInterval = setInterval(checkIfUspIsReady, 6000);
+                    }
+                })();
+            </script>
+            <!-- End Quantcast Choice. Consent Manager Tag v2.0 (for TCF 2.0) -->
+        {% endblock %}
+

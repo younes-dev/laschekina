@@ -1,0 +1,226 @@
+<?php
+
+namespace BackBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Contact
+ *
+ * @ORM\Table(name="contact")
+ * @ORM\Entity(repositoryClass="BackBundle\Repository\ContactRepository")
+ */
+class Contact
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="objet", type="string", length=255, nullable=true)
+     */
+    private $objet;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="message", type="text", nullable=true)
+     */
+    private $message;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enable", type="boolean", nullable=true)
+     */
+    private $enable;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateenvoie", type="datetime")
+     */
+    private $dateenvoie;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Contact
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set objet
+     *
+     * @param string $objet
+     *
+     * @return Contact
+     */
+    public function setObjet($objet)
+    {
+        $this->objet = $objet;
+
+        return $this;
+    }
+
+    /**
+     * Get objet
+     *
+     * @return string
+     */
+    public function getObjet()
+    {
+        return $this->objet;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Contact
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set message
+     *
+     * @param string $message
+     *
+     * @return Contact
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * Get message
+     *
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * Set dateenvoie
+     *
+     * @param \DateTime $dateenvoie
+     *
+     * @return Contact
+     */
+    public function setDateenvoie($dateenvoie)
+    {
+        $this->dateenvoie = $dateenvoie;
+
+        return $this;
+    }
+
+    /**
+     * Get dateenvoie
+     *
+     * @return \DateTime
+     */
+    public function getDateenvoie()
+    {
+        return $this->dateenvoie;
+    }
+    public  function  __construct ()
+    {
+        $this->setDateenvoie(new \DateTime());
+        $this->setEnable(0);
+    }
+
+    /**
+     * Set enable
+     *
+     * @param boolean $enable
+     *
+     * @return Contact
+     */
+    public function setEnable($enable)
+    {
+        $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * Get enable
+     *
+     * @return boolean
+     */
+    public function getEnable()
+    {
+        return $this->enable;
+
+    }
+}

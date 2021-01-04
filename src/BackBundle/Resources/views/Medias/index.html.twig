@@ -1,0 +1,160 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}
+    {% set page = 'page.'~app.session.get('menuactive') %}
+    {{ page|trans }}
+{% endblock %}
+{% block hiarche %}
+<div class="page-content" style="min-height: 930px; ">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('medias_index' ,{'typemedia': app.session.get('menuactive') ,  'languge': app.session.get('languge') }) }}"> <span>
+                         {% set page = 'page.'~app.session.get('menuactive') %}
+                        {{ page|trans }}
+                    </span></a>
+            </li>
+        </ul>
+    </div>
+
+    {% endblock %}
+    {% block body %}
+        {% for flashMessage in app.session.flashbag.get('mediasuccess') %}
+            <br/>
+            <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('mediadelete') %}
+            <br/>
+            <div class="alert alert-danger alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green">
+                            <i class="icon-users font-green"></i>
+                            <span class="caption-subject bold uppercase">
+                                {% set page = 'page.'~app.session.get('menuactive') %}
+                                {{ page|trans }}</span>
+                        </div>
+                        <a   href="{{ path('medias_new') }}"
+                           class="btn btn-primary center-btn"> <i class="fa fa-plus"></i> &nbsp;{{ 'btn.add'|trans }}   </a>
+                        <div class="tools"></div>
+                    </div>
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-hover dt-responsive" width="100%"
+                               id="sample_3">
+                            <thead>
+                            <tr>
+                                <th> N°</th>
+                                <th>  {{ 'form.pictureHome'|trans }}</th>
+                                <th>  {{ 'form.picture'|trans }}</th>
+                                <th>  {{ 'form.backgroundpicture'|trans }}</th>
+                                <th> {{ 'form.title'|trans }} </th>
+                                <th> {{ 'form.titleHome'|trans }} </th>
+                                <th> {{ 'form.channel'|trans }} </th>
+                                <th>Liste des dates </th>
+                                <th> {{ 'form.action'|trans }} </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entity in medias %}
+                                <tr>
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+                                    <td>   {% if entity.pictureHome != null %}
+                                        <img src="{{ path_picture ~ entity.pictureHome }}" class="media-picture" >
+                                        {% endif %}
+                                    </td>
+                                    <td>   {% if entity.picture != null %}
+                                        <img src="{{ path_picture ~ entity.picture }}" class="media-picture" >
+                                        {% endif %}
+                                    </td>
+                                     <td>   {% if entity.backgroundpicture != null %}
+                                        <img src="{{ path_picture ~ entity.backgroundpicture }}" class="media-picture" >
+                                        {% endif %}
+                                    </td>
+                                    <td><a href="  {{ path('front_end_show_media',{'id': entity.id}) }} " target="_blank" title="Afficher le  article dans le front ">{{ entity.title }}</a> </td>
+                                    <td><a href="  {{ path('front_end_show_media',{'id': entity.id}) }} " target="_blank" title="Afficher le  article dans le front ">{{ entity.titleHome }}</a>  </td>
+                                    <td>{{ entity.channel }}</td>
+                                    <td>
+                                        {% if entity.listedates|length > 0 %}
+                                             <ul>
+                                                {% for date in entity.listedates %}
+                                                    <li>{{ 'form.publier'|trans ~" : "~ date.startdate|date('d/m/Y')~" à "~ date.endDate|date('d/m/Y')~" "~ date.starttime ~" à "~ date.endtime }}
+
+
+                                                        <a title="{{ 'btn.remove'|trans }} " href=" {{ path('medias_date_delete', {'id': date.id , 'idMedia': entity.id }) }}"
+                                                           class="btn btn-outline btn-circle red btn-sm black" style="float: right">
+                                                            <i class="fa fa-trash-o"></i> </a>
+                                                            <hr/>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% else %}
+                                            <b> -- </b>
+                                        {% endif %}
+
+                                    </td>
+                                     <td>
+
+                                        <a title=" {{ "btn.edit"|trans }}" href="{{ path('medias_edit', {'id': entity.id}) }}" class="btn btn-outline btn-circle btn-sm purple">
+                                            <i class="fa fa-edit"></i>  </a>
+
+                                        <a title=" Liste des Question" href="{{ path('questions_medias_index', {'idMedia': entity.id}) }}" class="btn btn-outline btn-circle btn-sm blue">
+                                            <i class="fa fa-list"></i>   </a>
+
+                                        <a title=" {{ "page.gallery"|trans }}" href="{{ path('gallerys_index', {'type_gallery': "gallery_media" , 'id_media': entity.id}) }}" class="btn btn-outline btn-circle btn-sm purple">
+                                            <i class="fa fa-file-image-o"></i>   </a>
+                                    {% if entity.commentaire != null %}
+                                       <a title="{{ entity.commentaire|length }} {{ "btn.commentaire"|trans }}" href="{{ path('medias_show', {'id': entity.id}) }}" class="btn btn-outline btn-circle btn-sm green">
+                                            <i class="fa fa-comments"></i> </a>
+                                    {% endif %}
+                                        <a title="{{ 'btn.remove'|trans }} " href="#myModal{{ entity.id }}" data-toggle="modal"
+                                           class="btn btn-outline btn-circle dark btn-sm black">
+                                            <i class="fa fa-trash-o"></i> </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+
+        {% for entity in medias %}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ entity.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title">  {{ 'message_alert_remove'|trans }}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h2>  {{ 'message_validation_remove'|trans }} </h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"> {{ 'btn.cancel'|trans }}  </button>
+                            <a href="{{ path('medias_delete', {'id': entity.id}) }}">
+                                <button type="button" class="btn btn-danger"><i
+                                            class="fa fa-trash"></i> {{ 'btn.remove'|trans }} </button>
+                            </a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endfor %}
+
+
+
+{% endblock %}

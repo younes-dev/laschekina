@@ -1,0 +1,113 @@
+{% extends '::content-backend.html.twig' %}
+{% block title %}
+    {{ 'page.vod'|trans }}
+{% endblock %}
+{% block hiarche %}
+<div class="page-content" style="min-height: 930px; ">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('vod_index') }}">
+                    <span>
+                        {{ 'page.vod'|trans }}
+                    </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        {% for flashMessage in app.session.flashbag.get('vodsuccess') %}
+            <br/>
+            <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green">
+                            <i class="icon-users font-green"></i>
+                            <span class="caption-subject bold uppercase">
+                                {{ "page.vod"|trans }}</span>
+                        </div>
+                        <a   href="{{ path('vod_createOrUpdate') }}"
+                             class="btn btn-primary center-btn"> <i class="fa fa-plus"></i> &nbsp;{{ 'btn.add'|trans }}   </a>
+                        <div class="tools"></div>
+                    </div>
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-hover dt-responsive" width="100%"
+                               id="sample_3">
+                            <thead>
+                            <tr>
+                                <th> N°</th>
+                                <th>  {{ 'form.title'|trans }}</th>
+
+                                <th> {{ 'form.action'|trans }} </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entity in vods %}
+                                <tr>
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+
+                                    <td>
+                                        {{ entity.title }}
+                                    </td>
+                                    <td>
+                                        <a title=" {{ "btn.edit"|trans }}" href="{{ path('vod_createOrUpdate', {'id': entity.id}) }}" class="btn btn-outline btn-circle btn-sm purple">
+                                            <i class="fa fa-edit"></i>  {{ "btn.edit"|trans }}
+                                        </a>
+
+                                        <a    onclick="Openmodal({{ entity.id }})"  class="btn btn-outline btn-circle btn-sm red"  title="{{'btn.remove'|trans}}">
+                                            <i    class="fa fa-trash"></i>  {{ "btn.remove"|trans }}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+    <!-- Modal -->
+    <div class="modal fade"  id="delete-modal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body modalBodyDelete">
+                    Êtes-vous sûr de vouloir supprimer cet enregistrement ?
+                </div>
+                <div class="modal-footer modalFooterDelete">
+                    <form action="{{ path('vod_delete') }}" method="post">
+                        <input type="hidden" name="id-item" id="id-item">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">  {{ 'annuler'|trans }}  </button>
+                        <button type="submit" class="btn btn-danger">{{ 'btn.remove'|trans }} </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+            {% block javascripts %}
+                <script>
+                    function Openmodal(id) {
+                        $('#id-item').val(id);
+                        $("#delete-modal").modal();
+
+                    }
+
+
+                </script>
+            {% endblock %}

@@ -1,0 +1,14 @@
+front_end_ajax:
+    resource: "@FrontBundle/Resources/config/routing/Ajaxfrontend.yml"
+    prefix:   /ajax
+
+front_end_personnage:
+    resource: "@FrontBundle/Resources/config/routing/personnage.yml"
+    prefix:   /{_locale}/personnage
+
+front_end:
+    resource: "@FrontBundle/Resources/config/routing/frontend.yml"
+    prefix:   /
+
+
+

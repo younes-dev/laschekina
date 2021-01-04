@@ -1,0 +1,261 @@
+<?php
+
+namespace BackBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Archetype
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="BackBundle\Repository\ArchetypeRepository")
+ */
+class Archetype
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="website", type="string", length=255, nullable=true)
+     */
+    private $website;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="containerXpath", type="string", length=255, nullable=true)
+     */
+    private $containerXpath;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titleClass", type="string", length=255, nullable=true)
+     */
+    private $titleClass;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="articleLink", type="string", length=255, nullable=true)
+     */
+    private $articleLink;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="imageClass", type="string", length=255, nullable=true)
+     */
+    private $imageClass;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descriptionClass", type="text", nullable=true)
+     */
+    private $descriptionClass;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="timeClass", type="string", length=255, nullable=true)
+     */
+    private $timeClass;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set website
+     *
+     * @param string $website
+     *
+     * @return Archetype
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * Get website
+     *
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * Set containerXpath
+     *
+     * @param string $containerXpath
+     *
+     * @return Archetype
+     */
+    public function setContainerXpath($containerXpath)
+    {
+        $this->containerXpath = $containerXpath;
+
+        return $this;
+    }
+
+    /**
+     * Get containerXpath
+     *
+     * @return string
+     */
+    public function getContainerXpath()
+    {
+        return $this->containerXpath;
+    }
+
+    /**
+     * Set titleClass
+     *
+     * @param string $titleClass
+     *
+     * @return Archetype
+     */
+    public function setTitleClass($titleClass)
+    {
+        $this->titleClass = $titleClass;
+
+        return $this;
+    }
+
+    /**
+     * Get titleClass
+     *
+     * @return string
+     */
+    public function getTitleClass()
+    {
+        return $this->titleClass;
+    }
+
+    /**
+     * Set articleLink
+     *
+     * @param string $articleLink
+     *
+     * @return Archetype
+     */
+    public function setArticleLink($articleLink)
+    {
+        $this->articleLink = $articleLink;
+
+        return $this;
+    }
+
+    /**
+     * Get articleLink
+     *
+     * @return string
+     */
+    public function getArticleLink()
+    {
+        return $this->articleLink;
+    }
+
+    /**
+     * Set imageClass
+     *
+     * @param string $imageClass
+     *
+     * @return Archetype
+     */
+    public function setImageClass($imageClass)
+    {
+        $this->imageClass = $imageClass;
+
+        return $this;
+    }
+
+    /**
+     * Get imageClass
+     *
+     * @return string
+     */
+    public function getImageClass()
+    {
+        return $this->imageClass;
+    }
+
+    /**
+     * Set descriptionClass
+     *
+     * @param string $descriptionClass
+     *
+     * @return Archetype
+     */
+    public function setDescriptionClass($descriptionClass)
+    {
+        $this->descriptionClass = $descriptionClass;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionClass
+     *
+     * @return string
+     */
+    public function getDescriptionClass()
+    {
+        return $this->descriptionClass;
+    }
+
+    /**
+     * Set timeClass
+     *
+     * @param string $timeClass
+     *
+     * @return Archetype
+     */
+    public function setTimeClass($timeClass)
+    {
+        $this->timeClass = $timeClass;
+
+        return $this;
+    }
+
+    /**
+     * Get timeClass
+     *
+     * @return string
+     */
+    public function getTimeClass()
+    {
+        return $this->timeClass;
+    }
+
+    public function __construct($website,$containerXpath,$titleClass,$articleLink,$imageClass,$descriptionClass,$timeClass) {
+        $this->website = $website;
+        $this->containerXpath = $containerXpath;
+        $this->titleClass = $titleClass;
+        $this->articleLink = $articleLink;
+        $this->imageClass = $imageClass;
+        $this->descriptionClass = $descriptionClass;
+        $this->timeClass = $timeClass;
+    }
+}

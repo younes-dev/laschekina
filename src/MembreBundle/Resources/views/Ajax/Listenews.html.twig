@@ -1,0 +1,47 @@
+
+    {% for item in listeNews %}
+    <div class="post-news clearfix">
+        <div class="col-md-4 col-sm-4 col-xs-12 ">
+
+            <div class="image-holder-content">
+
+                <div >
+
+                    <img src="{{ path_picture ~ item.picture }}" style="width: 100%;    height: 200px;">
+                </div>
+                {% if app.user != null  and member.id == app.user.id   %}
+
+                <a class="btn-icone-edit"   type="button" href="{{ path('collection_add_item_news' , {'id' : item.id }) }}"  style=" left: 0 !important;">
+                    <i class="zmdi zmdi-edit"></i></a>
+
+                <a class="delete-btn" type="button" onclick="OpenmodalDeleteNews({{ item.id }})">
+                    <i class="zmdi zmdi-close"></i></a>
+            {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="col-md-8 col-sm-8 col-xs-12">
+
+            <div class="post-news-content">
+                <h4 id="id-news-title-{{ item.id }}">{{ item.title }}  </h4>
+
+                <p > {{ item.descriptionCourt[:200] }} {% if  item.descriptionCourt|length > 200  %}... {% endif %}</p>
+                <div style="display: none" id="id-news-description-{{ item.id }}">
+                    {{ item.description|raw  }}
+                </div>
+                <div style="display: none" id="descriptionCourt_edit_news-{{ item.id }}">
+                     {{- item.descriptionCourt|raw -}}
+
+                </div>
+
+                <a href="#" type="button"  onclick='OpenmodalNews({{ item.id }} )'>{{ 'collection_lire_suite'|trans }}</a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}

@@ -1,0 +1,96 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+ 4   {{ 'page.category' |trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('category_index') }}"> <span>
+                        {{ 'page.category' |trans }}
+                    </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span>
+                         {% if (id is defined) %}
+                             {{ 'page-breadcrumb.edit'|trans }}
+                         {% else %}
+                             {{ 'page-breadcrumb.add'|trans }}
+                         {% endif %}
+
+
+                         </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-settings font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">
+              {% if (id is defined) %}
+                  {{ 'page-breadcrumb.edit'|trans }}
+              {% else %}
+                  {{ 'page-breadcrumb.add'|trans }}
+              {% endif %}
+            </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                {% if (id is defined) %}
+                    {{ form_start(form, {'method': 'post', 'action': path('category_edit',{'id': category.id }), 'attr': {'class': 'form-horizontal'}}) }}
+                {% else %}
+                    {{ form_start(form, {'method': 'post', 'action': path('category_new'), 'attr': {'class': 'form-horizontal'}}) }}
+                {% endif %}
+
+
+                <div class="form-body">
+
+                    <div class="form-group">
+                        <label>{{ form_label(form.categoryfr  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.categoryfr  ) }} </span>
+                            {{ form_widget(form.categoryfr) }}
+
+                        </div>
+                    </div>
+                   <div class="form-group">
+                        <label>{{ form_label(form.categoryen  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.categoryen  ) }} </span>
+                            {{ form_widget(form.categoryen) }}
+
+                        </div>
+                    </div>
+                   <div class="form-group">
+                        <label>{{ form_label(form.categoryes  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.categoryes  ) }} </span>
+                            {{ form_widget(form.categoryes) }}
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+                    <a href="{{ path('category_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+
+
+    {% endblock %}
+
+
+
+
+
+

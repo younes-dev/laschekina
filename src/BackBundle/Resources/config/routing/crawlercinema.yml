@@ -1,0 +1,16 @@
+crawlercinema_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Crawlercinema:index" }
+
+crawlercinema_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Crawlercinema:show" }
+
+crawlercinema_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Crawlercinema:edit" }
+
+crawlercinema_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Crawlercinema:delete" }
+

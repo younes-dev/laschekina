@@ -1,0 +1,12 @@
+magazinegallery_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Magazinegallery:index" }
+
+magazinegallery_state:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Magazinegallery:state" }
+
+magazinegallery_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Magazinegallery:delete" }
+    methods:  [GET, POST]

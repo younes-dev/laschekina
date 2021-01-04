@@ -1,0 +1,7 @@
+payment_prepare:
+    path:     /espace-member/payment/{idBook}
+    defaults: { _controller: PaymentBundle:Payment:prepare }
+
+payment_pay:
+    path:     /espace-member/pay
+    defaults: { _controller: PaymentBundle:Payment:pay }

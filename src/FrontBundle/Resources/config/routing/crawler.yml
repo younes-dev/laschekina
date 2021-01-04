@@ -1,0 +1,107 @@
+#Cinéma
+
+front_end_robot_Crawler_cinema:
+    path:     /robot/Cinema
+    defaults: { _controller: FrontBundle:Crawler:Cinema }
+
+front_end_robot_Crawler_cinefil:
+    path:     /robot/cinefil
+    defaults: { _controller: FrontBundle:Crawler:cinefil }
+
+front_end_robot_Crawler_offi:
+    path:     /robot/offi
+    defaults: { _controller: FrontBundle:Crawler:offi }
+
+front_end_robot_Crawler_cinemasgaumontpathe:
+    path:     /robot/cinemasgaumontpathe
+    defaults: { _controller: FrontBundle:Crawler:cinemasgaumontpathe }
+
+#Spectacle
+
+front_end_robot_Crawler_spectacle:
+    path:     /robot/Spectacle
+    defaults: { _controller: FrontBundle:Crawler:Spectacle }
+
+front_end_robot_Crawler_francebillet:
+    path:     /robot/francebillet
+    defaults: { _controller: FrontBundle:Crawler:francebillet }
+
+#Concerts
+
+front_end_robot_Crawler_concerts:
+    path:     /robot/concerts
+    defaults: { _controller: FrontBundle:Crawler:concerts }
+
+front_end_robot_Crawler_infoconcert:
+    path:     /robot/infoconcert
+    defaults: { _controller: FrontBundle:Crawler:infoconcert }
+
+front_end_robot_Crawler_lylo:
+    path:     /robot/lylo
+    defaults: { _controller: FrontBundle:Crawler:lylo }
+
+front_end_robot_Crawler_upconcert:
+    path:     /robot/upconcert
+    defaults: { _controller: FrontBundle:Crawler:upconcert }
+
+front_end_robot_Crawler_upconcertespagne:
+    path:     /robot/upconcert/espagne
+    defaults: { _controller: FrontBundle:Crawler:upconcertespagne }
+
+front_end_robot_Crawler_offiConcerts:
+    path:     /robot/offiConcerts
+    defaults: { _controller: FrontBundle:Crawler:offiConcerts }
+
+
+#radio
+
+front_end_robot_Crawler_radio:
+    path:     /robot/radio
+    defaults: { _controller: FrontBundle:Crawler:radio }
+
+front_end_robot_Crawler_nrj:
+    path:     /robot/nrj
+    defaults: { _controller: FrontBundle:Crawler:nrj }
+
+#news
+front_end_robot_Crawler_news:
+    path:     /robot/news
+    defaults: { _controller: FrontBundle:Crawler:news }
+
+front_end_robot_Crawler_latina:
+    path:     /robot/latina
+    defaults: { _controller: FrontBundle:Crawler:latina }
+
+front_end_robot_Crawler_purepeople:
+    path:     /robot/purepeople
+    defaults: { _controller: FrontBundle:Crawler:purepeople }
+
+front_end_robot_Crawler_usmagazine:
+    path:     /robot/usmagazine
+    defaults: { _controller: FrontBundle:Crawler:usmagazine }
+
+#programme
+front_end_robot_Crawler_programme:
+    path:     /robot/programme
+    defaults: { _controller: FrontBundle:Crawler:programme }
+
+front_end_robot_Crawler_arte:
+    path:     /robot/arte
+    defaults: { _controller: FrontBundle:Crawler:arte }
+
+front_end_robot_Crawler_mylifetime:
+    path:     /robot/mylifetime
+    defaults: { _controller: FrontBundle:Crawler:mylifetime }
+
+front_end_robot_Crawler_usanetwork:
+    path:     /robot/usanetwork
+    defaults: { _controller: FrontBundle:Crawler:usanetwork }
+
+front_end_robot_Crawler_history:
+    path:     /robot/history
+    defaults: { _controller: FrontBundle:Crawler:history }
+
+front_end_robot_Crawler_antena3:
+    path:     /robot/antena3
+    defaults: { _controller: FrontBundle:Crawler:antena3 }
+

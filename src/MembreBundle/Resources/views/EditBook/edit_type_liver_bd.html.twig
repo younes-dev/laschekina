@@ -1,0 +1,108 @@
+
+                     <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                            <label class="label-control">Title </label>
+
+                            <input type="text" name="title" maxlength="255" value="{{ media.title }}" class="form-control ">
+
+                        </div>
+                    </div>
+                                       
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                            
+ 
+ <span style="" id="upload-book-image-couverture">
+                              <label class="label-control sign-up-label"> {{ 'form.image_couverture'|trans }}</label>
+                                 <input type="file" name="mediaBook" id="mediaBook" data-label="Choisir image de livre" data-preview="on">
+
+                               </span>
+<br/>
+                      
+                                      <span style="" id="upload-book">
+                                          <label class="label-control sign-up-label">{{ 'form.image_liver_bd'|trans }}</label>
+                                             <input type="file"  name="mediaBookLiverBd[]" id="mediaBookLiverBd"  multiple data-label="Choisir livre" data-preview="on">
+
+                                      </span>
+                               
+                        </div>
+                    </div>
+                              <input name="nbrImage" type="hidden" value="{% if BookImagesBD|length > 0 %} {{ BookImagesBD|length }} {% else %} 0 {% endif %}">
+                     <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm" >
+                        <span style="" id="date-sortie-book">
+                           <label class="label-control sign-up-label"> {{ 'form.dateSortie'|trans }}</label>
+                           <input name="dateSortieBook" value="{{ media.dateSortie }}" class="form-control selectDatePicker">
+                         </span>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix" >
+                        <div class="col-md-12 mag-bttom-sm">
+                                <span style="" id="edition-book">
+                                <label class="label-control sign-up-label"> {{ 'form.editionBook'|trans }}</label>
+                                    <input name="editionBook" value="{{ media.editionBook }}"  class="form-control">
+                            </span>
+
+                        </div>
+                    </div>
+                     <div class="form-group clearfix"  style="display: none">
+                        <div class="col-md-12 mag-bttom-sm">
+                                <span style="" id="price-book">
+                                <label class="label-control sign-up-label">  {{ 'form.priceBook'|trans }}</label>
+                                    <input type="number" step="any" name="priceBook" value="{{ media.PriceBook }}" class="form-control">
+                            </span>
+
+                        </div>
+                    </div> 
+                            <div class="form-group clearfix">
+                            <div class="col-md-12 mag-bttom-sm">
+                            <span style="" id="description-book">
+                            <label class="label-control sign-up-label">   {{ 'form.remarque_description'|trans }}</label>
+                            <textarea style="height: 100px;" maxlength="700" name="descriptionCourt" class="form-control " id="descriptionBook">
+                            {{- media.descriptionCourt|raw -}}  
+                            </textarea>
+                            </span>
+
+                            </div>
+                        </div>
+                         <input  type="hidden"   name="typeMedia" id="typeMedia" value="{{  media.typeMedia }}">
+                       
+                      {% if media.typeMedia ==  "liver_bd" and BookImagesBD|length > 0 %}
+                              <div class="form-group clearfix">
+                                  <div style="margin-bottom: 10px" class="livre col-md-12">
+                                    {% for item in BookImagesBD %}
+                                      <div class="col-md-3 col-sm-12  " style="margin-bottom: 30px;">
+
+
+                                          <div class="media-livre" style="border: 1px solid #eee;">
+                                              {% if app.user != null  and member.id == app.user.id %}
+                                                  <a   class="changer-etat-img"
+                                                     href="{% if item.showPageHome == 0  %}{{ path('front_end_collection_change_etat_image_bd',{'idBd': item.id  , 'idMedia' : media.id}) }}{% else %}#{% endif %}"   >
+                                                      <i class="{% if item.showPageHome == 0  %}zmdi zmdi-eye-off{% else %}zmdi zmdi-eye {% endif %}"></i></a>
+                                              {% endif %}
+                                              <img src="{{ path_picture~ item.path }}"
+                                                   class="img-responsive" style="width: 100%;    height: 200px;">
+                                                    <select name="orderShow[]" class="form-control ">
+                                                        <option value="{{ item.nbrShow }}" >{{ item.nbrShow }} </option>
+
+                                                        {% for i in 1..BookImagesBD|length %}
+                                                            {% if i != item.nbrShow %}
+                                                                <option value="{{ i }}" >{{ i }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                              {% if app.user != null  and member.id == app.user.id %}
+                                                          <a class="delete-btn" type="button" style=" right: 6px !important;" onclick="OpenmodalBd({{ item.id }} , {{ media.id }})">
+                                                                  <i class="zmdi zmdi-close"></i>
+                                                              </a>
+                                              {% endif %}
+                                          </div>
+
+                                      </div>
+                                    {% endfor %}
+                                  </div>
+
+                              </div>
+                             {% endif %}

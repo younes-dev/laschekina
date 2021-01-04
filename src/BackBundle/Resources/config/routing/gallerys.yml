@@ -1,0 +1,27 @@
+gallerys_carousel_index:
+    path:     /gallerys-carousel-home
+    defaults: { _controller: "BackBundle:Gallerys:gallerysCarouselHome" }
+delete_image_carousel_index:
+    path:     /delete-mage-carousel-index/{id}/{type}
+    defaults: { _controller: "BackBundle:Gallerys:deletegallerysCarouselHome" }
+ 
+edit_image_carousel_index:
+    path:     /edit-mage-carousel-index
+    defaults: { _controller: "BackBundle:Gallerys:editgallerysCarouselHome" }
+
+gallerys_state:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Gallerys:state" }
+
+gallerys_ajax_upload:
+    path:     /ajax/upload
+    defaults: { _controller: "BackBundle:Gallerys:Uploadpicture" }
+
+gallerys_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Gallerys:delete" }
+
+gallerys_index:
+    path:     /{type_gallery}/{id_media}
+    defaults: { _controller: "BackBundle:Gallerys:index" , id_media: null  }
+

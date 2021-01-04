@@ -1,0 +1,25 @@
+{% for item in listeBookImagesBD %}
+
+
+    <div class=" col-md-4 col-sm-12 col-xs-12 item"  id="{{ item.id }}">
+        <div class="row space-16">&nbsp;</div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="thumbnail">
+                    <div class="caption text-center"  >
+                        <div class="position-relative">
+                            <img src="{{ path_picture~ item.path }}" style="width: 100%;height: 360px;"  />
+                        </div>
+                        <h4 id="thumbnail-label"><a href="{{ path('collection',{'activeTab': 'vip' , 'fullName': item.book.member.username , 'id': item.book.member.id}) }}" target="_blank">  {{ item.book.title }}</a></h4>
+                        <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;{{ item.book.member }}</p>
+                        <div class="thumbnail-description smaller"> {{- item.book.descriptionCourt[:150] -}}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endfor %}
+

@@ -1,0 +1,42 @@
+
+front_end_personnag_collection_edit_description:
+    path:     /edit-description/item/{activeTab}/{id}
+    defaults: { _controller: FrontBundle:Personnage:collectionEditItemDescription , activeTab: 'profile' }
+    requirements:
+        _locale: fr|en|es
+        
+front_end_personnag_collection_delete_item:
+    path:     /delete/item
+    defaults: { _controller: FrontBundle:Personnage:collectionDeleteItem }
+    requirements:
+        _locale: fr|en|es
+
+front_end_personnage_profile:
+    path:     /profile/{activeTab}/{id}
+    defaults: { _controller: FrontBundle:Personnage:profil , activeTab: 'profile', _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_personnage_add_medias:
+    path:     /add/media/{id}
+    defaults: { _controller: FrontBundle:Personnage:collectionAddItem  ,  _locale: fr }
+    requirements:
+        _locale: fr|en|es
+
+front_end_home_crossing_cartoon:
+    path:     /crossing-cartoon
+    defaults: { _controller: FrontBundle:Personnage:crossingCartoon  , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_home_crossing_studio:
+    path:     /crossing-studio
+    defaults: { _controller: FrontBundle:Personnage:crossingStudio  , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_add_remove_box_ajax_personnage:
+    path:     /addOrRemove/personnage/box/ajax
+    defaults: { _controller: FrontBundle:Personnage:addOrRemoveboxajax }
+    requirements:
+        _locale: fr|en|es

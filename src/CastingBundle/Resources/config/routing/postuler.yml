@@ -1,0 +1,16 @@
+casting_postuler_scenario:
+    path:     /{_locale}/postuler-casting/{id}/{counteurVideo}
+    defaults: { _controller: CastingBundle:Default:postulerCasting , 'counteurVideo': 0}
+
+
+casting_liste_candidats_envoyer:
+    path:     /{_locale}/liste-candidats-envoyer
+    defaults: { _controller: CastingBundle:Default:listeCandidatsEnvoyer}
+
+casting_valider_postuler:
+    path:     /{_locale}/casting_valider_postuler
+    defaults: { _controller: CastingBundle:Default:castingValiderPostuler}
+
+casting_delete_postuler:
+    path:     /{_locale}/casting_delete_postuler
+    defaults: { _controller: CastingBundle:Default:castingDeletePostuler}

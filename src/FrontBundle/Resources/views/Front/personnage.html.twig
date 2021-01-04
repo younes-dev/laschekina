@@ -1,0 +1,209 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block title %} {{ personnage.prenom ~" "~ personnage.nom }} {{ 'page.personnage'|trans }}{% endblock %}
+ {% block imgscreen %}
+     {{ render(controller('FrontBundle:Front:imageslider' )) }}
+ {% endblock %}
+   {% block body %}
+       <div class="container">
+           <div class="row row-centered">
+
+               <div class="col-xs-12 col-md-10 col-lg-10 col-sm-10 col-centered">
+
+
+                   <div class="content-bloc  mag-bot-40 inner-vs  clearfix">
+
+
+                       <div class="col-md-4 col-sm-4 col-xs-12">
+
+                           <div class="person-p">
+                               {% if personnage.image != null %}
+
+
+                                   <div class=" img-resize imgLiquid">
+                                       <img src="{{ path_picture ~ personnage.image }}" class="img-responsive" alt="{{ personnage.prenom ~" "~ personnage.nom }}">
+                                   </div>
+                               {% endif %}
+
+                           </div>
+
+                       </div>
+                       <div class="col-md-8 col-sm-8 col-xs-12">
+
+                           <div class="content-wrapper-p">
+                               <h3>{{ personnage.prenom ~" "~ personnage.nom }}  </h3>
+                               <span>{{ personnage.origin }}</span>
+
+                               <p>{{ personnage.description|raw }}
+                               <ul>
+                                   {% for activity in personnage.activity %}
+                                       <li>{% if app.request.locale == 'fr' %}{{ activity.activityfr }}{% elseif app.request.locale == 'en' %}{{ activity.activityen }}{% else %}{{ activity.activityes }} {% endif %}</li>
+                                   {% endfor %}
+                               </ul>
+                               </p>
+
+                               <div class="social-container">
+                                   {% if personnage.facebook != '' %}
+                                       <div class="social-icon">
+                                           {% if 'facebook.com/' in personnage.facebook %}
+                                           <a target="_blank" href="{{ personnage.facebook }}" class="facebook-icon"><i
+                                                       class="zmdi zmdi-facebook"></i></a>
+                                        {% else %}
+                                          <a target="_blank" href="https://www.facebook.com/{{ personnage.facebook }}" class="facebook-icon"><i
+                                                       class="zmdi zmdi-facebook"></i></a>
+                            {% endif %}
+                                       </div>
+                                   {% endif %}
+                                   {% if personnage.twitter != '' %}
+                                       <div class="social-icon">
+                                           {% if 'https://twitter.com/' in personnage.twitter %}
+                                           <a target="_blank" href="{{ personnage.twitter }}" class="twitter-icon"><i
+                                                       class="zmdi zmdi-twitter"></i></a>
+                                            {% else %}
+                                        <a target="_blank" href="https://twitter.com/{{ personnage.twitter }}" class="twitter-icon"><i
+                                                       class="zmdi zmdi-twitter"></i></a>
+                                           {% endif %}
+                                       </div>
+                                   {% endif %}
+
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+
+               </div>
+
+           </div>
+
+       </div>
+       {% if personnage.medias != null %}
+           <div class="bg-white">
+
+               <div class="container">
+
+                   <div class="row">
+
+                       <div class="col-md-12">
+
+                           <div class="title-pers">
+                               <h2>{{ 'filmographie'|trans }} </h2>
+
+                           </div>
+
+
+                       </div>
+
+                       {% for item in personnage.medias %}
+                           <div class="col-md-3 col-sm-3 col-lg-3">
+                               <div class="post post-perso">
+                                   <div class="inner-post ">
+
+                                       <div class="image-post">
+                                        <a href="{{ path('front_end_show_media',{'id': item.id}) }}" style="    font-size: 18px;">
+                                          
+                                           <div class="img-resize imgLiquid ">
+                                               {% if  item.picture != null %}
+                                                   <img src="{{ path_picture ~ item.picture }}">
+                                               {% else %}
+                                                   <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                               {% endif %}
+
+                                           </div>
+                                           </a>
+                                       </div>
+
+                                       <div class="inner-post-content">
+
+
+                                          
+                                           <a href="{{ path('front_end_show_media',{'id': item.id}) }}" style="    font-size: 18px;">
+                                               <h3 style="font-weight: bold !important;">     {{ item.titleHome[:35] }} {% if  item.titleHome|length > 35  %} .. {% endif %}
+
+                                             </h3>  </a>
+                                            <p>
+                                                {{ item.shortdescription[:200] }} {% if  item.shortdescription|length > 200 %} ... {% endif %}
+                                            </p>
+
+                                        {% set nbr = item.users|length +  item.personnage|length   %}
+                                        {% if nbr > 8 %}
+                                           <div class="carousel-perso owl-carousel">
+
+                                               {% for entity in item.users %}
+                                               <div class="item ">
+                                                   <div class="img-resize imgLiquid">
+                                                       <a title="{{ entity.nom ~" "~ entity.prenom }}" href="{{ path('collection',{'activeTab': "vip" , 'fullName': entity.username   , 'id': entity.id}) }}">
+                                                       {% if entity.pictureprofil != null  %}
+                                                           <img src="{{ path_picture ~ entity.pictureprofil }}">
+                                                       {% else %}
+                                                           <img src="{{ asset('assets/images/avatar.png') }}">
+                                                       {% endif %}
+                                                       </a>
+                                                   </div>
+                                               </div>
+                                               {% endfor %}
+                                                {% for entity in item.personnage %}
+                                                 <div class="item ">
+                                                   <div class="img-resize imgLiquid">
+                                                    <a title="{{ entity.nom ~" "~ entity.prenom }} " href="{{ path('front_end_profil_personnage' ,{'id': entity.id }) }}">
+                                                     {% if entity.image != null  %}
+                                                       <img src="{{ path_picture ~ entity.image }}">
+                                                       {% else %}
+                                                       <img src="{{ asset('assets/images/avatar.png') }}">
+                                                       {% endif %}
+                                                    </a>
+                                                   </div>
+                                               </div>
+                                                {% endfor %}
+                                            </div>
+
+                                       {% else %}
+                                         <div class="col-md-12" style="  margin-bottom: 10px;   display: flex;">
+
+
+
+                                             {% for entity in item.users %}
+                                             <a title="{{ entity.nom ~" "~ entity.prenom }} "  href="{{ path('front_end_profil_personnage' ,{'id': entity.id }) }}" style="display: block;width: 20%;height: 100%;">
+                                                  {% if entity.pictureprofil != null  %}
+                                                     <img src="{{ path_picture ~ entity.pictureprofil }}"  style="width: 32px;">
+                                                 {% else %}
+                                                     <img src="{{ asset('assets/images/avatar.png') }}"  style="width: 32px;">
+                                                 {% endif %}
+                                             </a>
+                                            {% endfor %}
+
+
+
+                                             {% for entity in item.personnage %}
+                                             <a title="{{ entity.nom ~" "~ entity.prenom }} "  href="{{ path('front_end_profil_personnage' ,{'id': entity.id }) }}" style="display: block;width: 20%;height: 100%;">
+                                                 {% if entity.image != null  %}
+                                                     <img src="{{ path_picture ~ entity.image }}"  style="width: 32px;">
+                                                 {% else %}
+                                                     <img src="{{ asset('assets/images/avatar.png') }}"  style="width: 32px;">
+                                                 {% endif %}
+                                             </a>
+                                            {% endfor %}
+
+                                         </div>
+                                            {% endif  %}
+
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+
+                           </div>
+                       {% endfor %}
+                   </div>
+
+
+               </div>
+
+
+           </div>
+       {% endif %}
+   {% endblock %}
+

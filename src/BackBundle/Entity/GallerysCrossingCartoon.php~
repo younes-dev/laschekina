@@ -1,0 +1,106 @@
+<?php
+
+namespace BackBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * GallerysCrossingCartoon
+ *
+ * @ORM\Table(name="gallerys_crossing_cartoon")
+ * @ORM\Entity(repositoryClass="BackBundle\Repository\GallerysCrossingCartoonRepository")
+ */
+class GallerysCrossingCartoon
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="path", type="string", length=255, nullable=true)
+     * @Assert\Image(
+     *     minWidth  = 1920,
+     *     minHeight = 1080,
+     *     mimeTypes = {
+     *          "image/png",
+     *          "image/jpeg",
+     *          "image/jpg",
+     *      }
+     *     )
+     */
+    private $path;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="enable", type="boolean", nullable=true)
+     */
+    private $enable;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return GallerysCrossingCartoon
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Set enable
+     *
+     * @param boolean $enable
+     *
+     * @return GallerysCrossingCartoon
+     */
+    public function setEnable($enable)
+    {
+        $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * Get enable
+     *
+     * @return bool
+     */
+    public function getEnable()
+    {
+        return $this->enable;
+    }
+}

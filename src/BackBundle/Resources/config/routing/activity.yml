@@ -1,0 +1,19 @@
+activity_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Activity:index" }
+    methods:  GET
+
+activity_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Activity:new" }
+    methods:  [GET, POST]
+
+activity_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Activity:edit" }
+    methods:  [GET, POST]
+
+activity_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Activity:delete" }
+    methods:  [GET, POST]

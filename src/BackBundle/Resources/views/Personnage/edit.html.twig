@@ -1,0 +1,47 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+    {% set page = 'page.'~app.session.get('menuactive') %}
+    {{ page|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('personnage_index') }}"> <span>
+                         {% set page = 'page.'~app.session.get('menuactive') %}
+                        {{ page|trans }}
+                    </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span>
+                         {% if (id is defined) %}
+                             {{ 'page-breadcrumb.edit'|trans }}
+                         {% else %}
+                             {{ 'page-breadcrumb.add'|trans }}
+                         {% endif %}
+
+
+                         </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        {% include "BackBundle:Personnage:form_personnage.html.twig" %}
+
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            $('.selectpicker').selectpicker({
+                noneSelectedText: 'Liste'
+            });
+        </script>
+    {% endblock %}
+
+
+
+

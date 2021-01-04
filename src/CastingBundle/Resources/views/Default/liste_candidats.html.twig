@@ -1,0 +1,281 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.casting'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/personnage.css') }}">
+    <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+{% endblock %}
+
+{% block imgscreen %}
+    <style>
+        .padding-top-0{
+            padding-top:0px !important;
+        }
+    </style>
+    <!-- gallerie -->
+    <div class="owl-carousel accueil-gallerie owl-theme">
+        {% for entity in gallerysBanners %}
+            <a href="{{ path_picture~entity.picture }}" class="item fancybox">
+                <div class="img-resize imgLiquid">
+                    {% if entity.bannerpicture is defined %}
+                        <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                    {% else %}
+                        <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <!-- End gallerie -->
+{% endblock %}
+{% block body %}
+
+    <div class="content-page inner-xs padding-top-0 ">
+
+
+        <div class="container width-100">
+            <div class="col-md-9 col-sm-9 col-xs-12">
+
+
+                <div class="box-page-bg clearfix padding-20">
+
+                        <div class="post-news row">
+                            <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                <div class="image-holder-content">
+                                    <a href="{{ path('casting_createOrUpdate',{'id' : casting.id}) }}" >
+                                        <div class="small-photo-vip img-resize imgLiquid">
+                                            <img style="width: 270px ; height: 175px; " src="{% if casting.path != null   %}{{ path_picture  ~ casting.path }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}">
+                                     
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div class="post-news-content">
+                                    <h4  > <a href="#">{{ casting.scenario }}</a> </h4>
+                                <p style="  font-weight: 400;">
+                              
+                                                                   
+                                        {% if  casting.lieuTournage != null  %}   <b>{{ 'form.lieu_tournage'|trans }} : </b>{{ casting.lieuTournage }} <br/> {% endif %}
+                                        {% if  casting.datesTournageDebut != null  %}     <b>{{ 'form.dates_tournage'|trans }} : </b>{{ casting.datesTournageDebut|date('d/m/Y') ~" à De "~ casting.datesTournageEnd|date('d/m/Y')  }} <br/> {% endif %}
+                                        {% if  casting.tarif != null  %}     <b>{{ 'form.tarif_prestation'|trans }} : </b>{{ casting.tarif   }} <br/> {% endif %}
+                                       <br/>
+                                       <b>    {{ 'form.statue'|trans }} : </b>
+                                    {% if casting.status == 1 %} 
+                                    
+                                    
+                                    <span  class=" text-success"> {{ 'form.publier'|trans }}  </span> 
+                                    {% else %}
+                                    <span  class="text-danger"> {{ 'form.non_publier'|trans }}  </span> 
+                
+                                    {% endif %}<br/>
+                                            
+
+ 
+                             
+                                </p>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                    {% if castingReponse|length > 0 %}
+                        <div class="clearfix mag-bttom-sm">
+
+                            <div class="col-md-12 ">
+
+                                <div class="col-md-12">
+                                    <div class="seperator-catg title-v">
+                                        <div> {{ 'btn.liste_candidats'|trans }}</div>
+                                    </div>
+                                    <hr style="    border-top: 3px solid #eee !important;"/>
+                                </div>
+                            </div>
+
+                            {% for entity in castingReponse %}
+                        
+                                <br/>
+                                <div class="col-md-12 ">
+
+                                    <div class="col-md-12">
+                                        <div class="seperator-catg title-v">
+                                            <div> {{ loop.index }} - {{ entity.member }}  </div>
+                                            <div style="  float: right;">  <a href="{{path('casting_tv',{'idCastingReponse': entity.id })}}" target="_blank"> ouvrir le TV </a></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <table cellpadding=0 cellspacing=0 style=" width: 100%;  overflow: auto;  display: block;">
+                                    <tr>
+                                        {% set i = 0  %}
+                                        {% for item in casting.videoCasting %}
+                                        <td>
+                                            <table class="tg">
+                                                <thead>
+                                                <tr>
+                                                    <th  rowspan="3" style=" background: #020202;    "></th>
+                                                    <th><img src="{{ asset('dev/front/images/bandevideo-horizontal.jpg') }}" style="width:250px;height:50px"></th>
+                                                    <th  rowspan="3" style=" background: #020202;    "></th>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: black;">
+                                                        <div >
+                                                            <video width="250" height="150" controls="">
+                                                                <source src="{{ path_picture~ item.path }}" type="video/mp4">Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                                            </video>
+
+                                                        </div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td ><img src="{{ asset('dev/front/images/bandevideo-horizontal.jpg') }}" style="width:250px;height:50px"></td>
+                                                </tr>
+
+                                                </thead>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table class="tg">
+                                                <thead>
+                                                <tr>
+                                                    <th  rowspan="3" style=" background: #020202;    "></th>
+                                                    <th><img src="{{ asset('dev/front/images/bandevideo-horizontal.jpg') }}" style="width:250px;height:50px"></th>
+                                                    <th  rowspan="3" style=" background: #020202;    "></th>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: black;">
+                                                        <div >
+
+                                                            <video width="250" height="150" controls="">
+                                                                <source src="{% if entity.id|getPathCasting(item.id , entity.member.id)  != null  %}{{ path_picture~  entity.id|getPathCasting(item.id , entity.member.id)  }} {% endif %}" type="video/mp4">Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                                            </video>
+
+
+
+                                                        </div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td ><img src="{{ asset('dev/front/images/bandevideo-horizontal.jpg') }}" style="width:250px;height:50px"></td>
+                                                </tr>
+
+                                                </thead>
+                                            </table>
+                                        </td>
+                                            {% set i = i + 1  %}
+                                        {% endfor %}
+                                    </tr>
+                                </table>
+
+
+                                <br/>
+                                <br/>
+                                <hr style="    border-top: 3px solid #eee !important;"/>
+                                <br/>
+                                <br/>
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+             
+        
+             
+                </div><!--//end col-md-9-->
+            </div>
+
+            <div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+                <div class="col-md-12  box-page-bg ">
+
+                    <h3 style="margin-top: 0;">{{ 'collection_tourne'|trans }}</h3>
+
+
+                    <div class="list-vip">
+                        {% for item in listeVIP %}
+
+
+                            <div class="vip-block clearfix">
+
+                                <div class="vip-img img-resize imgLiquid">
+                                    <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username , 'id': item.id}) }}" >  {% if item.pictureprofil != null %}
+                                            <img src="{{ path_picture ~ item.pictureprofil }}" >
+                                        {% else %}
+                                            <img src="{{ asset('assets/images/avatar.png') }}" >
+                                        {% endif %} </a></div>
+
+                                <div class="vip-info">
+                                    <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username  , 'id': item.id}) }}" >
+                                        <span>    {{   item.prenom ~" "~   item.nom }}   </span>
+                                    </a>
+                                </div>
+
+
+                            </div>
+
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+                <div class="box-page-bg clearfix">
+                    <div class="fb-page" data-href="vipcrossing" data-tabs="timeline" style="width : 100% !important ;"
+                         data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                         data-show-facepile="true">
+                        <blockquote cite="vipcrossing" class="fb-xfbml-parse-ignore" style="width : 100% !important ;" ><a
+                                    href="vipcrossing">‎VIPCrossing‎</a></blockquote>
+                    </div>
+
+                </div>
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+
+
+
+                <div class="box-page-bg clearfix">
+                    <a class="twitter-timeline" data-height="430"
+                       href="https://twitter.com/vipcrossing">Tweets </a>
+                </div>
+
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+            </div>
+
+
+
+
+
+
+        </div><!--//end container-->
+    </div><!--//end content-page-->
+
+    <!--Modal-->
+    
+
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script >
+ 
+    function OpenmodalDeleteCasting(id) {
+    $('#id-item-casting').val(id);
+    $("#delete-casting").modal();
+    }
+
+    function OpenmodalVideoCasting(id) {
+    $('#id-item-video-casting').val(id);
+    $("#delete-video-casting").modal();
+    }
+
+</script>
+{% endblock %}

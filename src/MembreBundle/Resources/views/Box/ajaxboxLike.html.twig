@@ -1,0 +1,16 @@
+<input value="{% if item.likemedia|length > 0  %}   {{ item.likemedia|length  }}{% else  %} 0 {% endif %} " id="nbrLikemediaNbr" style="display: none">
+
+{% if LikeUserMedia == null %}
+     <a id="btn-like"   onclick="AddLike({{ item.id }})"   class="btn btn-icon like"  data-toggle="tooltip"  title="{{ 'media_like'|trans }}">
+          <span id="nbrLikemedia">{% if item.likemedia|length > 0  %}   {{ item.likemedia|length  }}{% else %} 0 {% endif %} </span>
+          <i class="zmdi zmdi-thumb-up" style="margin-left: 10px;"></i>
+     </a>
+
+{% else %}
+     <a    class="btn btn-icon like" data-toggle="tooltip"  title="{{ 'media_like'|trans }}">
+          {% if item.likemedia|length > 0  %}   {{ item.likemedia|length  }} {% endif %}
+          <i class="zmdi zmdi-thumb-up"  style="margin-left: 10px;"></i>
+     </a>
+
+
+{% endif %}

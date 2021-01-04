@@ -1,0 +1,45 @@
+{% if listMedia != null %}
+    {% for item in  listMedia %}
+
+        {% if loop.index == 1 or loop.index == 7 %}
+            <div class='programe-tv feature'>
+            {% if position == "left" %}
+                {% set position = "right" %}
+            {% else %}
+                {% set position = "left" %}
+
+            {% endif %}
+
+            <div class="{% if position == "left" %}badge-title{% else %}badge-title1 {% endif %}">{{ title|trans }} </div>
+        {% endif %}
+        <div class="program-inner left-25">
+            <div class="program-inner-top">
+                <div class="img-resize imgLiquid ">
+                    <img src="{{ path_picture ~ item.picture }}">
+                </div>
+                <div class="chanel">
+                    {{ item.channel }}
+                </div>
+            </div>
+
+            <div class="program-inner-bottom">
+
+                <span>{{ item.title[:20] }}
+                    <p class="event-date"
+                       style="padding-top: 10px;">{{ item.startdate|date('m-d-Y') ~" "~ item.starttime }} </p></span>
+
+                <p style="padding-top: 8px;">
+                    {% set runHtml =  item.shortdescription|runHtml|raw %} {{ runHtml[:50] }}
+
+               {% if item.shortdescription|length > 50 %}...{% endif %} </p>
+            </div>
+
+        </div>
+
+        {% if loop.index == 6 or loop.index == listMedia|length %}
+            </div>
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
+          

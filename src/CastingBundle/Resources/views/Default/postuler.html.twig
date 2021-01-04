@@ -1,0 +1,315 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.collection'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/personnage.css') }}">
+
+    <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+{% endblock %}
+
+ {% block imgscreen %}
+     <!-- gallerie -->
+     <div class="owl-carousel accueil-gallerie owl-theme">
+
+         {% for entity in gallerys_banner %}
+             <a href="{{ path_picture~entity.picture }}"
+                title="<a href='{{ path('collection',{'activeTab': 'vip' , 'fullName': entity.member.username , 'id': entity.member.id}) }}' style=' color: #ff5722;'>
+                 {{ entity.member.prenom  ~' ' ~ entity.member.nom}} {% if entity.member.fan == 1 %} - FAN {% endif %}</a>"
+
+
+
+                data-caption="test"  class="item fancybox">
+                 <div class="img-resize imgLiquid">
+                     {% if entity.bannerpicture is defined %}
+                         <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                     {% else %}
+                         <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                     {% endif %}
+                 </div>
+             </a>
+         {% endfor %}
+     </div>
+     <!-- End gallerie -->
+
+ {% endblock %}
+    {% block body %}
+    <div class="author-overlay container">
+        <div class="channel-header">
+            <div class="author-avatar img-resize imgLiquid" style="margin-top: -17px;">
+                {% if member.pictureprofil != null %}
+                    <img src="{{ path_picture ~ member.pictureprofil }}" class="avatar-acteur">
+                {% else %}
+                    <img src="{{ asset('assets/images/avatar.png') }}" class="avatar-acteur">
+                {% endif %}
+
+            </div>
+            <div class="author-meta title-collection-name {% if member.coloremotioncard == null %} energique   {% else %}   {{ member.coloremotioncard }} {% endif %} ">
+                <h3 class="author-name">
+
+                    {% if member.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %}
+
+                    {{ member.prenom ~" "~ member.nom }}
+                    {% if member.roles[0] == "ROLE_VIP"  and  member.fan == 0   %}
+                        {% for i in 1..member.id|countNbrFans|nbrEtoile %}
+                            <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                        {% endfor %}
+
+                    {% endif %}
+                </h3>
+                <span class="author-name" style="font-size: 10px;">
+                           {% if  member.id|countNbrFans  > 0  %}
+                               {% if member.id|countNbrFans  > 999 and member.id|countNbrFans < 1000000  %}
+                                   {%  set  numbre =  member.id|countNbrFans / 1000 %} {{ numbre|round(1, 'floor') }} K
+                               {% elseif member.id|countNbrFans  > 1000000 %}
+                                   {%  set  numbre =  member.id|countNbrFans / 1000000 %} {{ numbre|round(1, 'floor') }} M
+                               {% else %}
+                                   {{ member.id|countNbrFans  }}
+                               {% endif %}
+
+                               {{ 'abonnes'|trans }}
+                           {% endif %}
+
+
+                    {% if  member.numbervu  > 0 and   member.id|countNbrFans  > 0   %}
+                        ,
+                    {% endif %}
+                    {% if  member.numbervu  > 0  %}
+                        {% if member.numbervu  > 999 and member.numbervu < 1000000  %}
+                            {%  set  numbre =  member.numbervu / 1000 %} {{ numbre|round(1, 'floor') }} K
+                        {% elseif member.numbervu  > 1000000 %}
+                            {%  set  numbre =  member.numbervu / 1000000 %} {{ numbre|round(1, 'floor') }} M
+                        {% else %}
+                            {{ member.numbervu  }}
+                        {% endif %}   {{ 'collection_visiteurs'|trans }}
+                    {% endif %}
+
+
+                 </span>
+
+            </div>
+        </div>
+    </div>
+
+        <div class="content-page inner-xs "  style=" background: #eaeaea;">
+            <div class="container">
+                <div class="row">
+
+                <div class="col-md-9 col-sm-9 col-xs-12  box-page-bg">
+
+
+                    <div class="col-md-12">
+                        <div class="seperator-catg title-v">
+                            <div  style="font-size: 14px !important;color: darkgrey;"> {{ 'form.postuler_scenes'|trans }}</div>
+
+                        </div>
+                    </div>
+
+
+
+                    {% if app.user != null %}
+                         <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12 box-page-bg clearfix">
+
+                                <table class="margin-bottom-30" cellpadding=0 cellspacing=0 style=" width: 100%;  overflow: auto;  display: block;">
+                                    <tr>
+                                        {% set i = 0  %}
+                                        {% for item in casting.videoCasting %}
+                                            <td>
+                                                <table class="tg">
+                                                    <thead>
+                                                    <tr>
+                                                        <th  rowspan="3" style=" background: #020202;    "></th>
+                                                        <th><img src="{{ asset('dev/front/images/bandevideo-horizontal.jpg') }}" style="width: 200px;height: 23px;"></th>
+                                                        <th  rowspan="3" style=" background: #020202;    "></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="background-color: black;">
+                                                            <div >
+                                                                <video width="200" height="100" controls="">
+                                                                    <source src="{{ path_picture~ item.path }}" type="video/mp4">Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                                                </video>
+
+                                                            </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td ><img src="{{ asset('dev/front/images/bandevideo-horizontal.jpg') }}" style="width: 200px;height: 23px;"></td>
+                                                    </tr>
+
+                                                    </thead>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table class="tg">
+                                                    <thead>
+                                                    <tr>
+                                                        <th  rowspan="3" style=" background: #020202;    "></th>
+                                                        <th><img src="{{ asset('dev/front/images/bandevideo-horizontal.jpg') }}" style="width: 200px;height: 23px;"></th>
+                                                        <th  rowspan="3" style=" background: #020202;    "></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="105px">
+                                                                        {% if item.id|getPathCastingPagePsotuler(app.user.id)  != null  %}
+
+                                                                        <video width="200" height="100" controls="">
+                                                                            <source src="{{ path_picture~  item.id|getPathCastingPagePsotuler(app.user.id)   }}" type="video/mp4">Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                                                                                                                    
+                                                                                                                                        </video>
+
+                                                                        {% else %}
+                                                                        <p class="center-td"> {{ 'form.message_video'|trans }}</p>
+                                                                                                                    
+                                                                    {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td ><img src="{{ asset('dev/front/images/bandevideo-horizontal.jpg') }}" style="width: 200px;height: 23px;"></td>
+                                                    </tr>
+
+                                                    </thead>
+                                                </table>
+                                            </td>
+                                            {% set i = i + 1  %}
+                                        {% endfor %}
+                                    </tr>
+                                </table>
+
+                                {% if casting.pathPdf  != null  %}
+                                <div class="col-md-12 center-td margin-bottom-30" style="   margin-top: 30px;">
+
+                                    <a   href="{{  path_picture  ~ casting.pathPdf }}" target="_blank"  class="btn btn-orange" name="ajouter"  >{{ 'form.postuler_telecharger'|trans }}</a>
+
+                                </div>
+                                {% endif %}
+
+
+                                <div class="col-md-12">
+                                    <div class="seperator-catg title-v">
+                                        <div style="font-size: 14px !important;color: darkgrey;"> {{ 'form.postuler_integration'|trans }}</div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <form  name="formSaisie" class="margin-bottom-30" action="{{ path('casting_postuler_scenario',{'id': id }) }}" method="post"    enctype="multipart/form-data" >
+                                    <div class="col-md-6 mag-bttom-sm clearfix" style="border-right: 1px solid #c1c1c1;" >
+                                        <div class="col-md-12 col-xs-12 col-sm-12 center-horizontally ">
+                                        <div class="col-md-4 col-xs-4 col-sm-4">
+                                            <img src="{{ asset('dev/front/images/video.png') }}" style="    width: 100%;">
+                                        </div>
+                                        <div class="col-md-8 col-xs-8 col-sm-8">
+                                            <div class="box-page-video">
+                                                <div class="box-page-video">
+
+                                                    <div class="video-poster center-horizontally " style="height: 310px !important;">
+                                                        <div class="iframe-resize ">
+
+
+                                                            <video width="250" height="300" controls=""  style="  height: auto !important;">
+                                                                <source src="{{ path_picture~ videoCasting.path }}" type="video/mp4">
+
+                                                                {% if app.request.locale == 'fr' %}
+                                                                    Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                                                {% else %}
+                                                                    Your browser does not support HTML5 video.
+                                                                {% endif %}
+                                                            </video>
+
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mag-bttom-sm clearfix">
+                                        <div class="borders" style="  margin-bottom: 20px;">
+
+                                            <p >
+
+                                                {{  'form.description_insert_scenes'|trans }}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">Vidéo</label>
+                                            <input type="file" name="video" >
+
+                                        </div>
+                                    </div>
+                                        {% set counteurVideo  = counteurVideo + 1  %}
+                                     <input name="counteurCasting" id="counteurCasting" value="{{ counteurVideo  }}"  type="hidden">
+                                     <input name="videoCasting" id="videoCasting" value="{{ videoCasting.id  }}" type="hidden">
+
+
+                                    <div class="form-group">
+                                        <hr/>
+                                        <div class="login-button col-md-12 " style="border-top: 1px solid #b5b5b5;    padding: 14px;">
+                                            {% if countVideoCasting == counteurVideo %}
+                                                <button type="submit" style="float: right;" class="btn btn-orange" name="ajouter"  >{{ 'btn.terminer'|trans }}</button>
+                                            {% else %}
+                                            <button type="submit" style="float: right;"   class="btn btn-orange" name="ajouter" value=""  >{{ 'btn.uploadScenarioSuivant'|trans }}</button>
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div><!--//end box-page-bg-->
+                        </div>
+                    {% endif %}
+
+                </div><!--//end col-md-9-->
+
+
+                    <div class="col-md-3 col-sm-3  col-xs-12  ">
+
+                        <div class="box-page-bg clearfix">
+
+                            {% include 'MembreBundle:Collection:tourne.html.twig' %}
+                        </div>
+                        {% if member.twitter != null %}
+                            <div class="box-page-bg clearfix">
+
+                                <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/{{ member.twitter }}" >Tweets </a>
+                            </div>
+                        {% endif %}
+                        <div class="box-page-bg clearfix">
+                            <div class="fb-page" data-href="vipcrossing" data-tabs="timeline" style="width : 100% !important ;"
+                                 data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                                 data-show-facepile="true">
+                                <blockquote cite="vipcrossing" class="fb-xfbml-parse-ignore" style="width : 100% !important ;" ><a
+                                            href="vipcrossing">‎VIPCrossing‎</a></blockquote>
+                            </div>
+
+                        </div>
+                        {{ render(controller('FrontBundle:Template:pub' )) }}
+
+
+
+                        <div class="box-page-bg clearfix">
+                            <a class="twitter-timeline" data-height="430"
+                               href="https://twitter.com/vipcrossing">Tweets </a>
+                        </div>
+
+                        {{ render(controller('FrontBundle:Template:pub' )) }}
+                    </div>
+
+
+
+                </div><!--//end row-->
+        </div><!--//end container-->
+    </div><!--//end content-page-->
+
+<!--Modal-->
+{% include 'MembreBundle:Collection:modal_personnage.html.twig' %}
+{% endblock %}
+

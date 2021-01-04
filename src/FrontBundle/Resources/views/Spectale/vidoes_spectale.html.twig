@@ -1,0 +1,72 @@
+
+<div class="row mag-top-40">
+
+
+    <div class="col-md-4 col-xs-12 col-sm-4">
+        {% for i in 1..2 %}
+        <div class="article {% if i == 1  %} spectacle-article {% endif %}">
+
+            <a href="{{ videoSpectales[i].urlvideo }}"
+               class="fancyboxYoutube fancybox.iframe">
+                <div class="box-page small-poster-spectacle">
+
+                    <div class="img-resize imgLiquid">
+
+                        {% if videoSpectales[i].picture != null %}
+                            <img src="{{   path_picture ~ videoSpectales[i].picture }}"  alt=""/>
+                        {% elseif videoSpectales[i].backgroundpicture != null %}
+                            <img src="{{ path_picture ~ videoSpectales[i].backgroundpicture }}"  >
+                        {% else %}
+                            <img src="{{ asset('assets/images/no-image.jpg') }}"  alt=""  />
+                        {% endif %}
+
+                    </div>
+
+                    <div class="play-btn">
+
+                        <i class="zmdi zmdi-play-circle"></i>
+                    </div>
+                </div>
+
+            </a>
+
+        </div>
+
+
+      {% endfor %}
+
+    </div>
+
+    <div class="col-md-8 col-xs-12 col-sm-8">
+
+        <div class="article spectacle-article">
+
+            <a href="{{ videoSpectales[0].urlvideo }}"
+               class="fancyboxYoutube fancybox.iframe">
+                <div class="box-page big-poster-spectacle">
+
+                    <div class="img-resize imgLiquid">
+
+                       {% if videoSpectales[0].picture != null %}
+                            <img src="{{ path_picture ~ videoSpectales[0].picture }}"   class="img-full-width" alt=""/>
+                        {% elseif videoSpectales[0].backgroundpicture != null %}
+                            <img src="{{ path_picture ~ videoSpectales[0].backgroundpicture }}"  class="img-full-width">
+                        {% else %}
+                            <img src="{{ asset('assets/images/no-image.jpg') }}"  class="img-full-width" alt=""  />
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="play-btn">
+
+                        <i class="zmdi zmdi-play-circle"></i>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+
+</div>

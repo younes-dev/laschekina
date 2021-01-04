@@ -1,0 +1,189 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+    {{ 'page.user'|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content" >
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('user_index') }}"> <span> {{ 'page.user'|trans }}  </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-settings font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.add'|trans }}  </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+
+                <form class="form-horizontal">
+
+                <div class="form-body">
+
+                    {% if entity.username != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.username'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.username }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if entity.nom != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.nom'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.nom }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if entity.prenom != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.prenom'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.prenom }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+                    {% if entity.pays != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.pays'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.pays|country }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if entity.pictureprofil != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.pictureprofil'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                <img src="{{ path_picture~entity.pictureprofil }}" style="width: 10%">
+                            </div>
+                        </div>
+                    {% endif %}
+
+                 {% if entity.picturecover != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.picturecover'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                <img src="{{ path_picture~entity.picturecover }}" style="width: 10%">
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+
+                    {% if entity.telephone != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.telephone'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.telephone }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if entity.twitter != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.twitter'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                <a href="{{ entity.twitter }}" target="_blank">lien</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if entity.instagram != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.instagram'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                <a href="{{ entity.instagram }}" target="_blank">lien</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if entity.facebook != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.facebook'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                <a href="{{ entity.facebook }}" target="_blank">lien</a>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if entity.datenaissance != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.datenaissance'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.datenaissance|localizeddate("medium", "none", null, null, "cccc d LLLL yyyy") }}
+                            </div>
+                        </div>
+
+                    {% endif %}
+                    {% if entity.ville != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.ville'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.ville }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if entity.adresse != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.adresse'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.adresse }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if entity.codepostal != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.codepostal'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.codepostal }}
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    {% if entity.email != null %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ 'form.email'|trans }} : </label>
+
+                            <div class="col-sm-8 show-value">
+                                {{ entity.email }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+                </div>
+</form>
+
+            </div>
+        </div>
+    {% endblock %}
+
+

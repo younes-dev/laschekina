@@ -1,0 +1,14 @@
+radio_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Radio:index" }
+    methods:  GET
+
+radio_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Radio:new" }
+    methods:  [GET, POST]
+
+radio_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Radio:delete" }
+    methods:  [GET, POST]

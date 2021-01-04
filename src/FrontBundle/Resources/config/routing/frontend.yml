@@ -1,0 +1,99 @@
+front_end_home:
+    path:     /{_locale}
+    defaults: { _controller: FrontBundle:Front:home , page: null , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_home_crossingTv:
+    path:     /{_locale}/crossingTv
+    defaults: { _controller: FrontBundle:Front:crossingTv , page: null , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_home_crossingAudio:
+    path:     /{_locale}/crossingAudio
+    defaults: { _controller: FrontBundle:Front:crossingAudio , page: null , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_home_crossingMap:
+    path:     /{_locale}/crossingMap
+    defaults: { _controller: FrontBundle:Front:crossingMap , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+access_denied:
+    path:     /{_locale}/access-denied
+    defaults: { _controller: FrontBundle:Template:accessDenied , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+
+front_end_profil_personnage:
+    path:     /{_locale}/{id}/profil-personnage
+    defaults: { _controller: FrontBundle:Front:profilPersonnage , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_proxy:
+    path:     /{_locale}/proxy
+    defaults: { _controller: FrontBundle:Front:proxy , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_research:
+    path:     /{_locale}/research/{searchWord}
+    defaults: { _controller: FrontBundle:Front:research , searchWord: null , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_contact:
+    path:     /{_locale}/contact
+    defaults: { _controller: FrontBundle:Front:contact , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+front_end_add_commentaire:
+    path:     /{_locale}/{id}/send/commentaire
+    defaults: { _controller: FrontBundle:Front:addComment , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+
+front_conditions_utilisation:
+    path:     /{_locale}/{typeContent}/conditions_utilisation
+    defaults: { _controller: FrontBundle:Front:aPropos , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+
+
+# module Medias
+front_end_media:
+    path:     /{_locale}/media/{type}
+    defaults: { _controller: FrontBundle:Front:media , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+
+front_end_show_media:
+    path:     /{_locale}/{id}/media
+    defaults: { _controller: FrontBundle:Front:showmedia , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+
+
+#crawler
+front_end_show_crawler_media:
+    path:     /{_locale}/{id}/{tyemedia}/crawler
+    defaults: { _controller: FrontBundle:Front:showcrawlermedia , _locale: fr }
+    requirements:
+        _locale: fr|en|es
+
+#page home
+front_end_index:
+    path:     /{_locale}/index/{page}
+    defaults: { _controller: FrontBundle:Front:home , page: null , _locale: fr}
+    requirements:
+        _locale: fr|en|es
+

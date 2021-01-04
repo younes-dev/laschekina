@@ -1,0 +1,96 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}
+{% set menuactive = app.session.get('menuactive') %}
+    {% set page =  'page.'~menuactive %}
+    {{ page|trans }}
+{% endblock %}
+
+{% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+        {% set menuactive = app.session.get('menuactive') %}
+            {% set page =  'page.'~menuactive %}
+
+                <a href="{{ path('information_index') }}"> <span>  {{ page|trans }}</span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+   {% for flashMessage in app.session.flashbag.get('informationsuccess') %}
+            <br/>
+            <div class="alert alert-success alert-block">
+            <a href="#" data-dismiss="alert" class="close">×</a>
+                {{ flashMessage }}
+                    </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green">
+                            <i class="icon-users font-green"></i>
+                            <span class="caption-subject bold uppercase">
+                                     {% set menuactive = app.session.get('menuactive') %}
+                                                 {% set page =  'page.'~menuactive %}
+                             {{ page|trans }} </span>
+                        </div>
+                        <div class="tools"></div>
+                    </div>
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-hover dt-responsive" width="100%"
+                               id="sample_3">
+                            <thead>
+                            <tr>
+                                  <th>  {{ 'form.backgroundpicture'|trans }}</th>
+                              <th>{{ 'form.adresse'|trans }}</th>
+                                <th>Tax</th>
+                                 <th>{{ 'form.telephone'|trans }}</th>
+                                <th>{{ 'form.email'|trans }}</th>
+                                <th>{{ 'form.facebook'|trans }}</th>
+                                <th>{{ 'form.twitter'|trans }}</th>
+                                <th>{{ 'form.googleplus'|trans }}</th>
+                                <th>{{ 'form.linkedin'|trans }}</th>
+                                <th>{{ 'form.action'|trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entity in information %}
+                                <tr>
+                                     <td>   {% if entity.backgroundpicture != null %}
+                                        <img src="{{ path_picture ~ entity.backgroundpicture }}" class="media-picture" >
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ entity.adress }}</td>
+                                    <td>{{ entity.tax ~"%" }}</td>
+                                     <td>{{ entity.phone }}</td>
+                                    <td>{{ entity.email }}</td>
+                                    <td>{% if entity.facebook != null %} <a href="{{ entity.facebook }}" target="_blank"> lien </a>{% else %} --{% endif %} </td>
+                                    <td>{% if entity.twitter != null %} <a href="{{ entity.twitter }}" target="_blank"> lien </a> {% else %} --{% endif %}</td>
+                                    <td> {% if entity.googleplus != null %}<a href="{{ entity.googleplus }}" target="_blank"> lien </a> {% else %} --{% endif %}</td>
+                                    <td> {% if entity.linkedin != null %}<a href="{{ entity.linkedin }}" target="_blank"> lien </a> {% else %} --{% endif %}</td>
+
+                                    <td>
+
+                                        <a title=" {{ "btn.edit"|trans }}" href="{{ path('information_edit', {'id': entity.id}) }}" class="btn btn-outline btn-circle btn-sm purple">
+                                            <i class="fa fa-edit"></i>  {{ "btn.edit"|trans }}
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+
+    {% endblock %}

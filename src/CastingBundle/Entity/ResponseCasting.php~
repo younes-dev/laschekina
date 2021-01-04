@@ -1,0 +1,80 @@
+<?php
+
+namespace CastingBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ReponseVideoCasting
+ *
+ * @ORM\Table(name="response_casting")
+ * @ORM\Entity(repositoryClass="CastingBundle\Repository\ResponseCastingRepository")
+ */
+
+class ResponseCasting
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateCreate;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User", inversedBy="reponseVideoCasting"  )
+     * @ORM\JoinColumn(name="id_member", referencedColumnName="id",nullable=true ,onDelete="CASCADE")
+     */
+    protected $member;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Casting", inversedBy="reponseVideoCasting"  )
+     * @ORM\JoinColumn(name="id_casting", referencedColumnName="id",nullable=true ,onDelete="CASCADE")
+     */
+    protected $casting;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="ReponseVideoCasting", cascade={"persist"},  mappedBy="responseCasting" )
+     */
+    protected $reponseVideoCasting;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set dateCreate
+     *
+     * @param \DateTime $dateCreate
+     *
+     * @return ResponseCasting
+     */
+    public function setDateCreate($dateCreate)
+    {
+        $this->dateCreate = $dateCreate;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreate
+     *
+     * @return \DateTime
+     */
+    public function getDateCreate()
+    {
+        return $this->dateCreate;
+    }
+}

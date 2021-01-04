@@ -1,0 +1,8 @@
+corona_end_questions:
+    resource: "@CoronaEndBundle/Resources/config/routing/questions.yml"
+    prefix:   /admin/questions
+
+corona_end_front:
+    resource: "@CoronaEndBundle/Resources/config/routing/corona.yml"
+    prefix:    /{_locale}/corona
+

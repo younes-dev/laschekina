@@ -1,0 +1,43 @@
+{% set menuactive = app.session.get('menuactive') %}
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.edit'|trans }}  </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {{ form_start(edit_form, {'method': 'post', 'action': path('content_edit',{'id': content.id }), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+        <div class="form-body">
+
+            <div class="form-group">
+                <label>{{ form_label(edit_form.title  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.title  ) }} </span>
+                    {{ form_widget(edit_form.title) }}
+
+                </div>
+            </div>
+
+           <div class="form-group">
+                <label>{{ form_label(edit_form.description  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(edit_form.description  ) }} </span>
+                    {{ form_widget(edit_form.description) }}
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+            <a href="{{ path('user_index',{'type_content':menuactive}) }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+        </div>
+        {{ form_end(edit_form) }}
+    </div>
+</div>
+
+

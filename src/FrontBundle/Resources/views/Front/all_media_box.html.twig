@@ -1,0 +1,478 @@
+
+{# cinema #}
+{% set ListeCinema = [] %}
+{% set ListeProgramme = [] %}
+{% set ListeConcert = [] %}
+{% set ListeSpectacle = [] %}
+{% set ListeRadio = [] %}
+{% set ListePeople = [] %}
+
+{% set ListeCinema = userCourant|getMedias("cinema" ) %}
+{% set ListeProgramme = userCourant|getMedias("programme" ) %}
+{% set ListeConcert = userCourant|getMedias("concert" ) %}
+{% set ListeSpectacle = userCourant|getMedias("spectacle" ) %}
+{% set ListeRadio = userCourant|getMedias("radio" ) %}
+{% set ListePeople = userCourant|getMedias("people" ) %}
+
+
+<div class="footer-accueil">
+    <div class="container">
+{% if programmeInBox != null or ListeProgramme != null %}
+{# programme #}
+            <div  id="programme-bloc"  class="bloc1 ">
+                <h3 class="titre"><span>
+                        {{ 'page.programme'|trans }} </span>
+                    <a href=" {{ path('front_end_media',{'type' : 'programme'}) }} "  class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                <div class="  owl-carousel  home-vids" >
+                    {% for item in ListeProgramme %}
+                              <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.id}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.startdate|date('d') }}</span>
+                                        <small>{{ item.startdate|date('m') }}</small>
+                                        <span>{{ item.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid">
+                                        {% if item.pictureHome != null %}
+                                            <img src="{{ path_picture ~ item.pictureHome }}" alt="" />
+                                        {% else %}
+                                            <img src="{{ path_picture ~ item.picture }}" alt="" />
+                                        {% endif %}
+                                    </div>
+                                    <div class="footer-movie">
+                                        <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                                <h4>
+
+                                    {% if  item.titleHome != null  %}
+                                        {{ item.titleHome[:35] }} {% if  item.titleHome|length > 35  %} .. {% endif %}
+                                    {% else %}
+                                        {{ item.title[:35] }} {% if  item.title|length > 35  %} .. {% endif %}
+                                    {% endif %}
+                             </h4>
+                                <p>
+                                    {{ item.shortdescription[:150] ~" ..." }}
+                                </p>
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                    {% for item in programmeInBox %}
+                        {% if item.medias not in ListeProgramme     %}
+                              <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.medias.startdate|date('d') }}</span><small>{{ item.medias.startdate|date('m') }}</small><span>{{ item.medias.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid" >
+                                        <img src="{{ path_picture ~ item.medias.picture }}" alt="" />
+                                    </div>
+                                    <div class="footer-movie">
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.starttime }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                                <h3>
+                                    {% if  item.medias.titleHome != null  %}
+                                        {{ item.medias.titleHome[:30] }}  {% if  item.medias.titleHome|length > 35  %} .. {% endif %}
+                                    {% else %}
+                                        {{ item.medias.title[:30] }} {% if  item.medias.title|length > 35  %} .. {% endif %}
+                                    {% endif %}
+
+                                 </h3>
+                                <p>
+                                    {{ item.medias.shortdescription[:150] ~" ..." }}
+                                </p>
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+{% endif %}
+
+{% if cinemaInBox != null or ListeCinema != null %}
+{# cinema #}
+            <div  id="cinema-bloc"   class="bloc1 color2 ">
+                <h3 class="titre"><span>
+                        {{ 'page.cinema'|trans }} 
+
+                    </span>
+
+
+                    <a href=" {{ path('front_end_media',{'type' : 'cinema'}) }} "  class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                <div class="  owl-carousel home-vids " >
+
+                    {% for item in ListeCinema %}
+                    <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.id}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.startdate|date('d') }}</span>
+                                        <small>{{ item.startdate|date('m') }}</small>
+                                        <span>{{ item.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid">
+                                        <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                    </div>
+                                    <div class="footer-movie">
+                                         <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                       <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                                <h4>
+
+                                    {% if  item.titleHome != null  %}
+                                        {{ item.titleHome[:35] }} {% if  item.titleHome|length > 35  %} .. {% endif %}
+                                    {% else %}
+                                        {{ item.title[:35] }} {% if  item.title|length > 35  %} .. {% endif %}
+                                    {% endif %}
+                             </h4>
+                                <p>
+                                    {{ item.shortdescription[:150] ~" ..." }}
+                                </p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                    {% for item in cinemaInBox %}
+                        {% if item.medias not in ListeCinema  %}
+                    <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.medias.startdate|date('d') }}</span><small>{{ item.medias.startdate|date('m') }}</small><span>{{ item.medias.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid" >
+                                        <img src="{{ path_picture ~ item.medias.picture }}" alt="" />
+                                    </div>
+                                    <div class="footer-movie">
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.starttime }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                                <h4>
+                                    {% if  item.medias.titleHome != null  %}
+                                        {{ item.medias.titleHome[:35] }} {% if  item.medias.titleHome|length > 35  %} .. {% endif %}
+                                    {% else %}
+                                        {{ item.medias.title[:35] }} {% if  item.medias.title|length > 35  %} .. {% endif %}
+                                    {% endif %}
+                               </h4>
+                                  <p>
+                                    {{ item.medias.shortdescription[:150]~" ..." }}
+                                </p>
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+{% endif %}
+
+{% if concertInBox != null or ListeConcert != null %}
+{# concert #}
+            <div  id="concert-bloc"
+                  class="bloc1  color3  ">
+                <h3 class="titre"><span>
+                        {{ 'page.concert'|trans }} </span>
+                    <a href=" {{ path('front_end_media',{'type' : 'concert'}) }} "  class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                <div class="  owl-carousel home-vids " >
+                    {% for item in ListeConcert %}
+                    <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.id}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.startdate|date('d') }}</span>
+                                        <small>{{ item.startdate|date('m') }}</small>
+                                        <span>{{ item.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid">
+                                        <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                    </div>
+                                    <div class="footer-movie"> 
+                                     <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                      
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                                <h4>      {% if  item.titleHome != null  %}
+                                        {{ item.titleHome[:35] }} {% if  item.titleHome|length > 35  %} .. {% endif %}
+                                    {% else %}
+                                        {{ item.title[:35] }} {% if  item.title|length > 35  %} .. {% endif %}
+                                    {% endif %}
+
+                                  </h4>
+                                <p>
+                                    {{ item.shortdescription[:150] ~" ..."}}
+                                </p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                    {% for item in concertInBox %}
+                        {% if item.medias not in ListeConcert  %}
+                    <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.medias.startdate|date('d') }}</span><small>{{ item.medias.startdate|date('m') }}</small><span>{{ item.medias.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid" >
+                                        <img src="{{ path_picture ~ item.medias.picture }}" alt="" />
+                                    </div>
+                                    <div class="footer-movie">
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.starttime }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                               <h4>      {% if  item.medias.titleHome != null  %}
+                                       {{ item.medias.titleHome[:35] }} {% if  item.medias.titleHome|length > 35  %} .. {% endif %}
+                                   {% else %}
+                                       {{ item.medias.title[:35] }} {% if  item.medias.title|length > 35  %} .. {% endif %}
+                                   {% endif %}
+
+                               </h4>
+                                <p>
+                                    {{ item.medias.shortdescription[:150]~" ..." }}
+                                </p>
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+{% endif %}
+
+{% if spectacleInBox != null or ListeSpectacle != null %}
+{# spectacle #}
+            <div  id="spectacle-bloc"
+                  class="bloc1  color4  ">
+                <h3 class="titre"><span>
+                        {{ 'page.spectacle'|trans }} </span>
+                    <a href=" {{ path('front_end_media',{'type' : 'spectacle'}) }} "  class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                <div class="  owl-carousel home-vids " >
+                        {% for item in ListeSpectacle %}
+                    <div class="item">
+                                    <a href="{{ path('front_end_show_media',{'id': item.id}) }}"
+                                       class="content-movie">
+                                        <div class="img-container">
+                                            <div class="ribbon"><span>{{ item.startdate|date('d') }}</span>
+                                                <small>{{ item.startdate|date('m') }}</small>
+                                                <span>{{ item.startdate|date('Y') }}</span></div>
+
+                                            <div class="img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                            </div>
+                                            <div class="footer-movie">
+                                               <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                                          <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                                <span><i class="glyphicon glyphicon-bell"></i></span>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            {% if  item.titleHome != null  %}
+                                                {{ item.titleHome[:35] }} {% if  item.titleHome|length > 35  %} .. {% endif %}
+                                            {% else %}
+                                                {{ item.title[:35] }} {% if  item.title|length > 35  %} .. {% endif %}
+                                            {% endif %}
+                                          </h4>
+                                        <p>
+                                            {{ item.shortdescription[:150]~" ..." }}
+                                        </p>
+                                    </a>
+                                </div>
+                        {% endfor %}
+                    {% for item in spectacleInBox %}
+                        {% if item.medias not in ListeSpectacle   %}
+                    <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.medias.startdate|date('d') }}</span><small>{{ item.medias.startdate|date('m') }}</small><span>{{ item.medias.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid" >
+                                        <img src="{{ path_picture ~ item.medias.picture }}" alt="" />
+                                    </div>
+                                    <div class="footer-movie">
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.starttime }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                               <h4>      {% if  item.medias.titleHome != null  %}
+                                       {{ item.medias.titleHome[:35] }} {% if  item.medias.titleHome|length > 35  %} .. {% endif %}
+                                   {% else %}
+                                       {{ item.medias.title[:35] }} {% if  item.medias.title|length > 35  %} .. {% endif %}
+                                   {% endif %}</h4>
+                                <p>
+                                    {{ item.medias.shortdescription[:150]~" ..." }}
+                                </p>
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+{% endif %}
+
+{% if radioInBox != null  or ListeRadio != null %}
+{# radio #}
+            <div  id="radio-bloc"
+                  class="bloc1 color5 ">
+                <h3 class="titre"><span>
+                        {{ 'page.radio'|trans }} </span>
+                    <a href=" {{ path('front_end_media',{'type' : 'radio'}) }} "  class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                <div class="  owl-carousel home-vids " >
+                        {% for item in ListeRadio %}
+                     <div class="item">
+                                    <a href="{{ path('front_end_show_media',{'id': item.id}) }}"
+                                       class="content-movie">
+                                        <div class="img-container">
+                                            <div class="ribbon"><span>{{ item.startdate|date('d') }}</span>
+                                                <small>{{ item.startdate|date('m') }}</small>
+                                                <span>{{ item.startdate|date('Y') }}</span></div>
+
+                                            <div class="img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                            </div>
+                                            <div class="footer-movie">
+                                                <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                                <span><i class="glyphicon glyphicon-bell"></i></span>
+                                            </div>
+                                        </div>
+                                        <h4>          {% if  item.titleHome != null  %}
+                                                {{ item.titleHome[:35] }} {% if  item.titleHome|length > 35  %} .. {% endif %}
+                                            {% else %}
+                                                {{ item.title[:35] }} {% if  item.title|length > 35  %} .. {% endif %}
+                                            {% endif %}</h4>
+                                        <p>
+                                            {{ item.shortdescription[:150] ~" ..."}}
+                                        </p>
+                                    </a>
+                                </div>
+                        {% endfor %}
+
+                    {% for item in radioInBox %}
+                        {% if item.medias not in ListeRadio  %}
+                    <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.medias.startdate|date('d') }}</span><small>{{ item.medias.startdate|date('m') }}</small><span>{{ item.medias.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid" >
+                                        <img src="{{ path_picture ~ item.medias.picture }}" alt="" />
+                                    </div>
+                                    <div class="footer-movie">
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.starttime }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                                <h4>      {% if  item.medias.titleHome != null  %}
+                                        {{ item.medias.titleHome[:35] }} {% if  item.medias.titleHome|length > 35  %} .. {% endif %}
+                                    {% else %}
+                                        {{ item.medias.title[:35] }} {% if  item.medias.title|length > 35  %} .. {% endif %}
+                                    {% endif %}
+                                </h4>
+                                 <p>
+                                    {{ item.medias.shortdescription[:150] ~" ..."}}
+                                </p>
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+{% endif %}
+
+{% if peopleInBox != null  or ListePeople != null %}
+{# people #}
+            <div  id="people-bloc"
+                  class="bloc1 color6   ">
+                <h3 class="titre"><span>
+                        {{ 'page.people'|trans }} </span>
+                    <a href=" {{ path('front_end_media',{'type' : 'people'}) }} "  class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                <div class="  owl-carousel home-vids " >
+                         {% for item in ListePeople %}
+                    <div class="item">
+                                    <a href="{{ path('front_end_show_media',{'id': item.id}) }}"
+                                       class="content-movie">
+                                        <div class="img-container">
+                                            <div class="ribbon"><span>{{ item.startdate|date('d') }}</span>
+                                                <small>{{ item.startdate|date('m') }}</small>
+                                                <span>{{ item.startdate|date('Y') }}</span></div>
+
+                                            <div class="img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                            </div>
+                                            <div class="footer-movie">
+                                                <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                                <span><i class="glyphicon glyphicon-bell"></i></span>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            {% if  item.titleHome != null  %}
+                                                {{ item.titleHome[:35] }}
+                                            {% else %}
+                                                {{ item.title[:35] }}
+                                            {% endif %}
+
+                                        </h4>
+                                        <p>
+                                            {{ item.shortdescription[:150] ~" ..."}}
+                                        </p>
+                                    </a>
+                                </div>
+                         {% endfor %}
+
+                    {% for item in peopleInBox %}
+                        {% if item.medias not in ListePeople  %}
+                            <div class="item">
+                            <a href="{{ path('front_end_show_media',{'id': item.medias.id}) }}" class="content-movie">
+                                <div class="img-container">
+                                    <div class="ribbon"><span>{{ item.medias.startdate|date('d') }}</span><small>{{ item.medias.startdate|date('m') }}</small><span>{{ item.medias.startdate|date('Y') }}</span></div>
+
+                                    <div class="img-resize imgLiquid" >
+                                        <img src="{{ path_picture ~ item.medias.picture }}" alt="" />
+                                    </div>
+                                    <div class="footer-movie">
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.starttime }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.medias.channel }}</span>
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                </div>
+                                <h4>
+                                    {% if  item.medias.titleHome != null  %}
+                                        {{ item.medias.titleHome[:35] }}
+                                    {% else %}
+                                        {{ item.medias.title[:35] }}
+                                    {% endif %}
+
+                                </h4>
+                                  <p>
+                                    {{ item.medias.shortdescription[:150] ~" ..."}}
+                                </p>
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+{% endif %}
+    </div>
+</div>

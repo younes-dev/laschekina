@@ -1,0 +1,168 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.partage_box'|trans }}{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/yahoo/pure-release/v0.6.0/pure-min.css">
+    <link href="{{ asset('dev/front/css/auto-complete.css') }}" rel="stylesheet">
+{% endblock %}
+ {% block imgscreen %}
+
+     <div class="img-screen">
+         <div class="img-resize imgLiquid">
+             <img src="{{ path_picture ~ gallerybanner.picture }}">
+         </div>
+         <div class="title-page-holder">
+             <h1>{{ 'page.partage_box'|trans }}</h1>
+
+         </div>
+     </div>
+ {% endblock %}
+   {% block body %}
+
+
+       <div class="container">
+
+
+           <div class="row row-centered">
+
+               <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 col-centered">
+
+                   <div class="content-form mag-bot-40">
+                       {% for flashMessage in app.session.flashbag.get('partageBoxenvoie') %}
+                           <br/>
+                           <div class="alert alert-success alert-block">
+                               <a href="#" data-dismiss="alert" class="close">×</a>
+                               {{ flashMessage }}
+                           </div>
+                       {% endfor %}
+                       <h3>{{ 'partage_box_non_membre'|trans }} </h3>
+
+                       <form class="form clearfix" action="{{ path('collection_email_partage_box') }}"   method="POST">
+
+                           <div class="form-group col-md-5 col-sm-5 col-xs-12">
+                               <input type="text" name="name"
+                                      placeholder="{{ 'form.nom'|trans ~" & "~ 'form.prenom'|trans }}" class="form-control" >
+                           </div>
+                           <div class="form-group col-md-5 col-sm-5 col-xs-12">
+                               <input type="text" class="form-control"
+                                      name="email"
+                                      placeholder="{{ 'form.email'|trans }}"
+                               >
+                           </div>
+
+                           <div class="form-group col-md-2 col-sm-2 col-xs-12">
+                               <div class="login-button">
+
+                                   <input type="submit" class="btn btn-orange  full-width" name="login" value="{{ 'form.envoyer'|trans }}">
+                               </div>
+
+                           </div>
+                       </form>
+
+                   </div>
+
+                   <div class="search-box  search-member outer-xs">
+                               <i class="zmdi zmdi-search"></i>
+                               <input id="search-member" onkeyup="ajaxGetUser()" autofocus type="text" name="searchWord" class="form-control"  placeholder="{{ 'page.research'|trans }} ...">
+
+                   </div>
+
+               </div>
+
+           </div>
+
+
+           <div class="result-search" id="result-search" style="display: none">
+
+               <div class="row">
+
+
+                   <div class="col-md-12 col-sm-12">
+
+                       <div class="result-box margin-bottom-40 ">
+                            <form method="post" action="{{ path('collection_partage_box') }}" >
+                           <h5>{{ 'resultat_vip_recherche'|trans }} </h5>
+                           <div class="result-box-inner">
+                               <input type="submit" class="btn btn-orange  btn-lg " style=" float: right;" id="save" name="submit" value="{{ 'form.envoyer'|trans }}">
+                         <br/>
+                               <div class="friends-list" id="friends-list">
+
+
+                               </div>
+
+                               <img id="loading-search" src="{{ asset('dev/front/images/loading.gif') }}" class="displayed" style="display: none;">
+
+                           </div>
+                            </form>
+                       </div>
+                   </div>
+
+
+               </div>
+           </div>
+
+       </div>
+
+
+
+
+   {% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('dev/front/js/auto-complete.js') }}"></script>
+    <script>
+        var demo1 = new autoComplete({
+            selector: '#search-member',
+            minChars: 1,
+            source: function (term, suggest) {
+                ajaxGetUser();
+                term = term.toLowerCase();
+                var choices = [
+                    {% for item in listeMembre %}
+                    '{{ item.prenom ~" "~ item.nom }} {% if item.fan == 1 %} - FAN {% endif %}' {% if  listeMembre|length > loop.index %}, {% endif %}
+                    {% endfor %}
+                ];
+                var suggestions = [];
+                for (i = 0; i < choices.length; i++)
+                    if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
+                suggest(suggestions);
+
+            }
+        });
+
+
+        function ajaxGetUser() {
+
+            $('#friends-list').hide();
+            $('#result-search').show();
+            $('#loading-search').show();
+            var data = {
+                'search_member': $('#search-member').val(),
+                'type_search_member': 'search_member_collection'};
+            var url = '{{ path('collection_get_user') }}';
+            $.ajax({
+                url: url, // La ressource ciblée
+                type: 'POST', // Le type de la requête HTTP.
+                cache: false,
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    $('#loading-search').hide();
+                    $('#friends-list').show();
+                    $('#friends-list').html(data.friendsLlist);
+
+
+                },
+
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+
+        }
+    </script>
+{% endblock %}
+
+

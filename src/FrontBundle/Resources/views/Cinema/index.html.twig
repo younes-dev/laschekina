@@ -1,0 +1,171 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+  {% block  meta %}
+      {{ render(controller( 'FrontBundle:Front:referancement' ,  { 'type': "ref_cinema" }   )) }}
+  {% endblock %}
+  
+{% block title %}  {{ 'page.cinema'|trans }}{% endblock %}
+ {% block imgscreen %}
+     <style>
+         .footer-accueil .bloc1 .ribbon:after, .image-post .ribbon:after {
+             content: "";
+             position: absolute;
+             height: 3.5em;
+             border: 1em solid #F87D07;
+             z-index: -1;
+             top: 0;
+             border-top-width: 1.5em;
+             border-bottom-color: transparent;
+             right: 0;
+         }
+     </style>
+     <div id="owl-full-width" class="owl-carousel owl-theme">
+         {% if nextMedias != null %}
+             {% for item in nextMedias %}
+                 <div class="item">
+                     <div class="img-resize imgLiquid">
+                         <img src="{{ path_picture ~ item.backgroundpicture }}">
+                     </div>
+                 </div>
+
+             {% endfor %}
+         {% else %}
+             {% for item in cinemasActuellementsalles %}
+                 <div class="item">
+                     <div class="img-resize imgLiquid">
+                         <img src="{{ path_picture ~ item.backgroundpicture }}">
+                     </div>
+                 </div>
+
+             {% endfor %}
+         {% endif %}
+     </div>
+
+ {% endblock %}
+   {% block body %}
+
+       <div class="content-page inner-xs ">
+           {{ include('FrontBundle:Cinema:bandes_annonces.html.twig', { 'videoCinemas': videoCinemas , 'listCinemas': cinemas }) }}
+
+
+           <div class="row mag-top-40">
+               <div class="container">
+                   {% if cinemasActuellementsalles|length > 0 %}
+                       <br/>
+                       <div class="col-md-12 col-xs-12 col-sm-12">
+
+                           <div class="title-pg">
+                               <h3>{{ 'actuellement_salles'|trans }} <i class="zmdi zmdi-chevron-right"></i></h3>
+                           </div>
+                       </div>
+                       <div class="clearfix"></div>
+                       <div class="owl-carousel video-caroussel owl-theme">
+                           {{ include('FrontBundle:Cinema:sorties_semaine.html.twig', { 'cinemas': cinemasActuellementsalles }) }}
+
+                       </div>
+                   {% endif %}
+
+
+
+                   {% if cinemasActuellementsalles|length > 0 %}
+                       <br/>
+                       <div class="clearfix"></div>
+                       <div class="col-md-12 col-xs-12 col-sm-12">
+
+                           <div class="title-pg">
+                               <h3>{{ 'actuellement_salles'|trans }} <i class="zmdi zmdi-chevron-right"></i>
+
+                                   &nbsp; {{ 'actuellement_actrices_acteurs'|trans }} <i
+                                           class="zmdi zmdi-chevron-right"></i>
+                               </h3>
+                           </div>
+                       </div>
+                       <div class="clearfix"></div>
+                       <div class="container  imgal-container">
+                           {% for item in cinemasActuellementsalles %}
+                               {% for entity in item.users %}
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}">
+
+                                       <img title="{{ item.title }}" src=" {{ path_picture ~ entity.pictureprofil }}"
+                                            alt="{{ entity.nom ~ ' ' ~ entity.prenom }}" class="imgal-img">
+                                   </a>
+                               {% endfor %}
+
+                               {% for entity in item.personnage %}
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}">
+
+                                       <img title="{{ item.title }}" src="{{ path_picture ~ entity.image }}"
+                                            alt="{{ entity.nom ~ ' ' ~ entity.prenom }}" class="imgal-img">
+                                   </a>
+                               {% endfor %}
+                           {% endfor %}
+                       </div>
+                       <div class="clearfix"></div>
+
+                   {% endif %}
+
+                   {% if cinemas|length > 0 %}
+                       <br/>
+
+
+                       <div class="col-md-12 col-xs-12 col-sm-12">
+
+                           <div class="title-pg">
+                               <h3>{{ 'sorties_semaine'|trans }}
+                                   <i class="zmdi zmdi-chevron-right"></i></h3>
+                           </div>
+                       </div>
+                       <div class="clearfix"></div>
+
+
+                       <div class="owl-carousel video-caroussel owl-theme">
+                           {{ include('FrontBundle:Cinema:sorties_semaine.html.twig', { 'cinemas': cinemas }) }}
+
+                       </div>
+
+                   {% endif %}
+
+                   {% if cinemas|length > 0 %}
+                       <br/>
+                       <div class="clearfix"></div>
+
+                       <div class="col-md-12 col-xs-12 col-sm-12">
+
+                           <div class="title-pg">
+                               <h3>{{ 'sorties_semaine'|trans }} <i class="zmdi zmdi-chevron-right"></i>
+
+                                   &nbsp; {{ 'actuellement_actrices_acteurs'|trans }} <i
+                                           class="zmdi zmdi-chevron-right"></i>
+                               </h3>
+                           </div>
+                       </div>
+
+                       <div class="clearfix"></div>
+                       <div class="container  imgal-container">
+                           {% for item in cinemas %}
+                               {% for entity in item.users %}
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}">
+
+                                       <img title="{{ item.title }}" src=" {{ path_picture ~ entity.pictureprofil }}"
+                                            alt="{{ entity.nom ~ ' ' ~ entity.prenom }}" class="imgal-img">
+                                   </a>
+                               {% endfor %}
+
+                               {% for entity in item.personnage %}
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}">
+
+                                       <img title="{{ item.title }}" src="{{ path_picture ~ entity.image }}"
+                                            alt="{{ entity.nom ~ ' ' ~ entity.prenom }}" class="imgal-img">
+                                   </a>
+                               {% endfor %}
+                           {% endfor %}
+                       </div>
+                       <div class="clearfix"></div>
+
+                   {% endif %}
+               </div>
+           </div>
+
+
+       </div>
+
+   {% endblock %}

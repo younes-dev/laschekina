@@ -1,0 +1,40 @@
+
+
+    <div class="col-md-4 col-xs-12 col-sm-4">
+
+    <div class="news-block-content">
+
+        <h2>{{ 'other_media'|trans }}</h2>
+
+        {% for entity in mediaListe %}
+            {% if loop.index < 6 and entity.id != idMediaCourant %}
+            <div class="inner-news row">
+
+                <div class="col-md-5 col-xs-12 col-sm-5">
+                    <a href="{{ path('front_end_show_crawler_media',{'id':  entity.id , 'tyemedia' : tyemedia}) }}">
+                        <div class="img-resize imgLiquid">
+
+                           
+                {% if entity.typePicture == "local" %}
+                       <img src="{{ path_picture ~ entity.picture }}"  >
+                {% else %}
+                        <img src="{{ entity.picture }}" >
+                  {% endif %}
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-7 col-xs-12 col-sm-7">
+
+                    <div class="info-news">
+                       <p><a href="{{ path('front_end_show_crawler_media',{'id':  entity.id , 'tyemedia' : tyemedia}) }}"
+                              class="fond-black"> {{ entity.title }}</a></p>
+
+                    </div>
+                </div>
+
+            </div>
+            {% endif %}
+
+        {% endfor %}
+    </div>

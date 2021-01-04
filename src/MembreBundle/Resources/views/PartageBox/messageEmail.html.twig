@@ -1,0 +1,562 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{{ 'partage_box.email.subject'|trans({'%username%': userCourant.username|capitalize }) }}</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300&subset=latin,cyrillic,greek"
+          rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .ExternalClass, .ExternalClass p, .ExternalClass span,
+        .ExternalClass font, .ExternalClass td, .ExternalClass div {
+            line-height: 100%;
+        }
+        #outlook a {
+            padding: 0;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            -webkit-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+        }
+        html {
+            width: 100%;
+        }
+        table {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+            border-spacing: 0;
+        }
+        table td {
+            border-collapse: collapse;
+        }
+        table p {
+            margin: 0;
+        }
+        br, strong br, b br, em br, i br {
+            line-height: 100%;
+        }
+        div, p, a, li, td {
+            -webkit-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 100% !important;
+            -webkit-font-smoothing: antialiased;
+        }
+        span a {
+            text-decoration: none !important;
+        }
+        a {
+            text-decoration: none !important;
+        }
+        img {
+            height: auto !important;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+        }
+        .yshortcuts, .yshortcuts a, .yshortcuts a:link, .yshortcuts a:visited,
+        .yshortcuts a:hover, .yshortcuts a span {
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+        ul {
+            padding-left: 10px;
+            margin: 0;
+        }
+        @media only screen and (max-width: 800px) {
+            table[style*="max-width:800px"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+                clear: both;
+            }
+            table[style*="max-width:800px"] img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+            }
+        }
+        @media only screen and (max-width: 640px) {
+            /* mobile setting */
+            table[class="container"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+                text-align: center !important;
+                clear: both;
+            }
+            td[class="container"] {
+                width: 100% !important;
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+                clear: both;
+            }
+            table[class="full-width"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+                clear: both;
+            }
+            table[class="full-width-center"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                clear: both;
+                margin: 0 auto;
+                float: none;
+            }
+            table[class="force-240-center"] {
+                width: 240px !important;
+                clear: both;
+                margin: 0 auto;
+                float: none;
+            }
+            table[class="auto-center"] {
+                width: auto !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                clear: both;
+                margin: 0 auto;
+                float: none;
+            }
+            *[class="auto-center-all"] {
+                width: auto !important;
+                max-width: 75% !important;
+                text-align: center !important;
+                clear: both;
+                margin: 0 auto;
+                float: none;
+            }
+            *[class="auto-center-all"] * {
+                width: auto !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                clear: both;
+                margin: 0 auto;
+                float: none;
+            }
+            table[class="col-3"], table[class="col-3-not-full"] {
+                width: 30.35% !important;
+                max-width: 100% !important;
+            }
+            table[class="col-2"] {
+                width: 47.3% !important;
+                max-width: 100% !important;
+            }
+            *[class="full-block"] {
+                width: 100% !important;
+                display: block !important;
+                clear: both;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            /* image */
+            td[class="image-full-width"] img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+            }
+            /* helper */
+            table[class="space-w-20"] {
+                width: 3.57% !important;
+                max-width: 20px !important;
+                min-width: 3.5% !important;
+            }
+            table[class="space-w-20"] td:first-child {
+                width: 3.5% !important;
+                max-width: 20px !important;
+                min-width: 3.5% !important;
+            }
+            table[class="space-w-25"] {
+                width: 4.45% !important;
+                max-width: 25px !important;
+                min-width: 4.45% !important;
+            }
+            table[class="space-w-25"] td:first-child {
+                width: 4.45% !important;
+                max-width: 25px !important;
+                min-width: 4.45% !important;
+            }
+            table[class="space-w-30"] td:first-child {
+                width: 5.35% !important;
+                max-width: 30px !important;
+                min-width: 5.35% !important;
+            }
+            table[class="fix-w-20"] {
+                width: 20px !important;
+                max-width: 20px !important;
+                min-width: 20px !important;
+            }
+            table[class="fix-w-20"] td:first-child {
+                width: 20px !important;
+                max-width: 20px !important;
+                min-width: 20px !important;
+            }
+            *[class="h-10"] {
+                display: block !important;
+                height: 10px !important;
+            }
+            *[class="h-20"] {
+                display: block !important;
+                height: 20px !important;
+            }
+            *[class="h-30"] {
+                display: block !important;
+                height: 30px !important;
+            }
+            *[class="h-40"] {
+                display: block !important;
+                height: 40px !important;
+            }
+            *[class="remove-640"] {
+                display: none !important;
+            }
+            *[class="text-left"] {
+                text-align: left !important;
+            }
+            *[class="clear-pad"] {
+                padding: 0 !important;
+            }
+        }
+        @media only screen and (max-width: 479px) {
+            /* mobile setting */
+            table[class="container"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 124px !important;
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+                text-align: center !important;
+                clear: both;
+            }
+            td[class="container"] {
+                width: 100% !important;
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+                text-align: center !important;
+                clear: both;
+            }
+            table[class="full-width"], table[class="full-width-479"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 124px !important;
+                clear: both;
+            }
+            table[class="full-width-center"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 124px !important;
+                text-align: center !important;
+                clear: both;
+                margin: 0 auto;
+                float: none;
+            }
+            *[class="auto-center-all"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                clear: both;
+                margin: 0 auto;
+                float: none;
+            }
+            *[class="auto-center-all"] * {
+                width: auto !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                clear: both;
+                margin: 0 auto;
+                float: none;
+            }
+            table[class="col-3"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                clear: both;
+            }
+            table[class="col-3-not-full"] {
+                width: 30.35% !important;
+                max-width: 100% !important;
+            }
+            table[class="col-2"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                clear: both;
+            }
+            *[class="full-block-479"] {
+                display: block !important;
+                width: 100% !important;
+                clear: both;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            /* image */
+            td[class="image-full-width"] img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+                min-width: 124px !important;
+            }
+            td[class="image-min-80"] img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+                min-width: 80px !important;
+            }
+            td[class="image-min-100"] img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+                min-width: 100px !important;
+            }
+            /* halper */
+            table[class="space-w-20"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+            table[class="space-w-20"] td:first-child {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+            table[class="space-w-25"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+            table[class="space-w-25"] td:first-child {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+            table[class="space-w-30"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+            table[class="space-w-30"] td:first-child {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+            *[class="remove-479"] {
+                display: none !important;
+            }
+            table[width="595"] {
+                width: 100% !important;
+            }
+            img {
+                max-width: 280px !important;
+            }
+        }
+        a:active {
+            color: initial !important;
+        }
+        td ul {
+            list-style: initial;
+            margin: 0;
+            padding-left: 20px;
+        }
+        body {
+            background-color: #efefef;
+        }
+        tr.tpl-repeatblock > td {
+            display: block !important;
+        }
+        table[width="595"] {
+            width: 100% !important;
+        }
+        a img {
+            border: 0 !important;
+        }
+        a:active {
+            color: initial !important;
+        }
+        a {
+            text-decoration: none !important;
+        }
+    </style>
+
+</head>
+<body style="font-size:12px; width:100%; height:100%;">
+<table id="mainStructure" width="800" class="full-width" align="center" border="0" cellspacing="0" cellpadding="0"
+       style="background-color:#efefef; width:800px; max-width: 800px; margin: 0 auto; outline: 1px solid #efefef; box-shadow: 0px 0px 5px #E0E0E0;">
+    <!-- START LAYOUT-1 ( MENU BAR ) -->
+    <tr>
+        <td valign="top" align="center" class="container" style="background-color: #ffffff; ">
+            <table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container"
+                   style="background-color: #ffffff; min-width: 600px; margin: 0px auto; width: 600px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <!-- start space -->
+                <tr>
+                    <td valign="top" height="50"
+                        style="height: 50px; font-size: 0px; line-height: 0; border-collapse: collapse;">&nbsp;</td>
+                </tr>
+                <!-- end space -->
+                </td>
+                </tr>
+                <!-- END LAYOUT-1 ( MENU BAR ) -->
+                <tr>
+                    <td>
+                        <table width="560" align="center" border="0" cellspacing="0" cellpadding="0" class="container"
+                               style="background-color: #ffffff; min-width: 560px; margin: 0px auto; width: 560px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
+
+                            <tbody>
+                            <tr>
+                                <td style="text-align: left ; width: 104px; background-color: #ffffff; border: 1px solid #ff5521;"><p
+                                            style="color: #FFF; font-size: 25px;  ">
+                                        <img src="https://vipcrossing.com/assets/images/logo.png"
+                                             style=" padding: 10px;   max-width: 200px;">
+
+                                    </p></td>
+                                <td class="padding_left_10"
+                                    style="background-color: #ff5521;padding-left: 33px ; padding-bottom: 0px ; text-align: left"
+                                    bgcolor="#00265B">
+                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="2" class="padding_bottom_8"
+                                                style="width: 100%; padding-bottom: 0px; padding-top: 2px; padding-right: 9px; color: rgb(255, 255, 255); font-size: 16px; font-family: calibri, arial;"
+                                                align="right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td bgcolor="#FFFFFF" width="1"></td>
+                                            <td class="padding_top_5"
+                                                style="padding-left: 9px; padding-top: 0px; text-align: left; color: rgb(255, 255, 255); font-size: 28px; font-family: calibri, arial;">
+                                                <div class="font_22">
+
+                                                    Bienvenue {{ name|capitalize }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="hide_small">
+                                            <td bgcolor="#FFFFFF" width="1"></td>
+                                            <td style="padding-left: 10px ; padding-top: 0px ; color: #ffffff  ; font-size: 18px"
+                                                align="left">
+
+
+                                                &nbsp;
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>   <!-- START LAYOUT-2 ( BIG IMAGE ) -->
+                <tr>
+                    <td valign="top" align="center" class="container" style="background-color: #ffffff; ">
+                        <table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container"
+                               style="background-color: #ffffff; min-width: 600px; margin: 0px auto; width: 600px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                            <tr>
+                                <td valign="top" align="center">
+                                    <table width="560" align="center" border="0" cellspacing="0" cellpadding="0"
+                                           class="full-width" style="    border-left: 1px solid #ff5521;
+    border-bottom: 1px solid #ff5521;  border-right: 1px solid #ff5521;margin: 0px auto; background-color: #ffffff; width: 560px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                                        <!-- start space -->
+                                        <tr>
+                                            <td valign="top" height="80"
+                                                style="height: 80px; font-size: 0px; line-height: 0; border-collapse: collapse;">
+                                                &nbsp;</td>
+                                        </tr>
+                                        <!-- end space -->
+                                        <!-- start heading -->
+                                        <tr dup="0">
+                                            <td valign="top" style="padding-left:30px; padding-right:30px;">
+                                                <table width="100%" align="center" border="0" cellspacing="0"
+                                                       cellpadding="0"
+                                                       style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
+
+                                                    <tr>
+                                                        <td align="center"
+                                                            style="font-size: 14px; color: rgb(136, 136, 136); font-weight: normal;     text-align: left; font-family: 'Open Sans', Arial, Helvetica, sans-serif; word-break: break-word; line-height: 22px;">
+                                                              <span style="text-decoration: none; color: rgb(136, 136, 136); font-size: inherit; line-height: 22px;">
+                                                                 <p style=" text-align: justify  !important;">
+
+
+                                                                     Bonjour {{ name|capitalize~"," }}  <br/>
+                                                                     {{ userCourant.nom|capitalize ~" "~  userCourant.prenom|capitalize }} vous invite à cliquer sur ce
+                                                                     <a href="https://vipcrossing.com/collection/fr/vip/{{ userCourant.username }}.{{ userCourant.id }}" target = "_blank" >
+                                                                         lien </a>      pour découvrir sa collection sur VIP Crossing
+.
+                                                                         <br/>       Rejoignez le vite et parlez-en autour de vous.
+                                                                                                                                      <br/> <br/> <br/>  <br/>
+
+                                                                            L'équipe VIP Crossing <br/>
+
+
+
+
+
+
+
+
+                                                                 </p>
+                                                              </span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- start space -->
+                                                    <tr>
+                                                        <td valign="top" height="20"
+                                                            style="height: 20px; font-size: 0px; line-height: 0; border-collapse: collapse;">
+                                                            &nbsp;</td>
+                                                    </tr>
+                                                    <!-- end space -->
+                                                    <!-- start space -->
+                                                    <tr>
+                                                        <td valign="top" height="20"
+                                                            style="height: 20px; font-size: 0px; line-height: 0; border-collapse: collapse;">
+                                                            &nbsp;</td>
+                                                    </tr>
+                                                    <!-- end space -->
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- end heading -->
+                                        <!-- start space -->
+                                        <tr>
+                                            <td style="text-align: left ; width: 70px ; background-color: #ff5521 ;padding-top:  10px;  padding-bottom: 10px;">
+
+                                                <p style="color: #fff !important;  font-size: 14px ; padding-left: 10px ; padding-top:  10px;  padding-bottom: 10px;">
+                                                    <a href="https://vipcrossing.com/" target="_blank"
+                                                       style="color: #fff !important; ">VIP Crossing </a></p>
+
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" height="60"
+                                                style="height: 60px; font-size: 0px; line-height: 0; border-collapse: collapse;">
+                                                &nbsp;</td>
+                                        </tr>
+                                        <!-- end space -->
+                                    </table>
+
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <!-- END LAYOUT-2 ( BIG IMAGE ) -->
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+

@@ -1,0 +1,46 @@
+front_messaging_received:
+    path:     /{_locale}/received
+    defaults: { _controller: MembreBundle:FrontMessaging:pagereceived }
+    requirements:
+        _locale: fr|en|es
+
+front_messaging_send:
+    path:      /{_locale}/send
+    defaults: { _controller: MembreBundle:FrontMessaging:pagesend }
+    requirements:
+        _locale: fr|en|es
+front_messaging_envoie:
+    path:      /{_locale}/page/envoie
+    defaults: { _controller: MembreBundle:FrontMessaging:pageenvoie , id:null }
+    requirements:
+        _locale: fr|en|es
+
+front_messaging_envoie_membre:
+    path:      /{_locale}/{id}/page/envoie
+    defaults: { _controller: MembreBundle:FrontMessaging:pageenvoie }
+    requirements:
+              page: \d*
+              _locale: fr|en|es
+front_messaging_remove:
+    path:     /{_locale}/remove
+    defaults: { _controller: MembreBundle:FrontMessaging:pageremove }
+    requirements:
+              _locale: fr|en|es
+
+front_messaging_delete:
+    path:     /{_locale}/delete
+    defaults: { _controller: MembreBundle:FrontMessaging:delete }
+    requirements:
+              _locale: fr|en|es
+
+front_messaging_send_msg:
+    path:     /{_locale}/send/msg
+    defaults: { _controller: MembreBundle:FrontMessaging:msgenvoye }
+    requirements:
+              _locale: fr|en|es
+
+front_messaging_change_state:
+    path:     /{_locale}/change/state
+    defaults: { _controller: MembreBundle:FrontMessaging:changestate }
+    requirements:
+              _locale: fr|en|es

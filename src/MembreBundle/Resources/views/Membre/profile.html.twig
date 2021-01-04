@@ -1,0 +1,309 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.profil'|trans }}{% endblock %}
+ {% block imgscreen %}
+<div class="img-screen  banner-bg">
+
+    {% if app.user.picturecover != null %}
+        <img src="{{ path_picture ~ app.user.picturecover }}" >
+    {% else %}
+        <img src="{{ path_picture|getImageDefault()}}">
+    {% endif %}
+
+</div>
+{% endblock %}
+{% block body %}
+
+    <div class="container">
+        <div class="row row-centered">
+
+            <div class="col-xs-12 col-md-10 col-lg-10 col-sm-10 col-centered">
+
+                <div class="content-bloc content-bloc-height mag-bot-40 clearfix">
+
+
+                    <div class="col-xs-12 col-md-2 col-sm-3">
+
+                        <div class="avatar" style="    margin-bottom: 0em !important;" >
+                            {% if app.user.pictureprofil != null %}
+                            <img src="{{ path_picture ~ app.user.pictureprofil }}"  style="    width: 100px;   border-radius: 20% !important;   -moz-border-radius: 20% !important;   -webkit-border-radius: 20% !important;   height: auto;">
+                            {% else %}
+                            <img src="{{ asset('assets/images/avatar.png') }}"  style="    width: 100px;   border-radius: 20% !important;   -moz-border-radius: 20% !important;   -webkit-border-radius: 20% !important;   height: auto;" >
+                            {% endif %}
+                        </div>
+
+                        <div class="avatar-info {{ app.user.coloremotioncard }}" style="top: -59px;">
+                            <h5>
+
+
+                {% if    app.user.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %}
+
+                {{    app.user.prenom ~" "~    app.user.nom }}
+
+                    {% if    app.user.roles[0] == "ROLE_VIP" and   app.user.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if    app.user.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif    app.user.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif    app.user.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif    app.user.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 col-sm-5">
+
+                        <div class="profil-bloc outer-top-small ">
+
+                            <ul>
+                              {#  <li><i class="zmdi zmdi-star"></i>
+                                    <span>15 Notes</span></li>
+
+
+                                <li><i class="zmdi zmdi-comment-more"></i>
+                                    <span>24 Avis</span></li>
+                                    #}
+
+
+                                <li><a href="{{ path('front_messaging_received') }}"> <i class="zmdi zmdi-email"></i>
+                                 {% if numbreMessageNotSeen > 0 %}   <span>{{ numbreMessageNotSeen }} Messages</span> {% endif %}</a></li>
+
+                            </ul>
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="col-xs-12 col-md-4 col-sm-4 padd-right">
+                        <div class="edit-profil-bloc  text-center ">
+                            <div class="padd-top-50">
+                                <a href="{{ path('espace-member-edit-profile'|url_encode) }}" type="submit"
+                                   class="btn btn-orange btn-md"><i
+                                            class="zmdi zmdi-edit"></i> Modifier mon profil
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="content-bloc  mag-bot-40 inner-vs  clearfix">
+                    <div class="col-md-12">
+                        {% for flashMessage in app.session.flashbag.get('front_profile_updated') %}
+                            <div class="alert alert-success alert-block">
+                                <a href="#" data-dismiss="alert" class="close">×</a>
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                    <div class="col-md-12">
+                        <a id="btn-change-password" {% if  form_errors(form.current_password) != null or  form_errors(form.plainPassword.first) != null %} style="display: none" {% endif %}
+                           onclick="showformchangepassword()" type="submit" class="btn btn-orange btn-md pull-right "><i
+                                    class="zmdi zmdi-edit"></i> {{ 'change_password.submit'|trans }}
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+
+                        <ul class="list-info-profil">
+
+                            <li class="clearfix">
+                                <span class="label-name">{{ 'form.username'|trans }}</span>
+
+                                <span class="label-inf "> {{ app.user.username }}</span>
+                            </li>
+
+
+                            <li class="clearfix">
+                                <span class="label-name">{{ 'form.email'|trans }}</span>
+
+                                <span class="label-inf"> {{ app.user.email }}</span>
+                            </li>
+
+                            {% if app.user.telephone != null  %}
+                            <li class="clearfix">
+                                <span class="label-name">{{ 'form.telephone'|trans }}</span>
+
+                                <span class="label-inf">{{ app.user.telephone }} </span>
+                            </li>
+                            {% endif %}
+
+                            {% if app.user.datenaissance != null  %}
+                            <li class="clearfix">
+                                <span class="label-name">{{ 'form.datenaissance'|trans }}</span>
+
+                                <span class="label-inf"> {{ app.user.datenaissance|date('d-m-Y') }}</span>
+                            </li>
+
+                            {% endif %}
+                            <li class="clearfix">
+                                <span class="label-name">{{ 'form.listamis'|trans }}</span>
+
+                                <span class="label-inf"> {% if  app.user.listamis == 1 %} {{ 'form.publier'|trans }} {% else %} {{ 'form.non_publier'|trans }}  {% endif %}</span>
+                            </li>
+
+                            {% if app.user.twitter != null %}
+                                <li class="clearfix">
+                                    <span class="label-name">{{ 'form.twitter'|trans }}</span>
+
+                                    <span class="label-inf"> <a href="{{ app.user.twitter }}" target="_blank"> Lien
+                                            twitter </a> </span>
+                                </li>
+
+                            {% endif %}
+                            {% if app.user.instagram != null %}
+                                <li class="clearfix">
+                                    <span class="label-name">{{ 'form.instagram'|trans }}</span>
+
+                                    <span class="label-inf"> <a href="{{ app.user.instagram }}" target="_blank"> Lien
+                                            instagram </a> </span>
+                                </li>
+
+                            {% endif %}
+                            {% if app.user.facebook != null %}
+                                <li class="clearfix">
+                                    <span class="label-name">{{ 'form.facebook'|trans }}</span>
+
+                                    <span class="label-inf"> <a href="{{ app.user.facebook }}" target="_blank"> Lien
+                                            facebook </a> </span>
+                                </li>
+
+                            {% endif %}
+
+                            {% if app.user.adresse != null  %}
+                                <li class="clearfix">
+                                <span class="label-name">{{ 'form.adresse'|trans }}</span>
+
+                                <span class="label-inf">{{ app.user.adresse }}</span>
+                            </li>
+                            {% endif %}
+                            {% if app.user.pays != null  %}
+                                <li class="clearfix">
+                                    <span class="label-name">{{ 'form.pays'|trans }}</span>
+
+                                    <span class="label-inf">{{ app.user.pays | country }} </span>
+                                </li>
+                            {% endif %}
+
+                            {% if app.user.ville != null  %}
+                                <li class="clearfix">
+                                <span class="label-name">{{ 'form.ville'|trans }}</span>
+
+                                <span class="label-inf">{{ app.user.ville }} </span>
+                            </li>
+                            {% endif %}
+
+                            {% if is_granted("ROLE_VIP") or is_granted("ROLE_PRO")  %}
+                                <li class="clearfix">
+                                <span class="label-name">{{ 'form.etatMessenger'|trans }}</span>
+
+                                <span class="label-inf">{% if app.user.etatMessenger == true %} {{ 'form.active'|trans }} {% else %}  {{ 'form.non_active'|trans }}  {% endif %}</span>
+                            </li>
+                            {% endif %}
+                            {% if app.user.codepostal != null  %}
+                                <li class="clearfix">
+                                <span class="label-name">{{ 'form.codepostal'|trans }}</span>
+
+                                <span class="label-inf">{{ app.user.codepostal }} </span>
+                            </li>
+                            {% endif %}
+                                <li class="clearfix">
+                                <span class="label-name">{{ 'form.showposotion'|trans }}</span>
+
+                                <span class="label-inf">{% if app.user.showposotion == 1 %}
+                                                            {{ 'form.publier'|trans }}
+                                                        {% else %}
+                                                            {{ 'form.non_publier'|trans }}
+                                    {% endif %}
+                                </span>
+                            </li>
+                                <li class="clearfix">
+                                <span class="label-name">{{ 'form.showmapphoto'|trans }}</span>
+
+                                <span class="label-inf">
+                                    {% if app.user.showmapphoto == 1 %}
+                                        {{ 'form.publier'|trans }}
+                                    {% else %}
+                                        {{ 'form.non_publier'|trans }}
+                                    {% endif %} </span>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <div class="col-md-6 "
+                         id="form-change-password" {% if form_errors(form.current_password) == null and form_errors(form.plainPassword.first) == null %} style="display: none" {% endif %}>
+                        {{ form_start(form, {'method': 'post', 'action': path('espace-member-profile'), 'attr': {'class': 'form', "style":"margin-left: 15%;"}}) }}
+
+
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label>{{ 'form.current_password'|trans }}: </label>
+                                <div>
+                                    <span class="error-message">  {{ form_errors(form.current_password  ) }} </span>
+                                    {{ form_widget(form.current_password, { 'attr': {'class': 'form-control' } }) }}
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{ 'form.new_password'|trans }} : </label>
+                                <div>
+
+                                    <span class="error-message">  {{ form_errors(form.plainPassword.first  ) }} </span>
+                                    {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control ' } }) }}
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>{{ 'form.new_password_confirmation'|trans }} : </label>
+                                <div>
+
+                                    <span class="error-message">  {{ form_errors(form.plainPassword.second  ) }} </span>
+                                    {{ form_widget(form.plainPassword.second , { 'attr': {'class': 'form-control'} }) }}
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn blue pull-right">{{ 'change_password.submit'|trans }}  </button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        function showformchangepassword() {
+            $("#btn-change-password").hide();
+            $("#form-change-password").show();
+        }
+    </script>
+{% endblock %}
+

@@ -1,0 +1,36 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+    {{ 'menu_crawler_concert'|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+              <li>
+                <a href="{{ path('crawlerconcert_index') }}"> <span>   {{ 'menu_crawler_concert'|trans }}  </span></a>
+            </li>
+            <li>
+                <a href="#"> <span>
+                             {{ 'page-breadcrumb.edit'|trans }}
+                          </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        {% include "BackBundle:Crawlerconcert:form_concert.html.twig" %}
+
+    {% endblock %}
+      {% block javascripts %}
+        <script>
+            $('#backbundle_crawlerconcert_startTime').timepicker();
+           
+        </script>
+    {% endblock %}
+
+   
+
+
+

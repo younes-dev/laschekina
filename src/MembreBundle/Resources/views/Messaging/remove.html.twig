@@ -1,0 +1,248 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %} {{ 'messages.send'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+                
+
+        <div class="title-text outer-bottom-20">
+            {{ 'messages.send'|trans }}
+
+        </div>
+
+        <div class="box-message outer-bottom-vs clearfix ">
+
+            <div class="col-md-1 col-xs-12 col-sm-2 no-padd">
+
+                <div class="box-avatar">
+
+
+                    <div class="box-avatar-img">
+                        {% if app.user.pictureprofil != null %}
+                            <img src="{{ path_picture ~ app.user.pictureprofil }}">
+                        {% else %}
+                            <img src="{{ asset('assets/images/avatar.png') }}">
+                        {% endif %}
+                    </div>
+
+                    <div class="box-message-links">
+
+                        <ul>
+                            <li><a href="{{ path('front_messaging_received') }}"><span
+                                            class="zmdi zmdi-inbox"></span></a></li>
+                            <li><a href="{{ path('front_messaging_send') }}"><span
+                                            class="zmdi zmdi-mail-send"></span></a></li>
+                            <li class="active"><a href="{{ path('front_messaging_remove') }}"><span
+                                            class="zmdi zmdi-delete"></span></a></li>
+
+
+                        </ul>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="col-md-4 col-xs-12 col-sm-4 content-message-box">
+
+
+                <div class="content-message-box-warpper">
+
+
+                    {% for entity in ListeMessage %}
+                        <a  {% if loop.index == 1 %}class="current" {% endif %} data-tab="tab-{{ entity.id }}">
+                            <div class="message-inner clearfix outer-bottom-20">
+
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <div class="img-resize imgLiquid ">
+                                        {% if  entity.userreceiver.id == app.user.id %}
+                                            {% if entity.useremitter.pictureprofil != null %}
+                                                <img src="{{ path_picture ~ entity.useremitter.pictureprofil }}">
+                                            {% else %}
+                                                <img src="{{ asset('assets/images/avatar.png') }}">
+                                            {% endif %}
+                                        {% else %}
+                                            {% if entity.userreceiver.pictureprofil != null %}
+                                                <img src="{{ path_picture ~ entity.userreceiver.pictureprofil }}">
+                                            {% else %}
+                                                <img src="{{ asset('assets/images/avatar.png') }}">
+                                            {% endif %}
+
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10 col-sm-10 col-xs-12">
+                                    <div class="clearfix">
+                                        <span class="pull-left name-message">
+                                            {% if  entity.userreceiver.id == app.user.id %}
+                                            
+                                              
+              
+                {% if     entity.useremitter.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{     entity.useremitter.prenom ~" "~     entity.useremitter.nom }}
+                {% if     entity.useremitter.roles[0] == "ROLE_VIP"  and entity.useremitter.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if     entity.useremitter.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif     entity.useremitter.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif     entity.useremitter.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif     entity.useremitter.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                                            
+                {% else %}
+                  
+              
+                {% if     entity.userreceiver.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{     entity.userreceiver.prenom ~" "~     entity.userreceiver.nom }}
+                {% if     entity.userreceiver.roles[0] == "ROLE_VIP"  and entity.userreceiver.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if     entity.userreceiver.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                
+                 {% endif %}
+                                      </span>
+                                        <span class="pull-right"><small>{{ entity.dateofsending|date('d-m-Y H:i') }}</small></span>
+                                    </div>
+                                    <p>
+                                        {{ entity.message[:60]~" ..." }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+                    {% endfor %}
+
+
+                </div>
+
+
+            </div>
+            <div class="col-md-7 col-xs-12 col-sm-6 content-message-box-inner no-padd">
+
+
+                {% for entity in ListeMessage %}
+                    <div id="tab-{{ entity.id }}" class="{% if loop.index == 1  %}current {% endif %} message-content">
+
+
+                        <div class="header-message-inner clearfix">
+
+                            <div class="pull-left">
+                                <h4>  {% if  entity.userreceiver.id == app.user.id %}
+                                       
+                                      
+              
+                {% if    entity.useremitter.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{    entity.useremitter.prenom ~" "~    entity.useremitter.nom }}
+                {% if    entity.useremitter.roles[0] == "ROLE_VIP"   and entity.useremitter.fan == 0 %}
+                        {% set numbre_etoile = 0 %}
+                        {% if    entity.useremitter.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif    entity.useremitter.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif    entity.useremitter.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif    entity.useremitter.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                                  
+                                    {% else %}
+                                  
+                                    
+              
+                {% if     entity.userreceiver.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{     entity.userreceiver.prenom ~" "~     entity.userreceiver.nom }}
+                {% if     entity.userreceiver.roles[0] == "ROLE_VIP"    and entity.userreceiver.fan == 0 %}
+                        {% set numbre_etoile = 0 %}
+                        {% if     entity.userreceiver.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                                  
+                                  
+                                    {% endif %}
+                                </h4>
+                                <span>{{ entity.dateofsending|date('d-m-Y H:i') }}</span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="content-message-inner">
+
+                            <div class="clearfix"></div>
+
+                            <p> {{ entity.message }}
+                            </p>
+
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

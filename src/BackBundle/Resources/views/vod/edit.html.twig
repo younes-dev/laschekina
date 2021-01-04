@@ -1,0 +1,62 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}
+  {{ 'page.vod'|trans }}
+{% endblock %}
+
+{% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+
+                <a href="{{ path('vod_index') }}"> <span> {{ 'page.vod'|trans }}</span></a>
+            </li>
+            <li>
+                <a href="#"> <span> {{ 'page-breadcrumb.edit'|trans }} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+
+
+    {% block body %}
+
+    {% set menuactive = app.session.get('menuactive') %}
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.edit'|trans }}  </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {{ form_start(form, {'method': 'post', 'action': path('vod_createOrUpdate',{'id': id }), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+        <div class="form-body">
+
+            <div class="form-group">
+                <label>{{ form_label(form.title  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.title   ) }} </span>
+                    {{ form_widget(form.title) }}
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+            <a href="{{ path('vod_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+
+
+{% endblock %}

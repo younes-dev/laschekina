@@ -1,0 +1,166 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.video'|trans }}{% endblock %}
+ {% block stylesheets %}
+
+     <!-- video -->
+     <link rel="stylesheet" href="{{ asset('dev/front/video/css/elite.css') }}" type="text/css" media="screen"/>
+     <link rel="stylesheet" href="{{ asset('dev/front/video/css/elite-font-awesome.css') }}" type="text/css">
+     <link rel="stylesheet" href="{{ asset('dev/front/video/css/jquery.mCustomScrollbar.css') }}" type="text/css">
+     <!-- end video -->
+     <style>
+         #content {
+             background: #ffffff !important;
+         }
+         .elite_vp_mainContainer{
+             position: relative !important;
+             margin-bottom: 40px !important;
+         }
+     </style>
+ {% endblock %}
+ {% block imgscreen %}
+	 <!-- gallerie -->
+	 <div class="owl-carousel accueil-gallerie owl-theme">
+
+         {% for entity in gallerysBanners %}
+			 <a href="{{ path_picture~entity.picture }}" class="item fancybox">
+				 <div class="img-resize imgLiquid">
+                     {% if entity.bannerpicture is defined %}
+						 <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                     {% else %}
+						 <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                     {% endif %}
+				 </div>
+			 </a>
+         {% endfor %}
+	 </div>
+	 <!-- End gallerie -->
+
+ {% endblock %}
+
+   {% block body %}
+
+
+       <div class="container ">
+           <div class="row">
+
+               <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+
+                   <div class="contact-info">
+                       <h2>{{ 'page.video'|trans }}</h2>
+
+                       <div id="Elite_video_player"></div>
+
+
+                   </div>
+
+               </div>
+
+
+
+           </div>
+
+       </div>
+
+
+   {% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('dev/front/video/js/froogaloop.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('dev/front/video/js/jquery.mCustomScrollbar.js') }}" type="text/javascript"></script>
+   <script src="{{ asset('dev/front/video/js/THREEx.FullScreen.js') }}"></script>
+	<script src="{{ asset('dev/front/video/js/videoPlayer.js') }}" type="text/javascript"></script>
+	
+ <script src="{{ asset('dev/front/video/js/Playlist.js') }}" type="text/javascript"></script>
+ 
+	<script type="text/javascript" src="{{ asset('dev/front/video/js/ZeroClipboard.js') }}"></script>
+ 
+   
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function($)
+        {
+            videoPlayer = $("#Elite_video_player").Video({   //ALL PLUGIN OPTIONS
+                
+					instanceName:"player1",
+	instanceTheme:"dark",
+    autohideControls:3,                        
+	hideControlsOnMouseOut:"No",
+	playerLayout: "fixedSize", 	
+	videoPlayerWidth:1006,                       
+	videoPlayerHeight:420, 
+	lightBox:false,                               
+	lightBoxAutoplay: false,                    
+	lightBoxThumbnail:"images/preview_images/poster.jpg",
+	lightBoxThumbnailWidth: 400,                
+	lightBoxThumbnailHeight: 220,                
+	lightBoxCloseOnOutsideClick: true,  	             
+	playlist:"Right playlist",                  
+	playlistScrollType:"light",                 
+	playlistBehaviourOnPageload:"opened (default)",		 
+	autoplay:true,                              
+	colorAccent:"#cc181e",                    
+	vimeoColor:"00adef",                         
+	youtubeControls:"custom controls",			
+	youtubeSkin:"light",                         
+	youtubeColor:"white",                     
+	youtubeShowRelatedVideos:"No",				
+	videoPlayerShadow:"effect1",                 
+	loadRandomVideoOnStart:"No",                
+	shuffle:"No",				                 
+	posterImg:"images/preview_images/poster.jpg",
+	onFinish:"Lire la vidéo suivante",                  
+	nowPlayingText:"Yes",                        
+	fullscreen:"Fullscreen native",              
+	rightClickMenu:true,                         
+	hideVideoSource:false,						
+	showAllControls:true,						
+	allowSkipAd:true,                           
+	infoShow:"Yes",                              
+	shareShow:"Yes",                             
+	facebookShow:"Yes",                          
+	twitterShow:"Yes",                          
+	mailShow:"Yes",                              
+	facebookShareName:"Elite video player",      
+	facebookShareLink:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434",  
+	facebookShareDescription:"Elite Video Player is stunning, modern, responsive, fully customisable high-end video player for WordPress that support advertising and the most popular video platforms like YouTube, Vimeo or self-hosting videos (mp4).", 
+	facebookSharePicture:"https://0.s3.envato.com/files/123866118/preview.jpg", 
+	twitterText:"Elite video player",			 
+	twitterLink:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434", 
+	twitterHashtags:"wordpressvideoplayer",		 
+	twitterVia:"Creative media",				
+	googlePlus:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434",
+	logoShow:"Yes",                              
+	logoClickable:"Yes",                         
+	logoPath:"images/logo/logo.png",             
+	logoGoToLink:"http://codecanyon.net/",       
+	logoPosition:"bottom-left",                 
+	embedShow:"Yes",                            
+	embedCodeSrc:"www.yourwebsite.com/videoplayer/index.html", 
+	embedCodeW:"746",                            
+	embedCodeH:"420",                           
+	embedShareLink:"www.yourwebsite.com/videoplayer/index.html",
+	youtubePlaylistID:"",                        
+	youtubeChannelID:"",    
+                //manual playlist
+                videos:[
+                    {% for item in videos %}
+                    {
+                        videoType:"HTML5",
+                        title:"{{ item.title }}",
+                        mp4:"{{  path_picture~item.path }}",
+                         description:" ",
+                         thumbImg:"{{  path_picture~item.member.pictureprofil }}",
+                         info:" "
+			 
+                    },
+                      {% endfor %}
+
+   ]
+            });
+        });
+    </script>
+
+
+
+{% endblock %}

@@ -1,0 +1,6 @@
+services:
+    folterMedia:
+        class: FrontBundle\Twig\Extension\FilterMerdiaExtension
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: twig.extension }

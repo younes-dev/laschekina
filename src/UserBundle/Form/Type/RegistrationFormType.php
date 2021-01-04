@@ -1,0 +1,71 @@
+<?php
+
+#src/Uae/UserBundle/Form/Type/RegistrationType.php
+
+namespace UserBundle\Form\Type;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class RegistrationFormType extends AbstractType
+{
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+        $builder
+           // ->add('fan', null, array('label' => "form.fan", 'required' => false))
+            //    ->add('telephone', null, array('label' => "form.telephone" , 'required' => false, 'attr' => array('class' => 'form-control ')))
+            /* ->add('datenaissance', DateType::class, array('label' => "form.datenaissance" , 'required' => false ,'widget' => 'single_text','format' => 'dd/MM/yyyy' , 'attr' => array(
+                 'class' => 'form-control selectDatePicker' ,
+                 )))*/
+            //  ->add('pays', CountryType::class, array( 'label' => "form.pays", 'required' => false,'attr' => array('class' => 'form-control ')))
+            //  ->add('twitter', null, array('label' => "form.twitter", 'required' => false,'attr' => array('class' => 'form-control ')))
+            //  ->add('facebook', null, array('label' => "form.facebook", 'required' => false,'attr' => array('class' => 'form-control ')))
+            //   ->add('instagram', null, array('label' => "form.instagram", 'required' => false,'attr' => array('class' => 'form-control ')))
+            ->add('nom', null, array('label' => "form.nom", 'required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('prenom', null, array('label' => "form.prenom", 'required' => false, 'attr' => array('class' => 'form-control')))
+            //   ->add('ville', null, array('label' => "form.ville" , 'required' => false, 'attr' => array('class' => 'form-control')))
+            //   ->add('adresse', null, array('label' => "form.adresse" , 'required' => false, 'attr' => array('class' => 'form-control')))
+            // ->add('codepostal', null, array('label' => "form.codepostal" , 'required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('email', EmailType::class, array('label' => "form.email", 'required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('username', null, array('label' => "form.username", 'required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'options' => array('translation_domain' => 'UserBundle'),
+                'first_options' => array('label' => "form.new_password", 'attr' => array('class' => 'form-control')),
+                'second_options' => array('label' => "form.new_password_confirmation", 'attr' => array('class' => 'form-control')),
+                'invalid_message' => 'fos_user.password.mismatch',
+            ))
+            ->add(
+                'typecompte', ChoiceType::class, array(
+                'choices' => [
+                    'Compte Membre' => 'ROLE_MEMBRE',
+                    'Compte VIP' => 'ROLE_VIP',
+                    'Compte Fan' => 'ROLE_FAN',
+                    'Compte Professionnel' => 'ROLE_PRO'
+                ],
+                'expanded' => false,
+                'multiple' => false,
+
+                'attr' => array('label' => "form.typecompte", 'class' => 'form-control')
+            ))
+            ->add('nomentreprise', null, array('label' => "form.nomentreprise", 'required' => false, 'attr' => array('class' => 'form-control ')))
+            ->add('numseret', null, array('label' => "form.numseret", 'required' => false, 'attr' => array('class' => 'form-control ')));
+    }
+
+    public function getName()
+    {
+        return 'app_user_registration';
+    }
+
+    public function getParent()
+    {
+        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+    }
+
+}

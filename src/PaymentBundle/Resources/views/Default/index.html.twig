@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+
+<head>
+    <!-- Add meta tags for mobile and IE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+<body>
+<!-- Set up a container element for the button -->
+<div id="paypal-button-container"></div>
+
+<!-- Include the PayPal JavaScript SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+<div id="paypal-button-container"></div>
+<script>
+    paypal.Buttons().render(
+    {
+        env: 'sandbox',
+            commit:true,
+        payment: function () {
+
+        },
+        onAuthoriza: function (data, actions) {
+
+        }
+
+    }
+    ,'#paypal-button-container');
+</script>
+</body>

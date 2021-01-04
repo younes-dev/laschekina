@@ -1,0 +1,98 @@
+{% set  menuactive =  app.session.get('menuactive') %}
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">
+                  {{ 'page-breadcrumb.edit'|trans }}
+             
+            </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+            {{ form_start(form, {'method': 'post', 'action': path('crawlerspectacle_edit',{'id': crawlerspectacle.id }), 'attr': {'class': 'form-horizontal'}}) }}
+      
+
+        <div class="form-body">
+
+            <div class="form-group">
+                <label>{{ form_label(form.title  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.title  ) }} </span>
+                    {{ form_widget(form.title) }}
+
+                </div>
+            </div>
+              <div class="form-group">
+                <label>{{ form_label(form.channel  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.channel  ) }} </span>
+                    {{ form_widget(form.channel) }}
+
+                </div>
+            </div>
+
+  <div class="form-group">
+                <label>{{ form_label(form.pays  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.pays  ) }} </span>
+                    {{ form_widget(form.pays) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.picture  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.picture  ) }} </span>
+                    {{ form_widget(form.picture) }}
+
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label>{{ form_label(form.dateStart  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.dateStart  ) }} </span>
+                    {{ form_widget(form.dateStart) }}
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{ form_label(form.startTime  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.startTime  ) }} </span>
+                    {{ form_widget(form.startTime) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.shortdescription  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.shortdescription  ) }} </span>
+                    {{ form_widget(form.shortdescription) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ form_label(form.description  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.description  ) }} </span>
+                    {{ form_widget(form.description) }}
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+

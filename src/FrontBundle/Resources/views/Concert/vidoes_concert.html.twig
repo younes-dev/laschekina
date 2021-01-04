@@ -1,0 +1,83 @@
+<div class="bg-video inner-xs mag-top-40">
+    <div class="container">
+        <div class="tabs-right clearfix">
+            <div class="col-md-7 col-xs-12 col-sm-7">
+                <div class="tab-content">
+                    {% for item in videoConcert %}
+                        <div class="tab-pane {% if loop.index == 1 %} active {% endif %}" id="video-{{ item.id }}">
+                            <div class="big-content-pane">
+                                <a href="{{ item.urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+                                    <div class="box-tab-content">
+                                        <div class="img-resize imgLiquid" >
+
+                                            {% if item.picture != null %}
+                                                <img src="{{  path_picture ~ item.picture }}"  alt=""/>
+                                            {% elseif item.backgroundpicture != null %}
+                                                <img src="{{ path_picture ~ item.backgroundpicture }}">
+                                            {% else %}
+                                                <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""  />
+                                            {% endif %}
+                                        </div>
+                                        <div class="play-btn">
+                                            <i class="zmdi zmdi-play-circle"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+
+                            </div>
+
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <div class="col-md-5 col-xs-12 col-sm-5">
+
+                <div class="title-tabs">
+                    <i class="zmdi zmdi-collection-video"></i> {{ 'top_concert'|trans }}
+
+                </div>
+                <ul class="nav nav-tabs tabs-pane-height">
+                    {% for item in videoConcert %}
+
+                        <li class="{% if loop.index == 1 %} active {% endif %}">
+                            <a href="#video-{{ item.id }}" data-toggle="tab">
+                                <div class="entry-content">
+                                    <div class="picture">
+                                        <div class="picture-content">
+                                            <div class="img-resize imgLiquid" >
+
+                                                {% if item.picture != null %}
+                                                    <img src="{{  path_picture ~ item.picture }}"  alt=""/>
+                                                {% elseif item.backgroundpicture != null %}
+                                                    <img src="{{ path_picture ~ item.backgroundpicture }}">
+                                                {% else %}
+                                                    <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""  />
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="content-tabs">
+                                        <h3>{{ item.title }}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                    {% endfor %}
+
+
+                </ul>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>

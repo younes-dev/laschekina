@@ -1,0 +1,24 @@
+crossword_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Crossword:index" }
+    methods:  GET
+
+crossword_index_vip:
+    path:     /index/vip
+    defaults: { _controller: "BackBundle:Crossword:indexvip" }
+    methods:  GET
+
+crossword_ajax:
+    path:     /ajax
+    defaults: { _controller: "BackBundle:Crossword:ajax" }
+
+
+crossword_edit:
+    path:     /edit/{id}
+    defaults: { _controller: BackBundle:Crossword:createORupdate , id: null }
+    methods:  [GET, POST]
+
+crossword_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Crossword:delete" }
+    methods:  [GET, POST]

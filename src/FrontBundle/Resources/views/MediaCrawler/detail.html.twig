@@ -1,0 +1,128 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block title %}
+    {% if tyemedia == "programme" %}
+        {% set page = 'page.television' %}
+    {% else %}
+        {% set page = 'page.'~tyemedia %}
+    {% endif %}
+
+
+    {{ page|trans }}
+{% endblock %}
+{% block  meta %}
+    <!--- share  of facbook -->
+       {{ render(controller( 'FrontBundle:Front:referancement' ,  { 'type': "ref_cinema" }   )) }}
+     
+
+    <!-- share  of google plus -->
+    <link rel="canonical" href="{{ path('front_end_show_crawler_media',{'id': media.id , 'tyemedia' : tyemedia}) }}"/>
+    <!-- share  of twitter -->
+
+    <link rel="me" href="https://twitter.com/vipcrossing">
+    <link rel="canonical" href="{{ path('front_end_show_crawler_media',{'id': media.id , 'tyemedia' : tyemedia}) }}">
+{% endblock %}
+ {% block imgscreen %}
+
+     <div class="bg-post">
+         <div class="img-resize imgLiquid">
+            
+               {% if media.typePicture == "local" %}
+                       <img src="{{ path_picture ~ media.picture }}"  >
+                {% else %}
+                        <img src="{{ media.picture }}" >
+                  {% endif %}
+                                 
+         </div>
+         <div class="inner-item">
+             <span>{{ media.title }}</span>
+         </div>
+     </div>
+
+ {% endblock %}
+ {% block body %}
+
+     <div class="bg-color-white content-page inner-xs ">
+
+
+         <div class="container">
+             <div class="row">
+
+                 <div class="col-md-8 col-xs-12 col-sm-8">
+
+
+                     <div class="social-content ">
+
+                         <div class="share-content">
+										<span>{{ 'partager'|trans }}
+                                            <i class="zmdi zmdi-share"></i>
+										</span>
+
+                             <div class="clearfix">
+                                 <div class="btn-share">
+                                     <a class="twitter-share-button"
+                                        href="https://twitter.com/intent/tweet?text=Hello%20world">
+                                         Tweet</a>
+
+                                 </div>
+
+                                 <div class="btn-share ">
+                                     <div class="fb-share-button"
+                                          data-href="{{ path('front_end_show_crawler_media',{'id': media.id , 'tyemedia' : tyemedia}) }}"
+                                          data-layout="button_count"
+                                          data-size="small" data-mobile-iframe="true">
+                                         <a class="fb-xfbml-parse-ignore" target="_blank"
+                                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Partager</a>
+                                     </div>
+
+                                 </div>
+
+                                 <div class="btn-share">
+                                     <!-- Place this tag where you want the share button to render. -->
+                                     <div class="g-plus" data-action="share"></div>
+                                 </div>
+
+                             </div>
+
+                         </div>
+
+
+                     </div>
+
+                     <div class="clearfix"></div>
+                     <div class="post-content mag-bot-20">     
+
+                            <ul>
+                         {% if media.channel != null %}  
+                             <li>{{ 'form.channel'|trans ~" : "~ media.channel }}</li>
+                       {% endif %}
+                          {% if media.dateStart != null %}  
+                           <li>{{ 'form.startdate'|trans ~" : "~ media.dateStart|date('d/m/Y')~" "~ media.starttime }}</li>
+                        {% endif %}
+                          {% if media.pays != null %}  
+                           <li>{{ 'form.pays'|trans ~" : "~ media.pays }}</li>
+                        {% endif %}
+                             </ul>
+
+                         {{ media.description|raw }}
+                         <br/>
+                         <br/>
+                         {% if media.url  != null %}
+                             <a href="{{ media.url }}" target="_blank"><b> {{ 'plus_information'|trans }} </b></a>
+                         {% endif %}
+                     </div>
+                     <div class="clearfix"></div>
+
+                 </div>
+
+                 {{ include('FrontBundle:MediaCrawler:other_media.html.twig', { 'mediaListe': Listemedia , 'tyemedia' : tyemedia , 'idMediaCourant' : media.id }) }}
+
+
+             </div>
+
+
+         </div>
+
+     </div>
+
+
+ {% endblock %}

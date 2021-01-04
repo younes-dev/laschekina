@@ -1,0 +1,186 @@
+<?php
+
+namespace BackBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Listamis
+ *
+ * @ORM\Table(name="listamis")
+ * @ORM\Entity(repositoryClass="BackBundle\Repository\ListamisRepository")
+ */
+class Listamis
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateadd", type="datetime")
+     */
+    private $dateadd;
+    /**
+     * @var boolean,
+     *
+     * @ORM\Column(name="enable", type="boolean", nullable=true)
+     */
+    private $enable;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User", inversedBy="ListamisEmitter" )
+     * @ORM\JoinColumn(name="user_emitter", referencedColumnName="id",nullable=true ,onDelete="CASCADE")
+     */
+    protected $userEmitter;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User", inversedBy="ListamisReceiver" )
+     * @ORM\JoinColumn(name="user_receiver", referencedColumnName="id",nullable=true ,onDelete="CASCADE")
+     */
+    protected $userReceiver;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId ()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set dateadd
+     *
+     * @param \DateTime $dateadd
+     *
+     * @return Listamis
+     */
+    public function setDateadd ( $dateadd )
+    {
+        $this->dateadd = $dateadd;
+
+        return $this;
+    }
+
+    /**
+     * Get dateadd
+     *
+     * @return \DateTime
+     */
+    public function getDateadd ()
+    {
+        return $this->dateadd;
+    }
+
+    public function __construct ()
+    {
+        $this->setDateadd ( new \DateTime() );
+        $this->setEnable(1);
+    }
+
+    /**
+     * Set enable
+     *
+     * @param boolean $enable
+     *
+     * @return Listamis
+     */
+    public function setEnable($enable)
+    {
+        $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * Get enable
+     *
+     * @return boolean
+     */
+    public function getEnable()
+    {
+        return $this->enable;
+    }
+
+    /**
+     * Set users
+     *
+     * @param \UserBundle\Entity\User $users
+     *
+     * @return Listamis
+     */
+    public function setUsers(\UserBundle\Entity\User $users = null)
+    {
+        $this->users = $users;
+
+        return $this;
+    }
+
+    /**
+     * Get users
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Set userEmitter
+     *
+     * @param \UserBundle\Entity\User $userEmitter
+     *
+     * @return Listamis
+     */
+    public function setUserEmitter(\UserBundle\Entity\User $userEmitter = null)
+    {
+        $this->userEmitter = $userEmitter;
+
+        return $this;
+    }
+
+    /**
+     * Get userEmitter
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getUserEmitter()
+    {
+        return $this->userEmitter;
+    }
+
+    /**
+     * Set userReceiver
+     *
+     * @param \UserBundle\Entity\User $userReceiver
+     *
+     * @return Listamis
+     */
+    public function setUserReceiver(\UserBundle\Entity\User $userReceiver = null)
+    {
+        $this->userReceiver = $userReceiver;
+
+        return $this;
+    }
+
+    /**
+     * Get userReceiver
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getUserReceiver()
+    {
+        return $this->userReceiver;
+    }
+}

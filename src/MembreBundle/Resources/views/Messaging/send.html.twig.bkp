@@ -1,0 +1,311 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %} {{ 'messages.send'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+                <div class="col-md-12 col-sm-12 col-xs-12" style=" padding-top:30px; padding-bottom:30px">
+                   <div class="col-md-9 col-sm-9 col-xs-12">
+
+
+                       {{ render(controller('FrontBundle:Template:pub' )) }}
+                   </div>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+
+                           {{ render(controller('FrontBundle:Template:pub' )) }}
+                       </div>
+
+
+                   </div>
+        <div class="title-text outer-bottom-20">
+            {{ 'messages.send'|trans }}
+
+        </div>
+
+        <div class="box-message outer-bottom-vs clearfix ">
+
+            <div class="col-md-1 col-xs-12 col-sm-2 no-padd">
+
+                <div class="box-avatar">
+
+
+                    <div class="box-avatar-img">
+                        {% if app.user.pictureprofil != null %}
+                            <img src="{{ path_picture ~ app.user.pictureprofil }}" >
+                        {% else %}
+                            <img src="{{ asset('assets/images/avatar.png') }}">
+                        {% endif %}
+                    </div>
+
+                    <div class="box-message-links">
+
+                        <ul>
+                            <li ><a href="{{ path('front_messaging_received') }}"><span class="zmdi zmdi-inbox"></span></a></li>
+                            <li class="active"><a href="{{ path('front_messaging_send') }}"><span class="zmdi zmdi-mail-send"></span></a></li>
+                            <li><a href="{{ path('front_messaging_remove') }}"><span class="zmdi zmdi-delete"></span></a></li>
+
+                        </ul>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="col-md-4 col-xs-12 col-sm-4 content-message-box">
+                {% for flashMessage in app.session.flashbag.get('messagingalerte') %}
+                    <br/>
+                    <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
+
+
+                <div class="content-message-box-warpper">
+
+
+                    {% for entity in ListeMessage %}
+                        <a {% if loop.index == 1 %}class="current" {% endif %}  data-tab="tab-{{ entity.id }}">
+                            <div class="message-inner clearfix outer-bottom-20">
+
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <div  class="img-resize imgLiquid " >
+                                        {% if entity.userreceiver.pictureprofil != null %}
+                                            <img src="{{ path_picture ~ entity.userreceiver.pictureprofil }}" >
+                                        {% else %}
+                                            <img src="{{ asset('assets/images/avatar.png') }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10 col-sm-10 col-xs-12">
+                                    <div class="clearfix">
+                                        <span class="pull-left name-message"> 
+                                        
+              
+                {% if     entity.userreceiver.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{     entity.userreceiver.prenom ~" "~     entity.userreceiver.nom }}
+                {% if     entity.userreceiver.roles[0] == "ROLE_VIP"    and entity.userreceiver.fan == 0 %}
+                        {% set numbre_etoile = 0 %}
+                        {% if     entity.userreceiver.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                                      
+                                       </span>
+                                        <span class="pull-right"><small>{{ entity.dateofsending|date('d-m-Y H:i') }}</small></span>
+                                    </div>
+                                    <p>
+                                        {{ entity.message[:60]~" ..." }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+                    {% endfor %}
+
+
+
+                </div>
+
+                <div class="add-btn">
+                    <a href="{{ path('front_messaging_envoie') }}"><i class="zmdi zmdi-plus"></i></a></div>
+
+
+
+            </div>
+            <div class="col-md-7 col-xs-12 col-sm-6 content-message-box-inner no-padd">
+
+
+                {% for entity in ListeMessage %}
+                    <div id="tab-{{ entity.id }}" class="{% if loop.index == 1  %}current {% endif %} message-content">
+
+
+                        <div class="header-message-inner clearfix">
+
+                            <div class="pull-left">
+                                <h4>
+                                
+                                  
+              
+                {% if     entity.userreceiver.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{     entity.userreceiver.prenom ~" "~     entity.userreceiver.nom }}
+                {% if     entity.userreceiver.roles[0] == "ROLE_VIP"   and entity.userreceiver.fan == 0 %}
+                        {% set numbre_etoile = 0 %}
+                        {% if     entity.userreceiver.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                                       
+                                </h4>
+                                <span>{{ entity.dateofsending|date('d-m-Y H:i') }}</span>
+
+                            </div>
+                            <div class="pull-right">
+                                <a onclick="Openmodalmessaging({{ entity.id }})"><i class="zmdi zmdi-delete"></i></a>
+
+                            </div>
+
+                        </div>
+
+                        <div class="content-message-inner">
+
+                            <div class="img-resize imgLiquid " >
+                                {% if entity.userreceiver.pictureprofil != null %}
+                                    <img src="{{ path_picture ~ entity.userreceiver.pictureprofil }}" >
+                                {% else %}
+                                    <img src="{{ asset('assets/images/avatar.png') }}">
+                                {% endif %}
+                            </div>
+                            <span>
+                            
+                             
+              
+                {% if     entity.userreceiver.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{     entity.userreceiver.prenom ~" "~     entity.userreceiver.nom }}
+                {% if     entity.userreceiver.roles[0] == "ROLE_VIP"   and entity.userreceiver.fan == 0 %}
+                        {% set numbre_etoile = 0 %}
+                        {% if     entity.userreceiver.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif     entity.userreceiver.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                           
+                            </span>
+                            <div class="clearfix"></div>
+
+                            <p> {{ entity.message }}
+                            </p>
+
+
+
+
+                        </div>
+
+                        <div class="footer-message-inner">
+
+                            <form action="{{ path('front_messaging_send_msg') }}">
+                                <input type="hidden" name="rout" value="send">
+                                <input type="hidden" name="id-userreceiver" value="{{  entity.userreceiver.id }}">
+
+                                <div class="form-group">
+									<textarea name="message" class="form-control" cols="5" rows="5" ></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="login-button">
+
+                                        <input type="submit" class="btn btn-orange btn-lg"  value="Envoyer">
+                                    </div>
+
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div id="delete-media-messaging" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form action="{{ path('front_messaging_delete') }}" method="post">
+                    <div class="modal-body text-center">
+
+                        <div class="sa-icon sa-error animateErrorIcon" style="display: block;">
+													<span class="sa-x-mark animateXMark">
+														<span class="sa-line sa-left"></span>
+														<span class="sa-line sa-right"></span>
+													</span>
+                        </div>
+
+                        <h2 class="title-modal">{{ 'modal_oops'|trans }}</h2>
+                        <p> {{ 'message_validation_remove'|trans }}</p>
+                        <input type="hidden" name="id-item" id="id-item">
+                        <input type="hidden" name="rout" id="rout">
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+                        <button type="button" class="btn btn-default btn-md"
+                                data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+        {% block javascripts %}
+            <script>
+
+                function Openmodalmessaging(id) {
+                    $('#id-item').val(id);
+                    $('#rout').val("front_messaging_send");
+                    $("#delete-media-messaging").modal();
+                }
+
+            </script>
+        {% endblock %}
+
+

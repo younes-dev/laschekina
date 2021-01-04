@@ -1,0 +1,124 @@
+{% set  menuactive =  app.session.get('menuactive') %}
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">
+              {% if (id is defined) %}
+                  {{ 'page-breadcrumb.edit'|trans }}
+              {% else %}
+                  {{ 'page-breadcrumb.add'|trans }}
+              {% endif %}
+            </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {% if (id is defined) %}
+            {{ form_start(form, {'method': 'post', 'action': path('personnage_edit',{'id': personnage.id }), 'attr': {'class': 'form-horizontal'}}) }}
+        {% else %}
+            {{ form_start(form, {'method': 'post', 'action': path('personnage_new'), 'attr': {'class': 'form-horizontal'}}) }}
+        {% endif %}
+
+
+        <div class="form-body">
+
+            <div class="form-group">
+                <label>{{ form_label(form.nom  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.nom  ) }} </span>
+                    {{ form_widget(form.nom) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.prenom  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.prenom  ) }} </span>
+                    {{ form_widget(form.prenom) }}
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{ form_label(form.origin  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.origin  ) }} </span>
+                    {{ form_widget(form.origin) }}
+
+                </div>
+            </div>
+         <div class="form-group">
+                <label>{{ form_label(form.image  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.image  ) }} </span>
+                    {{ form_widget(form.image) }}
+
+                </div>
+            </div>
+           <div class="form-group">
+                <label>{{ form_label(form.twitter  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.twitter  ) }} </span>
+                    {{ form_widget(form.twitter) }}
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{ form_label(form.facebook  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.facebook  ) }} </span>
+                    {{ form_widget(form.facebook) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.category  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.category  ) }} </span>
+                    {{ form_widget(form.category) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ form_label(form.activity  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.activity  ) }} </span>
+                    {{ form_widget(form.activity) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.description  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.description  ) }} </span>
+                    {{ form_widget(form.description) }}
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label>{{ form_label(form.mot  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.mot  ) }} </span>
+                    {{ form_widget(form.mot) }}
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+            <a href="{{ path('personnage_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+

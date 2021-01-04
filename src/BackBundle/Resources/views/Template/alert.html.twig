@@ -1,0 +1,29 @@
+<li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+        <i class="icon-envelope-open"></i>
+      {% if contacts != null %}  <span class="badge badge-default">{{ contacts|length }} </span> {% endif %}
+    </a>
+    <ul class="dropdown-menu">
+        <li class="external">
+
+            <a href="{{ path('contact_index',{'enable' : 0 }) }}">{{ 'voir_tous'|trans }}</a>
+        </li>
+        <li>
+            <div class="slimScrollDiv" ><ul class="dropdown-menu-list scroller"  data-handle-color="#637283" data-initialized="1">
+                 {% for item in contacts %}
+                    <li>
+                        <a href="{{ path('contact_show', {'id': item.id}) }}">
+                                                    <span class="photo">
+                                                        <img src="{{ asset('assets/images/admin.png') }}" class="img-circle" alt="contact"> </span>
+                                                    <span class="subject">
+                                                        <span class="from"> {{ item.name }} </span>
+                                                    </span>
+                            <span class="message"> {{ item.objet }} </span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                   </ul><div class="slimScrollBar" ></div><div class="slimScrollRail" ></div></div>
+        </li>
+    </ul>
+</li>
+                         

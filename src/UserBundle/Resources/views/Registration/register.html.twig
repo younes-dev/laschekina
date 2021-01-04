@@ -1,0 +1,23 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}   {{ 'page.user'|trans }}     {% endblock %}
+
+   {% block hiarche %}
+<div class="page-content" >
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('user_index') }}"> <span>   {{ 'page.user'|trans }}   </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span> {% if (id is defined) %}  {{ 'page-breadcrumb.edit'|trans }} {% else %}{{ 'page-breadcrumb.add'|trans }}  {% endif %} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        {% include "UserBundle:Registration:register_content.html.twig" %}
+    {% endblock  %}
+
+

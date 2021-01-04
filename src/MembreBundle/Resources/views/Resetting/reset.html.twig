@@ -1,0 +1,9 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}   {{ 'resetting.reset.submit'|trans }}{% endblock %}
+ {% block imgscreen %}
+     {{ render(controller('FrontBundle:Front:imageslider' )) }}
+ {% endblock %}
+{% block body %}
+    {% include "MembreBundle:Resetting:reset_content.html.twig" %}
+{% endblock %}

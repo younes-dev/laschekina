@@ -1,0 +1,585 @@
+form:
+    media: Media
+    message_statusMedia_moi_uniquement: Moi uniquement
+    message_statusMedia_Membre: Pour accéder à la suite, vous devez être membre de VIP Crossing
+    message_statusMedia_Public: Tout le monde peut accéder
+    statusMedia: Status
+    postuler_integration: Intégration de vos scènes
+    postuler_telecharger: Télècharger votre script
+    postuler_scenes: Scènes du castina
+    message_video: Votre scène ici
+    nbr_jours: Nombre de jours
+    pdf: Pdf
+    tarif_prestation: Tarif de la prestation
+    lieu_tournage: Lieu de tournage
+    image: Pièce jointe
+    scenario: Scénario
+    title_media: Select your media type
+    description_stat_humeur: |
+                       Vous pouvez envoyer des messages à tous vos fans en un clic ou en fonction de l'état d'esprit du moment. Il vous suffit de sélectionner le groupe que vous souhaitez toucher
+    message_compte_vip: |
+                          Réservé aux personnalités, ce type de compte permet de profiter de l'ensemble des fonctionnalités du sites, d'envoyer des messages à vos fans et de les informer de toutes vos interventions dans les médias.   
+    message_compte_membre: |
+                          Pour la communauté VIP Crossing, vous aurez accès aux options principales de la plateforme, vous pourrez suivre vos personnalités préférées sur tous les médias et recevoir leurs messages.   
+    message_compte_fan: |
+                         Vous pourrez gérer un compte d'une ou de plusieurs personnalités et vous assurez que les fans seront toujours informés des dernières news de leurs VIPs préférés en profitant de toutes les options du site.   
+    message_compte_pro: |
+                         Pour les entreprises qui souhaitent augmenter leur présence numérique et entrer en contact avec de nouveaux membres ou des personnalités. L'ensemble des services du site 
+
+    message_media_type_media: |
+                              Les émotions ou états d’esprit sont définis par des couleurs. Vous avez la possibilité de sélectionner un couleur pour chaque média enregistré afin de proposer aux membres des informations en fonction de ce qu’ils ressentent.
+
+    message_media_sourcevideo: |
+                             Vous pouvez proposer à vos fans ou aux membres qui vous suivent des vidéos issues d’autres sites web ( Youtube, Vimeo, …). Il suffit pour cela de copier l’url dans le champ prévu à cet effet. Elles seront accessibles sir VIP Crossing, tout en conservant le lien et les options du site source.
+
+    message_media_video_mp4: |
+                              Vous pouvez proposer à vos fans ou aux membres qui vous suivent des vidéos que vous allez uploader sur VIP Crossing. Il suffit pour cela de récupérer le fichier sur votre disque local. Le format reconnu est le MP4.
+
+    message_media_audio: |
+                          Vous pouvez proposer à vos fans ou aux membres qui vous suivent de la musique que vous allez uploader sur VIP Crossing. Il suffit pour cela de récupérer le fichier sur votre disque local.  Le format supporté est du MP3. Les éléments ajoutés dans cette rubrique sont ensuite accessible dans la Crossing Sound.
+
+    message_media_livre: |
+                          Vous pouvez proposer à vos fans ou aux membres qui vous suivent quelques pages de vos romans afin qu’ils découvrent votre travail. Il suffit pour cela de remplir les champs. En fonction des éléments ajoutés vous pourrez générer, un livre, une BD ou une plaquette. Vous pourrez ensuite associer vos personnages à votre élément.
+
+    message_audio_enfant: |
+                          Vous pouvez mettre en ligne vos livres audio pour les plus jeunes. Leur narrer des comptes, leurs chanter une berceuse pour les aider à s'endormir. Pour cela, il vous suffit d'uploader votre fichier au format MP3. Il sera instantanément disponible.
+
+    message_contes_histoires_enfants: |
+                          L'espace histoire et conte pour enfants pour permettra de diffuser vos créations, faire découvrir votre talent d'écrivain pour les jeunes générations. Pour cela, il suffit de remplir les différentes rubriques et valider. Une interface agréable sera offerte à vos lecteurs.
+
+    message_media_liver_bd: |
+                          Vous pouvez proposer à vos fans ou aux membres qui vous suivent quelques pages de vos romans afin qu’ils découvrent votre travail. Il suffit pour cela de remplir les champs. En fonction des éléments ajoutés vous pourrez générer, un livre, une BD ou une plaquette. Vous pourrez ensuite associer vos personnages à votre élément.
+
+    message_contes_histoires: |
+                          Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression
+
+    description_insert_scenes: |
+                          Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression
+
+    descriptionCourt: Short description
+    pictureHome: Image de page Home
+    publier: Publier le
+    questions: Question Corona
+    titleHome:  Title page Accueil
+    caPub:  Compte google ADS
+    vod: Vod
+    remarque_description: maximum 700 characters
+    contenuBook: Book content
+    non_active:  Désactivée
+    active:  Activée
+    etatMessenger: Messenger state
+    modeVideo: Mode Vidéo
+    editionBook : "Edition"
+    priceBook : "Price (EUR)"
+    book: "Book"
+    dateSortie : "Fecha de lanzamiento"
+    image_couverture : "Cover image"
+    image_liver_bd : "Images de Bande dessinée"
+    mp3_upload : "Fichier audio"
+    selectionner : "Sélectionner"
+    typeVideo : "Type of Media"
+    changer_coloremotioncard :  "Sélectionnez l’humeur qui apparaitre dans votre Collection"
+    add_image_coloremotioncard : "Associer une image à chaque humeur"
+    send-message : "Send a message"
+    origin : "origin"
+    activityfr : "activity en francais"
+    activityen : "activity en anglais"
+    activityes : "activity en espanyol"
+    categoryfr : "category en francais"
+    categoryen : "Catégorie en anglais"
+    categoryes : "Catégorie en espanyol"
+    showposotion : "Show your position"
+    showmapphoto : "Show your photo in the map"
+    plus_information : "Website link"
+    vip : "VIP"
+    date : "Date"
+    publier : "Publish"
+    question : "Question"
+    reponse : "Answer"
+    typemot : "Word position"
+    statue : "Statue"
+    createur : "Creator"
+    non_publier : "Not published"
+    coloremotioncard : "Sélectionnez une humeur et choisissez une image à associer "
+    listamis : "Friends list"
+    pays : 'Country'
+    url_instagram : 'Url instagram article'
+    twitter : 'Id Twitter'
+    objet : 'Object'
+    googleplus : 'Google plus'
+    facebook : 'Facebook'
+    linkedin : 'Linkedin'
+    instagram : 'Instagram'
+    description : 'Description'
+    descriptionpopupfr : 'French window description '
+    descriptionpopupen : 'English window description'
+    descriptionpopupes : 'Spanish window escription'
+    descriptionfr : 'French footer description '
+    descriptionen : 'English footer description'
+    descriptiones : 'Spanish footer escription'
+    envoyer : 'Send'
+    message : 'Message'
+    sujet : 'Subjet'
+    urlradio : 'Radio URL'
+    datecreate : 'Creation date'
+    backgroundpicture: 'Background picture'
+    sourcevideo: 'Vidéo externe '
+    pictureprofil: 'Profil picture'
+    picturecover: 'Profil cover'
+    username: 'User name'
+    nom: 'Name'
+    prenom: 'First name'
+    telephone: 'Phone number'
+    datenaissance: 'Birth date'
+    ville: 'City'
+    adresse: 'Adress'
+    codepostal: 'Postal code'
+    email: 'E-mail adress'
+    current_password: 'Actual password'
+    password: 'Password'
+    password_confirmation: 'Repeat password'
+    new_password: 'New password'
+    new_password_confirmation: 'Repeat password'
+    action: "Action"
+    typecompte: "Account type"
+    mon_compte: "My account"
+    role: "Accounts types"
+    title: "Title"
+    languge: "Language"
+    accepter_conditions_utilisation: "Accept"
+    channel: "Channel"
+    shortdescription: "Brief description"
+    startdate: "Start date"
+    enddate: "End date"
+    dateenvoie: "Sending date"
+    picture: 'Picture'
+    startTime: 'Start time'
+    users: 'Actors list'
+    endTime: 'End Heure '
+    category: 'Category'
+    activity: 'Activity'
+    mot: 'Search word'
+
+emotioncard:
+    zen: Mode zen
+    gaite: happiness mode
+    deprime: depressed mode
+    colere: anger mode
+    fatigue: tired mode
+    energique: energetic mode
+profile:
+    show:
+        username: 'user name'
+        email: 'email Adress'
+    edit:
+        title: 'Change my personal information'
+        submit: 'Update'
+    flash:
+        updated: 'The profil has been updated.'
+    compte_error: "Esta cuenta no existe"
+
+change_password:
+    submit: 'Modify password'
+    flash:
+        success: 'The password has been updated.'
+
+layout:
+    pagelogin:  Already have an account ?
+    logout: Logout
+    login: Login
+    register: Register
+    logged_in_as: 'Connected as %username%'
+    remember_me: 'Remember me'
+registration:
+    check_email: 'An e-mail was sent to the adresse %email%. It contains an activation link that you will need to click in order to activate your account.'
+    confirmed: 'Congratulations %username%, your account is now activated.'
+    back: 'Back to the login page.'
+    submit: 'Create un account'
+    flash:
+        user_created: 'The user was successfully cretad.'
+    email:
+        subject: 'Welcome %username% !'
+        message: |
+            Welcome %username% ,<br/>
+            To validate your user account, please select <a href=" %confirmationUrl%" target="_blank"> link </a>.
+            This link can be used once to validate your account.<br/>
+            Cordially,<br/>
+            The Team  VIP Crossing
+resetting:
+    check_email: |
+        An email has been sent. It contains a link to click to reset your password.
+        Note : You can only request a new password every %tokenLifetime% minute.
+        If you don't receive an email, check your spam folder or try again.
+    request:
+        username: 'User name or email adress'
+        submit: 'Reset the password'
+    reset:
+        submit: 'Modify the password'
+    flash:
+        success: 'The password has been reset succesfully.'
+    email:
+        subject: 'Resetting your password'
+        message: |
+            Hello %username% !
+            To reset your password, please go to <a href=" %confirmationUrl%" target="_blank"> lien </a>
+            Cordially,
+            The team
+btn:
+    postuler-annuler: Annuler
+    postuler-accepter: Accépter
+    postuler-en-attent: En attente
+    postuler-valide: Candidat Validé
+    open_tv: Ouvrir le TV
+    delete_condidateur: Supprimer votre candidat
+    valide_condidateur: Valider votre candidat
+    modifier_postuler: Modifier votre candidat
+    uploadScenarioSuivant: Enregistrer  Scénario Suivant
+    liste_candidats: Liste des candidats
+    postuler: Postuler
+    add_video: Ajouter vidéo
+    terminer: Enregistrement terminé
+    uploadSuivant: Enregistrer autre Vidéo
+    ajouter_casting :  Ajouter Casting
+    add_beaux_personnages: Add to the list of the most beautiful characters
+    remove_beaux_personnages: Remove from Crossing Cartoon
+    icon_add_beaux_personnages: +
+    icon_remove_beaux_personnages: -
+    info_personnage: More informations
+    executer_robots : "execute robots"
+    cancel: Cancel
+    edit: Modify
+    show: Show
+    remove: Delete
+    add: Add
+    save: Save
+    logout: Logout
+    next: Next
+    commentaire: Comment
+    download: Descargar
+    ajouter_personnage: "Add Character"
+    personnage:  All the characters
+    title_personnage: Show all characters
+
+page-breadcrumb:
+  add: Add
+  edit: Modify
+  show: Show
+
+page:
+    casting: Casting
+    espace_admin: Espace Admin
+    questions: Des Questions Corona
+    config: configuration
+    vod: Vod
+    ref: Referancement
+    ref_home:  Page home
+    ref_people:  Page people
+    ref_programme:  Page programme 
+    ref_cinema:  Page cinema 
+    ref_concert:  Page concert
+    ref_spectacle:  Page spectacle
+    ref_radio:  Page radio
+    ref_collection:  Page collection
+    ref_crossing_carton:  Page crossing carton
+    vip_in_home: Vip dans home
+    show_vip_default : Mostrar la página de inicio con VIP predeterminado
+    show_vip_box : Muestra la página de inicio con los VIP de tu Box
+    showDefaultVipInHome: VIP predeterminado
+    showVipBoxInHome:  VIP box  
+    crossingTv: Crossing TV
+    crossingAudio: Crossing Sound
+    crossingMap: Crossing Map
+    video: lista de videos
+    audio: lista de audios
+    category: 'Category'
+    activity: 'Activity'
+    personnage: His biography, his news on VIP Crossing
+    media: Media
+    crawler: Robots list
+    crosswordadmin: ADMIN CROSSWORD
+    rendezvous: Appointment
+    crosswordvip:  VIP CROSSWORD
+    magazine: Magazine
+    magazinegallery: Magazine Gallery
+    research: Search
+    partage_box: Share my collection
+    collection: My collection
+    profil: My profil
+    information:  Information
+    contact:  Contact
+    aide:  Help
+    rensignements-contact:  Information-Contact
+    tous_people:  All peoples
+    people:  People
+    image_fond:  Background picture
+    gallery: Gallery
+    home: VIP Crossing
+    gallery_crossing_cartoon: Bannière crossing cartoon
+    gallery_home: Index page
+    gallery_banner: Banner
+    gallerys_carousel_index: Carousel page index
+    registration: Inscription
+    create: ACCOUNT CREATION
+    user: User list
+    conditions_utilisation: Term of use
+    programme: TV Program
+    cinema: Cinema
+    concert: Concert
+    spectacle: Show
+    radio: Radio
+    a_propos: About
+    a_propos_nous: About us
+    qui_sommes_nous: Who are we ?
+    confidentialite: Confidentiality
+    spectale: Spectale
+    television: Television
+    programmes: Programme TV
+    radio_online: Online radio
+    box: Box
+    message: My voicemail
+authentication:
+  btn: To log in
+  login: Login
+  password: Password
+  confirmed_password: Confirm your password
+
+message_alert_remove: this record will be deleted
+message_validation_remove: Are you sure you want to delete ?
+message_validation_casting: Êtes-vous sûr de valider votre  candidature?
+message_pour_acceder: L'accès à cette page est réservé aux membres de VIP Crossing. Si ce n'est pas encore le cas, rejoignez notre communauté !
+
+alert:
+   postuler_casting: Votre candidature a bien été envoyée
+   image_bd: L'etat d'image a été changé avec succès
+   champs_obligatoire: Required fields
+   abonnement_supprime: Your subscription has been successfully deleted
+   abonnement_valide: This address is not valid
+   abonnement_enregistre: Your subscription has been successfully registered
+   abonnement_deja_enregistre: This email address is already registered
+   edit: 'Edit successfully'
+   delete: 'Delete successfully'
+   add: 'Add successfully'
+   state: "Status of the modified image"
+   delete_box: "The event was transferred to the archive"
+   envoie_message: "Messages send successfully"
+   annuler_payement: "User canceled approval"
+   payement_sucees: "Successful payment"
+lien_livre:  Access the book
+lien_livre_bd: Accéder à la BD
+plus_information: More information
+bandes_annonces: Our trailers
+sorties_semaine: Pronto en los cines
+actuellement_salles: Currently in theaters
+actuellement_actrices_acteurs:  Actresses and Actors
+open_video: Open the video
+title_video: VIP Crossing Video
+title_casting_video: Casting Video
+title_mp3: Mes titres
+title_autre_video: Autre videos
+livre: Livre, Plaquette
+livres_bd: Bande dessinée
+audio_enfant: Livres audio pour enfants
+contes_histoires_enfants: Contes et histoires pour enfants
+livres_audio: Livres audio
+video_mode: mode Videos
+liste_livre_plaquette: Livres / Plaquettes
+liste_livre: Books
+video: video
+video_mp4: Vidéos
+audio: Musique
+photos: Pics
+partger: Share
+acteurs_actrices: Concerned
+autre_cinema: Other cinema
+Bandes_annonces: Films traylers
+video_trailers: Video trailers
+top_concert: Top Concert
+prochaains_evenements: You should also like
+evenements_meme_auteur: Les autres contes du même auteur
+media_question: Votre avis est important
+tous_evenements: All event
+liste_spectale: All spectales
+step_one: steps 1
+step_tow: steps 2
+other_media: Other media
+commenter: Comment
+datecreate: Creation date
+lien_radio: Radio link
+chaine_radio: Radio channel
+people_actu: ACTUALITY
+top_people: TOP PEOPLE
+video_people: LAST VIDEOS PEOPLE
+contes_histoires_enfants: Contes et histoires pour enfants
+contact_question_commentaire: You have a question, a comment...
+contact_information:  INFORMATION
+suivez-nous:  Follows us
+voir_tous:  View all
+copyright:  2019 - viprossing.com  – Tous droits réservés
+modal_oops: Oops...
+modal_oops_acceder: Vous souhaitez aller plus loin !
+modal_valider: Validate
+modal_close: Close
+partager: Share
+label_acheter: Buy
+nous-suiver: FOLLOW US
+media_like: j'aime
+# menu
+menu_admin: Super-administrateur
+menu_membre: Member list
+menu_francais: French
+menu_anglais: English
+menu_espagnol: Spanish
+menu:  Menu
+menu_accueil:  Home
+menu_page_accueil:  Home page
+menu_messge_vu:  Seen message
+menu_messge_non_vu: Not seen message
+menu_ma_box:  MY BOX
+menu_sous_ma_box:  Search by keyword
+collection_crossing_cartoon: Crossing cartoon
+collection_crossing_studio: Crossing Studio
+collection_humeur: L’humeur des 
+collection_fans: fans
+liste_recherche: List of searched words
+sou_menu_corona: Calculate your weight
+#box
+box_add: Add to my box
+box_delete:  Delete to my box
+box_listes_personnages: List of characters
+personnages_autres_personnages: Autres personnages de la BD
+personnages_pourriezaimer: Vous pourriez aussi aimer
+box_listes_cinema:  Cinema
+box_listes_programme:  Programme
+box_listes_radio:  Radio
+box_listes_people:  People
+box_listes_concert:  Concert
+box_listes_spectacle:  Spectacle
+box_activee:  Box
+box_non_activee:  Archives
+box_partager:  Share my collection
+book_partager: Lista de libros
+box_dernieres_news: LAST POSTS
+box_mag : CROSSING MAG
+box_listes_pro: The companies that interest you
+box_listes_fans_vip: Fan accounts you follow
+box_listes_vip: Your favorite personalities
+#email partage box
+partage_box:
+    email:
+        subject: 'Bienvenue %username% '
+        message: |
+            Hello %username%
+            %userCourant% invites you to click on this <a href="https://vipcrossing.com/collection/fr/vip/%userCourant%.%confirmationUrl%" target = "_blank" > link </a>
+            to discover his collection on VIP Crossing.
+            Join him quickly and talk about it around you.
+            The VIP Crossing team
+#cinema
+premier_coup_oeil: Premier coup d'oeil
+#alerte
+alertes_message_error_edit_profil: Username must not contain special characters " . "
+alertes: Notifications
+alertes-tab1:  VIP
+alertes-tab2:  TODAY
+alertes-tab3:  BOX
+alert_personnage: Please log in to be able to react to this character.
+alert_like_book:  Cette option est disponible pour les membres uniquement.
+description_crossing_studio: Trouvez de nouveaux clients, démarrez de nouveaux projets ou de nouvelles collaborations. Crossing Studio vous permet de publier votre créativité et votre talent.  De nouvelles opportunités, une nouvelle carrière, ce que vous proposons  c'est un horizon graphique où tout devient possible..
+
+#modal vip
+message_modal_vip: |
+            Lsorem ipsum dolor sit amet, consectetur adipiscing elit
+            Lsorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            Lsorem ipsum dolor sit amet, consectetur adipiscing elit
+            Cordially,
+            The team
+#Messages
+messages:
+    received: Reception box
+    send: Sended messages
+    new_msg: Compose a new message
+    new_send_msg: Send a message
+
+
+#casting
+casting:
+     contacter_candidat: Contacter le candidat
+     send_message: Envoyer une message par email
+     notification: Une notification sera envoyée au candidat
+     accepter_candidature:  Accepter la candidature
+     candidature_publiee:  La candidature sera publiée sur votre page
+     laissier_choisir:  Laissier les fans choisir
+     partage:    Partager avec un membre de VIP Crossing
+
+
+#collection
+
+add_event: Ajouter un nouvel évènement
+collection_Media: Media
+collection_add_picture: Add a new image
+collection_add_rendez_vous: Add appointment
+collection_picture: Photo
+collection_video: VIDEOS
+collection_news: News
+collection_videos: Videos
+collection_lire_suite: Read more
+collection_vip: VIP
+collection_tourne: See as well
+collection_visiteurs: visits
+collection_avis: Views
+collection_add_actulaite: Add un new actuality
+collection_description_default: You can write your description ...
+collection_mon_humeur: Mood
+collection_list_amis : Contacts
+collection_magazinegallery : Magazine
+collection_description : Editorial
+personnage_description : Description
+collection_mon : MON
+collection_HUMEUR : HUMEUR
+collection_fans : DES FANS
+collection_ma_crossing: CROSSING MAP
+collection_rendez_vous : Appointment
+abonnes : Subscriber(s)
+media_views: Visites
+media_view: Visite
+suivre: Suivre
+date_diffusions: Les horaires de diffusions
+
+#recherche
+resultat_recherche_null: No hay resultados para esta búsqueda. Intenta algo más
+resultat_recherche: RESEARCH RESULT FOR THE WORD
+resultat_vip_recherche: Member list
+resultat_cinema_recherche: Cinemas list
+resultat_programme_recherche: Programmes list
+resultat_concert_recherche: Concerts list
+resultat_spectacle_recherche: Spectacles list
+resultat_redio_recherche: Radios list
+resultat_people_recherche: Peoples list
+resultat_web_externe:  Website extern result
+
+#ma magasin
+menu_ma_magasin: Magazine
+menu_crawler_spectacle: Spectacle
+menu_crawler_radio: Radio
+menu_crawler_concert: Concert
+menu_crawler_news: News
+menu_crawler_cinema: Cinema
+menu_crawler_programme: Programme
+sou_menu_ma_magasin: la revista dinámica 100%
+magasin_rdv: Appointment with  yours stars
+crossword_down: Vertical
+crossword_across: Horizontal
+crossword_magazine_question: Crossword question
+crossword_magazine_reponse: Crossword answer
+magazine_votre_star: YOUR PREFERED STAR
+magazine_photos: THE LATEST PHOTOS
+magazine_error: |
+                To access your magazine you must have at least 5 VIPs in your box
+                and to access to the default magazine, click
+add_amis: Add a friend
+delete_amis: Delete a friend
+partage_box_non_membre: YOUR FRIEND IS NOT A MEMBER
+
+select:
+   mode_video:  Choisir mode vidéo
+
+afficher_profil: Ver perfil

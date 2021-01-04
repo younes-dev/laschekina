@@ -1,0 +1,238 @@
+<div class="row">
+    <div class="container">
+        <div class="col-md-9 col-sm-9 col-xs-12">
+            <div class="title-pg">
+                <h3><strong>{{ 'video_trailers'|trans }}</strong> <i class="zmdi zmdi-chevron-right"></i></h3>
+            </div>
+            <div class="col-md-8 col-xs-12 col-sm-8 padd-vd ">
+                <div class="article-video">
+                    <a href="{{ videoCinemas[0].urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+                        <div class="box-page big-video">
+                            <div class="img-resize imgLiquid" >
+                                {% if videoCinemas[0].picture != null %}
+                                    <img src="{{  path_picture ~ videoCinemas[0].picture }}" alt=""/>
+                                {% elseif videoCinemas[0].backgroundpicture != null %}
+                                    <img src="{{ path_picture ~ videoCinemas[0].backgroundpicture }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                {% endif %}
+                            </div>
+                            <div class="inner-video">
+                                <div class="inner-video-caption">
+                                    <span>{{ videoCinemas[0].title }}</span>
+                                </div>
+                                <div class="play-btn">
+                                    <i class="zmdi zmdi-play-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4 padd-left-5">
+                {% for i in 1..2 %}
+                    <div class="box-video">
+                        <a href="{{ videoCinemas[i].urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+                            <div class="box-page">
+                                <div class="img-resize imgLiquid" >
+
+                                    {% if videoCinemas[i].picture != null %}
+                                        <img src="{{  path_picture ~ videoCinemas[i].picture }}" alt=""/>
+                                    {% elseif videoCinemas[i].backgroundpicture != null %}
+                                        <img src="{{ path_picture ~ videoCinemas[i].backgroundpicture }}">
+                                    {% else %}
+                                        <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                    {% endif %}
+                                </div>
+                                    <div class="play-btn">
+                                    <i class="zmdi zmdi-play-circle"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4 padd-vd">
+                <div class="box-video">
+                    <a href="{{ videoCinemas[3].urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+                        <div class="box-page">
+                            <div class="img-resize imgLiquid" >
+
+                                {% if videoCinemas[3].picture != null %}
+                                    <img src="{{  path_picture ~ videoCinemas[3].picture }}" alt=""/>
+                                {% elseif videoCinemas[3].backgroundpicture != null %}
+                                    <img src="{{ path_picture ~ videoCinemas[3].backgroundpicture }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                {% endif %}
+
+                            </div>
+                            <div class="play-btn">
+                                <i class="zmdi zmdi-play-circle"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4 padd-vd padd-left-5">
+                <div class="box-video">
+                    <a href="{{ videoCinemas[4].urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+                        <div class="box-page">
+                            <div class="img-resize imgLiquid" >
+
+
+                                {% if videoCinemas[4].picture != null %}
+                                    <img src="{{  path_picture ~ videoCinemas[4].picture }}" alt=""/>
+                                {% elseif videoCinemas[4].backgroundpicture != null %}
+                                    <img src="{{ path_picture ~ videoCinemas[4].backgroundpicture }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                {% endif %}
+
+                            </div>
+                                <div class="play-btn">
+                                <i class="zmdi zmdi-play-circle"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4 padd-left-5">
+                <div class="box-video">
+                    <a href="{{ videoCinemas[5].urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+                        <div class="box-page">
+                            <div class="img-resize imgLiquid" >
+
+                                {% if videoCinemas[5].picture != null %}
+                                    <img src="{{  path_picture ~ videoCinemas[5].picture }}" alt=""/>
+                                {% elseif videoCinemas[5].backgroundpicture != null %}
+                                    <img src="{{ path_picture ~ videoCinemas[5].backgroundpicture }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                {% endif %}
+
+                            </div>
+                            <div class="play-btn">
+                                <i class="zmdi zmdi-play-circle"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12">
+            <div class="title-pg">
+                <h3><strong>{{ 'premier_coup_oeil'|trans }}</strong> <i class="zmdi zmdi-chevron-right"></i></h3>
+            </div>
+            <div class="owl-carousel first-look-caroussel owl-theme">
+                {% for item in videoCinemas %}
+                    <div class="item">
+                        <div class="look-box">
+                            <div class="img-resize imgLiquid" >
+
+                            <img src="{{ path_picture ~ item.picture }}">
+
+                                {% if item.picture != null %}
+                                    <img src="{{ path_picture ~  item.picture }}" alt=""/>
+                                {% elseif item.backgroundpicture != null %}
+                                    <img src="{{ path_picture ~ item.backgroundpicture }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-video inner-xs mag-top-40">
+    <div class="container">
+        <div class="tabs-right clearfix">
+            <div class="col-md-7 col-xs-12 col-sm-7">
+                <div class="tab-content">
+                    {% for item in videoCinemas %}
+                        {% if item.urlvideo != null %}
+                        <div class="tab-pane {% if loop.index == 1 %} active {% endif %}" id="video-{{ item.id }}">
+                            <div class="big-content-pane">
+                                <a href="{{ item.urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+                                    <div class="box-tab-content">
+                                        <div class="img-resize imgLiquid" >
+
+                                            {% if item.picture != null %}
+                                                <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                            {% elseif item.backgroundpicture != null %}
+                                                <img src="{{ path_picture ~ item.backgroundpicture }}">
+                                            {% else %}
+                                                <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="play-btn">
+                                            <i class="zmdi zmdi-play-circle"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+
+                            </div>
+
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <div class="col-md-5 col-xs-12 col-sm-5">
+
+                <div class="title-tabs">
+                    <i class="zmdi zmdi-collection-video"></i>{{ 'Bandes_annonces'|trans }}
+
+                </div>
+                <ul class="nav nav-tabs tabs-pane-height">
+                    {% for item in videoCinemas %}
+
+                        <li class="{% if loop.index == 1 %} active {% endif %}">
+                            <a href="#video-{{ item.id }}" data-toggle="tab">
+                                <div class="entry-content">
+                                    <div class="picture">
+                                        <div class="picture-content">
+                                            <div class="img-resize imgLiquid" >
+
+                                                {% if item.picture != null %}
+                                                    <img src="{{  path_picture ~ item.picture }}" alt=""/>
+                                                {% elseif item.backgroundpicture != null %}
+                                                    <img src="{{ path_picture ~ item.backgroundpicture }}">
+                                                {% else %}
+                                                    <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                                {% endif %}
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="content-tabs">
+                                        <h3>{{ item.title }}
+                                        </h3>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                    {% endfor %}
+
+
+                </ul>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>

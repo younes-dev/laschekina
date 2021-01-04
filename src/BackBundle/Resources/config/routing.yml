@@ -1,0 +1,104 @@
+Back_end_personnage:
+    resource: "@BackBundle/Resources/config/routing/personnage.yml"
+    prefix:   /personnage
+
+gallery_crossing_cartoon:
+    resource: "@BackBundle/Resources/config/routing/galleryCrossingCartoon.yml"
+    prefix:   /gallery-crossing-cartoon
+
+back_category:
+    resource: "@BackBundle/Resources/config/routing/category.yml"
+    prefix:   /category
+
+back_referancement:
+        resource: "@BackBundle/Resources/config/routing/referancement.yml"
+        prefix:   /referancement
+        
+back_activity:
+        resource: "@BackBundle/Resources/config/routing/activity.yml"
+        prefix:   /activity
+
+back_newsletter:
+    resource: "@BackBundle/Resources/config/routing/newsletter.yml"
+    prefix:   /newsletter
+
+back_typecontentmedia:
+    resource: "@BackBundle/Resources/config/routing/typecontentmedia.yml"
+    prefix:   /typecontentmedia
+
+back_vod:
+    resource: "@BackBundle/Resources/config/routing/vod.yml"
+    prefix:   /vod
+
+back_content:
+    resource: "@BackBundle/Resources/config/routing/content.yml"
+    prefix:   /content
+
+back_radio:
+    resource: "@BackBundle/Resources/config/routing/radio.yml"
+    prefix:   /radio
+
+back_medias:
+    resource: "@BackBundle/Resources/config/routing/medias.yml"
+    prefix:   /medias
+
+back_information:
+    resource: "@BackBundle/Resources/config/routing/information.yml"
+    prefix:   /information
+
+
+back_contact:
+    resource: "@BackBundle/Resources/config/routing/contact.yml"
+    prefix:   /contact
+
+back_vip:
+    resource: "@BackBundle/Resources/config/routing/vip.yml"
+    prefix:   /vip
+
+back_gallerys:
+    resource: "@BackBundle/Resources/config/routing/gallerys.yml"
+    prefix:   /gallerys
+
+back_magazinegallery:
+    resource: "@BackBundle/Resources/config/routing/magazinegallery.yml"
+    prefix:   /magazinegallery
+
+back_crossword:
+    resource: "@BackBundle/Resources/config/routing/crossword.yml"
+    prefix:   /crossword
+
+back_rendezvous:
+    resource: "@BackBundle/Resources/config/routing/rendezvous.yml"
+    prefix:   /rendezvous
+
+back_crawlerspectacle:
+    resource: "@BackBundle/Resources/config/routing/crawlerspectacle.yml"
+    prefix:   /crawlerspectacle
+
+back_crawlercinema:
+    resource: "@BackBundle/Resources/config/routing/crawlercinema.yml"
+    prefix:   /crawlercinema
+
+back_crawlerconcert:
+    resource: "@BackBundle/Resources/config/routing/crawlerconcert.yml"
+    prefix:   /crawlerconcert
+
+back_crawlerradio:
+    resource: "@BackBundle/Resources/config/routing/crawlerradio.yml"
+    prefix:   /crawlerradio
+
+back_crawlernews:
+    resource: "@BackBundle/Resources/config/routing/crawlernews.yml"
+    prefix:   /crawlernews
+
+back_crawlerprogramme:
+    resource: "@BackBundle/Resources/config/routing/crawlerprogramme.yml"
+    prefix:   /crawlerprogramme
+
+Back_end_Crawler:
+    resource: "@BackBundle/Resources/config/routing/crawler.yml"
+    prefix:   /crawler
+
+back_questions:
+    resource: "@BackBundle/Resources/config/routing/questions.yml"
+    prefix:   /questions-media

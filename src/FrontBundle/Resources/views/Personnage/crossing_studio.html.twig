@@ -1,0 +1,276 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'collection_crossing_studio'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/personnage.css') }}">
+
+    <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+{% endblock %}
+ {% block imgscreen %}
+     <style>
+         .padding-top-0{
+             padding-top:0px !important;
+         }
+
+
+         .thumbnail {
+             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+             transition: 0.3s;
+             min-width: 40%;
+             border-radius: 5px;
+         }
+
+         .thumbnail-description {
+             min-height: 40px;
+         }
+
+         .thumbnail:hover {
+             cursor: pointer;
+             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1);
+         }
+     </style>
+     <!-- gallerie -->
+     <div class="owl-carousel accueil-gallerie owl-theme">
+
+         {% for entity in gallerys_banner %}
+             <a href="{{ path_picture~entity.picture }}"
+                title="<a href='{{ path('collection',{'activeTab': 'vip' , 'fullName': entity.member.username , 'id': entity.member.id}) }}' style=' color: #ff5722;'>
+                 {{ entity.member.prenom  ~' ' ~ entity.member.nom}} {% if entity.member.fan == 1 %} - FAN {% endif %}</a>"
+
+
+
+                data-caption="test"  class="item fancybox">
+                 <div class="img-resize imgLiquid">
+                     {% if entity.bannerpicture is defined %}
+                         <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                     {% else %}
+                         <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                     {% endif %}
+                 </div>
+             </a>
+         {% endfor %}
+     </div>
+     <!-- End gallerie -->
+
+ {% endblock %}
+{% block body %}
+
+
+    <div class="content-page inner-xs ">
+
+
+        <div class="container width-100">
+            <div class="col-md-9 col-sm-9 col-xs-12">
+
+                <div class="box-page-bg clearfix padding-20">
+                <div class="col-md-12  tousListeBookImagesBD" >
+                                    
+<div class="borders">
+                                    <p >
+                                       {{ 'description_crossing_studio'|trans   }}
+                                    </p>
+                                   
+                               
+                                </div>
+                    {% for item in listeBookImagesBD %}
+
+
+                            <div class=" col-md-4 col-sm-12 col-xs-12 item"  id="{{ item.id }}">
+                                <div class="row space-16">&nbsp;</div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="thumbnail">
+                                            <div class="caption text-center"  >
+                                                <div class="position-relative">
+                                                    <a href="{{ path('magazine_livre_bd',{'id' : item.book.id}) }}" title="{{ 'lien_livre_bd'|trans }}" target="_blank">
+                                                    <img src="{{ path_picture~ item.path }}" style="width: 100%;height: 360px;"  />
+                                                    </a>
+                                                </div>
+                                                <h4 id="thumbnail-label">
+                                                    <a href="{{ path('magazine_livre_bd',{'id' : item.book.id}) }}" target="_blank">  {{ item.book.title }}</a>
+
+
+                                                </h4>
+                                                <p>  <a href="{{ path('collection',{'activeTab': 'vip' , 'fullName': item.book.member.username , 'id': item.book.member.id}) }}" target="_blank">
+
+                                                    <i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;{{ item.book.member }}
+                                                    </a>
+
+
+                                                    <button class="vote-btn vote-like"
+                                                            onclick="likeDislikeBook( {% if app.user != null %} {{ app.user.id }} {% else %} 0 {% endif %} , {{ item.book.id }})"
+                                                            style="{% if app.user != null and item.book.id|likeBook(app.user.id) == 1  %}color:green; {% endif %}float: right; " id="like{{ item.book.id }}"><i class="fa fa-thumbs-up font-size"></i> <span id="nbr_like_{{ item.book.id }}">{{ item.book.bookVotes|length }}</span></button>
+
+                                                </p>
+                                                <div class="thumbnail-description smaller"> {{- item.book.descriptionCourt[:150] -}}</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                    {% endfor %}
+
+                </div>
+                </div><!--//end col-md-9-->
+
+            </div>
+
+
+            <div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+                <div class="col-md-12  box-page-bg ">
+
+                    <h3 style="margin-top: 0;">{{ 'collection_tourne'|trans }}  </h3>
+
+
+                    <div class="list-vip">
+                        {% for item in listeVIP %}
+
+
+                            <div class="vip-block clearfix">
+
+                                <div class="vip-img img-resize imgLiquid">
+                                    <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username , 'id': item.id}) }}" >  {% if item.pictureprofil != null %}
+                                            <img src="{{ path_picture ~ item.pictureprofil }}" >
+                                        {% else %}
+                                            <img src="{{ asset('assets/images/avatar.png') }}" >
+                                        {% endif %} </a></div>
+
+                                <div class="vip-info">
+                                    <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username  , 'id': item.id}) }}" >
+                                        <span>    {{   item.prenom ~" "~   item.nom }}   </span>
+                                    </a>
+                                </div>
+
+
+                            </div>
+
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+                <div class="box-page-bg clearfix">
+                    <div class="fb-page" data-href="vipcrossing" data-tabs="timeline" style="width : 100% !important ;"
+                         data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                         data-show-facepile="true">
+                        <blockquote cite="vipcrossing" class="fb-xfbml-parse-ignore" style="width : 100% !important ;" ><a
+                                    href="vipcrossing">‎VIPCrossing‎</a></blockquote>
+                    </div>
+
+                </div>
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+
+
+
+                <div class="box-page-bg clearfix" id="tweets" style="display: none">
+                    <a class="twitter-timeline" data-height="430"
+                       href="https://twitter.com/vipcrossing">Tweets </a>
+                </div>
+
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+            </div>
+
+
+
+
+        </div>
+    </div><!--//end row-->
+
+
+
+
+
+    <div class="modal fade" id="modal-alert-no-connect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog"  >
+            <div class="modal-content">
+                <div class="modal-body modalBodyDelete">
+
+                    {{'alert_like_book'|trans}}
+
+                </div>
+                <div class="modal-footer modalFooterDelete">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">  {{'modal_close'|trans}}  </button>
+                    <a href="{{ path('fos_user_security_login') }}" class="btn btn-orange">{{'authentication.btn'|trans}} </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(window).scroll(function () {
+            var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
+            var scrolltrigger = 0.99;
+            if ((wintop / (docheight - winheight)) > scrolltrigger) {
+                var lastId = $('.item:last').attr('id') ;
+                var data = {
+                    'lastId': lastId
+
+                };
+                var url = '{{ path('front_end_scroll_book_images_bd') }}';
+                $.ajax({
+                    url: url, // La ressource ciblée
+                    type: 'POST', // Le type de la requête HTTP.
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.status == true){
+
+                            $('.tousListeBookImagesBD').append(data.tousPeopleHtml);
+                            $('#tweets').show();
+                        }
+
+
+
+                    },
+
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        })
+
+
+        function likeDislikeBook(user_id , bookId){
+            if(user_id != 0){
+
+
+                var data = {
+                    'bookId': bookId
+
+                };
+                var url = '{{ path('collection_ajax_book_vote') }}';
+
+
+                $.ajax({
+                    url:url,
+                    type:"POST",
+                    data: data,
+                    dataType: "json",
+                    success: function(data){
+
+                        $('#like'+bookId).css({"color" : "green"});
+
+
+                        $('#nbr_like_'+bookId).html(data.nbrbook);
+
+                    }
+                });
+            }else{
+                $('#modal-alert-no-connect').modal();
+            }
+        }
+    </script>
+{% endblock %}

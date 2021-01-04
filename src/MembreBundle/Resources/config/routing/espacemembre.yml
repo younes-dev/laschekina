@@ -1,0 +1,76 @@
+espace-member-profile:
+    path:     /{_locale}
+    defaults: { _controller: MembreBundle:FrontMembre:profile }
+    requirements:
+        _locale: fr|en|es
+
+home_page_show_vip:
+    path:     /{_locale}/home_page_show_vip
+    defaults: { _controller: MembreBundle:FrontMembre:homePageShowVip }
+    requirements:
+        _locale: fr|en|es
+
+espace-member-edit-profile:
+    path:     /{_locale}/edit/profile
+    defaults: { _controller: MembreBundle:FrontMembre:editprofile }
+    requirements:
+        _locale: fr|en|es
+
+espace-member-add-amis:
+    path:     /{_locale}/add/amis/{id}
+    defaults: { _controller: MembreBundle:FrontMembre:addAmis }
+    requirements:
+        _locale: fr|en|es
+
+espace-member-delete-amis:
+    path:     /{_locale}/delete/amis/{id}
+    defaults: { _controller: MembreBundle:FrontMembre:deleteAmis }
+    requirements:
+        _locale: fr|en|es
+
+front_end_page_box:
+    path:     /{_locale}/box/active
+    defaults: { _controller: MembreBundle:FrontMembre:boxactive }
+    requirements:
+        _locale: fr|en|es
+
+front_end_page_box_archive_delete:
+    path:     /{_locale}/{id}/box/ArchiveOrDelete
+    defaults: { _controller: MembreBundle:FrontMembre:boxArchiveOrDelete }
+    requirements:
+        _locale: fr|en|es
+
+collection_partage_box:
+    path:     /{_locale}/partage-box
+    defaults: { _controller: MembreBundle:FrontMembre:partageBox }
+    requirements:
+        _locale: fr|en|es
+
+
+collection_partage_book:
+    path:     /{_locale}/partage-book
+    defaults: { _controller: MembreBundle:FrontMembre:partageBook }
+    requirements:
+        _locale: fr|en|es
+
+collection_email_partage_box:
+    path:     /{_locale}/email/partage-box
+    defaults: { _controller: MembreBundle:FrontMembre:partageBoxEmail }
+    requirements:
+        _locale: fr|en|es
+
+front_end_page_box_non_active:
+    path:     /{_locale}/box/non-active
+    defaults: { _controller: MembreBundle:FrontMembre:boxnonactive }
+
+front_end_add_remove_box_ajax:
+    path:     /{_locale}/addOrRemove/box/ajax
+    defaults: { _controller: MembreBundle:FrontMembre:addOrRemoveboxajax }
+    requirements:
+        _locale: fr|en|es
+
+front_end_add_vip_box:
+    path:     /{_locale}/add/vip/box
+    defaults: { _controller: MembreBundle:FrontMembre:addvipbox }
+    requirements:
+        _locale: fr|en|es

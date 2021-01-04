@@ -1,0 +1,81 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+    {{ 'page.user'|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content" >
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('user_index') }}"> <span> {{ 'page.user'|trans }}  </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-settings font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.add'|trans }}  </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+
+                <form class="form-horizontal" action="{{ path('user_gestion_role' , {'id' : user.id }) }}" method="post" >
+
+                <div class="form-body">
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Role : </label>
+
+                            <div class="col-sm-4 show-value">
+                                <select class="form-control" id="fos_user_registration_form_typecompte" name="typecompte"  placeholder="Type de compte">
+                                    <option value="ROLE_SUPER_ADMIN" {% if role == "ROLE_SUPER_ADMIN" %} selected {% endif %} >Compte Super admin</option>
+                                    <option value="ROLE_MEMBRE" {% if role == "ROLE_MEMBRE" %} selected {% endif %} >Compte membre </option>
+                                    <option value="ROLE_VIP"  {% if role == "ROLE_VIP" %} selected {% endif %} >Compte VIP</option>
+                                    <option value="ROLE_PRO"  {% if role == "ROLE_PRO" %} selected {% endif %} >Compte pro</option>
+                                </select>
+                            </div>
+                            <div  id="fan"  class="col-xs-12 col-md-4  {% if role != "ROLE_VIP" %} hidden {% endif %}"  >
+
+                                <input name="input_fan" id="input_fan" type="checkbox" {% if user.fan == 1 %} checked {% endif %}> <b>&nbsp; Vous êtes un fan </b>
+
+                            </div>
+                        </div>
+
+
+                </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn blue">Gestion de rôle </button>
+                        <a href="#" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+                    </div>
+</form>
+
+            </div>
+        </div>
+    {% endblock %}
+
+
+    {% block javascripts %}
+
+    <script>
+        document.getElementById("fos_user_registration_form_typecompte").onchange = function() {myFunction()};
+        function myFunction() {
+
+            if (document.getElementById("fos_user_registration_form_typecompte").value=='ROLE_VIP'){
+
+                document.getElementById("fan").classList.remove('hidden');
+            }else{
+                document.getElementById("fan").classList.add('hidden');
+                  document.getElementById("input_fan").checked  = false;
+
+            }
+        }
+    </script>
+    {% endblock %}

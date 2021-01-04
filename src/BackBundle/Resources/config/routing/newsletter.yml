@@ -1,0 +1,8 @@
+newsletter_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Newsletter:index" }
+
+newsletter_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Newsletter:delete" }
+

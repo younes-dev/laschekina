@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<!--[if IE 8]>
+<html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+
+<head>
+    <meta charset="utf-8"/>
+    <title> {% block title %}    {% endblock %}</title>
+
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <link href="{{ asset('dev/front/css/crop-save.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/lib-styles.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets/css/style-back.min.css') }}" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
+    <link href="{{ asset('dev/front/js/fancybox.2.1.5/jquery.fancybox.css') }}" rel="stylesheet">
+ 
+    <link href="{{ asset('dev/front/css/slim.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('dev/front/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('dev/back/css/style.css') }}" rel="stylesheet">
+ 
+   <link href="{{ asset('dev/front/css/chosen.css') }}" rel="stylesheet">
+    {% block stylesheets %} {% endblock %}
+<style>
+
+</style>
+   </head>
+    <body class="page-sidebar-closed-hide-logo page-content-white page-header-fixed page-footer-fixed">
+
+           <!--  block-bar -->
+           <div class="page-header navbar navbar-fixed-top">
+
+               <div class="page-header-inner ">
+                   <div class="page-logo">
+
+                       <div class="menu-toggler sidebar-toggler"> </div>
+                   </div>
+                   <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+                   <div class="top-menu">
+                       <ul class="nav navbar-nav pull-right">
+                           {{ render(controller( 'BackBundle:Template:alertMessage'    )) }}
+                           <li class="dropdown dropdown-user">
+                               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"  data-close-others="true">
+                                       <img alt="" class="img-circle" src="{{asset('assets/images/admin.png')}}" />
+                                   <span class="username username-hide-on-mobile">  {{ app.user.username  }} </span>
+
+                                   <i class="fa fa-angle-down"></i>
+                               </a>
+                               <ul class="dropdown-menu dropdown-menu-default">
+
+
+
+                               </ul>
+                           </li>
+                           <li class="dropdown dropdown-quick-sidebar-toggler">
+                               <a href="{{ path('fos_user_security_logout') }}" class="dropdown-toggle" title="{{ 'layout.logout'|trans }}">
+                                   <i class="icon-logout"></i>
+                               </a>
+                           </li>
+
+                       </ul>
+                   </div>
+
+               </div>
+
+           </div>
+
+           <!--  End block-bar -->
+
+            <div class="clearfix"></div>
+
+        <div class="page-container">
+
+            <div class="page-sidebar-wrapper">
+
+                {% include 'menu-backend.html.twig' %}
+
+            </div>
+            <div class="page-content-wrapper">
+                {% block hiarche %}
+                <div class="page-content" style="min-height: 930px;">
+                    {% endblock %}
+
+                            {% block body %}{% endblock %}
+
+                    </div>
+               </div>
+
+        </div>
+
+        <div class="page-footer">
+            <div class="page-footer-inner"> {{ "now"|date("Y") }} &copy;
+            </div>
+
+        </div>
+
+<script src="{{ asset('assets/js/lib-back.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/script-back.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('dev/back/js/bootstrap_file_field.js') }}"></script>
+<script src="{{ asset('dev/back/js/jquery.maskedinput.min.js') }}" type="text/javascript"></script>
+           <script type="text/javascript" src="{{ asset('dev/back/ckfinder/ckfinder.js') }}"></script>
+<script src="{{ asset('dev/back/ckeditor/ckeditor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/back/js/bootstrap-select.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/back/js/bootstrap-select.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/back/js/bootstrap-timepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/front/js/fancybox.2.1.5/jquery.fancybox.js') }}"></script>{#
+<script src="{{ asset('dev/front/js/slim.kickstart.min.js') }}" ></script>#}
+<script src="{{ asset('dev/front/js/slim.kickstart.js') }}" ></script>
+<script src="{{ asset('dev/front/js/bootstrap-datepicker.min.js') }}" ></script>
+
+
+<script>
+
+
+ 
+(function($){
+            $.fn.datepicker.dates['fr'] = {
+                days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+                daysShort: ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."],
+                daysMin: ["D", "L", "Ma", "Me", "J", "V", "S"],
+                months: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
+                monthsShort: ["Janv.", "Fevr.", "Mars", "Avril", "Mai", "Juin", "Juil.", "Aout", "Sept.", "Oct.", "Nov.", "Dec."],
+                today: "Aujourd'hui",
+                monthsTitle: "Mois",
+                clear: "Effacer",
+                weekStart: 1,
+                format: "dd/mm/yyyy"
+            };
+        }(jQuery));
+ $('.selectDatePicker').datepicker({
+            language: 'fr',
+            autoclose: true,
+     selectMultiple:true,
+            todayHighlight: true
+        })
+
+
+ 
+</script>
+<script src="{{ asset('dev/front/js/chosen.jquery.js') }}" ></script>
+<script>
+  
+    $(".chosen-select").chosen({
+        disable_search_threshold: 10 ,
+        no_results_text: "Oops, nothing found!",
+        width: '100%' 
+        
+        }
+        
+        );</script>
+{% block javascripts %}
+
+{% endblock %}
+
+</body>
+
+</html>

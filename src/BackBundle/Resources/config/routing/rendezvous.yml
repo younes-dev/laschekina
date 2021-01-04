@@ -1,0 +1,14 @@
+rendezvous_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Rendezvous:index" }
+    methods:  GET
+
+rendezvous_edit:
+    path:     /edit/{id}
+    defaults: { _controller: BackBundle:Rendezvous:createORupdate , id: null }
+    methods:  [GET, POST]
+
+rendezvous_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Rendezvous:delete" }
+    methods:  [GET, POST]

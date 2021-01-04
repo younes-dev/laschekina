@@ -1,0 +1,35 @@
+
+    <div id="delete-media" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form action="{{ path('front_messaging_delete') }}" method="post">
+                    <div class="modal-body text-center">
+
+                        <div class="sa-icon sa-error animateErrorIcon" style="display: block;">
+													<span class="sa-x-mark animateXMark">
+														<span class="sa-line sa-left"></span>
+														<span class="sa-line sa-right"></span>
+													</span>
+                        </div>
+
+                        <h2 class="title-modal">{{ 'modal_oops'|trans }}</h2>
+                        <p> {{ 'message_validation_remove'|trans }}</p>
+                        <input type="hidden" name="id-item" id="id-item">
+                        <input type="hidden" name="rout" id="rout">
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+                        <button type="button" class="btn btn-default btn-md"
+                                data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+

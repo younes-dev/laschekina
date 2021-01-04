@@ -1,0 +1,177 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+ 
+{% block title %}  {{ "Collection" ~" - " ~ personnage.collectionMedia.member.prenom ~" "~ personnage.collectionMedia.member.nom ~" - personnage "~ personnage.personnage  }} {% endblock %}
+{% block  meta %} 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+ <meta property="og:title" content="VIP Crossing -   {{ personnage.collectionMedia.member.prenom ~" "~ personnage.collectionMedia.member.nom ~" - personnage " ~ personnage.personnage }}"/>
+     
+        <meta name="description"
+              content=" {% if personnage.description != null %}
+                            {{- personnage.description|raw -}}
+                        {% else %}
+                           {{- 'collection_description_default'|trans -}}
+                        {% endif %}">
+        <meta property="og:description"
+              content=" {% if personnage.description != null %}
+                            {{- personnage.description|raw -}}
+                        {% else %}
+                           {{ 'collection_description_default'|trans }}
+                        {% endif %}"/>
+ 
+{% endblock %}
+{% block imgscreen %}
+<div class="channel-cover">
+
+    <div class="bg-post">
+
+        <div class="img-resize imgLiquid">
+             {% if personnage.collectionMedia.member.picturecover != null %}
+                <img src="{{ path_picture ~ personnage.collectionMedia.member.picturecover  }}">
+         
+            {% elseif personnage.image != null %}
+                <img src="{{ path_picture ~ 'personnage_media/' ~ personnage.image}}">
+            {% else %}
+                <img src="{{ path_picture|getImageDefault()}}">
+            {% endif %}
+
+        </div>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+    <div class="author-overlay container width-100">
+        <div class="channel-header">
+            <div class="author-avatar img-resize imgLiquid">
+                {% if personnage.image != null %}
+                    <img src="{{ path_picture ~ 'personnage_media/' ~ personnage.image}}" class="avatar-acteur">
+                {% else %}
+                    <img src="{{ asset('assets/images/avatar.png') }}" class="avatar-acteur">
+                {% endif %}
+
+            </div>
+
+            <div class="author-meta title-collection-name  energique   " style="padding: 0 0 0 75px !important;">
+                <h3 class="author-name" style="padding: 10px !important;">     {{ personnage.personnage   }} </h3>
+
+                </div>
+        </div>
+    </div>
+</div>
+
+    <div class="author-action-bar clearfix">
+        <div class="container width-100" >
+            <ul class="nav nav-tabs author-tabs nav-pills">
+
+                    <li {% if activeTab == 'profile' %} class="active" {% endif %}>
+                    <a href="#tab1" data-toggle="tab"><span>{{ 'collection_vip'|trans }} </span> </a>
+                </li>
+                    <li {% if activeTab == 'media' %} class="active" {% endif %}  >
+                        <a href="#tab2" data-toggle="tab"> <span> {{ 'collection_Media'|trans }}</span> </a>
+                    </li>
+
+
+
+
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="content-page inner-xs ">
+
+
+        <div class="container width-100">
+
+            <div class="col-md-9 col-sm-12 col-xs-12  ">
+                            
+                          
+                <div class="clearfix">
+
+                    {% include 'FrontBundle:Personnage:profile.html.twig' %}
+
+                    {% include 'FrontBundle:Personnage:medias.html.twig' %}
+
+
+                </div>
+
+
+            </div>
+       
+       
+      
+       
+        </div>
+
+
+  <div class="col-md-3 col-sm-12  col-xs-12    mag-bot-40 ">
+
+            <div class="box-page-bg clearfix">
+
+                  {% include 'FrontBundle:Personnage:tourne.html.twig' %}
+
+
+      </div>
+
+
+      <div class="box-page-bg clearfix">
+      {{ render(controller('FrontBundle:Template:pub' )) }}
+      </div>
+
+      <div class="box-page-bg clearfix">
+
+          {{ include('FrontBundle:Ajax:facebook.html.twig', {  'vipUser': personnage.collectionMedia.member }) }}
+      </div>
+
+
+      <div class="box-page-bg clearfix">
+      {{ render(controller('FrontBundle:Template:pub' )) }}
+
+      </div>
+ 
+
+
+    </div>
+
+
+<!--Modal-->
+{% if (app.user != null  and personnage.collectionMedia.member.id == app.user.id ) %}
+  
+
+
+    <div id="delete-media" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form action="{{ path('front_end_personnag_collection_delete_item') }}" method="post">
+                    <div class="modal-body text-center">
+
+                        <div class="sa-icon sa-error animateErrorIcon" style="display: block;">
+													<span class="sa-x-mark animateXMark">
+														<span class="sa-line sa-left"></span>
+														<span class="sa-line sa-right"></span>
+													</span>
+                        </div>
+
+                        <h2 class="title-modal">{{ 'modal_oops'|trans }}</h2>
+                        <p> {{ 'message_validation_remove'|trans }}</p>
+                        <input type="hidden" name="id-item" id="id-item">
+                        <input type="hidden" name="type-item" id="type-item">
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+                        <button type="button" class="btn btn-default btn-md"
+                                data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    {% endif %}
+{% endblock %}

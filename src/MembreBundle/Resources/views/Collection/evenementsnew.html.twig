@@ -1,0 +1,94 @@
+<div class="tab-pane {% if activeTab == "evenementnew" %} active {% endif %}" id="tab11">
+    {%   if (app.user != null  and member.id == app.user.id ) %}
+    <div class="col-md-12 col-xs-12">
+        <a href="#tab10" class="btn btn-default" data-toggle="tab"><span>Liste des événements</span></a>
+    </div><br><br><br>
+        <div class="row" style="text-align: center;">
+            <h4>{{'add_event'|trans }}</h4>
+        </div><br><br>
+    {{ form_start(form, {'method': 'post', 'action': path('medias_new'), 'attr': {'class': 'form-horizontal'}}) }}
+    <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6" style="padding-bottom: 7px;">
+                        <label>Type Media</label>
+                            <select name="mediatype" class="form-control">
+                                {% for typemedia in typemedias %}
+                                    <option value="{{ typemedia.id }}">{{ typemedia.title }}</option>
+                                {% endfor %}
+                            </select>
+                </div>
+                <div class="col-md-6" style="padding-bottom: 7px;">
+                        <label>Langage</label>
+                            <select name="langage" class="form-control" style="padding-bottom: 7px;">
+                                <option value="fr">Francais</option>
+                                <option value="en">Anglais</option>
+                                <option value="es">Espagnol</option>
+                            </select>
+               </div>
+                <div class="col-md-12" style="padding-bottom: 7px;">
+                            {{ form_row(form.title) }}
+                </div>
+                <div class="col-md-6" style="padding-bottom: 7px;">
+                            {{ form_row(form.users) }}
+                </div>
+                <div class="col-md-6" style="padding-bottom: 7px;">
+                            {{ form_row(form.personnage) }}
+                </div>
+                <div class="col-md-12" style="padding-bottom: 7px;">
+                            {{ form_row(form.channel) }}
+                </div>
+                    <!-- test si c'est un radio -->
+                <div class="col-md-6"  style="{% if 1==2 %}display: none{% endif %} padding-bottom: 7px;" >
+                            {{ form_row(form.urlradio) }}
+                </div>
+                    <!-- test si c'est un radio -->
+                <div class="col-md-6"  style="{% if 1==2 %}display: none{% endif %} padding-bottom: 7px;">
+                            {{ form_row(form.urlvideo) }}
+                </div>
+                <div class="col-md-6" style="padding-bottom: 7px;">
+                    <label>{{ form_label(form.picture  ) }}</label><br>
+                    <span class="error-message">  {{ form_errors(form.picture  ) }} </span>
+                          {{ form_widget(form.picture) }}
+                </div>
+                <div class="col-md-6" style="padding-bottom: 7px;">
+
+                    <label>{{ form_label(form.backgroundpicture  ) }}</label><br>
+                    <span class="error-message">  {{ form_errors(form.backgroundpicture  ) }} </span>
+                           {{ form_widget(form.backgroundpicture) }}
+
+                </div>
+                <div class="col-md-6" style="padding-bottom: 7px;">
+                            {{ form_row(form.startdate) }}
+                </div>
+                <div class="col-md-6" style="padding-bottom: 7px;">
+                    <label>{{ form_label(form.startTime  ) }}</label>
+                    <span class="error-message">  {{ form_errors(form.startTime  ) }}</span>
+                    {{ form_widget(form.startTime) }}
+                </div>
+                <div class="col-md-12" style="padding-bottom: 7px;">
+                            {{ form_row(form.shortdescription) }}
+                </div>
+                <div class="col-md-12" style="padding-bottom: 7px;">
+                            {{ form_row(form.detaileddescription) }}
+                </div>
+                <div class="form-actions col-md-12" style="padding-bottom: 7px;">
+                    <button  type="submit" class="btn btn-primary">{{ 'btn.save'|trans }}</button>
+                </div>
+
+            </div>
+        <hr/>
+    </div>
+
+        <div class="col-md-12" style="display: none">
+            {{ form_row(form.sowPub) }}
+            {{ form_row(form.titleHome) }}
+            {{ form_row(form.pictureHome) }}
+            {{ form_row(form.enddate) }}
+            {{ form_row(form.vod) }}
+            {{ form_row(form.typeContentMedia) }}
+        </div>
+
+        {{ form_end(form) }}
+    {% endif %}
+
+</div> 

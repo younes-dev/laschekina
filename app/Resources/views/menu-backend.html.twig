@@ -1,0 +1,615 @@
+<div class="page-sidebar navbar-collapse collapse">
+    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true"
+        data-slide-speed="200" style="padding-top: 20px">
+        <li class="sidebar-toggler-wrapper hide">
+            <div class="sidebar-toggler"></div>
+        </li>
+        <li class="sidebar-search-wrapper">
+            <form class="sidebar-search  " action="" method="POST">
+                <a href="javascript:;" class="remove">
+                    <i class="icon-close"></i>
+                </a>
+
+                <div class="input-group" style="display: none">
+                    <input type="text" name="rechercher" class="form-control" placeholder="Recherche Avancée">
+                    <span class="input-group-btn">
+                        <a href="javascript:;" class="btn submit">
+                            <i class="icon-magnifier"></i>
+                        </a>
+                    </span>
+                </div>
+            </form>
+        </li>
+
+        {% set menuactive = app.session.get('menuactive') %}
+        {% set languge = app.session.get('languge') %}
+
+        <li class="nav-item  {% if menuactive in ['magazinegallery' , 'crosswordadmin', 'rendezvous', 'crosswordvip' ] %}  start active  open  {% endif %}  ">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-list"></i>
+                <span class="title">   {{ 'page.magazine'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive   in ['magazinegallery' ,'rendezvous','crosswordadmin','crosswordvip' ] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+
+                <li class=" {% if menuactive == "magazinegallery" %}active {% endif %}">
+                    <a href="{{ path('magazinegallery_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'page.magazinegallery'|trans }}  </a>
+
+                </li>
+                <li class=" {% if menuactive == "crosswordadmin" %}active {% endif %}">
+                    <a href="{{ path('crossword_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'page.crosswordadmin'|trans }}  </a>
+
+                </li>
+                <li class=" {% if menuactive == "crosswordvip" %}active {% endif %}">
+                    <a href="{{ path('crossword_index_vip') }}"><i
+                                class="fa fa-circle"></i> {{ 'page.crosswordvip'|trans }}  </a>
+
+                </li>
+                <li class=" {% if menuactive == "rendezvous" %}active {% endif %}">
+                    <a href="{{ path('rendezvous_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'page.rendezvous'|trans }}  </a>
+
+                </li>
+
+            </ul>
+
+        </li>
+
+
+        <li class="nav-item  {% if menuactive in ['gallery_home','gallerysCarouselIndex', 'gallery_crossing_cartoon' , "vip_in_home" , "gallery_banner"] %}  start active  open  {% endif %}  ">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-list"></i>
+                <span class="title">   {{ 'page.gallery'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive   in ['gallery_home','gallerysCarouselIndex', 'gallery_crossing_cartoon' , "vip_in_home" , "gallery_banner"] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+
+                <li class=" {% if menuactive == "gallerysCarouselIndex" %}active {% endif %}">
+                    <a href="{{ path('gallerys_carousel_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'page.gallerys_carousel_index'|trans }}  </a>
+
+                </li>
+                <li class=" {% if menuactive == "gallery_home" %}active {% endif %}">
+                    <a href="{{ path('gallerys_index' ,{'type_gallery': "gallery_home"  }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.gallery_home'|trans }}  </a>
+                </li>
+                <li class=" {% if menuactive == "gallery_crossing_cartoon" %}active {% endif %}">
+                    <a href="{{ path('gallery_crossing_cartoon_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'page.gallery_crossing_cartoon'|trans }}  </a>
+
+                </li>
+                <li class=" {% if menuactive == "vip_in_home" %}active {% endif %}">
+                    <a href="{{ path('vip_in_home') }}"><i
+                                class="fa fa-circle"></i> {{ 'page.vip_in_home'|trans }}  </a>
+
+                </li>
+
+            </ul>
+
+        </li>
+
+
+        <li class="nav-item  {% if menuactive in ['programme' ,'people' ,'spectacle','cinema'  ,'chaine_radio' ,'radio' ,'concert'  ] %}  start active  open  {% endif %}  ">
+
+
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-list"></i>
+                <span class="title">   {{ 'page.media'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive in ['programme' ,'people' ,'spectacle','cinema'  ,'chaine_radio' ,'radio' ,'concert'  ] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+
+                <li class="nav-item  {% if menuactive == "programme" %}  start active  open  {% endif %}  ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="fa fa-list"></i>
+                        <span class="title">   {{ 'page.programme'|trans }}  </span>
+                        <span class="selected"></span>
+                        <span class="arrow  {% if menuactive  == "programme" %}  open  {% endif %} "></span>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li class=" {% if languge == "fr" and menuactive == "programme" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "programme" ,  'languge': "fr" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_francais'|trans }}  </a>
+
+                        </li>
+
+                        <li class=" {% if languge == "en"  and menuactive == "programme" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "programme" ,  'languge': "en" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_anglais'|trans }}  </a>
+
+                        </li>
+
+
+                        <li class=" {% if languge == "es"  and menuactive == "programme" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "programme" ,  'languge': "es" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_espagnol'|trans }}  </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+                <li class="nav-item  {% if menuactive == "cinema" %}  start active  open  {% endif %}  ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="fa fa-list"></i>
+                        <span class="title">   {{ 'page.cinema'|trans }}  </span>
+                        <span class="selected"></span>
+                        <span class="arrow  {% if menuactive  == "cinema" %}  open  {% endif %} "></span>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li class=" {% if languge == "fr"  and menuactive == "cinema" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "cinema" ,  'languge': "fr" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_francais'|trans }}  </a>
+
+                        </li>
+
+                        <li class=" {% if languge == "en" and menuactive == "cinema" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "cinema" ,  'languge': "en" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_anglais'|trans }}  </a>
+
+                        </li>
+
+
+                        <li class=" {% if languge == "es" and menuactive == "cinema" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "cinema" ,  'languge': "es" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_espagnol'|trans }}  </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+
+                <li class="nav-item  {% if menuactive == "concert" %}  start active  open  {% endif %}  ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="fa fa-list"></i>
+                        <span class="title">   {{ 'page.concert'|trans }}  </span>
+                        <span class="selected"></span>
+                        <span class="arrow  {% if menuactive  == "concert" %}  open  {% endif %} "></span>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li class=" {% if languge == "fr"  and menuactive == "concert" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "concert" ,  'languge': "fr" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_francais'|trans }}  </a>
+
+                        </li>
+
+                        <li class=" {% if languge == "en"  and menuactive == "concert" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "concert" ,  'languge': "en" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_anglais'|trans }}  </a>
+
+                        </li>
+
+
+                        <li class=" {% if languge == "es"  and menuactive == "concert" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "concert" ,  'languge': "es" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_espagnol'|trans }}  </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+                <li class="nav-item  {% if menuactive in ["radio" , "chaine_radio"] %}  start active  open  {% endif %}  ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="fa fa-list"></i>
+                        <span class="title">   {{ 'page.radio'|trans }}  </span>
+                        <span class="selected"></span>
+                        <span class="arrow  {% if menuactive  == "radio" %}  open  {% endif %} "></span>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li class=" {% if  menuactive == "chaine_radio" %}active {% endif %}">
+                            <a href="{{ path('radio_index' ) }}"><i
+                                        class="fa fa-circle"></i> {{ 'chaine_radio'|trans }}  </a>
+
+                        </li>
+
+                        <li class=" {% if languge == "fr" and menuactive == "radio" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "radio" ,  'languge': "fr" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_francais'|trans }}  </a>
+
+                        </li>
+
+                        <li class=" {% if languge == "en"  and menuactive == "radio" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "radio" ,  'languge': "en" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_anglais'|trans }}  </a>
+
+                        </li>
+
+
+                        <li class=" {% if languge == "es"  and menuactive == "radio" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "radio" ,  'languge': "es" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_espagnol'|trans }}  </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+
+                <li class="nav-item  {% if menuactive == "spectacle" %}  start active  open  {% endif %}  ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="fa fa-list"></i>
+                        <span class="title">   {{ 'page.spectacle'|trans }}  </span>
+                        <span class="selected"></span>
+                        <span class="arrow  {% if menuactive  == "spectacle" %}  open  {% endif %} "></span>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li class=" {% if languge == "fr"  and menuactive == "spectacle" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "spectacle" ,  'languge': "fr" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_francais'|trans }}  </a>
+
+                        </li>
+
+                        <li class=" {% if languge == "en"  and menuactive == "spectacle" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "spectacle" ,  'languge': "en" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_anglais'|trans }}  </a>
+
+                        </li>
+
+
+                        <li class=" {% if languge == "es"  and menuactive == "spectacle" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "spectacle" ,  'languge': "es" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_espagnol'|trans }}  </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+
+                <li class="nav-item  {% if menuactive == "people" %}  start active  open  {% endif %}  ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="fa fa-list"></i>
+                        <span class="title">   {{ 'page.people'|trans }}  </span>
+                        <span class="selected"></span>
+                        <span class="arrow  {% if menuactive  == "people" %}  open  {% endif %} "></span>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li class=" {% if languge == "fr"  and menuactive == "people" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "people" ,  'languge': "fr" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_francais'|trans }}  </a>
+
+                        </li>
+
+                        <li class=" {% if languge == "en"  and menuactive == "people" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "people" ,  'languge': "en" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_anglais'|trans }}  </a>
+
+                        </li>
+
+
+                        <li class=" {% if languge == "es"  and menuactive == "people" %}active {% endif %}">
+                            <a href="{{ path('medias_index' ,{'typemedia': "people" ,  'languge': "es" }) }}"><i
+                                        class="fa fa-circle"></i> {{ 'menu_espagnol'|trans }}  </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+
+            </ul>
+
+        </li>
+
+
+        <li class="nav-item  {% if menuactive in ['crawlernews' ,'crawlerprogramme' , 'crawlerprogramme' ,     'crawlerradio' ,'crawlerspectacle' , 'crawlercinema' , 'crawlerconcert'  ] %}  start active  open  {% endif %}  ">
+
+
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-list"></i>
+                <span class="title">   {{ 'page.crawler'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive in ['crawlernews' ,'crawlerprogramme' ,'crawlerradio' ,'crawlerspectacle' ,'crawlerconcert' ,'crawlercinema' ] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+
+                <li class=" {% if menuactive == 'crawlerspectacle' %}active {% endif %}">
+                    <a href="{{ path('crawlerspectacle_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_crawler_spectacle'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive == 'crawlercinema' %}active {% endif %}">
+                    <a href="{{ path('crawlercinema_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_crawler_cinema'|trans }}  </a>
+
+                </li>
+                <li class=" {% if menuactive == 'crawlerconcert' %}active {% endif %}">
+                    <a href="{{ path('crawlerconcert_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_crawler_concert'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive == 'crawlerradio' %}active {% endif %}">
+                    <a href="{{ path('crawlerradio_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_crawler_radio'|trans }}  </a>
+
+                </li>
+                <li class=" {% if menuactive == 'crawlernews' %}active {% endif %}">
+                    <a href="{{ path('crawlernews_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_crawler_news'|trans }}  </a>
+                </li>
+                <li class=" {% if menuactive == 'crawlerprogramme' %}active {% endif %}">
+                    <a href="{{ path('crawlerprogramme_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_crawler_programme'|trans }}  </a>
+                </li>
+
+
+            </ul>
+
+        </li>
+
+        <li class="nav-item  {% if menuactive in ["aide" ,"conditions_utilisation" , 'qui_sommes_nous' , 'confidentialite' ] %}  start active  open  {% endif %}  ">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-list"></i>
+                <span class="title">   {{ 'page.a_propos'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive  in ["aide" ,"conditions_utilisation" , 'qui_sommes_nous' , 'confidentialite' ] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+                <li class=" {% if  menuactive == "conditions_utilisation" %}active {% endif %}">
+                    <a href="{{ path('content_index',{'type_content': "conditions_utilisation" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.conditions_utilisation'|trans }}  </a>
+                </li>
+                <li class=" {% if  menuactive == "qui_sommes_nous" %}active {% endif %}">
+                    <a href="{{ path('content_index',{'type_content': "qui_sommes_nous"}) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.qui_sommes_nous'|trans }}  </a>
+                </li>
+                <li class=" {% if  menuactive == "confidentialite" %}active {% endif %}">
+                    <a href="{{ path('content_index',{'type_content': "confidentialite"}) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.confidentialite'|trans }}  </a>
+                </li>
+                <li class=" {% if  menuactive == "aide" %}active {% endif %}">
+                    <a href="{{ path('content_index',{'type_content': "aide"}) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.aide'|trans }}  </a>
+                </li>
+            </ul>
+
+        </li>
+
+        <li class="nav-item  {% if menuactive in ['admin'  ,'vip','fan','pro'  , "membre"] %}  start active  open  {% endif %}  ">
+
+
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-users"></i>
+                <span class="title">   {{ 'page.user'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive in ['admin'  ,'fan'  ,'vip'  ,'pro'  , "membre"] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+
+                <li class=" {% if menuactive in ['admin' ] %}active {% endif %}">
+                    <a href="{{ path('user_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_admin'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive in [ "membre"] %}active {% endif %}">
+                    <a href="{{ path('user_index_vip',{'role' : 'membre'}) }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_membre'|trans }}  </a>
+
+                </li>
+              <li class=" {% if menuactive in [ "pro"] %}active {% endif %}">
+                    <a href="{{ path('user_index_vip',{'role' : 'pro'}) }}"><i
+                                class="fa fa-circle"></i> Entreprise  </a>
+
+                </li>
+
+                 <li class=" {% if menuactive in [ "vip"] %}active {% endif %}">
+                    <a href="{{ path('user_index_vip',{'role' : 'vip'}) }}"><i
+                                class="fa fa-circle"></i> VIP  </a>
+
+                </li>
+   <li class=" {% if menuactive in [ "fan"] %}active {% endif %}">
+                    <a href="{{ path('user_index_vip',{'role' : 'fan'}) }}"><i
+                                class="fa fa-circle"></i> groupe de fan  </a>
+
+                </li>
+
+
+
+
+
+            </ul>
+
+        </li>
+
+        <li class="nav-item  {% if menuactive in ['contact_index_1' , 'contact_index_0' ] %}  start active  open  {% endif %}  ">
+
+
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-envelope"></i>
+                <span class="title">   {{ 'page.contact'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive in ['contact_index_1' , 'contact_index_0'] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+
+                <li class=" {% if menuactive == 'contact_index_0' %}active {% endif %}">
+                    <a href="{{ path('contact_index',{'enable' : 0 }) }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_messge_non_vu'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive ==  "contact_index_1" %}active {% endif %}">
+                    <a href="{{ path('contact_index',{'enable' : 1 }) }}"><i
+                                class="fa fa-circle"></i> {{ 'menu_messge_vu'|trans }}  </a>
+
+                </li>
+
+
+            </ul>
+
+        </li>
+
+        <li class="nav-item  {% if menuactive == "information" %}  start active  open  {% endif %}  ">
+            <a href="{{ path('information_index') }}" class="nav-link nav-toggle">
+                <i class="fa fa-cog"></i>
+                <span class="title">   {{ 'page.information'|trans }}  </span>
+            </a>
+        </li>
+
+         <li class="nav-item  {% if menuactive == "questions" %}  start active  open  {% endif %}  ">
+            <a href="{{ path('questions_index') }}" class="nav-link nav-toggle">
+                <i class="fa fa-cog"></i>
+                <span class="title">   {{ 'page.questions'|trans }}  </span>
+            </a>
+        </li>
+
+        <li class="nav-item  {% if menuactive == "newsletter" %}  start active  open  {% endif %}  ">
+            <a href="{{ path('newsletter_index') }}" class="nav-link nav-toggle">
+                <i class="fa fa-cog"></i>
+                <span class="title">   {{ 'page.newsletter'|trans }}  </span>
+            </a>
+        </li>
+
+        <li class="nav-item  {% if menuactive in ["ref_home","ref_collection" ,"ref_radio" , "ref_spectacle" ,"ref_cinema" ,"ref_concert" ,"ref_programme" , "ref_people"] %}  start active  open  {% endif %}  ">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-list"></i>
+                <span class="title">   {{ 'page.ref'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive  in ["ref_home" ,"ref_collection" ,"ref_radio" , "ref_spectacle", "ref_concert" ,"ref_cinema" ,"ref_programme" , "ref_people"] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+
+                <li class=" {% if menuactive == "ref_home" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_home" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_home'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive == "ref_people" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_people" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_people'|trans }}  </a>
+
+                </li>
+
+
+                <li class=" {% if menuactive == "ref_programme" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_programme" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_programme'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive == "ref_cinema" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_cinema" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_cinema'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive == "ref_concert" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_concert" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_concert'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive == "ref_spectacle" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_spectacle" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_spectacle'|trans }}  </a>
+
+                </li>
+
+                <li class=" {% if menuactive == "ref_radio" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_radio" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_radio'|trans }}  </a>
+
+                </li>
+                <li class=" {% if menuactive == "ref_collection" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_collection" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_collection'|trans }}  </a>
+
+                </li>
+
+   <li class=" {% if menuactive == "ref_crossing_carton" %}active {% endif %}">
+                    <a href="{{ path('referancement_index' ,{'type': "ref_crossing_carton" }) }}"><i
+                                class="fa fa-circle"></i> {{ 'page.ref_crossing_carton'|trans }}  </a>
+
+                </li>
+
+
+            </ul>
+
+        </li>
+
+        <li class="nav-item  {% if menuactive == "personnage" %}  start active  open  {% endif %}  ">
+            <a href="{{ path('personnage_index') }}" class="nav-link nav-toggle">
+                <i class="fa fa-cog"></i>
+                <span class="title">   {{ 'page.personnage'|trans }}  </span>
+            </a>
+        </li>
+
+        <li class="nav-item  {% if menuactive == "category" %}  start active  open  {% endif %}  ">
+            <a href="{{ path('category_index') }}" class="nav-link nav-toggle">
+                <i class="fa fa-cog"></i>
+                <span class="title">   {{ 'page.category'|trans }}  </span>
+            </a>
+        </li>
+
+        <li class="nav-item  {% if menuactive == "activity" %}  start active  open  {% endif %}  ">
+            <a href="{{ path('activity_index') }}" class="nav-link nav-toggle">
+                <i class="fa fa-cog"></i>
+                <span class="title">   {{ 'page.activity'|trans }}  </span>
+            </a>
+        </li>
+
+
+        <li class="nav-item  {% if menuactive in ['vod'  , 'typeContentMedia' ] %}  start active  open  {% endif %}  ">
+
+
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-cog"></i>
+                <span class="title">   {{ 'page.config'|trans }}  </span>
+                <span class="selected"></span>
+                <span class="arrow  {% if menuactive in ['vod'  , 'typeContentMedia'  ] %}  open  {% endif %} "></span>
+            </a>
+            <ul class="sub-menu">
+
+                <li class=" {% if menuactive in ['vod' , 'typeContentMedia' ] %}active {% endif %}">
+                    <a href="{{ path('vod_index') }}"><i
+                                class="fa fa-circle"></i> {{ 'page.vod'|trans }}  </a>
+
+                </li>
+
+  <li class=" {% if menuactive in ['typeContentMedia' ] %}active {% endif %}">
+                    <a href="{{ path('typecontentmedia_index') }}"><i
+                                class="fa fa-circle"></i> Liste Types de Media </a>
+
+                </li>
+
+
+
+            </ul>
+
+        </li>
+
+
+
+    </ul>
+
+
+</div>

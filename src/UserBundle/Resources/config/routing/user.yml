@@ -1,0 +1,23 @@
+user_index:
+    path:     /
+    defaults: { _controller: "UserBundle:User:index" }
+    methods:  GET
+
+user_index_vip:
+    path:     /vip/{role}
+    defaults: { _controller: "UserBundle:User:indexvip" }
+    methods:  GET
+
+user_show:
+    path:     /{id}/show
+    defaults: { _controller: "UserBundle:User:show" }
+
+user_gestion_role:
+    path:     /{id}/gestion-role
+    defaults: { _controller: "UserBundle:User:gestionRole" }
+
+
+user_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "UserBundle:User:delete" }
+    methods:  [GET, POST]

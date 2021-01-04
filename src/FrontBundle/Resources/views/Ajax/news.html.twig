@@ -1,0 +1,36 @@
+<div   class="col-xs-12 clients small-caroussel-vip  owl-carousel owl-theme">
+
+{% for news in ListeNews %}
+    <div class="media item">
+        <div class="media-left">
+            <div class="img-overflow">
+                <div class="img-size  ">
+                    <a href="{{ path('collection',{'activeTab': "news" , 'fullName': vipUser.username , 'id': vipUser.id}) }}">
+
+                    <img src="{{ path_picture ~ news.picture }}"
+                         class="media-object img-circle">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="media-body padding-right-14">
+            <h4 class="media-heading new-disable-mobile">
+           <a href="{{ path('collection',{'activeTab': "news" , 'fullName': vipUser.username , 'id': vipUser.id}) }}" style="color: #000000" data-placement="top" data-toggle="tooltip">
+
+               {{ news.title[:50] }} {% if  news.title|length > 50  %} ... {% endif %}
+
+           </a>
+            </h4>
+            <h4 class="media-heading new-disable-web">
+                <a href="{{ path('collection',{'activeTab': "news" , 'fullName': vipUser.username , 'id': vipUser.id}) }}"  style="color: #000000">
+                    {{ news.title[:100] }} {% if  news.title|length > 100  %} ... {% endif %}
+                </a>
+            </h4>
+            <p class="new-disable-mobile">{{ news.descriptionCourt[:250 ] }} {% if  news.descriptionCourt|length > 250  %}... {% endif %}</p>
+            <p  class="new-disable-web" >{{ news.descriptionCourt[:350 ] }} {% if  news.descriptionCourt|length > 350  %}... {% endif %}</p>
+
+        </div>
+    </div>
+{% endfor %}
+
+</div>

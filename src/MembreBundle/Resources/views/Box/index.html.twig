@@ -1,0 +1,723 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ title }}{% endblock %}
+
+
+
+{% block imgscreen %}
+    <style>
+        .padding-top-0{
+            padding-top:0px !important;
+        }
+    </style>
+    <!-- gallerie -->
+    <div class="owl-carousel accueil-gallerie owl-theme">
+        {% for entity in gallerysBanners %}
+            <a href="{{ path_picture~entity.picture }}" class="item fancybox">
+                <div class="img-resize imgLiquid">
+                    {% if entity.bannerpicture is defined %}
+                        <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                    {% else %}
+                        <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <!-- End gallerie -->
+{% endblock %}
+
+
+
+    {% block body %}
+
+
+        <div class="content-page inner-xs  ">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-xs-12 box-page-bg">
+                    {% for flashMessage in app.session.flashbag.get('boxdelete') %}
+                        <br/>
+                        <div class="alert alert-danger alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+
+
+                    {# Liste des vip In Box #}
+                    {% if vipInBox != null %}
+                        <div class=" inner-vs ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <h3>{{ 'box_listes_vip'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+                                <div class=" 6col-md-12 col-sm-12 col-xs-12  vip-block-content mag-top-20">
+
+                                    <div  class="owl-carousel owl-theme vip-caroussel " >
+                                        {% for item in vipInBox %}
+                                            <div  class="item"  >
+                                                <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.vip.username , 'id': item.vip.id}) }}">
+
+                                                    <div {% if vipInBox|length > 6 %}class="img-resize imgLiquid" {% endif %}>
+                                                        {% if   app.user.id|contactmessaging(item.vip.id ) %}
+                                                            <span class="badge badge-danger badge-counter notif-msg" style="line-height: 15px!important  ; " >      <i class="zmdi zmdi-email" style="font-size: 15px!important ; right: 3px !important;"></i>   </span>
+                                                        {% endif %}
+                                                        <img style=" height: 180px"
+                                                             src="{% if item.vip.pictureprofil != null %}{{ path_picture ~ item.vip.pictureprofil }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}"
+                                                             alt=""
+                                                             class="image-resize"/>
+                                                    </div>
+                                                </a>
+                                                {% if vipInBox|length > 6 %}
+                                                    <div class="close-btn-image">
+                                                        <a href="{{ path('front_end_page_box_archive_delete',{'id':item.id}) }}">
+                                                            <i class="zmdi zmdi-close"></i></a>
+                                                    </div>
+                                                {% endif %}
+
+                                                <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.vip.username , 'id': item.vip.id}) }}">
+                                                <span {% if vipInBox|length <6 %}class="span-title" {% endif %} >
+
+                                                               {% if item.vip.nom != null  %}    {{ item.vip.nom  }} {% else %} {{  item.vip.prenom }} {% endif %}
+                                                    </span>
+                                                </a>
+                                                {% if vipInBox|length < 6 %}
+                                                    <a href="{{ path('front_end_page_box_archive_delete',{'id':item.id}) }} "
+                                                       style="float: right;  top: -7px; margin-top: -21px;">
+                                                        <i class="zmdi zmdi-close"></i></a>
+                                                {% endif %}
+
+
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+
+                    {# Liste des  Fan In Box #}
+                    {% if vipFanInBox != null %}
+                        <div class=" inner-vs ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <h3>{{ 'box_listes_fans_vip'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+                                <div class=" 6col-md-12 col-sm-12 col-xs-12  vip-block-content mag-top-20">
+
+                                    <div  class="owl-carousel owl-theme vip-caroussel "  >
+                                        {% for item in vipFanInBox %}
+                                            <div  class="item" >
+                                                <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.vip.username , 'id': item.vip.id}) }}">
+
+                                                    <div {% if vipFanInBox|length > 6 %}class="img-resize imgLiquid" {% endif %}>
+                                                        {% if   app.user.id|contactmessaging(item.vip.id ) %}
+                                                            <span class="badge badge-danger badge-counter notif-msg" style="line-height: 15px!important  ; " >      <i class="zmdi zmdi-email" style="font-size: 15px!important ;   "></i>   </span>
+                                                        {% endif %}
+                                                        <img style=" height: 180px"
+                                                             src="{% if item.vip.pictureprofil != null %}{{ path_picture ~ item.vip.pictureprofil }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}"
+                                                             alt=""
+                                                             class="image-resize"/>
+                                                    </div>
+                                                </a>
+                                                {% if vipFanInBox|length > 6 %}
+                                                    <div class="close-btn-image">
+                                                        <a href="{{ path('front_end_page_box_archive_delete',{'id':item.id}) }}">
+                                                            <i class="zmdi zmdi-close"></i></a>
+                                                    </div>
+                                                {% endif %}
+
+                                                <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.vip.username , 'id': item.vip.id}) }}">
+                                                <span {% if vipFanInBox|length < 6 %}class="span-title" {% endif %} >
+                                                            <i class="zmdi zmdi-accounts-alt"></i>&nbsp;
+                                                    {% if item.vip.nom != null  %}    {{ item.vip.nom  }} {% else %} {{  item.vip.prenom }} {% endif %}
+                                                    </span>
+                                                </a>
+                                                {% if vipFanInBox|length < 6 %}
+                                                    <a href="{{ path('front_end_page_box_archive_delete',{'id':item.id}) }} "
+                                                       style="float: right;  top: -7px; margin-top: -21px;">
+                                                        <i class="zmdi zmdi-close"></i></a>
+                                                {% endif %}
+
+
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+
+
+                    {# Liste des pro #}
+                    {% if proInBox != null %}
+                        <div class=" inner-vs ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <h3>{{ 'box_listes_pro'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+                                <div class=" col-md-12 col-sm-12 col-xs-12  vip-block-content mag-top-20">
+
+                                    <div  class="owl-carousel owl-theme vip-caroussel " >
+                                        {% for item in proInBox %}
+                                            <div  class="item"  >
+                                                <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.vip.username , 'id': item.vip.id}) }}">
+
+                                                    <div {% if proInBox|length > 6 %}class="img-resize imgLiquid" {% endif %}>
+                                                        {% if   app.user.id|contactmessaging(item.vip.id ) %}
+                                                            <span class="badge badge-danger badge-counter notif-msg" style="line-height: 15px!important  ; " >      <i class="zmdi zmdi-email" style="font-size: 15px!important ; right: 3px !important;"></i>   </span>
+                                                        {% endif %}
+                                                        <img style=" height: 180px"
+                                                             src="{% if item.vip.pictureprofil != null %}{{ path_picture ~ item.vip.pictureprofil }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}"
+                                                             alt=""
+                                                             class="image-resize"/>
+                                                    </div>
+                                                </a>
+                                                {% if proInBox|length > 6 %}
+                                                    <div class="close-btn-image">
+                                                        <a href="{{ path('front_end_page_box_archive_delete',{'id':item.id}) }}">
+                                                            <i class="zmdi zmdi-close"></i></a>
+                                                    </div>
+                                                {% endif %}
+
+                                                <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.vip.username , 'id': item.vip.id}) }}">
+                                                <span {% if proInBox|length < 8 %}class="span-title" {% endif %} >
+
+                                                       {% if item.vip.nom != null  %}    {{ item.vip.nom  }} {% else %} {{  item.vip.prenom }} {% endif %}
+                                                    </span>
+                                                </a>
+                                                {% if proInBox|length < 8 %}
+                                                    <a href="{{ path('front_end_page_box_archive_delete',{'id':item.id}) }} "
+                                                       style="float: right;  top: -7px; margin-top: -21px;">
+                                                        <i class="zmdi zmdi-close"></i></a>
+                                                {% endif %}
+
+
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+
+
+
+                    {# Liste des Personnages #}
+                    {% if personnageInBox != null %}
+                        <div class=" inner-vs ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <h3>{{ 'box_listes_personnages'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+                                <div class=" 6col-md-12 col-sm-12 col-xs-12  vip-block-content mag-top-20">
+
+                                    <div  class="owl-carousel owl-theme vip-caroussel "  >
+                                        {% for personnage in personnageInBox %}
+                                            <div  class="item"  >
+                                                <a href="{{ path('front_end_personnage_profile',{'activeTab': " profile " , 'id' : personnage.personnageMedia.id }) }}">
+
+                                                    <div {% if personnageInBox|length > 6 %}class="img-resize imgLiquid" {% endif %}>
+                                                        <img style=" height: 180px"
+                                                             src="{% if personnage.personnageMedia.image != '' and personnage.personnageMedia.image is not null %}{{ path_picture ~ 'personnage_media/' ~ personnage.personnageMedia.image }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}"
+                                                             alt=""
+                                                             class="image-resize"/>
+                                                    </div>
+                                                </a>
+                                                {% if personnageInBox|length > 6 %}
+                                                    <div class="close-btn-image">
+                                                        <a href="{{ path('front_end_page_box_archive_delete',{'id':personnage.id}) }}">
+                                                            <i class="zmdi zmdi-close"></i></a>
+                                                    </div>
+                                                {% endif %}
+
+                                                <a href="{{ path('front_end_personnage_profile',{'activeTab': " profile " , 'id' : personnage.personnageMedia.id }) }}">
+                                                <span {% if personnageInBox|length < 6 %}class="span-title" {% endif %} >
+
+                                                          {{ personnage.personnageMedia.personnage }}
+                                                    </span>
+                                                </a>
+                                                {% if personnageInBox|length < 6 %}
+                                                    <a href="{{ path('front_end_page_box_archive_delete',{'id':personnage.id}) }} "
+                                                       style="float: right;  top: -7px; margin-top: -21px;">
+                                                        <i class="zmdi zmdi-close"></i></a>
+                                                {% endif %}
+
+
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+                    <div class="clearfix"></div>
+                    {#   Liste des mot de recherche #}
+                    {% if searchWordInBox != null %}
+                        <div class="keyword-block-content  mag-top-30">
+
+                            <h3> {{ 'liste_recherche'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+
+                            <div class=" col-md-6 no-padd">
+
+                                <div class="keyword-warpper">
+                                    {% for item in searchWordInBox %}
+                                        <div class="keyword-block-inner">
+                                            <a href="" class="search-btn">
+                                                <i class="zmdi zmdi-search"></i>
+                                                <p>
+                                <span>
+                                    {{ item.wordsearch }}</span></p>
+                                            </a>
+                                            <a href="{{ path('front_end_page_box_archive_delete',{'id':item.id}) }}"
+                                               class="close-btn">
+                                                <span class="zmdi zmdi-close"></span>
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                    {% if cinemaInBox != null %}
+                        {#    Liste des cinemas  #}
+                        <div class="cinema-block-content mag-top-40">
+
+
+                            <h3>{{ 'box_listes_cinema'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+
+                            {% if cinemaInBox|length > 6 %}
+                                <div class="owl-carousel cinema-box-caroussel owl-theme">
+                                    {% for entity in cinemaInBox %}
+
+                                        <div class="item">
+                                            <a href="{{ path_picture ~ entity.medias.picture }}" class=" fancybox">
+                                                <div class="img-resize imgLiquid">
+                                                    <img src="{{ path_picture ~ entity.medias.picture }}" alt="" class="image-resize"/>
+                                                </div>
+                                            </a>
+                                            <div class="close-btn-image"><a
+                                                        href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}"><i
+                                                            class="zmdi zmdi-close"></i></a></div>
+
+                                            <span><a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">{{ entity.medias.title[:13] }}</a></span>
+
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    {% for entity in cinemaInBox %}
+                                        <div class="col-md-2 col-sm-12 col-xs-12">
+                                            <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+                                                <div  >
+                                                    <img src="{{ path_picture ~ entity.medias.picture }}" alt="" style="width: 100% ;  height: 225px;" class="image-resize"/>
+                                                </div>
+                                            </a>
+
+                                            <div class="close-btn-image">
+                                                <a href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}">
+                                                    <i class="zmdi zmdi-close"></i>
+                                                </a>
+                                            </div>
+
+                                            <span>
+                                        <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+
+                                            <span class="span-title">
+                                                <span class="span-title">
+                                                  {{ entity.medias.title[:13] }}
+                                                </span>
+
+                                                </span>
+                                        </a>
+                                    </span>
+
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+
+                    {% if programmeInBox != null or  radioInBox != null %}
+                        {#    Liste des Programmes and Radios #}
+                        <div class="box-block-content mag-top-40">
+                            <div class="row ">
+                                {% if programmeInBox != null %}
+
+                                    {# Liste des Programmes  #}
+                                    <div class="col-sm-6 col-xs-12 col-sm-6">
+                                        <h3>{{ 'box_listes_programme'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+
+
+                                        <div class="owl-carousel program-box-caroussel owl-theme mag-top-20">
+
+                                            <div class="item">
+                                                {% set counter = 1 %}
+                                                {% set image = 0 %}
+                                                {% for entity in programmeInBox %}
+
+                                                <div class="col-sm-6 col-xs-12 col-md-6 padd-5">
+                                                    <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+                                                        {% if  image is divisible by(3) %}
+                                                        <div class="big-photo-block">
+                                                            {% else %}
+                                                            <div class="small-photo-block">
+                                                                {% endif %}
+
+                                                                <div class="img-resize imgLiquid">
+                                                                    <img src="{{ path_picture ~ entity.medias.picture }}" alt=""
+                                                                         class="image-resize"/>
+                                                                </div>
+
+                                                                <div class="info-content-block">
+                                            <span>	<a
+                                                        href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}">
+                                                {{ entity.medias.title[:13] }} </a> </span>
+                                                                </div>
+                                                                <a href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}"
+                                                                   class="close-btn">
+                                                                    <span class="zmdi zmdi-close"></span>
+                                                                </a>
+
+                                                            </div>
+                                                    </a>
+
+
+                                                </div>
+
+
+                                                {% if programmeInBox|length > counter and  counter is divisible by(3) %}
+                                            </div>
+                                            <div class="item">
+                                                {% endif %}
+                                                {% if programmeInBox|length == counter %}
+                                            </div>
+                                            {% endif %}
+                                            {% set counter = counter + 1 %}
+                                            {% set image = image + 1 %}
+
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+
+                                {% if radioInBox != null %}
+                                    {% set counter = 1 %}
+                                    {% set image = 0 %}
+
+                                    {#         Liste des  Radios #}
+                                    <div class="col-sm-6 col-xs-12 col-sm-6">
+
+
+                                        <h3>{{ 'box_listes_radio'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+
+                                        <div class="owl-carousel program-box-caroussel owl-theme mag-top-20">
+                                            <div class="item">
+
+                                                {% for entity in radioInBox %}
+
+                                                <div class="col-sm-6 col-xs-12 col-md-6 padd-5">
+                                                    <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+                                                        {% if  image is divisible by(3) %}
+                                                        <div class="big-photo-block">
+                                                            {% else %}
+                                                            <div class="small-photo-block">
+                                                                {% endif %}
+
+                                                                <div class="img-resize imgLiquid">
+                                                                    <img src="{{ path_picture ~ entity.medias.picture }}" alt=""
+                                                                         class="image-resize"/>
+                                                                </div>
+
+
+                                                                <div class="info-content-block">
+                                                                    <span>	{{ entity.medias.title[:13] }}</span>
+                                                                </div>
+                                                                <a href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}"
+                                                                   class="close-btn">
+                                                                    <span class="zmdi zmdi-close"></span>
+                                                                </a>
+
+                                                            </div>
+                                                    </a>
+
+
+                                                </div>
+
+
+                                                {% if radioInBox|length > counter and  counter is divisible by(3) %}
+                                            </div>
+                                            <div class="item">
+                                                {% endif %}
+                                                {% if radioInBox|length == counter %}
+                                            </div>
+                                            {% endif %}
+                                            {% set counter = counter + 1 %}
+                                            {% set image = image + 1 %}
+
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if peopleInBox != null %}
+                        {# Liste des Peoples  #}
+                        <div class="cinema-block-content mag-top-40">
+
+
+                            <h3>{{ 'box_listes_people'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+                            {% if peopleInBox|length > 6 %}
+                                <div class="owl-carousel cinema-box-caroussel owl-theme">
+                                    {% for entity in peopleInBox %}
+                                        <div class="item">
+                                            <a href="{{ path_picture ~ entity.medias.picture }}" class=" fancybox">
+                                                <div class="img-resize imgLiquid">
+                                                    <img src="{{ path_picture ~ entity.medias.picture }}" alt="" class="image-resize"/>
+                                                </div>
+                                            </a>
+
+                                            <div class="close-btn-image">
+                                                <a href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}">
+                                                    <i class="zmdi zmdi-close"></i>
+                                                </a>
+                                            </div>
+
+                                            <span>
+                                        <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+                                        {{ entity.medias.title[:13] }}
+                                        </a>
+                                    </span>
+
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    {% for entity in peopleInBox %}
+                                        <div class="col-md-2 col-sm-12 col-xs-12">
+                                            <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+                                                <div  >
+                                                    <img src="{{ path_picture ~ entity.medias.picture }}" alt="" style="width: 100% ;  height: 225px;" class="image-resize"/>
+                                                </div>
+                                            </a>
+
+                                            <div class="close-btn-image">
+                                                <a href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}">
+                                                    <i class="zmdi zmdi-close"></i>
+                                                </a>
+                                            </div>
+
+                                            <span>
+                                        <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+
+                                            <span class="span-title">
+                                                <span class="span-title">
+
+                                                   {{ entity.medias.title[:13] }}
+                                                </span>
+
+                                                </span>
+                                        </a>
+                                    </span>
+
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+
+                    {% if spectacleInBox != null or  concertInBox != null %}
+                    {#  Liste des spectacles  and concertIs  #}
+                    <div class="box-block-content mag-top-40">
+                        <div class="row ">
+                            {% if concertInBox != null %}
+
+                            {#     Liste des concerts  #}
+                            <div class="col-sm-6 col-xs-12 col-sm-6">
+                                <h3>{{ 'box_listes_concert'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+
+
+                                <div class="owl-carousel program-box-caroussel owl-theme mag-top-20">
+                                    <div class="item">
+                                        {% set counter = 1 %}
+                                        {% set image = 0 %}
+                                        {% for entity in concertInBox %}
+
+                                        <div class="col-sm-6 col-xs-12 col-md-6 padd-5">
+                                            <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+                                                {% if  image is divisible by(3) %}
+                                                <div class="big-photo-block">
+                                                    {% else %}
+                                                    <div class="small-photo-block">
+                                                        {% endif %}
+
+                                                        <div class="img-resize imgLiquid">
+                                                            <img src="{{ path_picture ~ entity.medias.picture }}" alt=""
+                                                                 class="image-resize"/>
+                                                        </div>
+                                                        <div class="info-content-block"><span>	{{ entity.medias.title[:13] }} </span>
+
+                                            </a>
+
+                                        </div>
+                                        <a href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}" class="close-btn">
+                                            <span class="zmdi zmdi-close"></span>
+                                    </div>
+                                    </a>
+
+
+                                </div>
+
+
+                                {% if concertInBox|length > counter and  counter is divisible by(3) %}
+                            </div>
+                            <div class="item">
+                            {% endif %}
+                            {% if concertInBox|length == counter %}
+                                </div>
+                            {% endif %}
+                            {% set counter = counter + 1 %}
+                            {% set image = image + 1 %}
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+
+                    {% if spectacleInBox != null %}
+                        {% set counter = 1 %}
+                        {% set image = 0 %}
+
+                        {#         Liste des  spectacles  #}
+                        <div class="col-sm-6 col-xs-12 col-sm-6">
+
+
+                            <h3>{{ 'box_listes_spectacle'|trans }}<i class="zmdi zmdi-chevron-right"></i></h3>
+
+                            <div class="owl-carousel program-box-caroussel
+                         owl-theme mag-top-20">
+                                <div class="item">
+
+                                    {% for entity in spectacleInBox %}
+
+                                    <div class="col-sm-6 col-xs-12 col-md-6 padd-5">
+                                        <a href="{{ path('front_end_show_media',{'id': entity.medias.id}) }}">
+                                            {% if  image is divisible by(3) %}
+                                            <div class="big-photo-block">
+                                                {% else %}
+                                                <div class="small-photo-block">
+                                                    {% endif %}
+
+                                                    <div class="img-resize imgLiquid">
+                                                        <img src="{{ path_picture ~ entity.medias.picture }}" alt=""
+                                                             class="image-resize"/>
+                                                    </div>
+                                                    <div class="info-content-block">
+                                                        <span>	{{ entity.medias.title[:13] }}</span>
+                                                    </div>
+
+                                                    <a href="{{ path('front_end_page_box_archive_delete',{'id':entity.id}) }}"
+                                                       class="close-btn">
+                                                        <span class="zmdi zmdi-close"></span>
+                                                    </a>
+                                                </div>
+                                        </a>
+
+
+                                    </div>
+
+
+                                    {% if spectacleInBox|length > counter and  counter is divisible by(3) %}
+                                </div>
+                                <div class="item">
+                                    {% endif %}
+                                    {% if spectacleInBox|length == counter %}
+                                </div>
+                                {% endif %}
+                                {% set counter = counter + 1 %}
+                                {% set image = image + 1 %}
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+                </div>
+            </div>
+
+            {% endif %}
+
+
+
+
+        </div>
+
+
+
+    <div class="col-md-3 col-sm-12 col-xs-12 ">
+        <div class="box-page-bg clearfix">
+
+            {% include 'MembreBundle:Collection:tourne.html.twig' %}
+        </div>
+        {% if member.twitter != null %}
+            <div class="box-page-bg clearfix">
+
+                <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/{{ member.twitter }}" >Tweets </a>
+            </div>
+        {% endif %}
+        <div class="box-page-bg clearfix">
+            <div class="fb-page" data-href="vipcrossing" data-tabs="timeline" style="width : 100% !important ;"
+                 data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                 data-show-facepile="true">
+                <blockquote cite="vipcrossing" class="fb-xfbml-parse-ignore" style="width : 100% !important ;" ><a
+                            href="vipcrossing">‎VIPCrossing‎</a></blockquote>
+            </div>
+
+        </div>
+        {{ render(controller('FrontBundle:Template:pub' )) }}
+</div>
+</div>
+</div>
+</div>
+
+
+
+    {% endblock %}

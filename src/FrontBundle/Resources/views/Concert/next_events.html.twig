@@ -1,0 +1,82 @@
+{% if  nextEvents != null %}
+    <div class=" inner-concert">
+
+        <div class="container">
+            <div class="col-md-12 col-xs-12 col-sm-12">
+
+                <div class="title-pg">
+                    <h3>{{ 'prochaains_evenements'|trans }} <i class="zmdi zmdi-chevron-right"></i></h3>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="owl-carousel concert-caroussel owl-theme">
+                {% set count = 0 %}
+                <div class="item">
+                    {% for entity in nextEvents %}
+                    {% set count = count + 1 %}
+
+
+                    <div class="col-md-4 col-xs-12 col-sm-4">
+
+                        <div class="post video-post">
+                            <div class="inner-post">
+
+                                <div class="image-post">
+                                    <div class="img-resize imgLiquid">
+
+                                        {% if entity.picture != null %}
+                                            <img src="{{ path_picture ~ entity.picture }}" alt=""/>
+                                        {% elseif entity.backgroundpicture != null %}
+                                            <img src="{{ path_picture ~ entity.backgroundpicture }}">
+                                        {% else %}
+                                            <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div class="inner-post-content ">
+
+                                    <div class="pull-left">
+                                        <h3>
+                                            <a href="#">{% for item in entity.users %} {{ item }}{% if loop.index < entity.users|length %} , {% endif %}{% endfor %}</a>
+                                        </h3>
+                                        <small>
+                                            <a href="{{ path('front_end_show_media',{'id':  entity.id}) }}">{{ entity.title }}</a>
+                                        </small>
+
+                                    </div>
+                                    <div class="pull-right">
+                                    <span class="dte-inner">
+                                        {{ entity.startdate | localizeddate('full', 'none', app.request.locale, null, "MMMM ,  d  Y" ) }}
+                                      </span>
+
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <p>{{ entity.shortdescription[:200] }}
+                                    </p>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {% if nextEvents|length > count and  count is divisible by(3) %}
+                </div>
+                <div class="item">
+                {% endif %}
+                {% if nextEvents|length == count %}
+                    </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endif %}

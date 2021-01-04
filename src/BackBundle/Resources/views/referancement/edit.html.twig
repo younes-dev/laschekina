@@ -1,0 +1,81 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+
+{% set menuactive = app.session.get('menuactive') %}
+ {% set page =  'page.'~menuactive %}
+    {{ page|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+            
+{% set menuactive = app.session.get('menuactive') %}
+                <a href="{{ path('referancement_index',{'type': menuactive}) }}"> <span>
+                
+                    {% set page =  'page.'~menuactive %}
+                    {{ page|trans }}
+                    </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span>
+                             {{ 'page-breadcrumb.edit'|trans }}
+                        
+
+
+                         </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+    {% set menuactive = app.session.get('menuactive') %}
+         
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-settings font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">
+                   {{ 'page-breadcrumb.edit'|trans }}
+              
+            </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                    {{ form_start(form, {'method': 'post', 'action': path('referancement_edit',{'id': referancement.id }), 'attr': {'class': 'form-horizontal'}}) }}
+              
+
+
+                <div class="form-body">
+
+                    <div class="form-group">
+                        <label>{{ form_label(form.description  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.description  ) }} </span>
+                            {{ form_widget(form.description) }}
+
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+                    <a href="{{ path('referancement_index',{'type': menuactive}) }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+
+
+    {% endblock %}
+
+
+
+
+
+

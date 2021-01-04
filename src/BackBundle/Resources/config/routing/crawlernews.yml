@@ -1,0 +1,16 @@
+crawlernews_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Crawlernews:index" }
+
+crawlernews_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Crawlernews:show" }
+
+crawlernews_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Crawlernews:edit" }
+
+crawlernews_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Crawlernews:delete" }
+

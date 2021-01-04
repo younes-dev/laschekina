@@ -1,0 +1,569 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{  member.prenom ~" "~ member.nom ~"  est sur VIP Crossing"}} {% endblock %}
+{% block  meta %} 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  <meta property="og:title" content="VIP Crossing -   {{ member.prenom ~" "~ member.nom }}"/>
+    {% if listeNews|length > 0  %}
+        <meta name="description"
+              content="{{ listeNews[0].descriptionCourt|raw }}">
+        <meta property="og:description"
+              content="{{ listeNews[0].descriptionCourt|raw }}"/>
+
+    {%  elseif  member.description != null %}
+        <meta    name="description"
+              content=" {{- metaDescription -}}">
+        <meta  property="og:description"
+              content=" {{- metaDescription  -}}"/>
+
+
+    {% else %}
+        <meta name="description"
+              content="Dans votre collection uploadez vos photos, vidéos, musiques, vos livres , ajoutez des personnages, changez votre humeur, contactez vos amis et vos stars.">
+        <meta property="og:description"
+              content=" Dans votre collection uploadez vos photos, vidéos, musiques, vos livres , ajoutez des personnages, changez votre humeur, contactez vos amis et vos stars."/>
+
+   {% endif %}
+
+{% endblock %}
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/calendar.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/calendar_full.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/calendar_compact.css') }}">
+
+    <link href="{{ asset('dev/front/css/chosen-bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+          integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+          crossorigin=""/>
+<style>
+    .box-page-video .video-poster {
+        height: 195px !important;
+    }
+
+</style>
+
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+            integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+            crossorigin=""></script>
+
+{% endblock %}
+{% block imgscreen %}
+<div class="channel-cover">
+
+    <div class="bg-post">
+
+        <div class="img-resize imgLiquid">
+
+            {% if member.picturecover != null %}
+                <img src="{{ path_picture ~ member.picturecover }}">
+            {% else %}
+                <img src="{{ path_picture|getImageDefault()}}">
+            {% endif %}
+
+        </div>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+    <div class="author-overlay container width-100">
+        <div class="channel-header">
+            <div class="author-avatar img-resize imgLiquid">
+                {% if member.pictureprofil != null %}
+                    <img src="{{ path_picture ~ member.pictureprofil }}" class="avatar-acteur">
+                {% else %}
+                    <img src="{{ asset('assets/images/avatar.png') }}" class="avatar-acteur">
+                {% endif %}
+
+            </div>
+            <div class="author-meta title-collection-name {% if member.coloremotioncard == null %} energique   {% else %}   {{ member.coloremotioncard }} {% endif %} ">
+                <h3 class="author-name">
+
+
+                    {% if member.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %}
+
+                    {{ member.prenom ~" "~ member.nom }}
+                    {% if member.roles[0] == "ROLE_VIP"  and  member.fan == 0 %}
+
+                        {% if totla|nbrEtoile > 0 %}
+                            {% for i in 1..totla|nbrEtoile %}
+                                <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </h3>
+                <span class="author-name" style="font-size: 10px;">
+                    {% if  totla  > 0 %}
+                               {% if totla  > 999 and totla < 1000000 %}
+                                   {% set  numbre =  totla / 1000 %} {{ numbre|round(1, 'floor') }} K
+                               {% elseif totla  > 1000000 %}
+                                   {% set  numbre =  totla / 1000000 %} {{ numbre|round(1, 'floor') }} M
+                               {% else %}
+                                   {{ totla }}
+                               {% endif %}   {{ 'abonnes'|trans }}
+                           {% endif %}
+                    {% if  member.numbervu  > 0 and   totla  > 0 %}
+                        ,
+                    {% endif %}
+                    {% if  member.numbervu  > 0 %}
+                        {% if member.numbervu  > 999 and member.numbervu < 1000000 %}
+                            {% set  numbre =  member.numbervu / 1000 %} {{ numbre|round(1, 'floor') }} K
+                        {% elseif member.numbervu  > 1000000 %}
+                            {% set  numbre =  member.numbervu / 1000000 %} {{ numbre|round(1, 'floor') }} M
+                        {% else %}
+                            {{ member.numbervu }}
+                        {% endif %}
+                        {{ 'collection_visiteurs'|trans }}
+                    {% endif %}
+
+
+                 </span>
+                {#  <div class="rating">
+                      <ul class="star-rating">
+                          <li class="rating check"></li>
+                          <li class="rating check"></li>
+                          <li class="rating"></li>
+                          <li class="rating"></li>
+                          <li class="rating"></li>
+                      </ul>
+                  </div>
+          #}    </div>
+        </div>
+    </div>
+</div>
+
+    <div class="author-action-bar clearfix">
+        <div class="container width-100">
+            <ul class="nav nav-tabs author-tabs nav-pills">
+
+                <li {% if activeTab == 'vip' %} class="active" {% endif %}>
+                    <a href="#tab1" data-toggle="tab"><span>{{ 'collection_vip'|trans }} </span> </a>
+                </li>
+                {% if listePhotos|length > 0  or  (app.user != null  and member.id == app.user.id ) %}
+                    <li {% if activeTab == 'photos' %} class="active" {% endif %}>
+                        <a href="#tab2" data-toggle="tab"> <span> {{ 'photos'|trans }}</span> </a>
+                    </li>
+                {% endif %}
+
+                {% if listeNews|length > 0  or (app.user != null  and member.id == app.user.id ) %}
+                    <li {% if activeTab == 'news' %} class="active" {% endif %}>
+                        <a href="#tab3" data-toggle="tab"><span>{{ 'collection_news'|trans }}</span> </a></li>
+                {% endif %}
+
+                {% if listeVideos|length > 0 or (app.user != null  and member.id == app.user.id ) %}
+
+                    <li {% if activeTab == 'videos' %} class="active" {% endif %}>
+                        <a href="#tab4" data-toggle="tab"><span>{{ 'collection_Media'|trans }}</span> </a>
+                    </li>
+                {% endif %}
+
+
+                {% if member.commentaire|length > 0 or (app.user != null  and member.id == app.user.id ) %}
+                    <li {% if activeTab == 'avis' %} class="active" {% endif %}>
+                        <a href="#tab5" data-toggle="tab"><span>{{ 'collection_avis'|trans }}</span> </a>
+                    </li>
+                {% endif %}
+
+                {% if app.user != null and  member.id == app.user.id %}
+                    <li {% if activeTab == 'mon_humeur' %} class="active" {% endif %}>
+                        <a href="#tab6" data-toggle="tab"><span>{{ 'collection_mon_humeur'|trans }}</span> </a>
+                    </li>
+                {% endif %}
+                {% if  evants|length > 0 or  (app.user != null and  member.id == app.user.id and is_granted("ROLE_PRO")) %}
+                    <li {% if activeTab == 'evenement' %} class="active" {% endif %}>
+                        <a href="#tab10" data-toggle="tab"><span>Evènements</span></a>
+                    </li>
+                {% endif %}
+                {% if  ( app.user != null and app.user.id == member.id ) or  (listCoupleAmis|length > 0 and member.listamis == 1 ) %}
+                  <li {% if activeTab == 'list_amis' %} class="active" {% endif %}>
+                        <a href="#tab7" data-toggle="tab"><span>{{ 'collection_list_amis'|trans }}</span> </a>
+                    </li>
+                {% endif %}
+                {% if app.user != null and  member.id == app.user.id and (is_granted("ROLE_VIP") or is_granted("ROLE_PRO")) %}
+                    <li {% if activeTab == 'magazinegallery' %} class="active" {% endif %}>
+                        <a href="#tab8" data-toggle="tab"><span>{{ 'collection_magazinegallery'|trans }}</span> </a>
+                    </li>
+                {% endif %}
+                {% if  (ListeRendezvous|length > 0 and  (member.roles[0] == "ROLE_VIP" or  member.roles[0] == "ROLE_PRO")) or   ( app.user != null and app.user.id == member.id ) %}
+                    <li {% if activeTab == 'rendez-vous' %} class="active" {% endif %}>
+                        <a href="#tab9" data-toggle="tab"><span>{{ 'collection_rendez_vous'|trans }}</span> </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+            <div class="pull-right" style="margin-top: 21px;">
+                <div class="right-block">
+
+                    <ul>
+                        {% if app.user != null and  member.id != app.user.id %}
+                            {% if member.etatMessenger == true and  amis != null  %}
+
+                                <li>
+                                    <a href="{{ path('front_messaging_envoie_membre',{'id':member.id}) }}"
+                                       class="btn btn-icon" data-toggle="tooltip"
+                                       title="{{ 'messages.new_send_msg'|trans }}"
+                                       data-original-title="{{ 'messages.new_send_msg'|trans }}">
+                                        <i class="zmdi zmdi-email"></i></a>
+                                </li>
+                            {% endif %}
+                            {% if member.roles[0] == "ROLE_VIP" or member.roles[0] == "ROLE_PRO" %}
+                                <li>
+                                    <span id="box">
+                                            {{ include('MembreBundle:Box:ajaxbox.html.twig', { 'itemInBox': userInBox ,'item': member , "typebox" : 'user' }) }}
+                                    </span>
+                                    <img id="loading" src="{{ asset('dev/front/images/loading.gif') }}"
+                                         style="display: none;margin: 0 !important;">
+
+                                </li>
+                            {% endif %}
+                            {% if (
+                            (
+                            (
+                            is_granted("ROLE_PRO") or is_granted("ROLE_VIP")
+                            )
+                            and
+                            (member.roles[0] == "ROLE_VIP" or member.roles[0] == "ROLE_PRO")
+                            )
+                            or
+                            ( member.roles[0] == "ROLE_MEMBRE" and is_granted("ROLE_MEMBRE")  )
+                            ) %}
+
+                                <li>
+                                    {% if amis == null %}
+                                        <span><a href="{{ path('espace-member-add-amis',{'id': member.id }) }}"
+                                                 class="btn btn-icon" data-toggle="tooltip" title=""
+                                                 data-original-title="{{ 'add_amis'|trans }}">
+                                                <img src="{{ asset('assets/images/add-user.png') }}"></a></span>
+                                    {% else %}
+                                        <span><a href="{{ path('espace-member-delete-amis',{'id': amis.id }) }}"
+                                                 class="btn btn-icon" data-toggle="tooltip" title=""
+                                                 data-original-title="{{ 'delete_amis'|trans }}">
+                                                <img src="{{ asset('assets/images/remove-user.png') }}"></a></span>
+                                    {% endif %}
+                                </li>
+
+                            {% endif %}
+                        {% endif %}
+                        {#  <li>
+                              <span class="view-profil">
+                                  <i class="zmdi zmdi-accounts-alt"></i>{{ member.numbervu }} {{ 'collection_visiteurs'|trans }}</span>
+                          </li>
+  #}
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content-page inner-xs ">
+
+
+        <div class="container width-100">
+
+            <div class="col-md-9 col-sm-9 col-xs-12">
+
+                <div class="box-page-bg clearfix">
+
+
+                    {% include 'MembreBundle:Collection:vip.html.twig' %}
+                    {% include 'MembreBundle:Collection:photos.html.twig' %}
+                    {% include 'MembreBundle:CollectionNews:news.html.twig' %}
+                    {% include 'MembreBundle:Collection:videos.html.twig' %}
+                    {% include 'MembreBundle:Collection:avis.html.twig' %}
+                    {% if    app.user != null and  member.id == app.user.id %}
+                        {% include 'MembreBundle:Collection:mon_humeur.html.twig' %}
+                    {% endif %}
+                    {% include 'MembreBundle:Collection:evenements.html.twig' %}
+                    {% include 'MembreBundle:Collection:evenementsnew.html.twig' %}
+                     {% if  ( app.user != null and app.user.id == member.id ) or   (listCoupleAmis|length > 0 and member.listamis == 1 ) %}
+                        {% include 'MembreBundle:Collection:list_amis.html.twig' %}
+                    {% endif %}
+                    {% if app.user != null and  member.id == app.user.id and (is_granted("ROLE_VIP") or is_granted("ROLE_PRO")) %}
+                        {% include 'MembreBundle:Collection:magazine.html.twig' %}
+                    {% endif %}
+                    {% if  (ListeRendezvous|length > 0 and  (member.roles[0] == "ROLE_VIP" or  member.roles[0] == "ROLE_PRO")) or   ( app.user != null and app.user.id == member.id ) %}
+                        {% include 'MembreBundle:CollectionRDV:rendez_vous.html.twig' %}
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+
+            <div class="box-page-bg clearfix">
+
+                {% include 'MembreBundle:Collection:tourne.html.twig' %}
+
+            </div>
+            {% if member.caPub == null %}
+
+                    {{ render(controller('FrontBundle:Template:pub' )) }}
+                {% else %}
+            <div class="box-page-bg clearfix">
+
+
+
+{{ member.caPub|raw }}
+
+
+
+
+
+
+
+
+            </div>
+            {% endif %}
+
+            <div class="box-page-bg clearfix">
+
+                {{ include('FrontBundle:Ajax:facebook.html.twig', {  'vipUser': member }) }}
+            </div>
+            {% if member.twitter != null %}
+                <div class="box-page-bg clearfix">
+
+                    <a class="twitter-timeline" data-height="430"
+                       href="https://twitter.com/{{ member.twitter }}">Tweets </a>
+                </div>
+            {% endif %}
+            {{ render(controller('FrontBundle:Template:pub' )) }}
+        </div>
+
+
+    </div>
+
+
+<!--Modal-->
+
+{% include 'MembreBundle:Collection:modal.html.twig' %}
+
+{% endblock %}
+{% block javascripts %}
+
+    <script src="https://platform.twitter.com/widgets.js"></script>
+
+
+
+
+    <script src="{{ asset('dev/magzine/js/calendar.js') }}"></script>
+
+    <script>
+        var events_php = '{{ path("collection_getAgenda",{'id':id}) }}';
+    </script>
+
+    <!-- Include events calendar language file -->
+    <script src="{{ asset('dev/magzine/languages/en.js') }}"></script>
+
+    <script src="{{ asset('dev/front/js/chosen.jquery.js') }}"></script>
+    <script>
+        function ValidaionForm() {
+            value = $("#").val;
+
+            console.log("Ce champ est obligatoire0");
+            if (document.getElementById("IdPicture").files.length == 0) {
+                $("#messageerror").show();
+                $("#messageerror").html("Ce champ est obligatoire");
+                return false;
+
+            } else {
+                console.log("Ce champ est obligatoire1");
+                return true;
+            }
+
+
+        }
+
+        $(function () {
+            $('.chosen-select').chosen({
+                placeholder_text_single: "Choix multiple...",
+                placeholder_text_multiple: "Choix multiple...",
+                no_results_text: "Oups, rien trouvé! "
+            });
+            $('.chosen-select-deselect').chosen({allow_single_deselect: true});
+        });
+    </script>
+    {% if (app.user != null  and member.id == app.user.id ) %}
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_ayTSOFUiB3brLlzbBfZ_DSWNgKKVhIs&sensor=false&libraries=places"></script>
+        <script>
+            /* script */
+            function initialize() {
+
+                var latlng = new google.maps.LatLng(28.5355161, 77.39102649999995);
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: latlng,
+                    zoom: 10
+                });
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: latlng,
+                    draggable: true,
+                    anchorPoint: new google.maps.Point(0, -29)
+                });
+                var input = document.getElementById('searchInput');
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+                var geocoder = new google.maps.Geocoder();
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                autocomplete.bindTo('bounds', map);
+                var infowindow = new google.maps.InfoWindow();
+                autocomplete.addListener('place_changed', function () {
+                    infowindow.close();
+                    marker.setVisible(false);
+                    var place = autocomplete.getPlace();
+                    if (!place.geometry) {
+                        window.alert("Autocomplete's returned place contains no geometry");
+                        return;
+                    }
+
+                    // If the place has a geometry, then present it on a map.
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17);
+                    }
+
+                    marker.setPosition(place.geometry.location);
+                    marker.setVisible(true);
+
+                    bindDataToForm(place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
+                    infowindow.setContent(place.formatted_address);
+                    infowindow.open(map, marker);
+
+                });
+                // this function will work on marker move event into map
+                google.maps.event.addListener(marker, 'dragend', function () {
+                    geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                bindDataToForm(results[0].formatted_address, marker.getPosition().lat(), marker.getPosition().lng());
+                                infowindow.setContent(results[0].formatted_address);
+                                infowindow.open(map, marker);
+                            }
+                        }
+                    });
+                });
+            }
+
+            function bindDataToForm(address, lat, lng) {
+                document.getElementById('location').value = address;
+                document.getElementById('lat').value = lat;
+                document.getElementById('lng').value = lng;
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    {% endif %}
+
+
+
+    <script>
+        var mymap = L.map('mapid').setView([51.505, -0.09], 2);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 18,
+            id: 'mapbox.streets'
+        }).addTo(mymap);
+        {% for entity in ListFans %}
+        {% if  entity.membre.latitude != null and entity.membre.longitude != null and entity.membre.showposotion == 1 %}
+        L.circle([{{ entity.membre.latitude }}, {{ entity.membre.longitude }}], 5, {
+            color: '{% if entity.membre.coloremotioncard == "zen" %} #9abb59{% elseif entity.membre.coloremotioncard == "gaite" %} #be23cd {% elseif entity.membre.coloremotioncard == "deprime" %} #eb982d {% elseif entity.membre.coloremotioncard == "colere" %}  #ea2c80 {% elseif entity.membre.coloremotioncard == "fatigue" %} #53b241 {% else %} #ffcf2d {% endif %}',
+            fillOpacity: 0.5
+        }).addTo(mymap).bindPopup('<a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : entity.membre.id  , 'id': entity.membre.id}) }}">' +
+                {% if entity.membre.showmapphoto == 1 %}
+                {% if entity.membre.pictureprofil != null %}
+            '<img src="{{ path_picture ~ entity.membre.pictureprofil }}" alt="" class="roundedImageMenu"/>&nbsp; ' +
+                {% else %}
+            ' <img src="{{ asset('assets/images/avatar.png') }}" class="roundedImageMenu" alt="">&nbsp; ' +
+                {% endif %}
+                {% endif %}
+            ' {% if entity.membre.username != null %}&nbsp; {{ entity.membre.username }}{% endif %}' +
+            '</a> ');
+        {% endif %}
+        {% endfor %}
+
+
+        {% for entity in ListeRendezvousMap %}
+        {% if  entity.lat != null and entity.lng != null %}
+        L.marker([{{ entity.lat }}, {{ entity.lng }}], 5, {
+            color: 'blue',
+            fillOpacity: 0.9
+        }).addTo(mymap).bindPopup('<a href="{{ path('collection',{'activeTab': "vip" ,'fullName': entity.vip.username    , 'id': entity.vip.id}) }}">' +
+
+                {% if entity.vip.pictureprofil != null %}
+            '<img src="{{ path_picture ~ entity.vip.pictureprofil }}" alt="" class="roundedImageMenu"/>&nbsp; ' +
+                {% else %}
+            ' <img src="{{ asset('assets/images/avatar.png') }}" class="roundedImageMenu" alt="">&nbsp; ' +
+                {% endif %}
+                {% endif %}
+            ' {% if entity.title != null %}&nbsp; {{ entity.title }} : <br/> de {{ entity.startDate|date("d/m/Y") }} - {{ entity.endDate|date("d/m/Y") }} <br/> à {{ entity.startheur ~"-"~ entity.endheur }}{% endif %}<br/> {{ entity.description[:10] }}...' +
+            '</a> ');
+
+        {% endfor %}
+    </script>
+
+
+    <!--- meta of facbook -->
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.9";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <!-- End meta of facbook-->
+    <script>
+
+     window.onload = function() {
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "light1", // "light1", "light2", "dark1", "dark2"
+
+                data: [{
+                    type: "pie",
+                    startAngle: 240,
+                    yValueFormatString: "##0.00\"%\"",
+                    indexLabel: "{label} {y}",
+                    dataPoints: [
+                        {% if ListFanszen|length  > 0 %} 
+                        { y: {{ (ListFanszen|length * 100) / totla }} , label: "Mode zen" , color: "chartreuse"},
+                        {% endif %}
+                       
+                       {% if ListFansgaite|length  > 0 %} 
+                        { y: {{ (ListFansgaite|length * 100) / totla }} , label: "Mode gaité" , color: "darkviolet" },
+                        {% endif %}
+                       
+                       {% if ListFansdeprime|length  > 0 %}
+                        { y:  {{ (ListFansdeprime|length * 100) / totla }} , label: "Mode déprime" , color: "orange" },
+                       {% endif %}
+                      
+                      {% if ListFanscolere|length  > 0 %} 
+                        { y:  {{ (ListFanscolere|length * 100) / totla }}   , label: "Mode colère" , color: "crimson" },
+                     {% endif %}
+
+                     {% if ListFansfatigue|length  > 0 %}
+                        { y:     {{ ListFansfatigue|length }}  , label: "Mode fatigue"  , color: "green" },
+                    {% endif %}
+                    {% if ListFansenergique|length  > 0 %}
+                        { y:   {{ (ListFansenergique|length * 100) / totla }} , label: "Mode énergique" , color: "yellow" }
+                   {% endif %}
+                    ]
+                }]
+            });
+
+            chart.render();
+
+       
+}
+ 
+    </script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+{% endblock %}

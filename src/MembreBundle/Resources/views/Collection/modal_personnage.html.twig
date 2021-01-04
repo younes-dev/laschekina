@@ -1,0 +1,111 @@
+<div id="inform-personnage-description" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form>
+                    <div class="modal-body text-center modal-inner">
+
+
+                        <h2 id="personnage-name" class="title-modal"></h2>
+                    <p id="description-personnage"></p>
+                </div>
+
+                <div class="modal-footer text-center">
+
+                    <button type="button" class="btn btn-default btn-md"
+                            data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+<div id="inform-edit-personnage-description" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+                <div class="modal-body text-center modal-inner">
+                    <div class="form-group clearfix" >
+                        <div class="col-md-12 mag-bttom-sm">
+                            <label class="label-control" style=" float: left;">{{ 'btn.personnage'|trans }}</label>
+                            <input type="hidden" name="livre" id="livre" >
+                            <input type="hidden" name="personnage_id" id="personnage_id" >
+                            <input type="text" name="personnage" id="personnage" maxlength="255" class="col-md-12 ">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix" >
+                        <div class="col-md-12 mag-bttom-sm">
+                            <input type="file" name="image_personnage" id="image_personnage"
+                                    data-field-type="bootstrap-file-filed"
+                                    data-file-types="image/jpeg,image/png,image/gif"
+                                    data-preview="on" style=" float: left;">
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group clearfix" >
+                        <div class="col-md-12 mag-bttom-sm">
+                            <label class="label-control" style=" float: left;">{{ 'form.description'|trans }} </label>
+                            <textarea name="description" id="description_personnage" rows="4" class="col-md-12"></textarea>
+                        </div>
+                    </div>
+
+                    </div>
+                <div class="modal-footer text-center">
+                    <input id="edit_personnage" onclick="editPersonnage()" type="submit" class="btn btn-orange btn-md" value="{{ 'btn.edit'|trans }}">
+                    <img id="loading_edit_news" src="{{ asset('dev/front/images/loading.gif') }}"  style="display: none;">
+
+                    <button type="button" class="btn btn-default btn-md"
+                            data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h3>{{ 'remove_character'|trans }}</h3></div>
+            <div class="modal-body">
+                <p>{{ 'remove_character_confirm'|trans }} ?</p>
+            </div>
+            <div class="modal-footer">
+                <a id="bt-modal-cancel" href="#" class="btn btn-default" data-dismiss="modal">{{ 'modal_close'|trans }}</a>
+                <a id="bt-modal-confirm" class="btn btn-danger btn-ok">{{ 'btn.remove'|trans }}</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-alert-no-connect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      
+  <div class="modal-dialog"  >
+            <div class="modal-content">
+                <div class="modal-body modalBodyDelete">
+                    
+                    {{'alert_personnage'|trans}}
+                </div>
+                <div class="modal-footer modalFooterDelete">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">  {{'modal_close'|trans}}  </button>
+                        <a href="{{ path('fos_user_security_login') }}" class="btn btn-orange">{{'authentication.btn'|trans}} </a>
+
+                </div>
+            </div>
+        </div>
+  
+    </div>
+</div>

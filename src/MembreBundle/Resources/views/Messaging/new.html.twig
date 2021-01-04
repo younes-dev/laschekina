@@ -1,0 +1,124 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %} {{ 'messages.send'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+                <div class="col-md-12 col-sm-12 col-xs-12" style=" padding-top:30px; padding-bottom:30px">
+                   
+
+        <div class="title-text outer-bottom-20">
+
+            {{ 'messages.new_msg'|trans }}
+        </div>
+
+        <div class="box-message outer-bottom-vs clearfix ">
+
+            <div class="col-md-1 col-xs-12 col-sm-2 no-padd">
+
+                <div class="box-avatar">
+
+
+                    <div class="box-avatar-img">
+                        {% if app.user.pictureprofil != null %}
+                            <img src="{{ path_picture ~ app.user.pictureprofil }}">
+                        {% else %}
+                            <img src="{{ asset('assets/images/avatar.png') }}">
+                        {% endif %}   </div>
+
+                    <div class="box-message-links">
+
+                        <ul>
+                            <li><a href="{{ path('front_messaging_received') }}"><span
+                                            class="zmdi zmdi-inbox"></span></a></li>
+                            <li class="active"><a href="{{ path('front_messaging_send') }}"><span
+                                            class="zmdi zmdi-mail-send"></span></a></li>
+                            <li><a href="{{ path('front_messaging_remove') }}"><span
+                                            class="zmdi zmdi-delete"></span></a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 col-xs-12 col-sm-7">
+
+                <div class="new-message">
+
+
+                    <form action="{{ path('front_messaging_send_msg') }}">
+                        <input type="hidden" name="rout" value="send">
+
+                        <div class="form-group">
+                            {% if id != null %} 
+                                <input type="hidden" name="id-userreceiver" value="{{ id }}">
+                                <input type="text"  class="form-control"
+                                       value=" {{ userreceiver.prenom ~" "~ userreceiver.nom }} " readonly>
+                            {% else %}
+                                <select name="id-userreceiver" data-placeholder="à ..." tabindex="2"
+                                        class="form-control chosen-select">
+                                    {% for item in userreceiver %}
+                                        {% if useremitter.id != item.userReceiver.id  and item.userReceiver.etatMessenger == 1 %}
+                                            <option value="{{ item.userReceiver.id }}">
+                                                   {{    item.userReceiver.prenom ~" "~    item.userReceiver.nom }}
+                                             </option>
+                                        {% endif %}
+                                     {% if useremitter.id != item.userEmitter.id  and item.userEmitter.etatMessenger == 1 %}
+                                            <option value="{{ item.userEmitter.id }}">
+                                                   {{    item.userEmitter.prenom ~" "~    item.userEmitter.nom }}
+                                             </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <textarea name="message" class="form-control" cols="5" rows="12"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="login-button">
+
+                                <input type="submit" class="btn btn-orange btn-lg" value="Envoyer">
+                            </div>
+
+
+                        </div>
+
+                    </form>
+
+
+                    <div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}
+ {% block stylesheets %}
+     <link href="{{ asset('dev/front/css/chosen-bootstrap.css') }}" rel="stylesheet">
+ {% endblock %}
+
+        {% block javascripts %}
+
+            <script src="{{ asset('dev/front/js/chosen.jquery.js') }}"></script>
+            <script>
+                $(function () {
+                    $('.chosen-select').chosen();
+                    $('.chosen-select-deselect').chosen({allow_single_deselect: true});
+                });
+            </script>
+
+        {% endblock %}

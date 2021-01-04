@@ -1,0 +1,191 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}{{ 'page.gallery'|trans }}{% endblock %}
+{% block hiarche %}
+<style>
+.slim .slim-file-hopper {
+    z-index: 1 !important;
+}
+</style>
+    {% set menuactive = app.session.get('menuactive') %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('gallerys_index',{'type_gallery': menuactive ,'id_media' : idMedia }) }}">
+                    <span> {{ 'page.gallery'|trans }} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        {% set menuactive = app.session.get('menuactive') %}
+        {% set step = app.session.get('step') %}
+        {% set picture = app.session.get('picture') %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.add'|trans }}
+                                => {% if step == 1 %} {{ 'step_one'|trans }} {% else %} {{ 'step_tow'|trans }} {% endif %} </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        {{ form_start(form, {'method': 'post', 'action': path('gallerys_index',{'type_gallery': menuactive ,'id_media' : idMedia  }), 'attr': {'class': 'form-horizontal'}}) }}
+
+                        {% for flashMessage in app.session.flashbag.get('gallerysdelete') %}
+                            <div class="alert alert-danger alert-block"><a href="#" data-dismiss="alert"
+                                                                           class="close">×</a>
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+
+                        {% for flashMessage in app.session.flashbag.get('gallerysuccess') %}
+                            <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-body">
+
+                            <div class="form-group"
+                                 {% if menuactive == "gallery_home" or step == 2 %}style="display: none" {% endif %}>
+                                <label>{{ form_label(form.picture  ) }}</label>
+                                <div class="input-group">
+                                    <span class="error-message">  {{ form_errors(form.picture  ) }} </span>
+                                    {{ form_widget(form.picture) }}
+
+                                </div>
+                            </div>
+                            <div class="form-group"
+                                 {% if menuactive in ["gallery_banner" , "gallery_media"] or step == 2  %}style="display: none" {% endif %}>
+                                <label>{{ form_label(form.coverpicture  ) }}</label>
+                                <div class="input-group">
+                                    <span class="error-message">  {{ form_errors(form.coverpicture  ) }} </span>
+                                    {{ form_widget(form.coverpicture) }}
+                                </div>
+                            </div>
+                            <div class="form-group" {% if step == 1 %} style="display: none;" {% endif %} >
+                                <label> Image
+                                    de {% if menuactive == "gallery_home" %} Losange  {% else %} Bannaire  {% endif %}</label>
+                                <div class="input-group">
+                                    <div class="avatar-icon-edit" style=" width: 155px;">
+                                        <div data-module="ui/Demo" data-conditions="element:{was visible}">
+                                            <div class="avatar-edit"></div>
+                                            <div class="slim"
+                                                 data-label="Charger une image"
+                                                 data-service="{{ path('gallerys_ajax_upload') }}"
+                                                 data-size="{% if menuactive == "gallery_home" %} 200,200  {% else %} 225,335 {% endif %}"
+                                                 data-ratio="1:1">
+                                                <img src="{{ path_picture~picture }}">
+                                                <input type="file" name="slim[]"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            {% if step == 1 %}
+                                <button type="submit" class="btn blue">{{ 'btn.next'|trans }}  </button>
+                            {% else %}
+                                <a href="{{ path('gallerys_index',{'type_gallery': menuactive ,'id_media' : idMedia }) }}"
+                                   class="btn blue">{{ 'btn.save'|trans }}  </a>
+                            {% endif %}
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase"> {{ 'page.image_fond'|trans }} </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <div id="draggable" class="col-md-12 ui-sortable">
+                                        {% for gallery in gallerys %}
+                                            <div class="col-md-2 col-sm-12">
+                                            <div class="panel panel-profile">
+                                                    <div class="panel-body">
+                                                        <div class="user-card dim-user-card">
+                                                            {% if menuactive == "gallery_home" %}
+                                                                <a href="{{ path_picture~gallery.coverpicture }}"
+                                                                   target="_blank" class="item fancybox">
+                                                                    <img src="{{ thumb_url_image_banner_back~gallery.coverpicture }}"
+                                                                         class="img-responsive   centre-img">
+                                                                </a>
+                                                            {% else %}
+                                                                <a href="{{ path_picture~gallery.picture }}"
+                                                                   target="_blank" class="item fancybox">
+                                                                    <img src="{{ thumb_url_image_banner_back~gallery.picture }}"
+                                                                         class="img-responsive   centre-img ">
+                                                                </a>
+                                                            {% endif %}
+                                                        </div>
+                                                        <hr class="outsider">
+                                                        <div class="text-center">
+                                                            <a href="{{ path('gallerys_state',{'id':gallery.id}) }}">
+                                                                <h3>
+                                                                    {% if gallery.state == 1 %}
+                                                                        <i class="fa  fa fa-eye"></i>
+                                                                    {% else %}
+                                                                        <i class="fa fa-eye-slash"></i>
+                                                                    {% endif %}
+                                                                </h3>
+                                                            </a>
+                                                            <a data-toggle="modal" id="sup192"
+                                                               href="#myModal{{ gallery.id }}" type="button"
+                                                               class="btn btn-danger">
+                                                                Supprimer</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% for entity in gallerys %}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ entity.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title">  {{ 'message_alert_remove'|trans }}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h2>  {{ 'message_validation_remove'|trans }} </h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"> {{ 'btn.cancel'|trans }}  </button>
+                            <a href="{{ path('gallerys_delete', {'id': entity.id}) }}">
+                                <button type="button" class="btn btn-danger"><i
+                                            class="fa fa-trash"></i> {{ 'btn.remove'|trans }} </button>
+                            </a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endfor %}
+    {% endblock %}

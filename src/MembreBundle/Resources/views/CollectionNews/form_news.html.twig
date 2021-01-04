@@ -1,0 +1,51 @@
+
+    <form action="{{ path('collection_add_item_news') }}" method="post"  enctype="multipart/form-data" >
+         <div class="form-group clearfix" >
+        <div class="col-md-12 mag-bttom-sm">
+            <label class="label-control">{{ 'form.title'|trans }}</label>
+
+            <input type="text" name="title" id="title_news" maxlength="255" class="form-control ">
+
+        </div>
+    </div>
+
+    <div class="form-group clearfix" >
+        <div class="col-md-12 mag-bttom-sm">
+            <input type="file" name="picture" id="picture_news"
+                   data-field-type="bootstrap-file-filed"
+                   data-file-types="image/jpeg,image/png,image/gif"
+                   data-preview="on">
+
+        </div>
+    </div>
+
+    <div class="form-group clearfix" >
+        <div class="col-md-12 mag-bttom-sm">
+            <label class="label-control">{{ 'form.descriptionCourt'|trans }} </label>
+            <textarea name="descriptionCourt" id="descriptionCourt" rows="4" class="form-control"></textarea>
+        </div>
+
+
+    </div>
+
+    <div class="form-group clearfix" >
+        <div class="col-md-12 mag-bttom-sm">
+            <label class="label-control">{{ 'form.description'|trans }} </label>
+            <textarea name="description" id="description_news" rows="4" class="form-control ckeditor"></textarea>
+        </div>
+
+
+    </div>
+
+
+    <div class="form-group" style="float: right;">
+
+        <div class="login-button col-md-12 ">
+
+              <input type="submit" id="add_news"    onclick="hidebtnAdd()" class="btn btn-orange"  value="{{ 'btn.add'|trans }}">
+            <img id="loading_news" src="{{ asset('dev/front/images/loading.gif') }}"  style="display: none;">
+
+        </div>
+
+    </div>
+</form>

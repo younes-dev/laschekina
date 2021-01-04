@@ -1,0 +1,163 @@
+collection_delete_item:
+    path:     /{_locale}/delete/item
+    defaults: { _controller: MembreBundle:FrontMembre:collectionDeleteItem }
+    requirements:
+        _locale: fr|en|es
+
+
+collection_show_article_enfant:
+    path:     /{_locale}/show-article-enfant/{id}
+    defaults: { _controller: MembreBundle:FrontMembre:showArticleEnfant }
+    requirements:
+        _locale: fr|en|es
+
+collection_edit_description:
+    path:     /{_locale}/edit/description
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAddDescription }
+    requirements:
+        _locale: fr|en|es
+
+collection_add_item_news:
+    path:     /{_locale}/item/add-news/{id}
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAddNews , id: null }
+    options:
+        expose: true
+
+collection_change_etat:
+    path:     /{_locale}/change-etat/{id}
+    defaults: { _controller: MembreBundle:FrontMembre:changeEtat , id: null }
+    options:
+        expose: true
+
+collection_delete_commentaire:
+    path:     /{_locale}/delete/commentaire
+    defaults: { _controller: MembreBundle:FrontMembre:collectionDeleteCommentaire }
+    requirements:
+        _locale: fr|en|es
+
+collection_state_magazinegallery:
+    path:     /{_locale}/{id}/state/magazinegallery
+    defaults: { _controller: MembreBundle:FrontMembre:collectionStatemagazinegallery }
+    requirements:
+        _locale: fr|en|es
+
+collection_delete_magazine:
+    path:     /{_locale}/delete/magazine
+    defaults: { _controller: MembreBundle:FrontMembre:collectionDeleteMagazine }
+    requirements:
+        _locale: fr|en|es
+
+collection_add_magazinegallery:
+    path:     /{_locale}/{activeTab}/add/magazinegallery
+    defaults: { _controller: MembreBundle:FrontMembre:Addmagazinegallery }
+    requirements:
+        _locale: fr|en|es
+
+collection_add_item:
+    path:     /{_locale}/{activeTab}/add/media
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAddItem }
+    requirements:
+        _locale: fr|en|es
+collection_add_personnage:
+    path:     /add/personnage/{livre}/{member}
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAddPersonnage }
+    options:
+        expose: true
+
+collection_edit_book:
+    path:     /edit/book/{livre}
+    defaults: { _controller: MembreBundle:FrontMembre:collectionEditBook }
+    options:
+        expose: true
+
+collection_list_personnage:
+    path:     /list/personnage/{livre}/{member}
+    defaults: { _controller: MembreBundle:FrontMembre:collectionListPersonnage }
+    options:
+        expose: true
+
+#routing des function ajax
+collection_ajax_personnage_vote:
+    path:     /ajax/personnage/vote
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAjaxPersonnageVote }
+    options:
+        expose: true
+
+collection_ajax_book_vote:
+    path:     /ajax/book/vote
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAjaxBookVote }
+    options:
+        expose: true
+
+collection_ajax_beaux_personnages:
+    path:     /ajax/beaux-personnages
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAjaxPersonnageBeaux }
+    options:
+        expose: true
+
+collection_edit_ajax_personnage:
+    path:     /Ajax/edit/personnage
+    defaults: { _controller: MembreBundle:FrontMembre:collectionEditPersonnage }
+    options:
+        expose: true
+
+collection_delete_ajax_personnage:
+    path:     /Ajax/delete/personnage/{id}
+    defaults: { _controller: MembreBundle:FrontMembre:collectionDeletePersonnage }
+    options:
+        expose: true
+
+collection_add_ajax_news:
+    path:     /Ajax/add/news
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAddAjaxItem }
+    options:
+        expose: true
+
+collection_add_ajax_PictureHumeur:
+    path:     /Ajax/add/PictureHumeur
+    defaults: { _controller: MembreBundle:FrontMembre:collectionAddAjaxPictureHumeur }
+    options:
+        expose: true
+
+collection_delete_ajax_news:
+    path:     /Ajax/delete/news
+    defaults: { _controller: MembreBundle:FrontMembre:collectionDeleteNews }
+    options:
+        expose: true
+
+
+collection_mon_humeur:
+    path:     /mon/humeur
+    defaults: { _controller: MembreBundle:FrontMembre:collectionMonHumeur , activeTab: 'mon_humeur' }
+    options:
+        expose: true
+
+collection_add_rendez_vous:
+    path:     /add/rendez-vous/{activeTab}
+    defaults: { _controller: MembreBundle:FrontMembre:addRendervouscollection , activeTab: 'rendez-vous' }
+    options:
+        expose: true
+
+collection_send_message_humeur:
+    path:     /send/message/humeur
+    defaults: { _controller: MembreBundle:FrontMembre:collectionsendmessageHumeur  }
+    options:
+        expose: true
+
+collection_getAgenda:
+    path:     /{id}/cllection/getAgenda
+    defaults: { _controller: MembreBundle:FrontMembre:getAgenda  }
+    options:
+        expose: true
+
+collection_delete_rdv:
+    path:     /delete/rdv/{id}
+    defaults: { _controller: MembreBundle:FrontMembre:collectionDeleteRdv }
+    options:
+        expose: true
+
+collection:
+    path:     /{_locale}/{activeTab}/{fullName}.{id}
+    defaults: { _controller: MembreBundle:FrontMembre:collection ,fullName: 'Profil'  }
+    requirements:
+        _locale: fr|en|es

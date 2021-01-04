@@ -1,0 +1,4 @@
+services:
+#    casting.example:
+#        class: CastingBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

@@ -1,0 +1,1333 @@
+<!doctype html>
+
+
+<!--[if lt IE 7 ]>
+<html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>
+<html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>
+<html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>
+<html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <script>(function (H) {
+            H.className = H.className.replace(/\bno-js\b/, 'js')
+        })(document.documentElement)</script>
+    <meta charset="utf-8">
+    <style>
+        .js #features {
+            margin-left: -12000px;
+            width: 100%;
+        }
+        .prgram-inner-content {
+            width: 25% !important;
+        }
+        .slimScrollDiv {
+            height: 195px !important;
+        }
+        #down_list {
+            height: 195px !important;
+        }
+        #across_list {
+            height: 195px !important;
+        }
+        #dragger {
+            height: 280px !important;
+        }
+        #dragger {
+            height: 280px !important;
+        }
+        #crossword_canvas {
+            width: 300px !important;
+            height: 280px !important;
+        }
+        .bottom-cover h4 {
+            font-size: 9px !important;
+        }
+        .program-inner-bottom span {
+            font-size: 11px !important;
+            font-family: 'News Cycle', sans-serif;
+        }
+        .wowbook-page p, .wowbook-page ul {
+            margin-top: 0 !important;
+        }
+        .event-date {
+            float: right !important;
+            font-family: inherit !important;
+            font-size: 8px !important;
+        }
+    </style>
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+    Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title> Magazine</title>
+    <meta name="description" content="">
+    <meta name="author" content="Marcio Aguiar">
+
+    <!--  Mobile viewport optimized: j.mp/bplateviewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS : implied media="all" -->
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/wow_book.css') }}" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/style-word.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/preview.css') }}"><!-- Uncomment if you are specifically targeting less enabled mobile browsers
+    <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/materialize.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/calendar.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/calendar_full.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/calendar_compact.css') }}">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/preview.css') }}">
+    <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+    <script src="{{ asset('dev/magzine/js/modernizr-1.6.min.js') }}"></script>
+    <!-- Include config file -->
+    <script>
+        var events_php = '{{ path("magazine_homepage_espace_member_get_json") }}';
+          </script>
+
+    <!-- Include events calendar language file -->
+    <script src="{{ asset('dev/magzine/languages/en.js') }}"></script>
+
+</head>
+<body>
+<div id="container">
+    <nav>
+        <ul>
+            <li><a id='first' href="#" title='Première page'> </a></li>
+            <li><a id='back' href="#" title='Arrière'></a></li>
+            <li><a id='next' href="#" title='Prochain'></a></li>
+            <li><a id='last' href="#" title='dernière page'></a></li>
+            <li><a id='zoomin' href="#" title='Agrandir'></a></li>
+            <li><a id='zoomout' href="#" title='Dézoomer'></a></li>
+            <li><a id='slideshow' href="#" title='Diaporama'></a></li>
+            <li><a id='flipsound' href="#" title='Flip sonore'></a></li>
+            <li><a id='fullscreen' href="#" title='Plein écran'></a></li>
+            <li><a id='thumbs' href="#" title='Pouces'></a></li>
+        </ul>
+    </nav>
+    <div id="main">
+
+        <div id='features'>
+
+            <!--page1-->
+            {% include 'MagazineBundle:Magazine:page_cover.html.twig' %}
+
+            <!--page1-->
+
+            <!--page2-->
+
+            <div class='feature pagefx hardpage page2'>
+                <h2 class='subtitle' data-title="Sommaire">Sommaire</h2>
+
+                <div class="summary">
+
+                    <ul>
+
+                        <li><span>News</span></li>
+                        {% if listProgrammes|length > 0 %}
+                            <li><span>{{ 'page.programme'|trans }}</span></li>
+                        {% endif %}
+                        {% if listCinemas|length > 0 %}
+                            <li><span>{{ 'page.cinema'|trans }}</span></li>
+                        {% endif %}
+                        {% if listSpectacles|length > 0 %}
+                            <li><span>{{ 'page.spectacle'|trans }}</span></li>
+                        {% endif %}
+                        {% if listConcerts|length > 0 %}
+                            <li><span>{{ 'page.concert'|trans }}</span></li>
+                        {% endif %}
+                        {% if listRadios|length > 0 %}
+                            <li><span>{{ 'page.radio'|trans }}</span></li>
+                        {% endif %}
+                        {% if listPeoples|length > 0 %}
+                            <li><span>{{ 'page.people'|trans }}</span></li>
+                        {% endif %}
+                        <li><span>Rendez-vous avec vos stars</span></li>
+                        {% if   app.user != null %}
+                            <li><span>Agenda</span><span class="number-page">22</span></li>
+                        {% endif %}
+                    </ul>
+
+                </div>
+                <div class="vip-block">
+                    <div class="left-block-vip">
+                        <div class="big-vip-img img-resize imgLiquid">
+                            {% if firstVipUserNews[0].picture != null %}
+                                <img src="{{ path_picture ~  firstVipUserNews[0].picture }}">
+
+                            {% else %}
+                                <img src="{{ asset('assets/images/avatar.png') }}">
+                            {% endif %}
+                            <div class="title-vip">  
+              
+                {% if firstVipUser.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{ firstVipUser.prenom ~" "~ firstVipUser.nom }}
+                {% if firstVipUser.roles[0] == "ROLE_VIP"  and  firstVipUser.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if firstVipUser.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif firstVipUser.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif firstVipUser.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif firstVipUser.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="right-block-vip">
+                        <div class="last-post">
+
+                            <div class="post-title"> {{ firstVipUserNews[0].title[:30] }}{% if firstVipUserNews[0].title|length > 30 %}...{% endif %}  </div>
+
+                            <div class="content-post">
+                                <p> {{ firstVipUserNews[0].description[:300] }}{% if firstVipUserNews[0].description|length > 300 %}...{% endif %}
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <!--page 2-->
+
+            <!--page 3-->
+            {% if lastNews != null %}
+                <div class='feature pagefx softpage'>
+
+                    <div class="post-vip-block-left">
+                        <div class="img-resize imgLiquid vip-content-inner">
+                            <img src="{{ path_picture ~ lastNews.picture }}">
+                        </div>
+                        {% if lastNews.member != null %}
+                            <h5>
+                            
+                              
+              
+                {% if lastNews.member.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{ lastNews.member.prenom ~" "~ lastNews.member.nom }}
+                {% if lastNews.member.roles[0] == "ROLE_VIP"   and  lastNews.member.fan == 0 %}
+                        {% set numbre_etoile = 0 %}
+                        {% if lastNews.member.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif lastNews.member.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif lastNews.member.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif lastNews.member.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                            </h5> {% endif %}
+
+                    </div>
+                    <div class="post-vip-block-right">
+
+                        <div class="post-info-vip">
+                            <span style=" font-size: 12px;">{{ lastNews.title[:50] }}{% if lastNews.description|length > 50 %}...{% endif %}</span>
+
+                            <p>
+                                {% set runHtml = lastNews.description|runHtmlDescription|raw %} {{ runHtml[:500] }}{% if lastNews.description|length > 500 %}...{% endif %}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <div class="post-vip-innner">
+                        {% for entity in NewsPageOne %}
+                            <div class="post-body clear">
+                                <div class="avatar-post">
+                                    <div class="img-resize imgLiquid">
+                                        <img src="{{ path_picture ~ entity.picture }}">
+                                    </div>
+
+                                </div>
+                                <div class="text-post">
+                                    <span style="    font-size: 12px;">  {{ entity.title[:50] }} {% if entity.title|length > 50 %}... {% endif %}</span>
+
+                                    <p>{% if entity.description|length > 0 %}{% set runHtml = entity.description|runHtml|raw %} {{ runHtml[:150] }} {% if entity.description|length > 150 %}... {% endif %} {% else %}
+                                            <br/><br/>{% endif %}
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div class="clear"></div>
+                        {% endfor %}
+
+                    </div>
+
+
+                </div>
+            {% endif %}
+            <!--page 3-->
+            <!--page 4-->
+            {% for item in vipUsers %}
+
+                {% set mediaNews = item|getMediasNews('news' , item.id) %}
+                {% if mediaNews|length > 0 %}
+                    <div class='vip page-1 feature'>
+
+
+                        <div class="vip-block-left-inner">
+                            <div class="img-resize imgLiquid vip-img-block">
+                                <img src="{{ path_picture ~ mediaNews[0].picture }}">
+                            </div>
+
+
+                        </div>
+
+                        <div class="vip-block-right-inner">
+
+                            <div class="vip-content-text">
+
+
+                                <div class="vip-content-text-title">
+                                    <strong>VIP</strong>
+                                    <span>
+                                      {% if mediaNews[0].member != null %}
+                                     
+                                        
+              
+                {% if mediaNews[0].member.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{ mediaNews[0].member.prenom ~" "~ mediaNews[0].member.nom }}
+                {% if mediaNews[0].member.roles[0] == "ROLE_VIP"   and  mediaNews[0].member.fan == 0   %}
+                        {% set numbre_etoile = 0 %}
+                        {% if mediaNews[0].member.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif mediaNews[0].member.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif mediaNews[0].member.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif mediaNews[0].member.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                                       {% endif %}
+
+
+                                </span>
+
+                                </div>
+
+                                <p>
+                                    {% if mediaNews[0].title|length > 0 %}
+                                        {{ mediaNews[0].title[:100] }}
+                                        {% if mediaNews[0].title|length > 100 %}...
+                                        {% endif %}
+                                    {% endif %} <br/>
+
+
+
+                                    {% if mediaNews[0].description|length > 0 %}   {% set runHtml =  mediaNews[0].description|runHtml|raw %} {{ runHtml[:500] }} {% if mediaNews[0].description|length > 500 %}... {% endif %} {% else %}
+                                        <br/><br/>{% endif %}
+                                </p>
+
+                                <img src="{{ asset('dev/magzine/images/quote.png') }}" class="right">
+
+                            </div>
+                        </div>
+
+
+                        <div class="clear"></div>
+                        <div class="vip-warpper-post">
+
+                            {% for i in 1..2 %}
+                                {% if mediaNews|length > i %}
+                                    <div class="vip-warpper-post-inner clear">
+
+                                        <div class="vip-warpper-inner-left">
+
+                                            <div class="img-resize imgLiquid">
+                                                <img src="{{ path_picture ~ mediaNews[i].picture }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="vip-warpper-inner-right">
+                                            <div class="vip-warpper-inner-text">
+                                                <h4> {{ mediaNews[i].title[:60] }}{% if mediaNews[i].title|length > 60 %}... {% endif %} </h4>
+
+                                                <p>{% if mediaNews[i].description|length > 0 %}
+
+                                                        {% set runHtml =  mediaNews[i].description|runHtml|raw %} {{ runHtml[:150] }}
+                                                      {% if mediaNews[i].description|length > 150 %}... {% endif %} {% else %}
+                                                        <br/><br/>{% endif %}
+                                                </p>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+
+
+                    </div>
+
+                    <div class='vip page-1 feature'>
+
+                        {% if mediaNews|length > 3 %}
+                            <div class="left-45">
+                                <div class="single-image-vip">
+
+                                    <div class="img-resize imgLiquid">
+                                        <img src="{{ path_picture ~ mediaNews[3].picture }}">
+                                    </div>
+                                    <p>
+                                    <h6 style="color:#FFF">{{ mediaNews[3].title }}</h6>
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <div class="right-55">
+                                <div class="single-post-text">
+
+
+                                    <p>{% if mediaNews[3].description|length > 0 %}
+                                            {% set runHtml =  mediaNews[3].description|runHtml|raw %} {{ runHtml[:550] }}
+
+                                        {% if mediaNews[3].description|length > 550 %}... {% endif %} {% else %}
+                                            <br/><br/>{% endif %}
+
+                                    </p>
+
+                                </div>
+
+
+                            </div>
+                        {% endif %}
+                        <div class="clear"></div>
+                        {% if mediaNews|length > 4 %}
+                            <div class="single-post-bg">
+                                <div class="img-resize imgLiquid">
+                                    <img src="{{ path_picture ~ mediaNews[4].picture }}">
+
+                                </div>
+                                <div class="single-post-bg-text">
+                                    <h3>{{ mediaNews[4].title[:50] }}{% if mediaNews[4].title|length > 50 %}... {% endif %}</h3>
+
+                                    <p> {% if mediaNews[4].description|length > 0 %}
+
+                                            {% set runHtml =  mediaNews[4].description|runHtml|raw %} {{ runHtml[:170] }}
+                                     {% if mediaNews[4].description|length > 170 %}... {% endif %} {% else %}
+                                            <br/><br/>{% endif %}
+
+                                    </p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <br/>
+                        {% endif %}
+                        <div class="clear"></div>
+                        <div class="twitter-block">
+                            <div class="vip-list">
+                                <h5>{{ 'magazine_photos'|trans }}</h5><br/>
+                                <ul>
+
+                                    {% for entity in item|getMediasphotos( item.id) %}
+                                        <li>
+                                            {% if entity.picture != null %}
+                                                <img src="{{ path_picture ~ entity.picture }}"
+                                                     style="width: 80px !important; height: 60px !important;">
+                                            {% else %}
+                                                <img src="{{ asset('assets/images/avatar.png') }}"
+                                                     style="width: 80px !important; height: 60px !important;">
+
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+
+
+                                </ul>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+
+            <!--page 5-->
+            {% for entity in NewsPagequatro %}
+                {% if loop.index == 1 or loop.index == 3 %}
+                    <div class='page-5-back feature'>
+                {% endif %}
+                {% if loop.index == 1 or loop.index == 3 %}
+                    <div class="left-40">
+
+                        <div class="vip-info">
+
+                            <h3>{{ entity.title[:100] }}{% if entity.title|length > 100 %}...{% endif %}</h3>
+
+                            <p>{% if entity.description|length > 0 %}
+
+                                    {% set runHtml =  entity.description|runHtml|raw %} {{ runHtml[:500] }}
+                                    {% if entity.description|length > 500 %}... {% endif %} {% else %}
+                                    <br/><br/>{% endif %}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="right-60">
+                        <div class="vip-info">
+
+                            <div class="img-resize imgLiquid vip-img5 mag-bottom-8">
+                                <img src="{{ path_picture ~ entity.picture }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                {% endif %}
+
+
+                {% if loop.index == 2 or loop.index == 4 %}
+                    <div class="vip-info-bg clear">
+
+
+                        <p>    {{ entity.title[:100] }} {% if entity.title|length > 100 %}...{% endif %} </p>
+
+
+                    </div>
+
+
+                    <div class="vip-info clear">
+
+                        <div class="vip-info-features-text">
+
+                            <p>{% if entity.description|length > 0 %}
+                                    {% set runHtml =  entity.description|runHtml|raw %} {{ runHtml[:500] }}
+
+
+                                    {% if entity.description|length > 500 %}... {% endif %} {% else %}
+                                    <br/><br/>{% endif %}
+                            </p>
+                        </div>
+
+                        <div class="img-resize imgLiquid vip-info-features">
+                            <img src="{{ path_picture ~ entity.picture }}">
+                        </div>
+                    </div>
+                {% endif %}
+                {% if loop.index == 2 or  loop.index == NewsPagequatro|length %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <!--page 5-->
+
+            <!--page 6-->
+
+            <div class='feature page-6-face'>
+
+                <div class="game">
+
+                    <h2 style="margin-bottom: 1px !important;">MOT CROISES</h2>
+
+
+                    <div id="rotate" class="rotate"></div>
+
+                    <div id="content" class="clear">
+
+                        <div id="loader" class="center">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-blue">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-red">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-yellow">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-green">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div id="crossword">
+
+                            <!-- <nav class="indigo darken-3 z-depth-0">
+                                 <div class="nav-wrapper">
+                                     <div id="main_title" class="v_center primary_text game_title"></div>
+                                     <ul class="right">
+                                         <li class=""><a id="reload" class="modal-trigger"><i class="material-icons toolbar_item v_center primary_text">undo</i></a></li>
+                                         <li class=""><a href="#modal1" class="modal-trigger"><i class="material-icons toolbar_item v_center primary_text">info_outline</i></a></li>
+                                     </ul>
+                                 </div>
+                             </nav>-->
+
+
+                            <div class="indigo z-depth-1" id="header_clue_wrapper">
+                                <div id="header_clue" class="primary_text"></div>
+                            </div>
+
+                            <div id="game_view">
+                                <div id="game">
+                                    <div id="board">
+                                        <div id="dragger">
+                                            <input type="text" id="key_interceptor" maxlength="1" size="1" title=""/>
+                                            <canvas id="crossword_canvas"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="modal2" class="modal">
+                                    <div class="modal-content">
+                                        <h4 id="clue_number">#</h4>
+                                        <p id="clue_text"></p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <a id="reveal_letter"
+                                           class="dialog_btn reveal_letter modal-action modal-close waves-effect waves-orange btn-flat"></a>
+                                        <a id="reveal_word"
+                                           class="dialog_btn reveal_word modal-action modal-close waves-effect waves-orange btn-flat"></a>
+                                        <a id="submit"
+                                           class="dialog_btn modal-action modal-close waves-effect waves-green btn-flat"></a>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <footer class="page-footer blue-grey darken-4">
+
+
+                                <div id="chrono" class="primary_text"></div>
+
+
+                            </footer>
+
+                        </div>
+
+
+                        <div id="modal1" class="modal modal-fixed-footer">
+                            <div class="modal-content">
+                                <h4 id="help_title">Help</h4>
+                                <p id="help_text"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <a id="btn_dialog_close" href="#"
+                                   class=" modal-action modal-close waves-effect waves-green btn-flat"></a>
+                            </div>
+                        </div>
+
+                        <div id="modal3" class="modal modal-fixed-footer">
+                            <div id="congrat" class="modal-content">
+                                <h4 id="congrat_title">Congratulations</h4>
+                                <div class="checkmark center">
+                                    <object data="images/checkmark.svg" type="image/svg+xml">
+
+                                    </object>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#"
+                                   class="dialog_close modal-action modal-close waves-effect waves-green btn-flat"></a>
+
+                            </div>
+                        </div>
+
+                        <div id="modal4" class="modal modal-fixed-footer">
+                            <div class="modal-content">
+                                <h4 id="clear_title">Clear</h4>
+                                <p id="clear_warning"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <a id="btn-no" href="#"
+                                   class="modal-action modal-close waves-effect waves-green btn-flat"></a>
+                                <a id="btn-yes" href="#"
+                                   class="modal-action modal-close waves-effect waves-green btn-flat"></a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class='feature page-6-back crossword-page'>
+
+
+                <div id="clue_list">
+
+                    <div id="across_container" class="clue_list_wrapper">
+                        <div id="across_label" class="clue_list_label"></div>
+                        <div id="across_list">
+                            <ul id="across_list_ul"></ul>
+                        </div>
+                    </div>
+
+                    <div id="down_container" class="clue_list_wrapper">
+                        <div id="down_label" class="clue_list_label"></div>
+                        <div id="down_list">
+                            <ul id="down_list_ul"></ul>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!--page 6-->
+            {% set position = "right" %}
+            {% if listProgrammes|length > 0 %}
+                <!--page programme -->
+                {{ include('MagazineBundle:Magazine:liste_media.html.twig', { 'listMedia': listProgrammes , 'title' : "page.programme" }) }}
+                <!--page Programme TV-->
+                {% if listProgrammes|length <= 6 %}
+                    {% if position == "left" %}
+                        {% set position = "right" %}
+                    {% else %}
+                        {% set position = "left" %}
+
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+            {% if  listCinemas|length > 0 %}
+            <!--page cinema -->
+            {{ include('MagazineBundle:Magazine:liste_media.html.twig', { 'listMedia': listCinemas , 'title' : "page.cinema"  }) }}
+            <!--page cinema-->
+            {% if listCinemas|length <= 6 %}
+                {% if position == "left" %}
+                    {% set position = "right" %}
+                {% else %}
+                    {% set position = "left" %}
+
+                {% endif %}
+            {% endif %}
+            {% endif %}
+            {% if listSpectacles|length  > 0 %}
+                <!--page spectacle -->
+                {{ include('MagazineBundle:Magazine:liste_media.html.twig', { 'listMedia': listSpectacles , 'title' : "page.spectacle"  }) }}
+                <!--page spectacle-->
+                {% if listSpectacles|length <= 6 %}
+                    {% if position == "left" %}
+                        {% set position = "right" %}
+                    {% else %}
+                        {% set position = "left" %}
+
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            <!--page listConcerts -->
+            {% if listConcerts|length  > 0 %}
+                {{ include('MagazineBundle:Magazine:liste_media.html.twig', { 'listMedia': listConcerts , 'title' : "page.concert" }) }}
+
+                {% if listConcerts|length <= 6 %}
+                    {% if position == "left" %}
+                        {% set position = "right" %}
+                    {% else %}
+                        {% set position = "left" %}
+
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            {% if listPeoples|length  > 0 %}
+                <!--page  people -->
+                {{ include('MagazineBundle:Magazine:liste_media.html.twig', { 'listMedia': listPeoples , 'title' : "page.people"  }) }}
+                <!--page people -->
+
+                {% if listPeoples|length <= 6 %}
+                    {% if position == "left" %}
+                        {% set position = "right" %}
+                    {% else %}
+                        {% set position = "left" %}
+
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+            {% if listRadios|length > 0 %}
+                <!--page radio -->
+                {{ include('MagazineBundle:Magazine:liste_media.html.twig', { 'listMedia': listRadios , 'title' : "page.radio" }) }}
+                <!--page radio-->
+
+            {% endif %}
+
+            <!--page rendez vous avec vos stars-->
+            {% set counteur = 0 %}
+            {% for entity in rendezvous %}
+                {% if counteur == 0 %}
+                    <div class='stars feature'>
+
+                    <div class="title-page size-title">{{ 'magasin_rdv'|trans }}</div>
+                {% endif %}
+                {% if  counteur == 0 %}
+                    <div class="vertical-box">
+
+                        <div class="text-box">
+
+                            <h3 class="title-box">
+                               
+              
+                {% if  entity.vip.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{  entity.vip.prenom ~" "~  entity.vip.nom }}
+                {% if  entity.vip.fan == 0 and   entity.vip.roles[0] == "ROLE_VIP"    %}
+                        {% set numbre_etoile = 0 %}
+                        {% if  entity.vip.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                            </h3>
+                            <small>{{ entity.startDate|date('d-m-Y') ~"-"~ entity.endDate|date('d-m-Y') }}</small>
+                            <span>{{ entity.title }}</span>
+
+                        </div>
+
+                        <div class="image-box">
+                            <div class="img-resize imgLiquid ">
+                                {% if entity.vip.pictureprofil != null %}
+                                    <img src="{{ path_picture ~ entity.vip.pictureprofil }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/avatar.png') }}">
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                {% endif %}
+                {% if  counteur == 1 %}
+                    <div class="vertical-box">
+
+
+                        <div class="image-box">
+                            <div class="img-resize imgLiquid ">
+                                {% if entity.vip.pictureprofil != null %}
+                                    <img src="{{ path_picture ~ entity.vip.pictureprofil }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/avatar.png') }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-box">
+
+                            <h3 class="title-box">
+                              
+              
+                {% if  entity.vip.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{  entity.vip.prenom ~" "~  entity.vip.nom }}
+                {% if  entity.vip.roles[0] == "ROLE_VIP"  and  entity.vip.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if  entity.vip.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                            </h3>
+                            <small>{{ entity.startDate|date('d-m-Y') ~"-"~ entity.endDate|date('d-m-Y') }}</small>
+                            <span>{{ entity.title }}</span>
+
+                        </div>
+
+
+                    </div>
+                {% endif %}
+
+
+                {% if  counteur == 2 %}
+                    <div class="vertical-box">
+                        <div class="text-box">
+
+                            <h3 class="title-box">
+                              
+              
+                {% if  entity.vip.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{  entity.vip.prenom ~" "~  entity.vip.nom }}
+                {% if  entity.vip.roles[0] == "ROLE_VIP"  and  entity.vip.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if  entity.vip.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                            </h3>
+                            <small>{{ entity.startDate|date('d-m-Y') ~"-"~ entity.endDate|date('d-m-Y') }}</small>
+                            <span>{{ entity.title }}</span>
+
+                        </div>
+
+                        <div class="image-box">
+                            <div class="img-resize imgLiquid ">
+                                {% if entity.vip.pictureprofil != null %}
+                                    <img src="{{ path_picture ~ entity.vip.pictureprofil }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/avatar.png') }}">
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                {% endif %}
+
+
+                {% if  counteur == 3 %}
+                    <div class="vertical-box">
+                        <div class="text-box">
+
+                            <h3 class="title-box"> 
+                             
+              
+                {% if  entity.vip.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{  entity.vip.prenom ~" "~  entity.vip.nom }}
+                {% if  entity.vip.roles[0] == "ROLE_VIP"   and  entity.vip.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if  entity.vip.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                            </h3>
+                            <small>{{ entity.startDate|date('d-m-Y') ~"-"~ entity.endDate|date('d-m-Y') }}</small>
+                            <span>{{ entity.title }}</span>
+
+                        </div>
+                        <div class="image-box">
+                            <div class="img-resize imgLiquid ">
+                                {% if entity.vip.pictureprofil != null %}
+                                    <img src="{{ path_picture ~ entity.vip.pictureprofil }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/avatar.png') }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+                {% if  counteur == 4 %}
+                    <div class="vertical-box">
+
+                        <div class="image-box">
+                            <div class="img-resize imgLiquid ">
+                                {% if entity.vip.pictureprofil != null %}
+                                    <img src="{{ path_picture ~ entity.vip.pictureprofil }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/avatar.png') }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-box">
+
+                            <h3 class="title-box"> 
+                            
+                              
+              
+                {% if  entity.vip.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{  entity.vip.prenom ~" "~  entity.vip.nom }}
+                {% if  entity.vip.roles[0] == "ROLE_VIP"    and  entity.vip.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if  entity.vip.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                            </h3>
+                            <small>{{ entity.startDate|date('d-m-Y') ~"-"~ entity.endDate|date('d-m-Y') }}</small>
+                            <span>{{ entity.title }}</span>
+
+                        </div>
+
+                    </div>
+                {% endif %}
+
+
+                {% if  counteur == 5 %}
+                    <div class="vertical-box">
+
+                        <div class="text-box">
+
+                            <h3 class="title-box"> 
+                              
+              
+                {% if  entity.vip.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{  entity.vip.prenom ~" "~  entity.vip.nom }}
+                {% if  entity.vip.roles[0] == "ROLE_VIP"   and  entity.vip.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if  entity.vip.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif  entity.vip.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                            </h3>
+                            <small>{{ entity.startDate|date('d-m-Y') ~"-"~ entity.endDate|date('d-m-Y') }}</small>
+                            <span>{{ entity.title }}</span>
+
+                        </div>
+
+                        <div class="image-box">
+
+
+                            <div class="img-resize imgLiquid ">
+                                {% if entity.vip.pictureprofil != null %}
+                                    <img src="{{ path_picture ~ entity.vip.pictureprofil }}">
+                                {% else %}
+                                    <img src="{{ asset('assets/images/avatar.png') }}">
+                                {% endif %}
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                {% endif %}
+
+                {% if counteur == 5 or loop.index == rendezvous|length %}
+                    {% set counteur = 0 %}
+                    </div>
+                {% endif %}
+                {% set counteur = counteur + 1 %}
+            {% endfor %}
+            <!--page rendez vous avec vos stars-->
+
+            {% if   app.user != null %}
+                <!--page agenda-->
+                <div class='agenda feature'>
+
+                    <div class="title-page size-title-big">Agenda</div>
+
+                    <div class="agenda-table">
+
+                        <div class="tiva-events-calendar full" data-source="json"></div>
+                    </div>
+                </div>
+                <!--page agenda-->
+            {% endif %}
+
+            <div class='response feature'>
+                <div class="title-page size-title">{{ 'crossword_magazine_reponse'|trans }}</div>
+
+                <table border="0" class="game-table">
+                    <tbody>
+                    {% for entity in crosswords %}
+                        {% if entity.reponse in resultatwords %}
+                            <tr>
+                                <td>
+                                    <small>{{ "=> "~ entity.question }}</small>
+                                </td>
+                                <td><span>{{ entity.reponse }}</span></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class='last_cover'>
+                <img src="{{ asset('dev/magzine/images/cover_last.png') }}" width="100%" height="100%"/>
+            </div>
+
+        </div> <!-- features -->
+
+    </div>
+    <div id='thumbs_holder'>
+    </div>
+    <footer>
+
+    </footer>
+</div> <!--! end of #container -->
+</div>
+
+<!-- Javascript at the bottom for fast page loading -->
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script type="text/javascript" src="{{ asset('dev/magzine/js/jquery-2.1.4.min.js') }}"></script>
+<script>!window.jQuery && document.write(unescape('%3Cscript src="./js/libs/jquery-2.1.4.min.js"%3E%3C/script%3E'))</script>
+<!-- resize-image -->
+
+<script src="{{ asset('dev/magzine/js/resize-image.js') }} "></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/wow_book.min.js') }}"></script>
+
+<script type="text/javascript">
+    /*----------------resize image--------------------*/
+    $(document).ready(function () {
+        $(".img-resize").imgLiquid({fill: true});
+    });
+    $(document).ready(function () {
+        $('#features').wowBook({
+            height: 500
+            , width: 800
+            , centeredWhenClosed: true
+            , hardcovers: true
+            , turnPageDuration: 1000
+            , numberedPages: [1, -2]
+            , controls: {
+                zoomIn: '#zoomin',
+                zoomOut: '#zoomout',
+                next: '#next',
+                back: '#back',
+                first: '#first',
+                last: '#last',
+                slideShow: '#slideshow',
+                flipSound: '#flipsound',
+                thumbnails: '#thumbs',
+                fullscreen: '#fullscreen'
+            }
+            , scaleToFit: "#container"
+            , thumbnailsPosition: 'bottom'
+            , onFullscreenError: function () {
+                var msg = "Fullscreen failed.";
+                if (self != top) msg = "The frame is blocking full screen mode. Click on 'remove frame' button above and try to go full screen again."
+                alert(msg);
+            }
+        }).css({'display': 'none', 'margin': 'auto'}).fadeIn(1000);
+        $("#cover").click(function () {
+            $.wowBook("#features").advance();
+        });
+        var book = $.wowBook("#features");
+        function rebuildThumbnails() {
+            book.destroyThumbnails()
+            book.showThumbnails()
+            $("#thumbs_holder").css("marginTop", -$("#thumbs_holder").height() / 2)
+        }
+        $("#thumbs_position button").on("click", function () {
+            var position = $(this).text().toLowerCase()
+            if ($(this).data("customized")) {
+                position = "top"
+                book.opts.thumbnailsParent = "#thumbs_holder";
+            } else {
+                book.opts.thumbnailsParent = "body";
+            }
+            book.opts.thumbnailsPosition = position
+            rebuildThumbnails();
+        })
+        $("#thumb_automatic").click(function () {
+            book.opts.thumbnailsSprite = null
+            book.opts.thumbnailWidth = null
+            rebuildThumbnails();
+        })
+        $("#thumb_sprite").click(function () {
+            book.opts.thumbnailsSprite = "images/thumbs.jpg"
+            book.opts.thumbnailWidth = 136
+            rebuildThumbnails();
+        })
+        $("#thumbs_size button").click(function () {
+            var factor = 0.02 * ( $(this).index() ? -1 : 1 );
+            book.opts.thumbnailScale = book.opts.thumbnailScale + factor;
+            rebuildThumbnails();
+        })
+    });
+</script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script src="{{ asset('dev/magzine/js/plugins.js') }}"></script>
+<script src="{{ asset('dev/magzine/js/script.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/easeljs-0.7.1.min.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('dev/magzine/js/easytimer.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/iscroll.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/jquery.slimscroll.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/crossword.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/materialize.js') }}"></script>
+
+
+<script type="text/javascript">
+    $('#across_list').slimScroll({
+        height: 130
+    });
+    $('#down_list').slimScroll({
+        height: 130
+    });
+    $(document).ready(loadJsonFile);
+    function loadJsonFile() {
+        $.getJSON("https://vipcrossing.com/dev/magzine/data.json?r=" + Math.random())
+            .done(jsonLoaded)
+            .fail(function () {
+                   console.log('failed to load json');
+            });
+    }
+</script>
+
+<script src="{{ asset('dev/magzine/js/calendar.js') }}"></script>
+<!-- end concatenated and minified scripts-->
+
+<!--[if lt IE 7 ]>
+<script src="{{ asset('dev/magzine/js/dd_belatedpng.js')}}"></script>
+<script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
+<![endif]-->
+
+</body>

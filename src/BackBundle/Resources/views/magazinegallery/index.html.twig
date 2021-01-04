@@ -1,0 +1,148 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}{{ 'page.magazinegallery'|trans }}{% endblock %}
+{% block hiarche %}
+<style>
+    .img-responsive-web{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        height: 260px;
+    }
+</style>
+    {% set menuactive = app.session.get('menuactive') %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('magazinegallery_index') }}">
+                    <span> {{ 'page.magazinegallery'|trans }} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        {% set menuactive = app.session.get('menuactive') %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.add'|trans }}</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        {{ form_start(form, {'method': 'post', 'action': path('magazinegallery_index'), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+                        {% for flashMessage in app.session.flashbag.get('magazinegallery') %}
+                            <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-body">
+
+                            <div class="form-group">
+                                <label>{{ form_label(form.picture  ) }}</label>
+                                <div class="input-group">
+                                    <span class="error-message">  {{ form_errors(form.picture  ) }} </span>
+                                    {{ form_widget(form.picture) }}
+
+                                </div>
+                            </div>
+
+                        <div class="form-actions">
+
+                                <input type="submit"   class="btn blue" value="{{ 'btn.save'|trans }}">
+                         </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase"> {{ 'page.image_fond'|trans }} </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <div id="draggable" class="col-md-12 ui-sortable">
+                                        {% for gallery in magazinegalleries %}
+                                            <div class="col-md-4">
+                                                <div class="panel panel-profile">
+                                                    <div class="panel-body">
+                                                        <div class="user-card dim-user-card">
+
+                                                                <a href="{{ path_picture~gallery.picture }}"
+                                                                   target="_blank" class="item fancybox">
+                                                                    <img src="{{ path_picture~gallery.picture }}"
+                                                                         class="img-responsive-web ">
+                                                                </a>
+                                                        </div>
+                                                        <hr class="outsider">
+                                                        <div class="text-center">
+                                                            <a href="{{ path('magazinegallery_state',{'id':gallery.id}) }}">
+                                                                <h3>
+                                                                    {% if gallery.state == 1 %}
+                                                                        <i class="fa  fa fa-eye"></i>
+                                                                    {% else %}
+                                                                        <i class="fa fa-eye-slash"></i>
+                                                                    {% endif %}
+                                                                </h3>
+                                                            </a>
+                                                            <a data-toggle="modal" id="sup192"
+                                                               href="#myModal{{ gallery.id }}" type="button"
+                                                               class="btn btn-danger">
+                                                                Supprimer</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% for entity in magazinegalleries %}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ entity.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title">  {{ 'message_alert_remove'|trans }}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h2>  {{ 'message_validation_remove'|trans }} </h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"> {{ 'btn.cancel'|trans }}  </button>
+                            <a href="{{ path('magazinegallery_delete', {'id': entity.id}) }}">
+                                <button type="button" class="btn btn-danger"><i
+                                            class="fa fa-trash"></i> {{ 'btn.remove'|trans }} </button>
+                            </a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endfor %}
+    {% endblock %}

@@ -1,0 +1,12 @@
+{% if vipUser.twitter != null %}
+<a class="twitter-timeline"   data-height="430"  href="https://twitter.com/{{ vipUser.twitter }}" >Tweets </a>
+
+    <script src="https://platform.twitter.com/widgets.js"></script>
+
+{% else %}
+
+    <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/vipcrossing" >Tweets </a>
+
+    <script src="https://platform.twitter.com/widgets.js"></script>
+
+   {% endif %}

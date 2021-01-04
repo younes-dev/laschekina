@@ -1,0 +1,7 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+ {% block imgscreen %}
+     {{ render(controller('FrontBundle:Front:imageslider' )) }}
+ {% endblock %}
+{% block body %}
+{% include "MembreBundle:Resetting:request_content.html.twig" %}
+{% endblock  %}

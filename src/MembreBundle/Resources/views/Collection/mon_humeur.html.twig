@@ -1,0 +1,334 @@
+﻿<div class=" tab-pane  {% if activeTab == "mon_humeur" %} tab-active {% endif %}" id="tab6">
+
+    <div class="col-md-12 col-xs-12 col-sm-12">
+        <div style="display: none" id="alertMonHumeur" class="alert alert-success alert-block">
+            <a href="#" data-dismiss="alert" class="close">×</a>
+        </div>
+
+
+        <h4>{{ 'collection_humeur'|trans }} <span class="active-menu"> {{ 'collection_fans'|trans }}</span></h4>
+        <div class="form-group clearfix">
+
+            <div class="col-md-12 mag-bttom-sm">
+                <ul class="col-md-6  col-xs-12  list-colors">
+                    <li><label class="label-control  width-30">
+                            <div class="zen">&nbsp;</div>
+                        </label>{{ 'emotioncard.zen'|trans }}  </li>
+                    {% if    ( is_granted("ROLE_PRO")  or is_granted("ROLE_VIP") )  %}
+                        <div class="col-md-12 ">
+                            <div class="col-md-11 col-sm-11 col-xs-11">
+                                <div class="progress">
+                                    <div class="progress-bar zen progress-bar-striped active" role="progressbar"
+                                         aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {% if ListFanszen|length  > 0 %} {{ (ListFanszen|length * 100) / totla }}% {% else %} 0%  {% endif %}">
+                                        {% if ListFanszen|length  > 0 %}     {{ ListFanszen|length }}  {% else %} 0  {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if  ListFanszen|length  > 0   %}
+                            <div class="col-md-1 col-xs-1"  style="padding: 0;" >
+                                <input type="checkbox" id="zen">
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    {% endif %}
+                    <li><label class="label-control width-30">
+                            <div class="gaite">&nbsp;</div>
+                        </label>{{ 'emotioncard.gaite'|trans }}</li>
+                    {% if    ( is_granted("ROLE_PRO")  or is_granted("ROLE_VIP") )  %}
+                        <div class="col-md-12 ">
+                            <div class="col-md-11 col-sm-11 col-xs-11">
+                                <div class="progress">
+                                    <div class="progress-bar gaite" role="progressbar" aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {% if ListFansgaite|length  > 0 %} {{ (ListFansgaite|length * 100) / totla }}% {% else %} 0%  {% endif %} ">
+                                        {% if ListFansgaite|length  > 0 %}    {{ ListFansgaite|length }}  {% else %} 0  {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if   ListFansgaite|length  > 0    %}
+                                <div class="col-md-1 col-xs-1" style="padding: 0;" >
+                                    <input type="checkbox" id="gaite">
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <li><label class="label-control width-30">
+                            <div class="deprime">&nbsp;</div>
+                        </label>{{ 'emotioncard.deprime'|trans }}</li>
+                    {% if  ( is_granted("ROLE_PRO")  or is_granted("ROLE_VIP") )  %}
+                        <div class="col-md-12 ">
+                            <div class="col-md-11 col-sm-11 col-xs-11">
+                                <div class="progress">
+                                    <div class="progress-bar deprime progress-bar-striped" role="progressbar"
+                                         aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {% if ListFansdeprime|length  > 0 %} {{ (ListFansdeprime|length * 100) / totla }}% {% else %} 0%  {% endif %}">
+
+                                        {% if ListFansdeprime|length  > 0 %}   {{ ListFansdeprime|length }} {% else %} 0  {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if  ListFansdeprime|length  > 0  %}
+                                <div class="col-md-1 col-xs-1"  style="padding: 0;" >
+                                    <input type="checkbox" id="deprime">
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <li><label class="label-control width-30 ">
+                            <div class="colere">&nbsp;</div>
+                        </label>{{ 'emotioncard.colere'|trans }}</li>
+
+
+                    {% if    ( is_granted("ROLE_PRO")  or is_granted("ROLE_VIP") )  %}
+                        <div class="col-md-12 ">
+                            <div class="col-md-11 col-sm-11 col-xs-11">
+                                <div class="progress">
+                                    <div class="progress-bar colere" role="progressbar" aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {% if ListFanscolere|length  > 0 %} {{ (ListFanscolere|length * 100) / totla }}% {% else %} 0%  {% endif %} ">
+                                        {% if ListFanscolere|length  > 0 %} {{ ListFanscolere|length }} {% else %} 0 {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if ListFanscolere|length  > 0 %}
+                                <div class="col-md-1 col-xs-1"  style="padding: 0;" >
+                                    <input type="checkbox" id="colere">
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <li><label class="label-control width-30">
+                            <div class="fatigue">&nbsp;</div>
+                        </label>{{ 'emotioncard.fatigue'|trans }}</li>
+
+
+                    {% if   ( is_granted("ROLE_PRO")  or is_granted("ROLE_VIP") )  %}
+                        <div class="col-md-12 ">
+                            <div class="col-md-11 col-sm-11 col-xs-11">
+                                <div class="progress">
+                                    <div class="progress-bar fatigue" role="progressbar" aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {% if ListFansfatigue|length  > 0 %} {{ (ListFansfatigue|length * 100) / totla }}% {% else %} 0%  {% endif %}  ">
+                                        {% if ListFansfatigue|length  > 0 %}    {{ ListFansfatigue|length }} {% else %} 0  {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if   ListFansfatigue|length  > 0  %}
+                                <div class="col-md-1 col-xs-1"  style="padding: 0;"  >
+                                    <input type="checkbox" id="fatigue">
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+
+                    <li><label class="label-control width-30">
+                            <div class="energique">&nbsp;</div>
+                        </label>{{ 'emotioncard.energique'|trans }}</li>
+
+
+                    {% if   ( is_granted("ROLE_PRO")  or is_granted("ROLE_VIP") )  %}
+                        <div class="col-md-12 ">
+                            <div class="col-md-11 col-sm-11 col-xs-11 ">
+                                <div class="progress">
+                                    <div class="progress-bar energique" role="progressbar"
+                                         aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {% if ListFansenergique|length  > 0 %} {{ (ListFansenergique|length * 100) / totla }}% {% else %} 0%  {% endif %}  ">
+                                        {% if ListFansenergique|length  > 0 %}   {{ ListFansenergique|length }} {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if  ListFansenergique|length  > 0  %}
+                            <div class="col-md-1 col-xs-1 "  style="padding: 0;"  >
+                                <input type="checkbox" id="energique">
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    {% endif %}
+
+                </ul>
+                <div  class="col-md-6  col-xs-12   ">
+                             <p class="borders col-md-12  col-xs-12"  > {{ 'form.description_stat_humeur'|trans}}  </p>
+
+                 <div id="chartContainer" class="col-md-12  col-xs-12 " style="margin-bottom: 35px;height: 400px; width: 100%;"></div>
+                    </div>
+                <br/>
+            </div>
+            
+                {% if  totlaTotal != null  and  ( is_granted("ROLE_PRO")  or is_granted("ROLE_VIP") )  %}
+                    <div class=" mag-bttom-sm col-md-12  ">
+                        <label class="label-control">{{ 'form.send-message'|trans }}</label>
+
+                        <textarea  rows="6" cols="100" class="form-control" id="message-humeur"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px; float: right;">
+
+                        <div class="login-button col-md-12  ">
+
+                            <input id="add-humeur" type="submit" onclick="sendMessageHumeur()" class="btn btn-orange"
+                                   value="{{ 'form.send-message'|trans }}">
+
+                            <img id="loading-humeur" src="{{ asset('dev/front/images/loading.gif') }}"
+                                 style="display: none;">
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+        </div>
+        {% if app.user != null and  member.id == app.user.id %}
+
+
+            <div class="col-md-12">
+                <hr style="    border-top: 2px solid #eeeeee;">
+            </div>
+            <div class="col-md-12">
+                <h5>{{ 'form.changer_coloremotioncard'|trans }} : <br></h5>
+            </div>
+            <div class="form-group clearfix">
+
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.coloremotioncard'|trans }}</label>
+
+                    <select class="form-control" name="mon_humeur" id="mon_humeur">
+
+                        <option value="zen" {% if app.user.coloremotioncard == "zen" %} selected {% endif %}>{{ 'emotioncard.zen'|trans }}</option>
+                        <option value="gaite" {% if app.user.coloremotioncard == "gaite" %} selected {% endif %}>{{ 'emotioncard.gaite'|trans }}</option>
+                        <option value="deprime" {% if app.user.coloremotioncard == "deprime" %} selected {% endif %}>{{ 'emotioncard.deprime'|trans }}</option>
+                        <option value="colere" {% if app.user.coloremotioncard == "colere" %} selected {% endif %}>{{ 'emotioncard.colere'|trans }}</option>
+                        <option value="fatigue" {% if app.user.coloremotioncard == "fatigue" %} selected {% endif %} >{{ 'emotioncard.fatigue'|trans }}</option>
+                        <option value="energique" {% if app.user.coloremotioncard == "energique" %} selected {% endif %}>{{ 'emotioncard.energique'|trans }}</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style=" float: right;">
+
+                <div class="login-button col-md-12 ">
+
+                    <input id="edit" type="submit" onclick="EditMonHumeur()" class="btn btn-orange"
+                           value="{{ 'btn.edit'|trans }}">
+
+                    <img id="loading" src="{{ asset('dev/front/images/loading.gif') }}" style="display: none;">
+
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <hr>
+            </div>
+
+            <div class="col-md-12">
+                <div style="display: none" id="alertPictureHumeur" class="alert alert-success alert-block">
+                    <a href="#" data-dismiss="alert" class="close">×</a>
+                </div>
+                {% for flashMessage in app.session.flashbag.get('collectionPictureHumeurdelete') %}
+                    <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                <h5>{{ 'form.add_image_coloremotioncard'|trans }} : <br></h5>
+            </div>
+            <div class="form-group clearfix">
+
+                            <div class="col-md-12 mag-bttom-sm">
+                                <label class="label-control">{{ 'form.coloremotioncard'|trans }}</label>
+
+                                <select class="form-control" name="typePictureHumeur" id="typePictureHumeur">
+                                    {% if   "zen" not in colonneType %}
+                                        <option value="zen">{{ 'emotioncard.zen'|trans }}</option>
+                                    {% endif %}
+
+                                    {% if   "gaite" not in colonneType %}
+                                        <option value="gaite">{{ 'emotioncard.gaite'|trans }}</option>
+                                    {% endif %}
+
+                                    {% if   "deprime" not in colonneType %}
+                                        <option value="deprime">{{ 'emotioncard.deprime'|trans }}</option>
+                                    {% endif %}
+
+                                    {% if   "colere" not in colonneType %}
+                                        <option value="colere">{{ 'emotioncard.colere'|trans }}</option>
+                                    {% endif %}
+
+                                    {% if   "fatigue" not in colonneType %}
+                                        <option value="fatigue">{{ 'emotioncard.fatigue'|trans }}</option>
+                                    {% endif %}
+
+                                    {% if   "energique" not in colonneType %}
+                                        <option value="energique">{{ 'emotioncard.energique'|trans }}</option>
+                                    {% endif %}
+
+                                </select>
+
+                            </div>
+                        </div>
+            <div class="form-group clearfix">
+                            <div class="col-md-8 mag-bttom-sm">
+                                <input type="file" name="picturePictureHumeur" id="picturePictureHumeur"
+                                       data-field-type="bootstrap-file-filed"
+                                       data-file-types="image/jpeg,image/png,image/gif"
+                                       data-preview="on">
+
+                            </div>
+                        </div>
+            <div class="form-group" style=" float: right;">
+                        <div class="login-button col-md-12 ">
+
+                    <input id="addPictureHumeur" type="submit" onclick="AddPictureHumeur()" class="btn btn-orange"
+                           value="{{ 'btn.add'|trans }}">
+
+                    <img id="loading_addPictureHumeur" src="{{ asset('dev/front/images/loading.gif') }}"
+                         style="display: none;">
+
+                </div>
+             </div>
+            <div class="col-md-12"><h3>{{ 'photos'|trans }}</h3></div>
+            <div class="clearfix"></div>
+            <div class="list-images clearfix"  id="block_list_image_Humeur">
+                    {% if ListPictureHumeur|length > 0 %}
+                        {% for item in ListPictureHumeur %}
+                                <div class="col-md-4 col-xs-12 col-sm-4 margin-bottom-40">
+
+                                    <div class="image-holder-content">
+                                        <a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                                            <div class="small-photo-vip img-resize imgLiquid">
+
+                                                <img src="{{ path_picture ~ item.picture }}">
+                                            </div>
+                                        </a>
+                                        <div class="info-video">
+                                            <p>{{ item.type }}</p>
+
+
+                                        </div>
+
+                                        {% if (app.user != null  and member.id == app.user.id ) %}
+
+                                            <a class="delete-btn" type="button"
+                                               onclick="Openmodal({{ item.id }}, 'deletePictureHumeur')">
+                                                <i class="zmdi zmdi-close"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                    {% endif %}
+                </div>
+
+         {% endif %}
+    </div>
+
+
+
+</div>

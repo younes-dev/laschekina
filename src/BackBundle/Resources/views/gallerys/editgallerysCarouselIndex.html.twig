@@ -1,0 +1,163 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}{{ 'page.gallerys_carousel_index'|trans }}{% endblock %}
+{% block hiarche %}
+
+    {% set menuactive = app.session.get('menuactive') %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('gallerys_carousel_index') }}">
+                    <span> {{ 'page.gallerys_carousel_index'|trans }} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+       <div class="row">
+            <div class="col-md-12">
+                 <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase"> {{ 'page.image_fond'|trans }} </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form class="form-horizontal" method="post" action="{{ path('edit_image_carousel_index') }}">
+                            <div class="form-body">
+                                <div class="form-group">
+
+                                    <div id="draggable" class="col-md-12 ui-sortable">
+
+                                        {% for gallery in gallerys %}
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="panel panel-profile" >
+                                                    <div class="panel-body">
+                                                        <div class="user-card dim-user-card">
+                                                                <a href="{{ path_picture~gallery.picture }}"
+                                                                   target="_blank" class="item fancybox">
+                                                                    <img src="{{ path_picture~gallery.picture }}"
+                                                                         class=" center-btn " style="width: 100%; height: 150px">
+                                                                </a>
+                                                                </div>
+                                                        <hr class="outsider">
+                                                        <div class="text-center">
+                                                            <span class=" center-btn">{{ gallery.member.nom}}</span><br>
+
+                                                            <label class="container center-btn">
+                                                                <input type="checkbox" name="item-{{ gallery.id }}"  checked="checked">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        {% endfor %}
+
+                                        {% for personnage in personnageMedias %}
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="panel panel-profile" >
+                                                    <div class="panel-body">
+                                                        <div class="user-card dim-user-card">
+                                                                <a href="{{ path_picture ~ 'personnage_media/' ~ personnage.image }}"
+                                                                   target="_blank" class="item fancybox">
+                                                                    <img src="{{ path_picture ~ 'personnage_media/' ~ personnage.image }}"
+                                                                         class=" center-btn " style="width: 100%; height: 150px">
+                                                                </a>
+                                                                </div>
+                                                        <hr class="outsider">
+                                                        <div class="text-center">
+                                                            <span class=" center-btn">{{ personnage.personnage}}</span><br>
+
+                                                            <label class="container center-btn">
+                                                                <input type="checkbox" name="personnage-{{ personnage.id }}"  checked="checked">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        {% endfor %}
+
+                                        {% for gallery in newgallerys %}
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="panel panel-profile" >
+                                                    <div class="panel-body">
+                                                        <div class="user-card dim-user-card">
+                                                                <a href="{{ path_picture~gallery.picture }}"
+                                                                   target="_blank" class="item fancybox">
+                                                                    <img src="{{ path_picture~gallery.picture }}"
+                                                                         class=" center-btn " style="width: 100%; height: 150px">
+                                                                </a>
+                                                                </div>
+                                                        <hr class="outsider">
+                                                        <div class="text-center">
+                                                            <span class=" center-btn">{{  gallery.member.nom}}</span><br>
+
+
+                                                            <label class="container center-btn">
+                                                                <input  type="checkbox" name="item-{{ gallery.id }}"  >
+                                                                <span class="checkmark "></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                                   {% endfor %}
+    
+                                      
+                                        {% for personnage in newpersonnageMedias %}
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="panel panel-profile" >
+                                                    <div class="panel-body">
+                                                        <div class="user-card dim-user-card">
+                                                                <a href="{{ path_picture ~ 'personnage_media/' ~ personnage.image }}"
+                                                                   target="_blank" class="item fancybox">
+                                                                    <img src="{{ path_picture ~ 'personnage_media/' ~ personnage.image }}"
+                                                                         class=" center-btn " style="width: 100%; height: 150px">
+                                                                </a>
+                                                                </div>
+                                                        <hr class="outsider">
+                                                        <div class="text-center">
+                                                            <span class=" center-btn">{{  personnage.personnage }}</span><br>
+
+
+                                                            <label class="container center-btn">
+                                                                <input  type="checkbox" name="personnage-{{ personnage.id }}"  >
+                                                                <span class="checkmark "></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                                   {% endfor %}
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+                                <a href="{{ path('gallerys_carousel_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+
+    {% endblock %}

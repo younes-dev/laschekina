@@ -1,0 +1,978 @@
+<div class="tab-pane  {% if activeTab == "videos" %} active {% endif %}" id="tab4">
+    {% if (app.user != null  and member.id == app.user.id ) %}
+        <div class="col-md-12"><h3>{{ 'collection_Media'|trans }}</h3></div>
+        <div class="col-md-12 col-xs-12 col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('collectionVideossuccess') %}
+                <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('collectionVideosdelete') %}
+
+                <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+            {% if is_granted('ROLE_MEMBRE') or is_granted('ROLE_VIP') or is_granted("ROLE_PRO") %}
+                <form action="{{ path('collection_add_item',{'activeTab': "videos"}) }}" method="post"
+                      enctype="multipart/form-data" onsubmit="return validateForm();"  style="z-index: 1;">
+                    <input type="file" name="picture" style="display: none">
+
+
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                        <div class="col-md-4 mag-bttom-sm" style="z-index: 1;">
+
+                            <label class="label-control sign-up-label" style="font-weight: bold !important;">{{ 'form.title_media'|trans }}</label>
+
+                            <input type="radio"  name="typeVideo" onclick="showMedia(this.value)" value="1" checked> <label  style="padding-left: 10px"> {{ 'form.sourcevideo'|trans }} </label> <br/>
+                            <input type="radio"  name="typeVideo" onclick="showMedia(this.value)" value="2"><label   style="padding-left: 10px"> {{ 'video_mp4'|trans }} </label>  <br/>
+                            <input type="radio"  name="typeVideo" onclick="showMedia(this.value)" value="3"> <label   style="padding-left: 10px">{{ 'audio'|trans }} </label>  <br/>
+                            <input type="radio"  name="typeVideo" onclick="showMedia(this.value)" value="4"> <label   style="padding-left: 10px">{{ 'livre'|trans }} </label> <br/>
+                            <input type="radio"  name="typeVideo" onclick="showMedia(this.value)" value="8"> <label   style="padding-left: 10px">{{ 'livres_bd'|trans }} </label><br/>
+                           <input type="radio"  name="typeVideo" onclick="showMedia(this.value)" value="7"> <label   style="padding-left: 10px">{{ 'livres_audio'|trans }} </label><br/>
+                           <input type="radio"  name="typeVideo" onclick="showMedia(this.value)" value="5"> <label   style="padding-left: 10px">{{ 'audio_enfant'|trans }} </label> <br/>
+                            <input type="radio"  name="typeVideo" onclick="showMedia(this.value)" value="6"> <label   style="padding-left: 10px">{{ 'contes_histoires_enfants'|trans }} </label><br/>
+                          
+                        </div>
+                            <div class="col-md-8 col-sm-12" >
+                                <div class="borders" >
+                                    <p id="text_typeVideo_sourcevideo">
+                                           {{ 'form.message_media_sourcevideo'|trans }}
+                                    </p>
+                                  <p id="text_typeVideo_video_mp4" style="display: none">
+                                        {{ 'form.message_media_video_mp4'|trans }}
+                                    </p>
+                                   <p id="text_liver_bd" style="display: none">
+                                        {{ 'form.message_media_liver_bd'|trans }}
+                                    </p>
+                                  <p id="text_typeVideo_audio"  style="display: none">
+                                           {{ 'form.message_media_audio'|trans }}
+                                    </p>
+                                  <p id="text_typeVideo_livre"  style="display: none">
+                                            {{ 'form.message_media_livre'|trans }}
+                                    </p>
+                                 <p id="text_typeVideo_audio_enfant"  style="display: none">
+                                          {{ 'form.message_audio_enfant'|trans }}
+                                    </p>
+                                <p id="text_typeVideo_message_contes_histoires_enfants"  style="display: none">
+                                      {{ 'form.message_contes_histoires_enfants'|trans }}
+                                    </p>
+                                 <p id="text_typeVideo_message_contes_histoires"  style="display: none">
+                                        {{ 'form.message_contes_histoires'|trans }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm" id="blockModeVideo">
+
+                            <div class="col-md-6 col-sm-12" >
+                                <div class="borders">
+                                    <p>
+                                        {{ 'form.message_media_type_media'|trans }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12"  style="z-index: 1;" >
+
+                                <label class="label-control sign-up-label"  style="font-weight: bold !important;">{{ 'form.modeVideo'|trans }}</label>
+
+                                <input type="radio"  name="modeVideo"   value="zen" checked> <label  style="padding-left: 10px"> {{ 'emotioncard.zen'|trans }}</label> <br/>
+                                <input type="radio"  name="modeVideo"   value="gaite"  > <label  style="padding-left: 10px"> {{ 'emotioncard.gaite'|trans }}</label> <br/>
+                                <input type="radio"  name="modeVideo"   value="deprime"  > <label  style="padding-left: 10px"> {{ 'emotioncard.deprime'|trans }}</label> <br/>
+                                <input type="radio"  name="modeVideo"   value="colere"  > <label  style="padding-left: 10px"> {{ 'emotioncard.colere'|trans }}</label> <br/>
+                                <input type="radio"  name="modeVideo"   value="fatigue"  > <label  style="padding-left: 10px"> {{ 'emotioncard.fatigue'|trans }}</label> <br/>
+                                <input type="radio"  name="modeVideo"   value="energique"  > <label  style="padding-left: 10px"> {{ 'emotioncard.energique'|trans }}</label> <br/>
+                            </div>
+                            <div class="col-md-4 col-sm-12" >
+                                <ul class="list-colors">
+
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <label class="label-control sign-up-label">&nbsp;</label>
+                                            <div class="progress progress_media">
+                                                <div class="progress-bar zen progress-bar-striped active" role="progressbar" aria-valuenow="40"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width:  {%- if totlaTotal  >  0 -%}{{- (ListFanszenTotal|length * 100) / totlaTotal -}}{%- else -%} 0 {%- endif -%}%">
+                                                    {{ ListFanszenTotal|length }}
+                                                </div>
+                                            </div>
+
+                                            <div class="progress progress_media">
+                                                <div class="progress-bar gaite" role="progressbar" aria-valuenow="40"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width:  {%- if totlaTotal  >  0 -%}{{- (ListFansgaiteTotal|length * 100) / totlaTotal -}}{%- else -%} 0 {%- endif -%}%">
+                                                    {{ ListFansgaiteTotal|length }}
+                                                </div>
+                                            </div>
+
+                                            <div class="progress progress_media">
+                                                <div class="progress-bar deprime progress-bar-striped" role="progressbar" aria-valuenow="40"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width: {%- if totlaTotal  >  0 -%}{{- (ListFansdeprimeTotal|length * 100) / totlaTotal -}}{%- else -%} 0{%- endif -%}%">
+
+                                                    {{ ListFansdeprimeTotal|length }}
+                                                </div>
+                                            </div>
+
+                                            <div class="progress progress_media">
+                                                <div class="progress-bar colere" role="progressbar" aria-valuenow="40"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width:{%- if totlaTotal  >  0 -%}{{- (ListFanscolereTotal|length * 100) / totlaTotal -}}{%- else -%} 0 {%- endif -%}%">
+                                                    {{ ListFanscolereTotal|length }}
+                                                </div>
+                                            </div>
+
+                                            <div class="progress progress_media">
+                                                <div class="progress-bar fatigue" role="progressbar" aria-valuenow="40"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width:{%- if totlaTotal  >  0 -%}{{- (ListFansfatigueTotal|length * 100) / totlaTotal -}}{%- else -%} 0 {%- endif -%}% ">
+                                                    {{ ListFansfatigueTotal|length }}
+                                                </div>
+                                            </div>
+
+
+                                            <div class="progress progress_media">
+                                                <div class="progress-bar energique" role="progressbar" aria-valuenow="40"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width:{%- if totlaTotal  >  0 -%}{{- (ListFansenergiqueTotal|length * 100) / totlaTotal -}}{%- else -%} 0 {%- endif -%}%">
+                                                    {{ ListFansenergiqueTotal|length }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix" >
+                        <div class="col-md-12 mag-bttom-sm"  style="z-index: 1;">
+                            <label class="label-control">{{ 'form.title'|trans }}</label>
+
+                            <input type="text" name="title" id="titleMedia" maxlength="255" class="form-control ">
+                            <span id="titleMediaError" style="color: red ; display: none">Ce champ est obligatoire</span>
+                        </div>
+                    </div>
+                    <div style="display: none">
+                        <input type="file" name="picture">
+
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm"  style="z-index: 1;">
+                            <input name="url" class="form-control " id="sourcevideoVip" placeholder="https://...">
+                            <span id="sourcevideoVipError" style="color: red ; display: none">Ce champ est obligatoire</span>
+                            <span style="display: none" id="upload-mediaVidoe">
+                                <input type="file" name="mediaVidoe" id="mediaVidoe"
+                                       data-label="Choisir vedio mp4"
+                                       data-preview="on">
+                            </span>
+                            <span id="mediaVidoeError" style="color: red ; display: none">Ce champ est obligatoire</span>
+
+                            <span style="display: none" id="upload-mediaMP3">
+                                 <label style="margin-top: 10px;"
+                                        class="label-control sign-up-label">{{ 'form.mp3_upload'|trans }}</label>
+                                   <input type="file" name="mediaMP3" id="mediaMP3"
+                                          data-label="{{ 'form.selectionner'|trans }}"
+                                          data-preview="off">
+                                </span>
+
+                            <span id="mediaMP3Error" style="color: red ; display: none">Ce champ est obligatoire</span>
+                            <span style="display: none" id="image-mediaMP3">
+                                   <label style="margin-top: 10px;"
+                                          class="label-control sign-up-label">{{ 'form.image_couverture'|trans }}</label>
+                                 <input type="file" name="imageMediaMP3" id="imageMediaMP3"
+                                        data-label="{{ 'form.image_couverture'|trans }}"
+                                        data-preview="on">
+
+                               </span>
+                             <span id="imageMediaMP3Error" style="color: red ; display: none">Ce champ est obligatoire</span>
+
+                            <span style="display: none" id="upload-book-image-couverture">
+                              <label class="label-control sign-up-label">{{ 'form.image_couverture'|trans }}</label>
+                                 <input type="file" name="mediaBook" id="mediaBook"
+                                        data-label="Choisir image de livre"
+                                        data-preview="on">
+
+                               </span>
+                            <span id="mediaBookError" style="color: red ; display: none">Ce champ est obligatoire</span>
+                            <br/>
+                          <span style="display: none" id="upload-book-image-bd">
+                              <label class="label-control sign-up-label">{{ 'form.image_liver_bd'|trans }}</label>
+                                 <input type="file" name="mediaBookLiverBd[]" id="mediaBookLiverBd"
+                                        data-label="Choisir image de livre"
+                                        data-preview="on" multiple>
+
+                               </span>
+                            <span id="mediaBookLiverBdError" style="color: red ; display: none">Ce champ est obligatoire</span>
+
+
+
+                            <span style="display: none" id="upload-book">
+                              <label class="label-control sign-up-label">{{ 'form.book'|trans }}</label>
+                                 <input type="file" name="mediapathBook" id="mediapathBook"
+                                        data-label="Choisir livre"
+                                        data-preview="on">
+
+                               </span>
+                            <span id="mediapathBookError" style="color: red ; display: none">Ce champ est obligatoire</span>
+
+                        </div>
+                    </div>
+                    <div class="form-group clearfix" style="display: none" id="date-sortie-book">
+                        <div class="col-md-12 mag-bttom-sm">
+                           <label class="label-control sign-up-label">{{ 'form.dateSortie'|trans }}</label>
+                           <input name="dateSortieBook"
+                                  class='form-control selectDatePicker'>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix" style="display: none" id="edition-book">
+                        <div class="col-md-12 mag-bttom-sm">
+                                <label class="label-control sign-up-label">{{ 'form.editionBook'|trans }}</label>
+                                    <input name="editionBook" class="form-control">
+
+
+                        </div>
+                    </div>
+                    <div class="form-group clearfix" style="display: none" id="price-book">
+                        <div class="col-md-12 mag-bttom-sm">
+
+                                <label class="label-control sign-up-label">{{ 'form.priceBook'|trans }}</label>
+                                    <input type="number" step="any" name="priceBook" class="form-control">
+
+
+                        </div>
+                    </div>
+
+ <div class="form-group clearfix" style="display: none" id="statusMedia">
+                        <div class="col-md-12 mag-bttom-sm">
+
+                                <label class="label-control sign-up-label">{{ 'form.statusMedia'|trans }}</label>
+                                     <select name="statusMedia" class="form-control">
+                                        <option value="Moi uniquement">Moi uniquement</option>
+                                          <option value="Public">Public</option>
+                                      <option value="Membre">Membre</option>
+                                    </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix" style="display: none" id="description-book">
+                        <div class="col-md-12 mag-bttom-sm">
+
+                           <label class="label-control sign-up-label">{{ 'form.description'|trans }}
+                               ( {{ 'form.remarque_description'|trans }} )</label>
+                           <textarea style="height: 100px;" maxlength="700" name="descriptionBook" class="form-control "
+                                     id="descriptionBook"></textarea>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix" style="display: none" id="contenu-book">
+                        <div class="col-md-12 mag-bttom-sm">
+
+                           <label class="label-control sign-up-label">{{ 'form.contenuBook'|trans }}</label>
+                           <textarea style="height: 100px;" name="contenuBook" class="form-control ckeditor"
+                                     id="contenuBook"></textarea>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="login-button col-md-8 " >
+
+                            <input type="submit" id="sendForm" class="btn btn-orange" name="ajouter" value="{{ 'btn.add'|trans }}">
+                            <img id="loadingsendForm" style="display: none" src="{{ asset('dev/front/images/loading.gif') }}" />
+                        </div>
+
+                    </div>
+
+                </form>
+            {% else %}
+                {% include 'MembreBundle:Collection:form.html.twig' with {'active': "videos"} %}
+
+            {% endif %}
+        </div>
+        <div class="col-md-12">
+            <hr/>
+        </div>
+    {% endif %}
+
+
+
+
+    {% if liste_mp4|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+            <div class="col-md-12 ">
+
+                <div class="col-md-12">
+                    <div class="seperator-catg title-v">
+                        <div> {{ 'title_video'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+
+
+            {% for item in liste_mp4 %}
+                <div class="col-md-4 col-xs-12 col-sm-4">
+                    <div class="box-page-video">
+                        <div class="box-page-video">
+
+                            <div class="video-poster">
+                                <div class="iframe-resize ">
+
+
+                                    <video width="250" height="150" controls="">
+                                        <source src="{{ path_picture~ item.path }}" type="video/mp4">
+
+                                        {% if app.request.locale == 'fr' %}
+                                            Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                        {% else %}
+                                            Your browser does not support HTML5 video.
+                                        {% endif %}
+                                    </video>
+
+                                </div>
+
+
+                                <div class="info-video">
+                                    <p>{{ item.title }} </p>
+
+
+                                </div>
+
+
+                            </div>
+                            {% if app.user != null  and member.id == app.user.id %}
+                                <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            {% endfor %}
+
+        </div>
+    {% endif %}
+
+    {% if liste_url|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+            <div class="col-md-12 ">
+
+                <div class="col-md-12">
+                    <div class="seperator-catg title-v">
+                        <div> {{ 'title_autre_video'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% for item in liste_url %}
+                <div class="col-md-4 col-xs-12 col-sm-4">
+                    <div class="box-page-video">
+                        <div class="box-page-video">
+                            <div class="video-poster"  >
+                                <div class="iframe-resize ">
+
+
+                                    {% if item.sourcevideo =="vimeo" %}
+                                    <iframe style="width: 100%;    height: 100%;"
+                                            src="//player.vimeo.com/video/{{ item.url }}?byline=0&amp;portrait=0"
+                                            frameborder="0"
+                                            webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                    {% elseif item.sourcevideo == "dailymotion" %}
+                                        <iframe style="width: 100%;     height: 100%;" frameborder="0"
+                                                src="//www.dailymotion.com/embed/video/{{ item.url }}"
+                                                allowfullscreen></iframe>
+                                    {% elseif  item.sourcevideo == "youtube"   %}
+                                        <iframe   allowfullscreen="allowfullscreen"
+                                                  mozallowfullscreen="mozallowfullscreen"
+                                                  msallowfullscreen="msallowfullscreen"
+                                                  oallowfullscreen="oallowfullscreen"
+                                                  webkitallowfullscreen="webkitallowfullscreen" src="https://www.youtube.com/embed/{{ item.url }}"    ></iframe>
+                                    {% else %}
+                                        <video style="width: 100%;  background:  #030203;" controls="">
+                                            <source src="{{ path_picture~ item.path }}" type="video/mp4">
+
+                                            {% if app.request.locale == 'fr' %}
+                                                Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                            {% else %}
+                                                Your browser does not support HTML5 video.
+                                            {% endif %}
+                                        </video>
+                                        {% endif %}
+                                </div>
+
+
+                                <div class="info-video">
+                                    <p>{{ item.title }}</p>
+
+
+                                </div>
+
+
+                            </div>
+                            {% if app.user != null  and member.id == app.user.id %}
+                                <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            {% endfor %}
+
+
+        </div>
+    {% endif %}
+
+
+    {% if liste_mp3|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+
+            <div class="col-md-12">
+                <div class="seperator-catg title-v">
+                    <div>{{ 'title_mp3'|trans }}</div>
+                </div>
+            </div>
+
+            {% for item in liste_mp3 %}
+                <div class="col-md-3 col-xs-12 col-sm-3">
+                    {% if  item.picture  != null  %}
+                        <img src="{{ path_picture ~ item.picture }}"  style="width: 100%">
+                    {% else %}
+                        <img src="{{ asset('assets/images/no-image.jpg') }}"  style="width: 100%" alt=""/>
+                    {% endif %}
+                    <div class="box-page-video">
+                        <div class="box-page-video">
+                            <div class="video-poster"  style="height: 100px !important;">
+                                <div class="iframe-resize ">
+
+                                     <audio controls style=" width: 100%;    background-color: #f1f3f4;"  controlsList="nodownload">
+                                        <source src="{{ path_picture~ item.path }}" type="audio/mpeg">
+
+                                        {% if app.request.locale == 'fr' %}
+                                            Your browser does not support the audio element    {% else %}
+                                            Votre navigateur ne supporte pas l'élément audio.
+                                        {% endif %}
+                                    </audio>
+
+
+                                </div>
+
+                                <div class="info-video">
+                                    <p>{{ item.title }}</p>
+
+
+                                </div>
+
+
+                            </div>
+                            {% if app.user != null  and member.id == app.user.id %}
+                                <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+
+
+    {% if listeMp3Enfant|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+
+            <div class="col-md-12">
+                <div class="seperator-catg title-v">
+                    <div>{{ 'audio_enfant'|trans }}</div>
+                </div>
+            </div>
+
+            {% for item in listeMp3Enfant %}
+                <div class="col-md-3 col-xs-12 col-sm-3">
+
+                    {% if  item.picture  != null  %}
+                        <img src="{{ path_picture ~ item.picture }}"  style="width: 100%">
+                    {% else %}
+                        <img src="{{ asset('assets/images/no-image.jpg') }}"   style="width: 100%" alt=""/>
+                    {% endif %}
+                    <div class="box-page-video">
+                        <div class="box-page-video">
+                            <div class="video-poster" style="height: 100px !important;">
+                                <div class="iframe-resize ">
+
+                                    <audio controls style=" width: 100%;    background-color: #f1f3f4;"  controlsList="nodownload">
+                                        <source src="{{ path_picture~ item.path }}" type="audio/mpeg">
+                                        <a href="{{ path_picture~ item.path }}">
+                                            {% if app.request.locale == 'fr' %}
+                                                Télécharger
+                                            {% else %}
+                                                Download
+
+                                            {% endif %}
+                                        </a>
+                                    </audio>
+
+
+                                </div>
+
+                                <div class="info-video">
+                                    <p>{{ item.title }}</p>
+
+
+                                </div>
+
+
+                            </div>
+                            {% if app.user != null  and member.id == app.user.id %}
+                                <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+
+
+    {% if listeContesHistoiresEnfants|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+
+            <div class="col-md-12">
+                <div class="seperator-catg title-v">
+                    <div>{{ 'contes_histoires_enfants'|trans }} </div>
+                </div>
+            </div>
+
+            {% for item in listeContesHistoiresEnfants %}
+                {% if ( app.user != null  and member.id == app.user.id  ) or ( item.statusMedia in ['Membre' , 'Public' ] )  %}
+                <div class="post-news clearfix">
+                    <div class="col-md-4 col-sm-4 col-xs-12 ">
+                        <div class="image-holder-content">
+
+                            <a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                                <div class="small-photo-vip img-resize imgLiquid">
+                                    <img src="{{ path_picture ~ item.picture }}">
+                                </div>
+                            </a>
+                            
+                        </div>
+                        {% if app.user != null  and member.id == app.user.id %}
+                             <a class="delete-btn" href="{{ path('collection_edit_book',{'livre': item.id }) }}"
+                                   type="button" style=" left: 0 !important;">
+                                    <i class="zmdi zmdi-edit"></i></a>
+                            <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                <i class="zmdi zmdi-close"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+
+                        <div class="post-news-content">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-10 col-sm-10 col-xs-10">
+                                    <h4 id="histoires-title-{{ item.id }}">{{ item.title }} </h4>
+                            </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                   {% if item.statusMedia == "Membre" %}
+                                    <i data-original-title="{{ 'form.message_statusMedia_Membre'|trans }} " data-toggle="tooltip" data-placement="top" class="zmdi zmdi-accounts-alt" style="color: #b1afaf; float: right; font-size: 24px;"></i>
+
+                                  {% elseif item.statusMedia == "Moi uniquement" %}
+                                    <i data-original-title="{{ 'form.message_statusMedia_moi_uniquement'|trans }} " data-toggle="tooltip" data-placement="top" class="zmdi zmdi-lock" style="color: #b1afaf; float: right; font-size: 24px;"></i>
+
+                                 {% elseif item.statusMedia == "Public" %}
+                                      <i data-original-title="{{ 'form.message_statusMedia_Public'|trans }} " data-toggle="tooltip" data-placement="top" class="zmdi zmdi-globe" style="color: #b1afaf; float: right; font-size: 24px;"></i>
+                                  {% endif %}
+                            </div>
+                            </div>
+                            <p id="id-histoires-show-description-{{ item.id }}">
+                                {{ item.descriptionCourt[:200] }} {% if  item.descriptionCourt|length > 200 %}... {% endif %} </p>
+
+
+                            <div style="display: none" id="histoires-description-{{ item.id }}"> {{ item.description|raw }} </div>
+                            <p style="display: none" id="histoires-descriptionCourt-{{ item.id }}"> {{ item.descriptionCourt|raw }} </p>
+
+
+
+                            <a {% if  app.user != null   or item.statusMedia == 'Public' %}
+                                href=" {{ path('collection_show_article_enfant',{'id' : item.id }) }} "
+                            {% else %}
+                                onclick="validationConnect()"
+                            {% endif %}   type="button"  style="cursor: pointer;" >{{ 'collection_lire_suite'|trans }}</a>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            {% endif %}
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+
+
+
+
+    {% if listeContesHistoires|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+
+            <div class="col-md-12">
+                <div class="seperator-catg title-v">
+                    <div>{{ 'livres_audio'|trans }}</div>
+                </div>
+            </div>
+
+            {% for item in listeContesHistoires %}
+                <div class="col-md-3 col-xs-12 col-sm-3">
+                    {% if  item.picture  != null  %}
+                        <img src="{{ path_picture ~ item.picture }}" style="width: 100%">
+                    {% else %}
+                        <img src="{{ asset('assets/images/no-image.jpg') }}"  style="width: 100%" alt=""/>
+                    {% endif %}
+                    <div class="box-page-video">
+                        <div class="box-page-video">
+                            <div class="video-poster"  style="height: 100px !important;">
+                                <div class="iframe-resize ">
+
+
+                                    <audio controls style=" width: 100%;    background-color: #f1f3f4;"  controlsList="nodownload">
+                                        <source src="{{ path_picture~ item.path }}" type="audio/mpeg">
+                                        <a href="{{ path_picture~ item.path }}">
+                                        {% if app.request.locale == 'fr' %}
+                                            Télécharger
+                                        {% else %}
+                                            Download
+
+                                        {% endif %}
+                                        </a>
+                                    </audio>
+
+
+                                </div>
+
+                                <div class="info-video">
+                                    <p>{{ item.title }}</p>
+
+
+                                </div>
+
+
+                            </div>
+                            {% if app.user != null  and member.id == app.user.id %}
+                                <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    {% if listeBook|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+
+            <div class="col-md-12">
+                <div class="seperator-catg title-v">
+                    <div>{{ 'liste_livre_plaquette'|trans }}</div>
+                </div>
+
+            </div>
+
+            {% for item in listeBook %}
+                <div style="margin-bottom: 10px" class="livre col-md-12">
+
+                    <div class="col-md-3">
+                        <div class="media-livre">
+                            <img src="{{ path_picture~ item.path }}"
+                                 class="img-responsive">
+
+                            {% if app.user != null  and member.id == app.user.id %}
+                                <a class="delete-btn" href="{{ path('collection_edit_book',{'livre': item.id }) }}"
+                                   type="button" style=" left: 0 !important;">
+                                    <i class="zmdi zmdi-edit"></i></a>
+                                <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-9">
+
+                        <span>{{ item.title }}</span>
+                        <p style="    white-space: pre-line;">
+                         {% if item.dateSortie != null  %}   {{ 'form.dateSortie'|trans }} : {{ item.dateSortie }} {% endif %}
+                            {% if item.editionBook != null  %}   {{ 'form.editionBook'|trans }} : {{ item.editionBook }} {% endif %}
+                            {% if item.priceBook != null  %}  {{ 'form.priceBook'|trans }} : {{ item.priceBook }} {% endif %}
+                        </p>
+                        <p>
+                            {{ ListeDescriptionBook[loop.index]|raw }} <br/>
+
+                            {% if item.pathBook != null %}
+
+                                <a href="{{ path('payment_prepare',{'idBook' : item.id }) }}" target="_blank"
+                                   style="float: right !important">
+                                    {% if item.id in listIdBook or item.priceBook == 0 or item.priceBook == null %}
+                                        <img src="{{ asset('dev/front/images/telecharger_book.png') }}"
+                                             style=" width: 64px;"><br/>
+                                        {{ 'btn.download'|trans }}
+                                    {% else %}
+                                        {{ 'label_acheter'|trans }}   <img src="{{ asset('dev/front/images/paypal.png') }}">
+                                    {% endif %}
+                                   </a>
+                            {% endif %}
+                            <br>
+
+
+                        <div class="col-md-12">
+                            {% if item.personnagesMedia|length > 0 %}
+                                {% for personnage in  item.personnagesMedia|reverse %}
+                                    {% if loop.index < 5 %}
+                                        <a href="{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id': personnage.id }) }}">
+                                            <img class="col-md-2 col-sm-2  col-xs-12" style="min-height:110px"
+                                                 src="  {% if personnage.image != '' and personnage.image is not null %}
+                                                   {{ path_picture ~ 'personnage_media/' ~ personnage.image }}
+                                               {% else %}
+                                                   {{ path_no_image ~ 'assets/images/no-image.jpg' }}
+                                               {% endif %}"
+                                            >
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            <div class="col-md-4">
+                                {% if item.contenuBook != null %}
+
+                                <a style="width: 100% ; vertical-align: middle;" class="btn btn-orange"
+                                   href="{{ path('magazine_livre',{'id' : item.id}) }}"
+                                   target="_blank">{{ 'lien_livre'|trans }}</a>
+                                {% endif %}
+                                <br/>
+                                <br/>
+                                {% if item.personnagesMedia|length > 4  or ( app.user != null  and  member.id == app.user.id ) %}
+                                <a title="{{ 'btn.title_personnage'|trans }}"
+                                   style="width: 100% ;  vertical-align: middle;" class="btn btn-primary"
+                                   href="{{ path('collection_list_personnage', {'livre' : item.id, 'member' : member.id}) }}"
+                                   target="_blank">
+                                    {{ 'btn.personnage'|trans }}</a>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        </p>
+
+                    </div>
+                </div>
+                <hr style=" border: 1px solid #eaeaea;   margin-bottom: 33px;">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+
+
+    {% if listeBookBD|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+
+            <div class="col-md-12">
+                <div class="seperator-catg title-v">
+                    <div>{{ 'livres_bd'|trans }}</div>
+                </div>
+
+            </div>
+
+            {% for item in listeBookBD %}
+                <div style="margin-bottom: 10px" class="livre col-md-12">
+
+                    <div class="col-md-3">
+                        <div class="media-livre">
+                            <img src="{{ path_picture~ item.path }}"
+                                 class="img-responsive">
+
+                            {% if app.user != null  and member.id == app.user.id %}
+                                <a class="delete-btn" href="{{ path('collection_edit_book',{'livre': item.id }) }}"
+                                   type="button" style=" left: 0 !important;">
+                                    <i class="zmdi zmdi-edit"></i></a>
+                                <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-9">
+
+                        <h5>{{ item.title }}</h5>
+                        <p style="    white-space: pre-line;">
+                         {% if item.dateSortie != null  %}   {{ 'form.dateSortie'|trans }} : {{ item.dateSortie }} {% endif %}
+                        <br/>    {% if item.editionBook != null  %}   {{ 'form.editionBook'|trans }} : {{ item.editionBook }} {% endif %}
+
+                        </p>
+
+                            Description : <br/>
+                              {{ item.descriptionCourt|raw }} <br/>
+
+                               {% if item.bookImages|length > 0 %}
+
+                               {% endif %}
+
+                                    <br/>
+                                <div class="row">
+                                                 {% if item.personnagesMedia|length > 0 %}
+
+                                        {% for personnage in  item.personnagesMedia|reverse %}
+                                            {% if loop.index < 5 %}
+                                                <a href="{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id': personnage.id }) }}">
+                                                    <img class="col-md-2 col-sm-2  col-xs-12" style="min-height:110px"
+                                                         src="  {% if personnage.image != '' and personnage.image is not null %}
+                                                           {{ path_picture ~ 'personnage_media/' ~ personnage.image }}
+                                                       {% else %}
+                                                           {{ path_no_image ~ 'assets/images/no-image.jpg' }}
+                                                       {% endif %}"
+                                                    >
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    {% endif %}
+
+
+
+                                         <div class="col-md-4 col-xs-12" style="   float: right;">
+                                             {% if item.id in listIdBook or item.priceBook == 0 or item.priceBook == null %}
+                                                 <a style="width: 100% ; vertical-align: middle;" class="btn btn-orange"
+                                                    href="{{ path('magazine_livre_bd',{'id' : item.id}) }}"
+                                                    target="_blank">{{ 'lien_livre_bd'|trans }}   </a>
+                                                 <br/>
+                                                 <br/>
+                                             {% else %}
+
+                                                 <a href="{{ path('payment_prepare',{'idBook' : item.id }) }}"
+                                                    style="float: right !important">
+                                                     {{ 'label_acheter'|trans }}
+                                                     <img src="{{ asset('dev/front/images/paypal.png') }}">
+                                                 </a>
+                                                 <br/>
+
+                                             {% endif %}
+
+                                             {% if item.personnagesMedia|length > 4    or ( app.user != null  and  member.id == app.user.id ) %}
+                                                    <a title="{{ 'btn.title_personnage'|trans }}"
+                                                       style="width: 100% ;  vertical-align: middle;" class="btn btn-primary"
+                                                       href="{{ path('collection_list_personnage', {'livre' : item.id, 'member' : member.id}) }}"
+                                                       target="_blank">
+                                                        {{ 'btn.personnage'|trans }}
+                                                    </a>
+                                             {% endif %}
+                                         </div>
+
+                                </div>
+
+
+
+                    </div>
+                </div>
+                <hr style=" border: 1px solid #eaeaea;   margin-bottom: 33px;">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+
+
+<div id="modale-validation-connect" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form action="#" >
+                <div class="modal-body text-center">
+
+                    <div class="sa-icon sa-error animateErrorIcon" style="display: block;">
+													<span class="sa-x-mark animateXMark">
+														<span class="sa-line sa-left"></span>
+														<span class="sa-line sa-right"></span>
+													</span>
+                    </div>
+
+                    <h2 class="title-modal">{{ 'modal_oops_acceder'|trans }}</h2>
+                    <p> {{ 'message_pour_acceder'|trans }}</p>
+
+                </div>
+
+                <div class="modal-footer text-center">
+                    <a href="{{ path('fos_user_security_login') }}" type="submit" class="btn btn-orange btn-md"  > {{ 'authentication.btn'|trans }} </a>
+
+                    <button type="button" class="btn btn-default btn-md"
+                            data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

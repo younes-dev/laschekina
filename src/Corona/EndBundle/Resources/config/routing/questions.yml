@@ -1,0 +1,23 @@
+questions_index:
+    path:     /
+    defaults: { _controller: "CoronaEndBundle:Questions:index" }
+
+
+questions_show:
+    path:     /{id}/show
+    defaults: { _controller: "CoronaEndBundle:Questions:show" }
+
+
+questions_createOrUpdate:
+    path:     /createOrUpdate/{id}
+    defaults: { _controller: "CoronaEndBundle:Questions:createOrUpdate" , id: null  }
+
+
+delete_response:
+    path:     response/{id}/delete
+    defaults: { _controller: "CoronaEndBundle:Questions:deleteResponse" }
+
+questions_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CoronaEndBundle:Questions:delete" }
+

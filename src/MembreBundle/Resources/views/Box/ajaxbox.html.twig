@@ -1,0 +1,18 @@
+ {% if itemInBox != null %}
+        <a onclick="AddOrRemoveBox({{ item.id }} ,'remove' , '{{ typebox }}')" class="btn btn-icon like"
+        data-toggle="tooltip"
+        title="{{ 'box_delete'|trans }}">
+       {#  <span id="nbrLikebox">  {% if item.box|length > 0  %}   {{ item.box|length  }} {% else %} 0 {% endif %} </span>#}
+            {{ 'suivre'|trans }}
+         <i    class="zmdi zmdi-favorite" style="margin-left: 10px;"></i></a>
+ {% else %}
+     <a onclick="AddOrRemoveBox({{ item.id }} ,'add',  '{{ typebox }}')" class="btn btn-icon like"
+        data-toggle="tooltip"
+        title="{{ 'box_add'|trans }}">
+        {# <span id="nbrLikebox">  {% if item.box|length > 0  %}   {{ item.box|length  }} {% else %} 0 {% endif %} </span>#}
+            {{ 'suivre'|trans }}
+         <i   class="zmdi zmdi-favorite-outline" style="margin-left: 10px;"></i></a>
+
+
+
+ {% endif %}

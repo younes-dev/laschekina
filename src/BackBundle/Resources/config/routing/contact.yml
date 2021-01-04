@@ -1,0 +1,14 @@
+contact_index:
+    path:     /{enable}
+    defaults: { _controller: "BackBundle:Contact:index" }
+    methods:  GET
+
+contact_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Contact:show" }
+    methods:  GET
+
+contact_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Contact:delete" }
+    methods:  [GET, POST]

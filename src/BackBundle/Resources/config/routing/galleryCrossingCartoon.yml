@@ -1,0 +1,11 @@
+gallery_crossing_cartoon_index:
+    path:     /index
+    defaults: { _controller: "BackBundle:GallerysCrossingCartoon:index" }
+
+gallery_crossing_cartoon_state:
+    path:     /state/{id}
+    defaults: { _controller: "BackBundle:GallerysCrossingCartoon:state" }
+
+gallery_crossing_cartoon_delete:
+    path:     /delete/{id}
+    defaults: { _controller: "BackBundle:GallerysCrossingCartoon:delete" }

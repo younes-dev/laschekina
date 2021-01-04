@@ -1,0 +1,202 @@
+{% set menuactive = app.session.get('menuactive') %}
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.add'|trans }}  </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+        <div class="form-body">
+
+
+            <div class="form-group" style="display: none">
+                <label>{{ form_label(form.fan  ) }} </label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.fan  ) }} </span>
+                    {{ form_widget(form.fan) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group" style="display: none">
+                <label>{{ form_label(form.nomentreprise  ) }} </label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.nomentreprise  ) }} </span>
+                    {{ form_widget(form.nomentreprise) }}
+
+                </div>
+            </div>
+
+            <div class="form-group" style="display: none">
+                <label>{{ form_label(form.numseret  ) }} </label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.numseret  ) }} </span>
+                    {{ form_widget(form.numseret) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ form_label(form.username  ) }} </label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.username  ) }} </span>
+                    {{ form_widget(form.username) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.nom  ) }} </label>
+                <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.nom  ) }} </span>
+                    {{ form_widget(form.nom ) }}
+
+                </div>
+            </div>
+   <div class="form-group">
+       <label>{{ form_label(form.prenom  ) }} </label>
+       <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.prenom  ) }} </span>
+                    {{ form_widget(form.prenom) }}
+
+                </div>
+            </div>
+   <div class="form-group">
+       <label>{{ form_label(form.pays  ) }} </label>
+       <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.pays  ) }} </span>
+                    {{ form_widget(form.pays) }}
+
+                </div>
+            </div>
+  <div class="form-group">
+      <label>{{ form_label(form.datenaissance  ) }} </label>
+      <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.datenaissance  ) }} </span>
+                    {{ form_widget(form.datenaissance) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group" {% if menuactive == "admin" %} style="display: none" {% endif %}>
+                 <label>{{ form_label(form.typecompte  ) }} </label>
+                 <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.typecompte  ) }} </span>
+                    {{ form_widget(form.typecompte) }}
+
+                </div>
+            </div>
+    <div class="form-group" {% if menuactive == "admin" %} style="display: none" {% endif %}>
+                 <label>{{ form_label(form.twitter  ) }} </label>
+                 <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.twitter  ) }} </span>
+                    {{ form_widget(form.twitter) }}
+
+                </div>
+            </div>
+    <div class="form-group" {% if menuactive == "admin" %} style="display: none" {% endif %}>
+                 <label>{{ form_label(form.instagram  ) }} </label>
+                 <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.instagram  ) }} </span>
+                    {{ form_widget(form.instagram) }}
+
+                </div>
+            </div>
+    <div class="form-group" {% if menuactive == "admin" %} style="display: none" {% endif %}>
+                 <label>{{ form_label(form.facebook  ) }} </label>
+                 <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.facebook  ) }} </span>
+                    {{ form_widget(form.facebook) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group" {% if menuactive == "admin" %} style="display: none" {% endif %}>
+                <label>{{ form_label(form.telephone  ) }} </label>
+                <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.telephone  ) }} </span>
+                    {{ form_widget(form.telephone) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group"  {% if menuactive == "admin" %} style="display: none" {% endif %}>
+                <label>{{ form_label(form.ville  ) }} </label>
+                <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.ville  ) }} </span>
+                    {{ form_widget(form.ville) }}
+
+                </div>
+            </div>
+            <div class="form-group"  {% if menuactive == "admin" %} style="display: none" {% endif %}>
+                <label>{{ form_label(form.adresse  ) }} </label>
+                <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.adresse  ) }} </span>
+                    {{ form_widget(form.adresse) }}
+
+                </div>
+            </div>
+            <div class="form-group"  {% if menuactive == "admin" %} style="display: none" {% endif %}>
+                <label>{{ form_label(form.codepostal  ) }} </label>
+                <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.codepostal  ) }} </span>
+                    {{ form_widget(form.codepostal) }}
+
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label>{{ form_label(form.email  ) }} </label>
+                <div class="input-group">
+
+                    <span class="error-message">  {{ form_errors(form.email  ) }} </span>
+                    {{ form_widget(form.email) }}
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group" >
+                <label>{{ 'form.new_password'|trans }} : </label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.plainPassword.first  ) }} </span>
+                    {{ form_widget(form.plainPassword.first ) }}
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ 'form.new_password_confirmation'|trans }} : </label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.plainPassword.second  ) }} </span>
+                    {{ form_widget(form.plainPassword.second ) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{ 'registration.submit'|trans }}  </button>
+            <a href="{{ path('user_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+

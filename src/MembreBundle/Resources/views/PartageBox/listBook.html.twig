@@ -1,0 +1,108 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.partage_box'|trans }}{% endblock %}
+ 
+ {% block imgscreen %}
+
+     <div class="img-screen">
+         <div class="img-resize imgLiquid">
+             <img src="{{ path_picture ~ gallerybanner.picture }}">
+         </div>
+         <div class="title-page-holder">
+             <h1>{{ 'liste_livre'|trans }}</h1>
+
+         </div>
+     </div>
+ {% endblock %}
+   {% block body %}
+
+
+       <div class="container">
+
+
+       
+
+
+           <div class="result-search" id="result-search" >
+
+               <div class="row">
+
+
+                   <div class="col-md-12 col-sm-12">
+
+                       <div class="result-box margin-bottom-40 ">
+                            {% if listeBook|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+
+            <div class="col-md-12">
+                <div class="seperator-catg title-v">
+                    <div>{{ 'liste_livre'|trans }}
+                    
+                    
+                    </div>
+                </div>
+
+            </div>
+
+            {% for item in listeBook %}
+                <div style="margin-bottom: 10px" class="livre col-md-12">
+
+                    <div class="col-md-3">
+                        <div class="media-livre">
+                            <img src="{{ path_picture~ item.book.path }}"
+                                 class="img-responsive">
+
+                            
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-9">
+
+                        <span>{{ item.book.title }}</span>
+                        <p style="    white-space: pre-line;">
+                            {% if item.dateSortie != null  %}  {{ 'form.dateSortie'|trans }} : {{ item.book.dateSortie }} {% endif %}
+                            {% if item.editionBook != null  %}  {{ 'form.editionBook'|trans }} : {{ item.book.editionBook }}{% endif %}
+                            {% if item.priceBook != null  %}  {{ 'form.priceBook'|trans }} : {{ item.book.priceBook }}{% endif %}
+                             <br/>
+
+
+                            {% if item.book.contenuBook != null %}
+                            <a href="{{ path('magazine_livre',{'id' : item.book.id}) }}" target="_blank"
+                               style="color: #ff5722 !important"> {{ 'lien_livre'|trans }}</a>
+                            {% endif %}
+                            {% if item.book.pathBook != null %}
+                                   <a href="{{path('payment_prepare',{'idBook' : item.book.id })}}" target="_blank"
+                                       style="float: right !important">
+
+                                       <img src="{{ asset('dev/front/images/telecharger_book.png') }}"
+                                       style="width: 64px;">
+
+                                   </a>
+                            {% endif %}
+                               
+                        </p>
+
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    {% endif %}
+                       </div>
+                   </div>
+
+
+               </div>
+           </div>
+
+       </div>
+
+
+
+
+   {% endblock %}
+
+
+ 

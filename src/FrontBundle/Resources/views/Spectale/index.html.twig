@@ -1,0 +1,171 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block  meta %}
+  {{ render(controller( 'FrontBundle:Front:referancement' ,  { 'type': "ref_spectacle" }   )) }}
+{% endblock %}
+{% block title %}  {{ 'page.spectale'|trans }}{% endblock %}
+ {% block imgscreen %}
+     <!--slide caroussel-->
+    
+     <div id="owl-full-width" class="owl-carousel owl-theme">
+         {% if nextMedias != null %}
+             {% for item in nextMedias %}
+                 <div class="item">
+                     <div class="img-resize imgLiquid">
+                         <img src="{{ path_picture ~ item.backgroundpicture }}">
+                     </div>
+                     <div class="inner-item">
+     					<span><a href="{{ path('front_end_show_media',{'id':  item.id}) }}"  >{{ item.title }}</a></span>
+                         <p>{{ item.shortdescription[:40] }} {% if item.shortdescription|length > 40 %}...{% endif %}</p>
+                     </div>
+                 </div>
+             {% endfor %}
+
+         {% else %}
+             {% for item in listSpectales %}
+                 <div class="item">
+                     <div class="img-resize imgLiquid">
+                         <img src="{{ path_picture ~ item.backgroundpicture }}">
+                     </div>
+                     <div class="inner-item">
+                         <span><a href="{{ path('front_end_show_media',{'id':  item.id}) }}"  >{{ item.title }}</a></span>
+                         <p>{{ item.shortdescription[:40] }} {% if item.shortdescription|length > 40 %}...{% endif %}</p>
+                     </div>
+                 </div>
+             {% endfor %}
+         {% endif %}
+     </div>
+     <!--slide caroussel-->
+
+ {% endblock %}
+   {% block body %}
+
+
+
+       <div class="content-page inner-xs ">
+           <div class="container">
+               {{ include('FrontBundle:Spectale:spectale.html.twig', { 'listSpectales': listSpectales }) }}
+
+               {{ include('FrontBundle:Spectale:vidoes_spectale.html.twig', { 'videoSpectales': videoSpectales }) }}
+
+
+           </div>
+
+       </div>
+
+
+
+       <div class="clearfix videos-film people-video mag-top-40 bg-white inner-vs">
+           <div class="container">
+
+
+               <div class="col-md-12 col-xs-12 col-sm-12">
+                   <h3>{{ 'liste_spectale'|trans }} <i class="zmdi zmdi-chevron-right"></i></h3>
+                   <div class="list-program row mag-top-20">
+
+                       <div class="col-md-12 col-xs-12 col-sm-12 tousPeople">
+
+                           {% for entity in listSpectales  %}
+                               <div class="col-md-3 col-xs-12 col-sm-4 item" id="{{ entity.id }}" >
+                                   <div class="post video-post">
+                                       <div class="inner-post" >
+                                           <div class="image-post">
+                                               <div class="ribbon "><span>{{ entity.startdate|date('d') }}</span><small>{{ entity.startdate|date('m') }}</small><span>{{ entity.startdate|date('Y') }}</span></div>
+
+                                               <div class="img-resize imgLiquid">
+                                                   {% if entity.pictureHome != null %}
+                                                       <img src="{{ path_picture ~ entity.pictureHome }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                                   {% elseif entity.picture != null %}
+                                                       <img src="{{ path_picture ~ entity.picture }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                                   {% elseif entity.backgroundpicture != null %}
+                                                       <img src="{{ path_picture ~ entity.backgroundpicture }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                                   {% else %}
+                                                       <img src="{{ asset('assets/images/no-image.jpg') }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                                   {% endif %}
+                                               </div>
+                                           </div>
+                                           <div class="inner-post-content" style="   border: 1px solid #a7a7a7cc; padding: 10px !important;height: 120px;">
+                                               <h3><a href="{{ path('front_end_show_media',{'id': entity.id}) }}">
+
+                                                       {% if entity.titleHome != null  %} {{ entity.titleHome[:40] }} {% else %} {{ entity.title[:40] }} {% endif %}
+                                                   </a></h3>
+                                               <p>{{ entity.shortdescription[:80] }}
+                                                   {% if entity.shortdescription|length > 80    %} .. {% endif %}
+
+                                                   <br/>
+
+                                                   <span>  {{ entity.channel }}</span>
+
+                                                   {% if entity.title  in [ 'programme'  , 'concert' , 'radio' , 'spectacle' ] %}
+
+                                                       <span>
+                                            <i class="glyphicon glyphicon-time"></i>
+
+                                                           {% set timeResultat = entity.id|getTimeStart %}
+                                                           {% if timeResultat != null %}
+                                                               {{ timeResultat}}
+                                                           {% endif %}
+                                        </span>
+                                                   {% endif %}
+
+                                               </p>
+
+
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           {% endfor %}
+                       </div>
+
+
+
+                   </div>
+
+               </div>
+
+           </div>
+
+       </div>
+
+
+   {% endblock %}
+
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(window).scroll(function () {
+            var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
+            var scrolltrigger = 0.99;
+            if ((wintop / (docheight - winheight)) > scrolltrigger) {
+                var lastId = $('.item:last').attr('id') ;
+                var data = {
+                    'lastId': lastId,
+                    'type': "spectacle",
+                    'language': "{{  app.request.getLocale() }}"
+
+                };
+                var url = '{{ path('front_end_scroll_media') }}';
+                $.ajax({
+                    url: url, // La ressource ciblée
+                    type: 'POST', // Le type de la requête HTTP.
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.status == true){
+
+                            $('.tousPeople').append(data.tousPeopleHtml);
+                        }
+
+
+
+                    },
+
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        })
+    </script>
+{% endblock %}

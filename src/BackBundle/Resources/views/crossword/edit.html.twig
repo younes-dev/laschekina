@@ -1,0 +1,95 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}
+    {% set menuactive = app.session.get('menuactive') %}
+    {% if menuactive == "crosswordvip" %}
+        {{ 'page.crosswordvip'|trans }}
+    {% else %}
+        {{ 'page.crosswordadmin'|trans }}
+    {% endif %}
+
+{% endblock %}
+
+{% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                {% set menuactive = app.session.get('menuactive') %}
+                {% if menuactive == "crosswordvip" %}
+                    <a href="{{ path('crossword_index_vip')}}"> <span> {{ 'page.crosswordvip'|trans }} </span></a>
+
+                {% else %}
+                    <a href="{{ path('crossword_index')}}"> <span>  {{ 'page.crosswordadmin'|trans }} </span></a>
+                {% endif %}
+           <i class="fa fa-circle"></i> </li>
+            <li>
+                <a href="#"> <span>{% if id != null  %} {{ 'page-breadcrumb.edit'|trans }} {% else %} {{ 'page-breadcrumb.add'|trans }} {% endif %} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+    {% set menuactive = app.session.get('menuactive') %}
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">  {% if id != null  %} {{ 'page-breadcrumb.edit'|trans }} {% else %} {{ 'page-breadcrumb.add'|trans }} {% endif %}  </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {{ form_start(form, {'method': 'post', 'action': path('crossword_edit',{'id': id }), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+        <div class="form-body">
+
+            <div class="form-group">
+                <label>{{ form_label(form.question  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.question  ) }} </span>
+                    {{ form_widget(form.question) }}
+
+                </div>
+            </div>
+
+           <div class="form-group">
+                <label>{{ form_label(form.reponse  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.reponse  ) }} </span>
+                    {{ form_widget(form.reponse) }}
+
+                </div>
+            </div>
+
+
+        <div class="form-group">
+                <label>{{ form_label(form.description  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.description  ) }} </span>
+                    {{ form_widget(form.description) }}
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+
+            <a href="
+                 {% if menuactive == "crosswordvip" %}
+                   {{ path('crossword_index_vip') }}
+                 {% else %}
+                    {{ path('crossword_index') }}
+                 {% endif %}
+                 " type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+
+
+
+{% endblock %}

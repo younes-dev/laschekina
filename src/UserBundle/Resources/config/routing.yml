@@ -1,0 +1,16 @@
+fos_user:
+    resource: "@UserBundle/Resources/config/routing/all.xml"
+    prefix:   /
+user_user:
+    resource: "@UserBundle/Resources/config/routing/user.yml"
+    prefix:   /admin
+
+redirect_after_login:
+    path:     /redirect_after_login
+    defaults: { _controller: "UserBundle:User:redirectafter" }
+
+user_position_ajax:
+    path:     /position/ajax
+    defaults: { _controller: "UserBundle:User:positionajax" }
+
+

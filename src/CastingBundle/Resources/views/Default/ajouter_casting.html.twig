@@ -1,0 +1,248 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.collection'|trans }}{% endblock %}
+ 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/personnage.css') }}">
+
+    <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+{% endblock %}
+{% block imgscreen %}
+<div class="channel-cover">
+
+    <div class="bg-post">
+
+        <div class="img-resize imgLiquid">
+
+            {% if member.picturecover != null %}
+                <img src="{{ path_picture ~ member.picturecover }}">
+            {% else %}
+                <img src="{{ path_picture|getImageDefault() }}">
+            {% endif %}
+
+        </div>
+    </div>
+    {% endblock %}
+    {% block body %}
+    <div class="author-overlay container">
+        <div class="channel-header">
+            <div class="author-avatar img-resize imgLiquid">
+                {% if member.pictureprofil != null %}
+                    <img src="{{ path_picture ~ member.pictureprofil }}" class="avatar-acteur">
+                {% else %}
+                    <img src="{{ asset('assets/images/avatar.png') }}" class="avatar-acteur">
+                {% endif %}
+
+            </div>
+            <div class="author-meta title-collection-name {% if member.coloremotioncard == null %} energique   {% else %}   {{ member.coloremotioncard }} {% endif %} ">
+                <h3 class="author-name">
+
+                    {% if member.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %}
+
+                    {{ member.prenom ~" "~ member.nom }}
+                    {% if member.roles[0] == "ROLE_VIP"  and  member.fan == 0 %}
+                        {% for i in 1..member.id|countNbrFans|nbrEtoile %}
+                            <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                        {% endfor %}
+
+                    {% endif %}
+                </h3>
+                <span class="author-name" style="font-size: 10px;">
+                           {% if  member.id|countNbrFans  > 0 %}
+                               {% if member.id|countNbrFans  > 999 and member.id|countNbrFans < 1000000 %}
+                                   {% set  numbre =  member.id|countNbrFans / 1000 %} {{ numbre|round(1, 'floor') }} K
+                               {% elseif member.id|countNbrFans  > 1000000 %}
+                                   {% set  numbre =  member.id|countNbrFans / 1000000 %} {{ numbre|round(1, 'floor') }} M
+                               {% else %}
+                                   {{ member.id|countNbrFans }}
+                               {% endif %}
+
+                               {{ 'abonnes'|trans }}
+                           {% endif %}
+                            {% if  member.numbervu  > 0 and   member.id|countNbrFans  > 0 %}
+                                ,
+                            {% endif %}
+                            {% if  member.numbervu  > 0 %}
+                        {% if member.numbervu  > 999 and member.numbervu < 1000000 %}
+                            {% set  numbre =  member.numbervu / 1000 %} {{ numbre|round(1, 'floor') }} K
+                        {% elseif member.numbervu  > 1000000 %}
+                            {% set  numbre =  member.numbervu / 1000000 %} {{ numbre|round(1, 'floor') }} M
+                        {% else %}
+                            {{ member.numbervu }}
+                        {% endif %}   {{ 'collection_visiteurs'|trans }}
+                    {% endif %}
+
+
+                 </span>
+
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="content-page inner-xs ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    {% if app.user != null and member.id == app.user.id %}
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12 box-page-bg clearfix">
+                                <form action="{{ path('casting_createOrUpdate',{'id': id}) }}" method="post"
+                                      enctype="multipart/form-data">
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">{{ 'form.scenario'|trans }}</label>
+
+                                            <input type="text" name="scenario" maxlength="255"
+                                                   value="{{ item.scenario }}" class="form-control " required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">{{ 'form.lieu_tournage'|trans }}</label>
+
+                                            <input type="text" name="lieu_tournage" maxlength="255"
+                                                   class="form-control " value="{{ item.lieuTournage }}"
+                                                   required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">{{ 'form.statue'|trans }}</label>
+                                            <select name="status" class="form-control ">
+                                                <option value="1" {% if item.status == 1 %} selected {% endif %}>
+                                                    {{ 'form.publier'|trans }}
+                                                </option>
+                                                <option value="0" {% if item.status == 0 %} selected {% endif %}>
+                                                    {{ 'form.non_publier'|trans }}
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">PDF </label>
+
+                                            <input type="file" name="pathPdf"  class="form-control " >
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">{{ 'form.image'|trans }}</label>
+                                            <input type="file" name="image"
+                                                   data-field-type="bootstrap-file-filed"
+                                                   data-file-types="image/jpeg,image/png,image/gif"
+                                                   data-preview="on">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">{{ 'form.dates_tournage'|trans }}</label>
+                                        </div>
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <div class="col-md-5 mag-bttom-sm">
+                                                <input type="text" name="dates_tournage_start" maxlength="255"
+                                                       value="{% if item.datesTournageDebut != null %}{{ item.datesTournageDebut|date('d/m/Y') }} {% endif %} "
+                                                       class="form-control selectDatePicker " required="true">
+                                            </div>
+                                            <div class="col-md-1 mag-bttom-sm">
+                                                <span> à De</span>
+                                            </div>
+                                            <div class="col-md-6 mag-bttom-sm">
+                                                <input type="text" name="dates_tournage_end" maxlength="255"
+                                                       class="form-control selectDatePicker "
+                                                       value="{% if item.datesTournageEnd != null %}{{ item.datesTournageEnd|date('d/m/Y') }} {% endif %} "
+                                                       required="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">{{ 'form.tarif_prestation'|trans }}</label>
+
+                                            <input type="text" name="tarif_prestation" maxlength="255"
+                                                   value="{{ item.tarif }}" class="form-control " required="true">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 mag-bttom-sm">
+                                            <label class="label-control">{{ 'form.description'|trans }} ({{ 'remarque_description'|trans }})</label>
+                                            <textarea name="description" maxlength="700"  class="form-control " >
+                                                {{ item.description }}
+                                            </textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <hr/>
+                                        <div class="login-button col-md-8 ">
+
+                                            <input type="submit" class="btn btn-orange" name="ajouter"
+                                                   value="{{ 'btn.add'|trans }}">
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div><!--//end box-page-bg-->
+                        </div>
+                    {% endif %}
+
+                </div><!--//end col-md-9-->
+
+                <div class="col-md-3 col-sm-3  col-xs-12  ">
+
+                    <div class="box-page-bg clearfix">
+
+                        {% include 'MembreBundle:Collection:tourne.html.twig' %}
+                    </div>
+                    {% if member.twitter != null %}
+                        <div class="box-page-bg clearfix">
+
+                            <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/{{ member.twitter }}" >Tweets </a>
+                        </div>
+                    {% endif %}
+                    <div class="box-page-bg clearfix">
+                        <div class="fb-page" data-href="vipcrossing" data-tabs="timeline" style="width : 100% !important ;"
+                             data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                             data-show-facepile="true">
+                            <blockquote cite="vipcrossing" class="fb-xfbml-parse-ignore" style="width : 100% !important ;" ><a
+                                        href="vipcrossing">‎VIPCrossing‎</a></blockquote>
+                        </div>
+
+                    </div>
+                    {{ render(controller('FrontBundle:Template:pub' )) }}
+
+
+
+                    <div class="box-page-bg clearfix">
+                        <a class="twitter-timeline" data-height="430"
+                           href="https://twitter.com/vipcrossing">Tweets </a>
+                    </div>
+
+                    {{ render(controller('FrontBundle:Template:pub' )) }}
+                </div>
+
+
+            </div><!--//end row-->
+        </div><!--//end container-->
+    </div><!--//end content-page-->
+
+<!--Modal-->
+{% include 'MembreBundle:Collection:modal_personnage.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assets/js/personnage.js') }}"></script>
+{% endblock %}

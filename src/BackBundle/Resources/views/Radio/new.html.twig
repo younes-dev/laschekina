@@ -1,0 +1,29 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+    {{ 'page.radio'|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('radio_index' ) }}"> <span>
+                        {{ 'page.radio'|trans }}
+                    </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span>
+                           {{ 'page-breadcrumb.add'|trans }}
+                         </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        {% include "BackBundle:Radio:form_radio.html.twig" %}
+
+    {% endblock %}
+

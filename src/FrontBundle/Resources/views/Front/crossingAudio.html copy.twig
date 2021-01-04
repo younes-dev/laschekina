@@ -1,0 +1,217 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.audio'|trans }}{% endblock %}
+ {% block stylesheets %}
+
+     <!-- audio -->
+     <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet"><!-- icons -->
+
+     <link rel="stylesheet" type="text/css" href="{{ asset('dev/front/audio/css/jquery.mCustomScrollbar.css') }}"
+           media="all"/><!-- playlist scroll -->
+     <link rel="stylesheet" type="text/css" href="{{ asset('dev/front/audio/css/modern3.css') }}"/>
+     <!-- End audio -->
+
+ {% endblock %}
+ {% block imgscreen %}
+     <!-- gallerie -->
+     <div class="owl-carousel accueil-gallerie owl-theme">
+
+         {% for entity in gallerysBanners %}
+             <a href="{{ path_picture~entity.picture }}" class="item fancybox">
+                 <div class="img-resize imgLiquid">
+                     {% if entity.bannerpicture is defined %}
+                         <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                     {% else %}
+                         <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                     {% endif %}
+                 </div>
+             </a>
+         {% endfor %}
+     </div>
+     <!-- End gallerie -->
+
+ {% endblock %}
+
+   {% block body %}
+
+
+       <div class="container ">
+           <div class="row">
+
+               <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+
+                   <h2>{{ 'page.audio'|trans }}</h2>
+
+                   <!-- Section - audio -->
+                   <section id="page=audio" class="section min-fullheight">
+
+                       <!-- player code -->
+                       <div id="hap-wrapper">
+
+                           <div class="hap-player-holder">
+
+                               <div class="hap-player-thumb-wrapper">
+                                   <div class="hap-player-thumb"></div>
+                                   <div class="hap-player-thumb-cover"></div>
+                               </div>
+
+                               <div class="hap-volume-wrapper">
+                                   <div class="hap-volume-toggle hap-contr-btn"><i
+                                               class="fas fa-volume-up hap-icon-color"></i></div>
+                                   <div class="hap-volume-seekbar">
+                                       <div class="hap-volume-bg"></div>
+                                       <div class="hap-volume-level">
+                                           <div class="hap-volume-drag"></div>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="hap-random-toggle hap-contr-btn" data-tooltip="Shuffle"><i
+                                           class="fas fa-random hap-icon-color"></i></div>
+
+                               <div class="hap-player-content">
+
+                                   <div class="hap-info">
+                                       <p class="hap-player-artist"></p>
+                                       <p class="hap-player-title"></p>
+                                   </div>
+
+                                   <div class="hap-seekbar">
+                                       <div class="hap-progress-bg"></div>
+                                       <div class="hap-load-level"></div>
+                                       <div class="hap-progress-level"></div>
+                                   </div>
+
+                                   <div class="hap-player-controls">
+                                       <div class="hap-prev-toggle hap-contr-btn"><i
+                                                   class="fas fa-step-backward hap-icon-color"></i></div>
+                                       <div class="hap-playback-toggle hap-contr-btn"><i
+                                                   class="fas fa-play hap-icon-color"></i></div>
+                                       <div class="hap-next-toggle hap-contr-btn"><i
+                                                   class="fas fa-step-forward hap-icon-color"></i></div>
+                                   </div>
+
+                               </div>
+
+                           </div>
+
+                           <div class="hap-playlist-holder">
+
+                               <div class="hap-playlist-inner">
+                                   <div class="hap-playlist-content">
+
+                                       {% for item in audios %}
+
+                                       <div class="hap-playlist-item" data-type="audio" data-mp3="{{ path_picture~ item.path }}"
+                                            data-share="https://vipcrossing.com">
+                                           <a class="hap-playlist-non-selected" href="#">
+                                <span class="hap-playlist-thumb">
+                                   <img src=" {% if item.member != null %}{{ path_picture~ item.member.pictureprofil }}  {% else %} {{ asset('assets/images/avatar.png') }}  {% endif %}" alt="">
+                                </span>
+                                               <span class="hap-playlist-title">{{ item.title }}</span>
+                                           </a>
+                                       </div>
+                                        {% endfor %}
+                                   </div>
+                               </div>
+
+                               <div class="hap-playlist-filter-msg"><p>NOTHING FOUND!</p></div>
+
+                               <div class="hap-bottom-bar">
+
+                                   <input class="hap-search-filter" type="text" value="filter...">
+                                   <div class="hap-sort-alpha" data-tooltip="Alphabetic sort"><i
+                                               class="fas fa-sort-alpha-down hap-icon-color"></i></div>
+
+                                   <div class="hap-share-holder">
+                                       <div class="hap-share-item" data-type="tumblr" data-tooltip="tumblr"><i
+                                                   class="fab fa-tumblr-square hap-icon-color"></i></div>
+                                       <div class="hap-share-item" data-type="twitter" data-tooltip="twitter"><i
+                                                   class="fab fa-twitter-square hap-icon-color"></i></div>
+                                       <div class="hap-share-item" data-type="facebook" data-tooltip="facebook"><i
+                                                   class="fab fa-facebook-square hap-icon-color"></i></div>
+                                       <div class="hap-share-item" data-type="googleplus" data-tooltip="googleplus"><i
+                                                   class="fab fa-google-plus-square hap-icon-color"></i></div>
+                                   </div>
+                                   <div class="hap-share-toggle" data-tooltip="share"><i
+                                               class="fas fa-share-square hap-icon-color"></i></div>
+
+                               </div>
+
+                               <div class="hap-preloader"></div>
+
+                           </div>
+
+                           <div class="hap-tooltip"><p></p></div>
+
+                       </div>
+
+
+                       <!-- BG Image -->
+
+                   </section>
+
+
+               </div>
+
+
+           </div>
+
+       </div>
+
+
+   {% endblock %}
+
+{% block javascripts %}
+    <!-- audio -->
+    <script type="text/javascript"
+            src="{{ asset('dev/front/audio/js/jquery-ui.min.js') }}"></script><!-- drag / sort -->
+    <script type="text/javascript"
+            src="{{ asset('dev/front/audio/js/jquery.ui.touch-punch.min.js') }}"></script><!-- drag / sort -->
+    <script type="text/javascript"
+            src="{{ asset('dev/front/audio/js/jquery.mCustomScrollbar.concat.min.js') }}"></script><!-- playlist scroll -->
+    <script type="text/javascript" src="{{ asset('dev/front/audio/js/jsmediatags.min.js') }}"></script><!-- id3 tags -->
+    <script type="text/javascript" src="{{ asset('dev/front/audio/js/hls.min.js') }}"></script><!-- live streaming -->
+    <script type="text/javascript" src="{{ asset('dev/front/audio/js/new.js?35341') }}"></script>
+    <script type="text/javascript">
+
+        jQuery(document).ready(function ($) {
+
+            var settings = {
+                instanceName: "modern3",
+                sourcePath: "",
+                /*activePlaylist:"",*/
+                activeItem: 0,
+                volume: 0.5,
+                autoPlay: true,
+                preload: "auto",
+                randomPlay: false,
+                loopingOn: true,
+                mediaEndAction: "next",
+                soundCloudAppId: "",
+                gDriveAppId: "",
+                usePlaylistScroll: true,
+                playlistScrollOrientation: "vertical",
+                playlistScrollTheme: "minimal",
+                useKeyboardNavigationForPlayback: true,
+                facebookAppId: "644413448983338",
+                useNumbersInPlaylist: false,
+                sortableTracks: false,
+                playlistItemContent: "title,thumb"
+            };
+
+            $("#hap-wrapper").on('playlistItemDisabled overPlaylistItem', function (e, data) {
+                //called on playlist item disable, returns (instance, instanceName, item)
+                data.item.closest('.hap-playlist-item').addClass('hap-active');
+
+            }).on('playlistItemEnabled outPlaylistItem', function (e, data) {
+                //called on playlist item enable, returns (instance, instanceName, item)
+                data.item.closest('.hap-playlist-item').removeClass('hap-active');
+
+            }).hap(settings);
+
+        });
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+
+    {{ 'page.activity'|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('activity_index') }}"> <span>
+
+                        {{ 'page.activity'|trans }}
+                    </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span>
+                         {% if (id is defined) %}
+                             {{ 'page-breadcrumb.edit'|trans }}
+                         {% else %}
+                             {{ 'page-breadcrumb.add'|trans }}
+                         {% endif %}
+
+
+                         </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-settings font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">
+              {% if (id is defined) %}
+                  {{ 'page-breadcrumb.edit'|trans }}
+              {% else %}
+                  {{ 'page-breadcrumb.add'|trans }}
+              {% endif %}
+            </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                {% if (id is defined) %}
+                    {{ form_start(form, {'method': 'post', 'action': path('activity_edit',{'id': activity.id }), 'attr': {'class': 'form-horizontal'}}) }}
+                {% else %}
+                    {{ form_start(form, {'method': 'post', 'action': path('activity_new'), 'attr': {'class': 'form-horizontal'}}) }}
+                {% endif %}
+
+
+                <div class="form-body">
+
+                    <div class="form-group">
+                        <label>{{ form_label(form.activityfr  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.activityfr  ) }} </span>
+                            {{ form_widget(form.activityfr) }}
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ form_label(form.activityen  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.activityen  ) }} </span>
+                            {{ form_widget(form.activityen) }}
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ form_label(form.activityes  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.activityes  ) }} </span>
+                            {{ form_widget(form.activityes) }}
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+                    <a href="{{ path('activity_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+
+
+    {% endblock %}
+
+
+
+
+
+

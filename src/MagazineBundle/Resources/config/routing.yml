@@ -1,0 +1,20 @@
+magazine_homepage:
+    path:     /magazine
+    defaults: { _controller: MagazineBundle:Magazine:index }
+
+magazine_homepage_espace_member:
+    path:     /espace-member/magazine
+    defaults: { _controller: MagazineBundle:Magazine:magazinemember }
+
+magazine_homepage_espace_member_get_json:
+    path:     /espace-member/magazine/get-json
+    defaults: { _controller: MagazineBundle:Magazine:getjson }
+
+magazine_livre:
+    path:     /{id}/magazine/livre
+    defaults: { _controller: MagazineBundle:Magazine:magazineLivre }
+
+magazine_livre_bd:
+    path:     /{id}/magazine-livre-bd
+    defaults: { _controller: MagazineBundle:Magazine:magazineLivreBd }
+

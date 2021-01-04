@@ -1,0 +1,8 @@
+referancement_index:
+    path:     /{type}
+    defaults: { _controller: "BackBundle:Referancement:index" }
+
+referancement_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Referancement:edit" }
+

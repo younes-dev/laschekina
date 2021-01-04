@@ -1,0 +1,157 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+
+    {{ 'page.questions'|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('questions_index') }}"> <span>
+
+                        {{ 'page.questions'|trans }}
+                    </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span>
+                         {% if (id is defined) %}
+                             {{ 'page-breadcrumb.edit'|trans }}
+                         {% else %}
+                             {{ 'page-breadcrumb.add'|trans }}
+                         {% endif %}
+
+
+                         </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-settings font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">
+              {% if (id is defined) %}
+                  {{ 'page-breadcrumb.edit'|trans }}
+              {% else %}
+                  {{ 'page-breadcrumb.add'|trans }}
+              {% endif %}
+            </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                    {{ form_start(form, {'method': 'post', 'action': path('questions_createOrUpdate',{'id': id }), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+
+                <div class="form-body">
+
+                    <div class="form-group">
+                        <label>{{ form_label(form.question  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.question  ) }} </span>
+                            {{ form_widget(form.question) }}
+
+                        </div>
+                    </div>
+
+                    <div id="p_scents" class="field_wrapper">
+                    </div>
+
+
+                    <div class="m-form__actions">
+                        <a href="javascript:void(0);" class="add_button" title="Add field">
+                            <i title="Ajouter contact"
+                               class="m-nav__link-icon fa fa-plus-circle style-cone-plus" style="  float: right;  font-size: 20px;   color: green;"></i>
+                        </a>
+                    </div>
+
+
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+                    <a href="{{ path('questions_index') }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+
+
+    {% endblock %}
+
+    {% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            var maxField = 100; //Input fields increment limitation
+            var addButton = $('.add_button'); //Add button selector
+            var wrapper = $('.field_wrapper'); //Input field wrapper
+
+
+            var counteur = 0; //Initial field counter is 1
+
+            //Once add button is clicked
+            $(addButton).click(function () {
+                //Check maximum number of input fields
+                if (counteur < maxField) {
+                    $("#remove"+counteur).hide();
+                    counteur++; //Increment field counter
+
+                    var fieldHTML = '    <div>   <div class="form-group  add-div row" >\n' +
+                        '\n' +
+
+                        '                                            <div class="col-md-4 col-12 col-sm-12">\n' +
+                        '                                                <label> Reponse : </label>\n' +
+                        '                                                <input type="text" name="reponse[]"   class="form-control m-input m-input--air"\n' +
+                        '                                                       aria-describedby="emailHelp"\n' +
+                        '                                                       placeholder="Reponse ...">\n' +
+                        '                                            </div>\n' +
+                        '\n' +
+
+
+                        '                                          <div class="col-md-4 col-12 col-sm-12">\n' +
+                        '                                                <label>Kg : </label>\n' +
+                        '                                                <input type="integer"  name="kg[]"   id="PrixTotal' + counteur + '"  class="form-control  m-input m-input--air"\n' +
+                        '                                                       aria-describedby="emailHelp"\n' +
+                        '                                                       placeholder="Nbr de Kg ..." > \n' +
+                        '                                            </div>\n' +
+                       '                                <a id="remove' + counteur + '" href="javascript:void(0);" class="col-md-4 col-12 col-sm-12 remove_button" style="color: red;    font-size: 21px;\n' +
+
+                        '    padding-top: 25px;">  <i   title="Ajouter produit"\n' +
+                        '                                           class="m-nav__link-icon fa fa-times style-cone-times" ></i></a>\n' +
+                        '                                       <hr style=" width: 100%; "/> </div>\n' +
+                        ' </div>'; //New input field html
+
+                    $(wrapper).append(fieldHTML); //Add field html
+                    $('#countProduit').val(counteur);
+                }
+
+            });
+
+            //Once remove button is clicked
+            $(wrapper).on('click', '.remove_button', function (e) {
+                e.preventDefault();
+                $(this).parent('div').parent('div').remove(); //Remove field html
+                counteur--; //Decrement field counter
+                $("#remove"+counteur).show();
+
+
+            });
+        });
+
+
+
+
+    </script>
+
+    {% endblock %}
+
+
+
+
+
+

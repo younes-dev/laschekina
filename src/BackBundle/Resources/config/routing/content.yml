@@ -1,0 +1,11 @@
+content_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Content:edit" }
+    methods:  [GET, POST]
+
+content_index:
+    path:     /{type_content}/index
+    defaults: { _controller: "BackBundle:Content:index" }
+
+
+

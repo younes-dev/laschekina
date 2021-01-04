@@ -1,0 +1,77 @@
+{% if cinemas != null %}
+    {% set counter = 0 %}
+    <div class="item">
+    {% for entity in cinemas %}
+        {% set counter = counter + 1 %}
+        <div class="col-md-3 col-xs-12 col-sm-4">
+            <div class="post video-post">
+                <div class="inner-post">
+                    <div class="image-post">
+                     <div class="ribbon "><span>{{ entity.startdate|date('d') }}</span><small>{{ entity.startdate|date('m') }}</small><span>{{ entity.startdate|date('Y') }}</span></div>
+                               
+                        <div class="img-resize imgLiquid">
+                            {% if entity.picture != null %}
+                                <img src="{{ path_picture ~ entity.picture }}">
+                            {% elseif entity.backgroundpicture != null %}
+                                <img src="{{ path_picture ~ entity.backgroundpicture }}">
+                            {% else %}
+                                <img src="{{ asset('assets/images/no-image.jpg') }}">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="inner-post-content">
+                        <h3><a href="{{ path('front_end_show_media',{'id': entity.id}) }}">{{ entity.title }}</a></h3>
+                        <p>{{ entity.shortdescription[:200] }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if cinemas|length > counter and  counter is divisible by(4) %}
+            </div>
+            <div class="item">
+        {% endif %}
+        {% if cinemas|length == counter %}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if crawlercinemas != null %}
+    {% set counter = 0 %}
+    <div class="item">
+    {% for entity in crawlercinemas %}
+        {% set counter = counter + 1 %}
+        <div class="col-md-3 col-xs-12 col-sm-4">
+            <div class="post video-post">
+                <div class="inner-post">
+                    <div class="image-post">
+                        <div class="img-resize imgLiquid">
+
+                            {% if entity.picture != null %}
+                                <img src="{{   path_picture ~ entity.picture }}" alt=""/>
+                            {% elseif entity.backgroundpicture != null %}
+                                <img src="{{ path_picture ~ entity.backgroundpicture }}">
+                            {% else %}
+                                <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="inner-post-content">
+                        <h3>
+                            <a href="{{ path('front_end_show_crawler_media',{'id': entity.id , 'tyemedia': 'cinema'}) }}">{{ entity.title }}</a>
+                        </h3>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if crawlercinemas|length > counter and  counter is divisible by(4) %}
+            </div>
+            <div class="item">
+        {% endif %}
+        {% if crawlercinemas|length == counter %}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}

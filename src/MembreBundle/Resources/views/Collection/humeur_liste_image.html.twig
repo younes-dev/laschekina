@@ -1,0 +1,24 @@
+﻿{% if ListPictureHumeur|length > 0 %}
+    {% for item in ListPictureHumeur %}
+        <div class="col-md-4 col-xs-12 col-sm-4 margin-bottom-40">
+
+            <div class="image-holder-content">
+                <a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                    <div class="small-photo-vip  ">
+                        <img src="{{ path_picture ~ item.picture }}" style="width: 235px;    height: 175px;">
+                    </div>
+                </a>
+                <div class="info-video">
+                    <p>{{ item.type }}</p>
+
+
+                </div>
+
+
+                    <a class="delete-btn" type="button"
+                       onclick="Openmodal({{ item.id }}, 'deletePictureHumeur')">
+                        <i class="zmdi zmdi-close"></i></a>
+             </div>
+        </div>
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,117 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+    {% set page = 'page.'~app.session.get('menuactive') %}
+    {{ page|trans }}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('dev/front/css/mobiscroll.javascript.min.css') }}">
+    <script src="{{ asset('dev/front/js/mobiscroll.javascript.min.js') }}"></script>
+
+{% endblock %}
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('medias_index' ,{'typemedia': app.session.get('menuactive') ,  'languge': app.session.get('languge') }) }}"> <span>
+                         {% set page = 'page.'~app.session.get('menuactive') %}
+                        {{ page|trans }}
+                    </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span>
+                         {% if (id is defined) %}
+                             {{ 'page-breadcrumb.edit'|trans }}
+                         {% else %}
+                             {{ 'page-breadcrumb.add'|trans }}
+                         {% endif %}
+
+
+                         </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        {% include "BackBundle:Medias:form_media.html.twig" %}
+
+
+{% endblock %}
+    {% block javascripts %}
+   
+        <script>
+            $('#backbundle_medias_startTime').timepicker();
+            $('.selectpicker').selectpicker({
+                noneSelectedText: 'Liste des acteurs'
+            });
+           
+        </script>
+
+
+        <script>
+            $(document).ready(function () {
+                var maxField = 100; //Input fields increment limitation
+                var addButton = $('.add_button'); //Add button selector
+                var wrapper = $('.field_wrapper'); //Input field wrapper
+
+
+                var counteur = 0; //Initial field counter is 1
+
+                //Once add button is clicked
+                $(addButton).click(function () {
+                    $("#submit").hide();
+                    //Check maximum number of input fields
+                    if (counteur < maxField) {
+                        $("#remove"+counteur).hide();
+                        counteur++; //Increment field counter
+
+                        var fieldHTML = '    <div>   <div class="form-group  add-div row" >  \n' +
+                            '\n' +
+                            '                                           <div class="col-md-3 col-3 col-sm-3">\n' +
+                            '                                         <label> Start Date ' + counteur + ' : </label>\n' +
+                            '                                       <input  type="text" name="startdate[]" class="form-control selectDatePicker">  </div>\n' +
+                            '                           <div  class="col-md-3 col-3 col-sm-3  margin-bottom-15">\n' +
+                            '                                         <label> End Date ' + counteur + ' : </label>\n' +
+                            '                                        <input type="text" name="enddate[]"  class="form-control selectDatePicker">    </div>\n' +
+                            '                           <div   class="col-md-3 col-3 col-sm-3  margin-bottom-15">\n' +
+                            '                                         <label> Heure de début ' + counteur + ' : </label>\n' +
+                            '                                            <input  name="heurdeb[]" class="form-control time ">    </div>\n' +
+                            '                           <div   class="col-md-3 col-3 col-sm-3  margin-bottom-15">\n' +
+                            '                                         <label> Heure de fini ' + counteur + ' : </label>\n' +
+                            '                                            <input  name="heurfin[]" class="form-control time ">    </div>\n' +
+                            '                                           <div class="col-md-3 col-3 col-sm-3" style="    margin-top: 30px;">\n' +
+                            '                                <a id="remove' + counteur + '" href="javascript:void(0);" class="col-md-3 col-3 col-sm-3 remove_button">  <i   title="Ajouter produit"\n' +
+                            '                                           class="m-nav__link-icon fa fa-times style-cone-times" ></i></a> </div>\n' +
+                            '                                         </div>\n' +
+                            ' </div>'; //New input field html
+
+                        $(wrapper).append(fieldHTML); //Add field html
+                        $('.selectDatePicker').datepicker({
+                            language: 'fr',
+                            autoclose: true,
+                            selectMultiple:true,
+                            todayHighlight: true
+                        });
+
+                        $('.time').timepicker();
+                    }
+
+                });
+
+                //Once remove button is clicked
+                $(wrapper).on('click', '.remove_button', function (e) {
+                    $("#submit").show();
+                    e.preventDefault();
+                    $(this).parent('div').parent('div').remove(); //Remove field html
+                    counteur--; //Decrement field counter
+                    $("#remove"+counteur).show();
+
+                });
+            });
+
+
+        </script>
+{% endblock %}

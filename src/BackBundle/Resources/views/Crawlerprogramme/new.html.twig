@@ -1,0 +1,36 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+    {{ 'menu_crawler_programme'|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+              <li>
+                <a href="{{ path('crawlerprogramme_index') }}"> <span>   {{ 'menu_crawler_programme'|trans }}  </span></a>
+            </li>
+            <li>
+                <a href="#"> <span>
+                             {{ 'page-breadcrumb.edit'|trans }}
+                          </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        {% include "BackBundle:Crawlerprogramme:form_programme.html.twig" %}
+
+    {% endblock %}
+      {% block javascripts %}
+        <script>
+            $('#backbundle_crawlerprogramme_startTime').timepicker();
+           
+        </script>
+    {% endblock %}
+
+   
+
+
+

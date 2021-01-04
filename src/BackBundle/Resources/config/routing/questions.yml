@@ -1,0 +1,13 @@
+questions_medias_createOrUpdate:
+    path:     /createOrUpdate/{idMedia}/{id}
+    defaults: { _controller: "BackBundle:Questions:createOrUpdate" , id: null  }
+
+
+questions_medias_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Questions:delete" }
+
+questions_medias_index:
+    path:     /{idMedia}
+    defaults: { _controller: "BackBundle:Questions:index" }
+

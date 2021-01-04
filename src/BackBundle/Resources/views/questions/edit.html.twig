@@ -1,0 +1,80 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+
+    Liste des Question
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('questions_medias_index',{'idMedia' : idMedia }) }}"> <span>
+
+                       Liste des Question
+                    </span></a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="#"> <span>
+                         {% if (id is defined) %}
+                             {{ 'page-breadcrumb.edit'|trans }}
+                         {% else %}
+                             {{ 'page-breadcrumb.add'|trans }}
+                         {% endif %}
+
+
+                         </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-settings font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">
+              {% if (id is defined) %}
+                  {{ 'page-breadcrumb.edit'|trans }}
+              {% else %}
+                  {{ 'page-breadcrumb.add'|trans }}
+              {% endif %}
+            </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                    {{ form_start(form, {'method': 'post', 'action': path('questions_medias_createOrUpdate',{'idMedia': idMedia , 'id': id }), 'attr': {'class': 'form-horizontal'}}) }}
+
+
+
+                <div class="form-body">
+
+                    <div class="form-group">
+                        <label>{{ form_label(form.question  ) }}</label>
+                        <div class="input-group">
+                            <span class="error-message">  {{ form_errors(form.question  ) }} </span>
+                            {{ form_widget(form.question) }}
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+                    <a href="{{ path('questions_medias_index',{'idMedia' : idMedia }) }}" type="button" class="btn default">{{ 'btn.cancel'|trans }} </a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+
+
+    {% endblock %}
+
+
+
+
+
+

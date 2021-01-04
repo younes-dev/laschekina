@@ -1,0 +1,203 @@
+
+
+    <div class="tab-pane   {% if activeTab == "list_amis" %} active {% endif %}" id="tab7">
+       <div class="col-md-12 col-xs-12">
+            {% for flashMessage in app.session.flashbag.get('memebresuccess') %}
+
+                <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-12">
+            <h3>{{ 'collection_list_amis'|trans }} </h3>
+
+
+            <div class="friends-list col-md-12  imgal-container ">
+              {#  {% for entity in listCoupleAmis %}
+                        {% if entity.userReceiver.id == member.id %}
+                        <div class="col-md-2 col-xs-12 col-sm-3">
+                            <div class="friend-avatar  ">
+
+                                {% if entity.userEmitter.pictureprofil != null %}
+                                    <img src="{{ path_picture ~ entity.userEmitter.pictureprofil }}" class="roundedImage" >
+                                {% else %}
+                                    <img src="{{ asset('assets/images/avatar.png') }}"  class="roundedImage">
+                                {% endif %}
+                                <button  class="btn btn-delete-icon">
+                                    <a href="{{ path('espace-member-delete-amis',{'id': entity.id }) }}"
+                                    ><i class="zmdi zmdi-close"></i></a>
+                                </button>
+                            </div>
+                            <span> <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : entity.userEmitter.username , 'id': entity.userEmitter.id}) }}"  >
+                                    {{ entity.userEmitter.username }}
+                                </a></span>
+
+                        </div>
+                        {% else %}
+                            <div class="col-md-2 col-xs-12 col-sm-3">
+                                <div class="friend-avatar  ">
+
+                                    {% if entity.userReceiver.pictureprofil != null %}
+                                        <img src="{{ path_picture ~ entity.userReceiver.pictureprofil }}" class="roundedImage" >
+                                    {% else %}
+                                        <img src="{{ asset('assets/images/avatar.png') }}"  class="roundedImage">
+                                    {% endif %}
+
+                            {% if app.user != null and  member.id != app.user.id %}
+                                    <button  class="btn btn-delete-icon">
+                                        <a href="{{ path('espace-member-delete-amis',{'id': entity.id }) }}"
+                                        ><i class="zmdi zmdi-close"></i></a>
+                                    </button>
+                            {% endif %}
+
+
+                                </div>
+                            <span> <a href="{{ path('collection',{'activeTab': "vip" , 'fullName' : entity.userReceiver.username , 'id': entity.userReceiver.id}) }}"  >
+                                    {{ entity.userReceiver.username }}
+                                </a></span>
+
+                            </div>
+                        {% endif %}
+                {% endfor %}#}
+
+
+                {% for entity in listCoupleAmis %}
+                    {% if entity.userReceiver.id == member.id %}
+                        <div class="content-img content-img-crossing-cartoon">
+
+                            <a title="{{ 'afficher_profil'|trans }} {{ entity.userEmitter.nom }} "
+                               href="{{ path('collection',{'activeTab': "vip" ,'fullName' : entity.userEmitter.username , 'id': entity.userEmitter.id}) }}">
+
+                                {% if app.user != null and  member.id == app.user.id and entity.userReceiver.id == member.id  %}
+                                    {% set sizeTop = 5  %}
+                                      {% if app.user.id|contactmessaging(entity.userEmitter.id ) %}
+                                        <span class="badge badge-danger badge-counter notif-msg  notif-msg-liste-amis" style="margin-top:{{ sizeTop }}px !important;"   >
+                                            <i class="zmdi zmdi-email icon-notif  "  ></i>
+                                        </span>
+                                          {% set sizeTop = sizeTop + 30  %}
+                                    {% endif %}
+
+                                    {% if app.user.id|filterCollectionNews(entity.userEmitter.id ) > 0  %}
+
+                                        <span class="badge badge-danger badge-counter notif-msg  notif-msg-liste-amis display-mobile" style="margin-top:{{ sizeTop }}px !important;"  >
+                                            <i class="zmdi zmdi-file-text icon-notif  "  ></i>
+                                        </span>
+                                        {% set sizeTop = sizeTop + 30  %}
+                                    {% endif %}
+                                    {% if app.user.id|CollectionPhoto(entity.userEmitter.id )> 0  %}
+                                        <span class="badge badge-danger badge-counter notif-msg   notif-msg-liste-amis  display-mobile"  style="margin-top:{{ sizeTop }}px !important;"   >
+                                            <i class="zmdi zmdi-image icon-notif " ></i>
+                                        </span>
+                                        {% set sizeTop = sizeTop + 30  %}
+                                    {% endif %}
+                                    {% if app.user.id|CollectionMedia(entity.userEmitter.id )> 0  %}
+                                        <span class="badge badge-danger badge-counter notif-msg   notif-msg-liste-amis  display-mobile" style="margin-top:{{ sizeTop }}px !important;"    >
+                                            <i class="zmdi zmdi-tv-alt-play icon-notif " ></i>
+                                        </span>
+                                        {% set sizeTop = sizeTop + 30  %}
+                                    {% endif %}
+                                    {% if  app.user.id|CollectionMedia(entity.userEmitter.id ) > 0  or  app.user.id|CollectionPhoto(entity.userEmitter.id ) > 0  or  app.user.id|filterCollectionNews(entity.userEmitter.id ) > 0  %}
+                                        <span  class="badge badge-danger badge-counter notif-msg    notif-msg-liste-amis display-web"
+                                               style=" margin-top: {% if app.user.id|contactmessaging(entity.userEmitter.id ) %}30 {% else %}  5  {% endif %}px !important;"        >
+                                            <i class="zmdi zmdi-notifications-active icon-notif  "  ></i>
+                                        </span>
+
+                                    {% endif %}
+                                {% endif %}
+
+                                <img src="  {% if entity.userEmitter.pictureprofil != null %}{{ path_picture ~ entity.userEmitter.pictureprofil }}   {% else %} {{ asset('assets/images/avatar.png') }} {% endif %} "
+                                     alt="" class="media-object  " style="width: 100%">
+                            </a>
+
+
+                            <div  style="left: 0px !important; padding: 0 10px 0 10px;"  class="title-vip-name  {% if entity.userReceiver.coloremotioncard == null %} energique   {% else %}   {{ entity.userReceiver.coloremotioncard }} {% endif %}  " >
+                                <div class="votes-btns">
+                                     <span id="box{{ entity.userEmitter.id }}">
+
+                                         <span  style=" float: left;  font-size: 12px;"   class="display-mobile">{{ entity.userEmitter.nom  ~" "~  entity.userEmitter.prenom }}</span>
+                                         <span  style=" float: left;  font-size: 12px;"  class="display-web" >{{ entity.userEmitter.prenom[:8]   }}..</span>
+
+                                         {% if app.user != null and  member.id == app.user.id %}
+                                           <a href="{{ path('espace-member-delete-amis',{'id': entity.id }) }}" style=" margin-top: 4%; width: 20px;  height: 20px;  line-height: 20px;"   class="btn btn-icon btn-cartoon-liste-ams" title="{{ 'delete_amis'|trans }}">
+                                               <i class="zmdi zmdi-close"></i>
+                                           </a>
+                                         {% endif %}
+                                     </span>
+                                </div>
+                            </div>
+
+                        </div>
+                           {% else %}
+
+                        <div class="content-img content-img-crossing-cartoon">
+
+                            <a title="{{ 'afficher_profil'|trans }} {{ entity.userReceiver.nom }} "
+                               href="{{ path('collection',{'activeTab': "vip" ,'fullName' : entity.userReceiver.username , 'id': entity.userReceiver.id}) }}">
+
+                                {% if app.user != null and  member.id == app.user.id  and entity.userEmitter.id == member.id  %}
+                                    {% set sizeTop =  5  %}
+                                    {% if app.user.id|contactmessaging(entity.userReceiver.id ) %}
+                                        <span class="badge badge-danger badge-counter notif-msg  notif-msg-liste-amis" style="margin-top:{{ sizeTop }}px !important;"  >
+                                            <i class="zmdi zmdi-email   icon-notif"  ></i>   </span>
+                                        {% set sizeTop =  sizeTop + 30  %}
+                                    {% endif %}
+
+                                    {% if app.user.id|filterCollectionNews(entity.userReceiver.id ) > 0  %}
+                                        <span class="badge badge-danger badge-counter notif-msg  notif-msg-liste-amis display-mobile" style="margin-top:{{ sizeTop }}px !important;"  >
+                                            <i class="zmdi zmdi-file-text  icon-notif "  ></i>
+                                        </span>
+                                        {% set sizeTop = sizeTop + 30  %}
+                                    {% endif %}
+                                    {% if app.user.id|CollectionPhoto(entity.userReceiver.id )> 0  %}
+                                        <span class="badge badge-danger badge-counter notif-msg  notif-msg-liste-amis  display-mobile"  style="margin-top:{{ sizeTop }}px !important;"   >
+                                            <i class="zmdi zmdi-image  icon-notif " ></i>
+                                        </span>
+                                        {% set sizeTop = sizeTop + 30  %}
+                                    {% endif %}
+                                    {% if app.user.id|CollectionMedia(entity.userReceiver.id )> 0  %}
+                                        <span class="badge badge-danger badge-counter notif-msg  notif-msg-liste-amis  display-mobile" style="margin-top:{{ sizeTop }}px !important;"    >
+                                            <i class="zmdi zmdi-tv-alt-play  icon-notif "  ></i>
+                                        </span>
+                                        {% set sizeTop = sizeTop + 30  %}
+                                    {% endif %}
+                                    {% if  app.user.id|CollectionMedia(entity.userReceiver.id ) > 0  or  app.user.id|CollectionPhoto(entity.userReceiver.id ) > 0  or  app.user.id|filterCollectionNews(entity.userReceiver.id ) > 0  %}
+                                        <span  class="badge badge-danger badge-counter notif-msg  notif-msg-liste-amis display-web"       style=" margin-top: {% if app.user.id|contactmessaging(entity.userEmitter.id ) %}30 {% else %}  5  {% endif %}px !important;"     >
+                                            <i class="zmdi zmdi-notifications-active  icon-notif "  ></i>
+                                        </span>
+                                        {% set sizeTop = sizeTop + 30  %}
+                                    {% endif %}
+                                {% endif %}
+                                <img src="  {% if entity.userReceiver.pictureprofil != null %}{{ path_picture ~ entity.userReceiver.pictureprofil }}   {% else %} {{ asset('assets/images/avatar.png') }} {% endif %} "
+                                     alt="" class="media-object  " style="width: 100%">
+
+                            </a>
+
+
+                                <div style="left: 0px !important; padding: 0 10px 0 10px;"   class="title-vip-name  {% if entity.userReceiver.coloremotioncard == null %} energique   {% else %}   {{ entity.userReceiver.coloremotioncard }} {% endif %}  ">
+                                    <div class="votes-btns">
+                                     <span id="box{{ entity.userReceiver.id }}">
+
+                                         <span  style=" float: left;  font-size: 12px;"   class="display-mobile">{{ entity.userReceiver.nom  ~" "~  entity.userReceiver.prenom }}</span>
+                                         <span  style=" float: left;  font-size: 12px;"  class="display-web" >{{ entity.userReceiver.prenom[:8]   }}..</span>
+
+                                         {% if app.user != null and  member.id == app.user.id %}
+                                           <a href="{{ path('espace-member-delete-amis',{'id': entity.id }) }}"  style=" margin-top: 4%; width: 20px;  height: 20px;  line-height: 20px;"  class="btn btn-icon btn-cartoon-liste-ams" title="{{ 'delete_amis'|trans }}">
+                                               <i class="zmdi zmdi-close"></i>
+                                           </a>
+                                         {% endif %}
+                                     </span>
+                                    </div>
+                                </div>
+
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+
+    </div>

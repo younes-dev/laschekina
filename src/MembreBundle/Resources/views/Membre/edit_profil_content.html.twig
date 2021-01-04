@@ -1,0 +1,167 @@
+{{ form_start(form, {'method': 'post', 'action': path('espace-member-edit-profile'), 'attr': {'class': 'form'}}) }}
+
+<div class="form-group row">
+    <div class="col-md-6 mag-bttom-sm">
+        <label class="label-control">{{ 'form.username'|trans }} <span>*</span></label>
+      <br/>  <span class="error-message">  {{ form_errors(form.username  ) }} </span>
+        <span style="display: none;color: red;" id="message_error_userName" class="error-message">  {{ 'alertes_message_error_edit_profil'|trans}} </span>
+        {{ form_widget(form.username, { 'attr': {  'placeholder' : 'form.username'} }) }}
+    </div>
+
+    <div class="col-md-6">
+        <label class="label-control">{{ 'form.email'|trans }}<span>*</span></label>
+        <span class="error-message">  {{ form_errors(form.email  ) }} </span>
+        {{ form_widget(form.email) }}
+
+    </div>
+
+
+</div>
+
+<div class="form-group row">
+     <div class="col-md-6 mag-bttom-sm">
+        <label class="label-control">{{ 'form.nom'|trans }} </label>
+        <span class="error-message">  {{ form_errors(form.nom  ) }} </span>
+        {{ form_widget(form.nom) }}
+
+    </div>
+    <div class="col-md-6 mag-bttom-sm">
+        <label class="label-control">{{ 'form.prenom'|trans }} </label>
+        <span class="error-message">  {{ form_errors(form.prenom  ) }} </span>
+        {{ form_widget(form.prenom) }}
+
+    </div>
+
+
+</div>
+<div class="form-group row">
+
+      <div class="col-md-6">
+        <label class="label-control">{{ 'form.adresse'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.adresse  ) }} </span>
+        {{ form_widget(form.adresse, { 'attr': { 'placeholder' : 'form.adresse'} }) }}
+    </div>
+    <div class="col-md-6 mag-bttom-sm">
+        <label class="label-control">{{ 'form.ville'|trans }} </label>
+        <span class="error-message">  {{ form_errors(form.ville  ) }} </span>
+        {{ form_widget(form.ville, { 'attr': { 'placeholder' : 'form.ville'} }) }}
+    </div>
+
+</div>
+
+<div class="form-group has-feedback row">
+    <div class="col-md-6">
+        <label class="label-control">{{ 'form.codepostal'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.codepostal  ) }} </span>
+        {{ form_widget(form.codepostal, { 'attr': { 'placeholder' : 'form.codepostal'} }) }}
+    </div>
+    <div class="col-md-6 mag-bttom-sm">
+        <label class="label-control">{{ 'form.telephone'|trans }} </label>
+        <span class="error-message">  {{ form_errors(form.telephone  ) }} </span>
+        {{ form_widget(form.telephone, { 'attr': { 'placeholder' : 'form.telephone'} }) }}
+    </div>
+
+</div>
+<div class="form-group has-feedback row">
+     <div class="col-md-6">
+        <label class="label-control">{{ 'form.datenaissance'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.datenaissance  ) }} </span>
+        {{ form_widget(form.datenaissance, { 'attr': { 'placeholder' : 'form.datenaissance'} }) }}
+    </div>
+
+  <div class="col-md-6">
+        <label class="label-control">{{ 'form.twitter'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.twitter  ) }} </span>
+        {{ form_widget(form.twitter, { 'attr': {'class': 'form-control' }}) }}
+       </div>
+
+
+</div>
+
+<div class="form-group has-feedback row">
+
+
+  <div class="col-md-6">
+        <label class="label-control">{{ 'form.facebook'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.facebook  ) }} </span>
+        {{ form_widget(form.facebook, { 'attr': {'class': 'form-control' }}) }}
+       </div>
+
+  <div class="col-md-6">
+        <label class="label-control">{{ 'form.url_instagram'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.instagram  ) }} </span>
+        {{ form_widget(form.instagram, { 'attr': {'class': 'form-control' }}) }}
+       </div>
+
+
+</div>
+
+<div class="form-group has-feedback row">
+  <div class="col-md-6">
+        <label class="label-control">{{ 'form.pays'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.pays  ) }} </span>
+        {{ form_widget(form.pays, { 'attr': {'class': 'form-control' }}) }}
+       </div>
+ <div class="col-md-6">
+        <label class="label-control">{{ 'form.listamis'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.listamis  ) }} </span>
+        {{ form_widget(form.listamis, { 'attr': {'class': 'form-control' }}) }}
+       </div>
+
+</div>
+ 
+<div class="form-group has-feedback row">
+  <div class="col-md-6">
+        <label class="label-control">{{ 'form.showposotion'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.showposotion  ) }} </span>
+        {{ form_widget(form.showposotion, { 'attr': {'class': 'form-control' }}) }}
+       </div>
+ <div class="col-md-6">
+        <label class="label-control">{{ 'form.showmapphoto'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.showmapphoto  ) }} </span>
+        {{ form_widget(form.showmapphoto, { 'attr': {'class': 'form-control' }}) }}
+       </div>
+
+</div>
+
+<div class="form-group has-feedback row">
+
+ <div class=" col-md-6   " >
+        <label class="label-control">{{ 'form.caPub'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.caPub  ) }} </span>
+        {{ form_widget(form.caPub, { 'attr': {'class': 'form-control' }}) }}
+       </div>
+    <div class="  col-md-6  " >
+        <label class="label-control">{{ 'form.current_password'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.current_password  ) }} </span>
+        {{ form_widget(form.current_password, { 'attr': {'class': 'form-control' }}) }}
+    </div>
+</div>
+
+
+<div class="form-group has-feedback row">
+
+    <div class="col-md-12">
+        <label class="label-control">{{ 'form.etatMessenger'|trans }}</label>
+        <span class="error-message">  {{ form_errors(form.etatMessenger  ) }} </span>
+        {{ form_widget(form.etatMessenger, { 'attr': {'class': 'form-control' }}) }}
+    </div>
+</div>
+
+
+<div>
+    {{ form_widget(form.picturecover) }}
+    {{ form_widget(form.pictureprofil) }}
+
+</div>
+
+<div class="form-group">
+    <div class="login-button pull-right">
+
+        <input id="btnEdit" type="submit" class="btn btn-orange  " name="login" value="{{'btn.edit'|trans}}">
+    </div>
+
+</div>
+
+
+{{ form_end(form) }}

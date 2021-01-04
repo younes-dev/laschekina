@@ -1,0 +1,427 @@
+<div class="footer-accueil">
+    <div class="container">
+        {% for entity in listeTousTypeMedia %}
+        {%set entities  = entity.title|filterMedia( app.request.locale , entity.title ) %}
+           {% if
+             (entity.title == "cinema" and (crawlercinemas != null or entities != null ) )
+             or
+             (entity.title == "programme" and (crawlerconcerts != null or entities != null ))
+             or
+             (entity.title == "concert" and (crawlerconcerts != null or entities != null ))
+             or
+            ( entity.title == "spectacle"  and (crawlerspectacles != null or entities != null ))
+             or
+            ( entity.title == "radio"  and (crawlerradios != null or entities != null ))
+             or
+            ( entity.title == "people"  and (crawlernews != null or entities != null ))
+             
+             %}
+             
+        <div  id="{{ entity.title~"-bloc" }}"
+                class="bloc1
+                 {% if  entity.title == "cinema" %}
+                        color2
+                 {% elseif  entity.title == "concert" %}
+                        color3
+                 {% elseif  entity.title == "spectacle" %}
+                        color4
+                 {% elseif  entity.title == "radio" %}
+                        color5
+                 {% elseif  entity.title == "people" %}
+                        color6
+                 {% endif %}
+                ">
+            <h3 class="titre"><span>
+                      {% set page = 'page.'~entity.title %}
+                    {{ page|trans }}
+                   
+
+                    </span>
+                <a href=" {{ path('front_end_media',{'type' : entity.title}) }} "  class="pull-right">{{ "plus_information"|trans }}
+
+                </a></h3>
+
+            <div class="  owl-carousel  home-vids" >
+                {% for item in entities %}
+
+                <div class="item">
+                    <a href="{{ path('front_end_show_media',{'id': item.id}) }}" class="content-movie">
+                        <div class="img-container">
+                            {% if  entity.title in [ 'programme' , 'concert' , 'spectacle' ,  'radio' ]  %}
+                                    {% set dateResultat = item.id|getDateStart %}
+                                      {% if dateResultat != null %}
+                                            <div class="ribbon">
+                                                <span>{{ dateResultat|date('d') }}   </span>
+                                                <small>{{ dateResultat|date('m') }}   </small>
+                                                <span>{{ dateResultat|date('Y') }}   </span>
+                                            </div>
+                                        {% endif %}
+                            {% endif %}
+
+
+                            <div class="img-resize imgLiquid" >
+                                {% if item.pictureHome != null %}
+                                  <img src="{{ path_picture ~ item.pictureHome }}" alt="" />
+                                {% else %}
+                                  <img src="{{ path_picture ~ item.picture }}" alt="" />
+                                {% endif %}
+                            </div>
+                            <div class="footer-movie">
+                                <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}   </span>
+
+                                {% if entity.title  in [ 'programme'  , 'concert' , 'radio' , 'spectacle' ] %}
+                                        <span>
+                                            <i class="glyphicon glyphicon-time"></i>
+
+                                            {% set timeResultat = item.id|getTimeStart %}
+                                                {% if timeResultat != null %}
+                                                 {{ timeResultat}}
+                                                  {% endif %}
+                                        </span>
+                                {% endif %}
+                                 <span>  {{ item.channel }}</span>
+                            </div>
+                        </div>
+
+                        <h4>
+
+                            {% if  item.titleHome != null  %}
+                                {{ item.titleHome[:35] }} {% if  item.titleHome|length > 35  %} .. {% endif %}
+                            {% else %}
+                                {{ item.title[:35] }} {% if  item.title|length > 35  %} .. {% endif %}
+                            {% endif %}
+
+                        </h4>
+                        <p>
+                            {{ item.shortdescription[:150] ~" ..."}}
+                        </p>
+
+                    </a>
+                </div>
+                {% endfor %}
+
+
+                {% if  entity.title == "cinema" %}
+                    {% for itemCinema in crawlercinemas %}
+                        <div class="item">
+                            <a href="{{ path('front_end_show_crawler_media',{'id': itemCinema.id , 'tyemedia': 'cinema'}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+
+                                    {% if itemCinema.dateStart != null %}
+                                        <div class="ribbon">
+                                            <span>{{ itemCinema.startdate|date('d') }}</span>
+                                            <small>{{ itemCinema.startdate|date('m') }}</small>
+                                            <span>{{ itemCinema.startdate|date('Y') }}</span>
+                                        </div>
+                                    {% endif %}
+
+
+                                    <div class="img-resize imgLiquid">
+                                       
+                                        
+                                        {% if itemCinema.typePicture == "local" %}
+                                            <img src="{{ path_picture ~ itemCinema.picture }}"  >
+                                        {% else %}
+                                             <img src="{{ itemCinema.picture }}" >
+                                        {% endif %}
+                                   
+                                    </div>
+                                     <div class="footer-movie">
+                                     {% if itemCinema.starttime != null %}
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ itemCinema.starttime }}</span>
+                                    {% endif %}
+                                      {% if itemCinema.channel != null %}
+                                       <span><i class="glyphicon glyphicon-time"></i>{{ itemCinema.channel }}</span>
+                                    {% endif %}
+                                        <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                    
+                                </div>
+
+                                <h4>
+
+                                        {{ itemCinema.title[:35] }} {% if  itemCinema.title|length > 35  %} .. {% endif %}
+
+
+                                      </h4>
+                                <p>
+                                    {% if itemCinema.shortdescription != null %}
+                                       {{ itemCinema.shortdescription[:150]~" ..." }}
+                                     {% endif %}
+                                </p>
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                {% elseif  entity.title == "concert" %}
+                    {% for itemConcert in crawlerconcerts|reverse %}
+                        <div class="item">
+                            <a href="{{ path('front_end_show_crawler_media',{'id': itemConcert.id , 'tyemedia': 'concert'}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+
+                                    {% if itemConcert.dateStart != null %}
+                                        <div class="ribbon">
+                                            <span>{{ itemConcert.startdate|date('d') }}</span>
+                                            <small>{{ itemConcert.startdate|date('m') }}</small>
+                                            <span>{{ itemConcert.startdate|date('Y') }}</span>
+                                        </div>
+                                    {% endif %}
+
+                               
+                                    <div class="img-resize imgLiquid">
+                                      
+                                        {% if itemConcert.typePicture == "local" %}
+                                            <img src="{{ path_picture ~ itemConcert.picture }}"  >
+                                        {% else %}
+                                             <img src="{{ itemConcert.picture }}" >
+                                        {% endif %}
+                                    </div>
+                                    <div class="footer-movie">
+                                        {% if itemConcert.starttime != null %}
+                                            <span><i class="glyphicon glyphicon-time"></i>{{ itemConcert.starttime }}</span>
+                                        {% endif %}
+                                        {% if itemConcert.channel != null %}
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ itemConcert.channel }}</span>
+                                        {% endif %}
+                                            <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                    
+                                </div>
+                                <h4>
+
+
+
+                                        {{ itemConcert.title[:35] }} {% if  itemConcert.title|length > 35  %} .. {% endif %}
+
+
+                                     </h4>
+                                <p>
+                                    {% if itemConcert.shortdescription != null %}
+                                       {{ itemConcert.shortdescription[:150]~" ..." }}
+                                     {% endif %}
+                                </p>
+
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                {% elseif  entity.title == "spectacle" %}
+                    {% for itemSpectacles in crawlerspectacles %}
+                        <div class="item">
+                            <a href="{{ path('front_end_show_crawler_media',{'id': itemSpectacles.id , 'tyemedia': 'spectacle'}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+
+                                    {% if itemSpectacles.dateStart != null %}
+                                        <div class="ribbon">
+                                            <span>{{ itemSpectacles.startdate|date('d') }}</span>
+                                            <small>{{ itemSpectacles.startdate|date('m') }}</small>
+                                            <span>{{ itemSpectacles.startdate|date('Y') }}</span>
+                                        </div>
+                                    {% endif %}
+
+
+                               
+                                    <div class="img-resize imgLiquid">
+                                    
+                                         {% if itemSpectacles.typePicture == "local" %}
+                                            <img src="{{ path_picture ~ itemSpectacles.picture }}"  >
+                                        {% else %}
+                                             <img src="{{ itemSpectacles.picture }}" >
+                                        {% endif %}
+                                   
+                                    </div>
+                                    <div class="footer-movie">
+                                        {% if itemSpectacles.starttime != null %}
+                                            <span><i class="glyphicon glyphicon-time"></i>{{ itemSpectacles.starttime }}</span>
+                                        {% endif %}
+                                        {% if itemSpectacles.channel != null %}
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ itemSpectacles.channel }}</span>
+                                        {% endif %}
+                                            <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                    
+                                </div>
+                                <h4>
+
+
+
+                                        {{ itemSpectacles.title[:35] }} {% if  itemSpectacles.title|length > 35  %} .. {% endif %}
+                             
+                                  </h4>
+                                <p>
+                                    {% if itemSpectacles.shortdescription != null %}
+                                       {{ itemSpectacles.shortdescription[:150]~" ..." }}
+                                     {% endif %}
+                                </p>
+
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                {% elseif  entity.title == "radio" %}
+                    {% for itemRadio in crawlerradios %}
+                        <div class="item">
+                            <a href="{{ path('front_end_show_crawler_media',{'id': itemRadio.id , 'tyemedia': 'radio'}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+
+
+                                    {% if itemRadio.dateStart != null %}
+                                        <div class="ribbon">
+                                            <span>{{ itemRadio.startdate|date('d') }}</span>
+                                            <small>{{ itemRadio.startdate|date('m') }}</small>
+                                            <span>{{ itemRadio.startdate|date('Y') }}</span>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="img-resize imgLiquid">
+                                        
+                                        
+                                         {% if itemRadio.typePicture == "local" %}
+                                            <img src="{{ path_picture ~ itemRadio.picture }}"  >
+                                        {% else %}
+                                             <img src="{{ itemRadio.picture }}" >
+                                        {% endif %}
+                                 
+                                    </div>
+                                      <div class="footer-movie">
+                                        {% if itemRadio.starttime != null %}
+                                            <span><i class="glyphicon glyphicon-time"></i>{{ itemRadio.starttime }}</span>
+                                        {% endif %}
+                                        {% if itemRadio.channel != null %}
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ itemRadio.channel }}</span>
+                                        {% endif %}
+                                            <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                    
+                                </div>
+                                <h4>
+
+
+
+
+                                        {{ itemRadio.title[:35] }} {% if  itemRadio.title|length > 35  %} .. {% endif %}
+
+
+                                  </h4>
+                                <p>
+                                    {% if itemRadio.shortdescription != null %}
+                                       {{ itemRadio.shortdescription[:150]~" ..." }}
+                                     {% endif %}
+                                </p>
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                {% elseif  entity.title == "people" %}
+                    {% for itemNews in crawlernews %}
+                        <div class="item">
+                            <a href="{{ path('front_end_show_crawler_media',{'id': itemNews.id , 'tyemedia': 'people'}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+                                {% if itemNews.dateStart != null %}
+                                            <div class="ribbon">
+                                            <span>{{ itemNews.dateStart|date('d') }}</span>
+                                            <small>{{ itemNews.dateStart|date('m') }}</small>
+                                            <span>{{ itemNews.dateStart|date('Y') }}</span>
+                                        </div>    
+                                        {% endif %}
+                                    <div class="img-resize imgLiquid">
+                             
+                                         
+                                         {% if itemNews.typePicture == "local" %}
+                                            <img src="{{ path_picture ~ itemNews.picture }}"  >
+                                        {% else %}
+                                             <img src="{{ itemNews.picture }}" >
+                                        {% endif %}
+                                 
+                                    </div>
+                                   <div class="footer-movie">
+                                        {% if itemNews.starttime != null %}
+                                            <span><i class="glyphicon glyphicon-time"></i>{{ itemNews.starttime }}</span>
+                                        {% endif %}
+                                        {% if itemNews.channel != null %}
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ itemNews.channel }}</span>
+                                        {% endif %}
+                                            <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                    
+                                </div>
+                                <h4>
+
+
+                                        {{ itemNews.title[:35] }} {% if  itemNews.title|length > 35  %} .. {% endif %}
+
+
+                                  </h4>
+                                <p>
+                                    {% if itemNews.shortdescription != null %}
+                                       {{ itemNews.shortdescription[:150]~" ..." }}
+                                     {% endif %}
+                                </p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% for itemProgramme in crawlerprogramme %}
+                        <div class="item">
+                            <a href="{{ path('front_end_show_crawler_media',{'id': itemProgramme.id , 'tyemedia': 'programme'}) }}"
+                               class="content-movie">
+                                <div class="img-container">
+                                      {% if itemProgramme.dateStart != null %}
+                                            <div class="ribbon">
+                                            <span>{{ itemProgramme.dateStart|date('d') }}</span>
+                                            <small>{{ itemProgramme.dateStart|date('m') }}</small>
+                                            <span>{{ itemProgramme.dateStart|date('Y') }}</span>
+                                        </div>    
+                                        {% endif %}
+                                    <div class="img-resize imgLiquid">
+                                       
+
+                                               {% if itemProgramme.typePicture == "local" %}
+                                            <img src="{{ path_picture ~ itemProgramme.picture }}"  >
+                                        {% else %}
+                                             <img src="{{ itemProgramme.picture }}" >
+                                        {% endif %}
+                                    </div>
+                                <div class="footer-movie">
+                                        {% if itemProgramme.starttime != null %}
+                                            <span><i class="glyphicon glyphicon-time"></i>{{ itemProgramme.starttime }}</span>
+                                        {% endif %}
+                                        {% if itemProgramme.channel != null %}
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ itemProgramme.channel }}</span>
+                                        {% endif %}
+                                            <span><i class="glyphicon glyphicon-bell"></i></span>
+                                    </div>
+                                    
+                                </div>
+                                <h4>
+
+
+                                        {{ itemProgramme.title[:35] }} {% if  itemProgramme.title|length > 35  %} .. {% endif %}
+
+                                 </h4>
+                                <p>
+                                    {% if itemProgramme.shortdescription != null %}
+                                       {{ itemProgramme.shortdescription[:150]~" ..."}}
+                                     {% endif %}
+                                </p>
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                {% endif %}
+
+
+
+
+            </div>
+        </div>
+        
+    {% endif %}
+{% endfor %}
+    </div>
+</div>

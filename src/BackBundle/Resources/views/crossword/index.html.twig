@@ -1,0 +1,216 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}
+    {% set menuactive = app.session.get('menuactive') %}
+    {% if menuactive == "crosswordvip" %}
+        {{ 'page.crosswordvip'|trans }}
+    {% else %}
+        {{ 'page.crosswordadmin'|trans }}
+    {% endif %}
+
+{% endblock %}
+ {% block stylesheets %}
+     {% set menuactive = app.session.get('menuactive') %}
+     {% if menuactive != "crosswordvip" %}
+
+         <link type="text/css" rel="stylesheet" href="{{ asset('dev/magzine/generator/css/styles.css')}}"/>
+
+         <script type="text/javascript" src="{{ asset('dev/magzine/words-clues.js')}}" >
+         </script>
+         <script type="text/javascript" src="{{ asset('dev/magzine/generator/data/settings.js')}}"></script>
+         <script type="text/javascript" src="{{ asset('dev/magzine/generator/data/labels.js')}}"></script>
+         <script>
+             function ajaxCall() {
+                 var dateJson = $('#output').html();
+                 var url = '{{ path('crossword_ajax') }}';
+                 var data = {'dateJson': dateJson};
+                 $.ajax({
+                     url: url, // La ressource ciblée
+                     type: 'POST', // Le type de la requête HTTP.
+                     data: data,
+                     cache:false,
+                     dataType: "json",
+                     success: function (data) {
+                         alert('test');
+                     },
+                     error: function(response){
+                         console.log(response);
+                     }
+                 });
+             }
+         </script>
+     {% endif %}
+ {% endblock %}
+
+
+{% block hiarche %}
+<div class="page-content" style="min-height: 930px; ">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                {% set menuactive = app.session.get('menuactive') %}
+                {% if menuactive == "crosswordvip" %}
+                    <a href="{{ path('crossword_index_vip')}}"> <span> {{ 'page.crosswordvip'|trans }} </span></a>
+
+                    {% else %}
+                    <a href="{{ path('crossword_index')}}"> <span>  {{ 'page.crosswordadmin'|trans }} </span></a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        {% set menuactive = app.session.get('menuactive') %}
+
+        {% for flashMessage in app.session.flashbag.get('crosswordsuccess') %}
+            <br/>
+            <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green">
+                            <i class="icon-users font-green"></i>
+                            <span class="caption-subject bold uppercase">
+                                 {% if menuactive == "crosswordvip" %}
+                                     {{ 'page.crosswordvip'|trans }}
+                                 {% else %}
+                                     {{ 'page.crosswordadmin'|trans }}
+                                 {% endif %}
+                            </span>
+                        </div>
+                        {% if menuactive == "crosswordadmin" %}
+                        <a   href="{{ path('crossword_edit') }}"
+                           class="btn btn-primary center-btn"> <i class="fa fa-plus"></i> &nbsp;{{ 'btn.add'|trans }}   </a>
+                        {% endif %}
+                        <div class="tools"></div>
+                    </div>
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-hover dt-responsive" width="100%"
+                               id="sample_3">
+                            <thead>
+                            <tr>
+                                <th> N°</th>
+                                <th>  {{ 'form.question'|trans }}</th>
+                                <th>  {{ 'form.reponse'|trans }}</th>
+                                <th> {{ 'form.createur'|trans }} </th>
+                                <th> {{ 'form.action'|trans }} </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entity in crosswords %}
+                                <tr>
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+                                    <td>
+                                        {{ entity.question }}
+                                    </td>
+                                    <td>
+                                        {{ entity.reponse }}
+                                    </td>
+                                    <td>
+                                        {{ entity.creator }}
+                                    </td>
+
+                                    <td>
+
+                                        <a title=" {{ "btn.edit"|trans }}"
+                                           href="{{ path('crossword_edit', {'id': entity.id}) }}"
+                                           class="btn btn-outline btn-circle btn-sm purple">
+                                            <i class="fa fa-edit"></i> {{ "btn.edit"|trans }} </a>
+                                        <a href="#myModal{{ entity.id }}" data-toggle="modal"
+                                           class="btn btn-outline btn-circle dark btn-sm black">
+                                            <i class="fa fa-trash-o"></i>{{ 'btn.remove'|trans }}  </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+
+
+
+
+      <a href="#" style="display: none" id="regenerate"  >Regenerate</a>
+
+        <div style="display: none" id="generator">
+            <div class="half_width">
+                <input  id="size" type="hidden" value="20" class="cw_size"/>
+
+                <div id="crossword"></div>
+            </div>
+
+
+            <div class="half_width">
+                <table id="clues">
+                    <thead>
+                    <tr>
+                        <th style="text-align: center !important;">Across</th>
+                        <th  style="text-align: center !important;">Down</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <ul id="across"></ul>
+                        </td>
+                        <td>
+                            <ul id="down"></ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+        <div style="display: none" id="output">Output</div>
+
+
+
+        {% for entity in crosswords %}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ entity.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title">  {{ 'message_alert_remove'|trans }}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h2>  {{ 'message_validation_remove'|trans }} </h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"> {{ 'btn.cancel'|trans }}  </button>
+                            <a href="{{ path('crossword_delete', {'id': entity.id}) }}">
+                                <button type="button" class="btn btn-danger"><i
+                                            class="fa fa-trash"></i> {{ 'btn.remove'|trans }} </button>
+                            </a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endfor %}
+    {% endblock %}
+    {% block javascripts %}
+        {% set menuactive = app.session.get('menuactive') %}
+        {% if menuactive != "crosswordvip" %}
+         <script type="text/javascript" src="{{ asset('dev/magzine/generator/js/crossword.js')}}"></script>
+        <script type="text/javascript" src="{{ asset('dev/magzine/generator/js/clipboard.min.js')}}"></script>
+        <script type="text/javascript" src="{{ asset('dev/magzine/generator/js/generator.js')}}"></script>
+        {% endif %}
+    {% endblock %}

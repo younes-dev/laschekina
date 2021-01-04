@@ -1,0 +1,17 @@
+gallerys_state:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Gallerys:state" }
+
+gallerys_ajax_upload:
+    path:     /ajax/upload
+    defaults: { _controller: "BackBundle:Gallerys:Uploadpicture" }
+
+gallerys_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Gallerys:delete" }
+
+gallerys_index:
+    path:     /{type_gallery}/{id_media}
+    defaults: { _controller: "BackBundle:Gallerys:index" , id_media: null  }
+
+

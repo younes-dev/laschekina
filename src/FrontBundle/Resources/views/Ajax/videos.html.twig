@@ -1,0 +1,49 @@
+{% if ListeVideos != null  %}
+{% for item in ListeVideos %}
+                                {% if loop.index  < 4%}
+                                {% if loop.index  == 1 %}
+<div class="{% if ListeVideos|length == 1 %} col-md-12 col-sm-12 {% else %} col-md-6 col-sm-6  {% endif %}col-xs-12   no-padd big-videos">
+    {% elseif loop.index  == 2 %}
+    <div class="{% if ListeVideos|length == 2 %} big-videos  {% else %} small-videos {% endif %} col-md-6 col-sm-6   col-xs-12   padd-right ">
+        {% endif %}
+
+        {% if item.sourcevideo =="vimeo" %}
+        <iframe
+                src="//player.vimeo.com/video/{{ item.url }}?byline=0&amp;portrait=0"
+                frameborder="0" webkitallowfullscreen mozallowfullscreen
+                allowfullscreen></iframe>
+        {% elseif item.sourcevideo == "dailymotion" %}
+            <iframe frameborder="0"
+                    src="//www.dailymotion.com/embed/video/{{ item.url }}"
+                    allowfullscreen></iframe>
+        {% elseif  item.sourcevideo == "youtube"   %}
+        <iframe   allowfullscreen="allowfullscreen"
+                  mozallowfullscreen="mozallowfullscreen"
+                  msallowfullscreen="msallowfullscreen"
+                  oallowfullscreen="oallowfullscreen"
+                  webkitallowfullscreen="webkitallowfullscreen" src="https://www.youtube.com/embed/{{ item.url }}"    ></iframe>
+           {% else %}
+                <video style="width: 100%;   background: #030203;" controls="">
+                    <source src="{{ path_picture~ item.path }}" type="video/mp4">
+
+                    {% if app.request.locale == 'fr' %}
+                        Votre navigateur ne prend pas en charge la vidéo HTML5.
+                    {% else %}
+                        Your browser does not support HTML5 video.
+                    {% endif %}
+                </video>
+            {% endif %}
+
+            {% if loop.index  == 3 or loop.index  == 1 %}
+    </div>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+
+{% else %}
+
+<div class="no-image ">
+
+        <img src="{{ asset('assets/images/no-video.jpg')}}" class="img-video">
+ </div>
+{% endif %}

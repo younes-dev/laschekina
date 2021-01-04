@@ -1,0 +1,7 @@
+corona_index:
+    path:     /index
+    defaults: { _controller: "CoronaEndBundle:Corona:index" }
+
+front_end_inviterAmi:
+    path:     /inviterAmi
+    defaults: { _controller: "CoronaEndBundle:Corona:inviterAmi" }

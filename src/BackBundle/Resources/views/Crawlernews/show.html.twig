@@ -1,0 +1,86 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %} {{ 'menu_crawler_news'|trans }}{% endblock %}
+
+{% block hiarche %}
+    <div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('crawlernews_index') }}">
+                    <span>   {{ 'menu_crawler_news'|trans }}  </span></a>
+            </li>
+            <li>
+                <a href="#"> <span> {{ 'page-breadcrumb.show'|trans }} </span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption font-red-sunglo">
+                <i class="icon-settings font-red-sunglo"></i>
+                <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.show'|trans }}   </span>
+            </div>
+        </div>
+        <div class="portlet-body form">
+
+            <form class="form-horizontal">
+
+                <div class="form-body">
+
+                    {% if entity.picture != null %}
+                        <div class="form-group">
+                            <label>    {{ 'form.picture'|trans }} :</label>
+                            <div class="input-group">
+                                <img src="{{ entity.picture }}" class="media-picture">
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if entity.title != null %}
+                        <div class="form-group">
+                            <label> {{ 'form.title'|trans }} : </label>
+                            <div class="input-group">
+                                {{ entity.title|raw }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+                    {% if entity.pays != null %}
+                        <div class="form-group">
+                            <label>{{ 'form.pays'|trans }} :</label>
+                            <div class="input-group">
+                                {{ entity.pays }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if entity.url != null %}
+                        <div class="form-group">
+                            <label>{{ 'form.plus_information'|trans }} :</label>
+                            <div class="input-group">
+                                <a href="{{ entity.url }}" target="_blank"> plus d'infomation</a>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                    {% if entity.description != null %}
+                        <div class="form-group">
+                            <label>{{ 'form.description'|trans }} :</label>
+                            <div class="input-group">
+                                {{ entity.description|raw }}
+
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

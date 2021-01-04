@@ -1,0 +1,67 @@
+{% for personnage in personnageMediaList %}
+    <div class="post-news clearfix" id="{{ personnage.id }}">
+        <div class="col-md-4 col-sm-4 col-xs-12 ">
+            <div class="image-holder-content">
+                <a href="{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id' : personnage.id }) }}" >
+                                        <div class="small-photo-vip img-resize imgLiquid" style="    height: 250px !important;">
+                        <img src="{% if personnage.image != '' and personnage.image is not null  %}{{ path_picture ~ 'personnage_media/' ~ personnage.image }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}" >
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-sm-8 col-xs-12">
+             <div class="post-news-content">
+                                    <h4 id="personnage-name-{{ personnage.id }}"> 
+                                    <a href="{{ path('front_end_personnage_profile',{ 'activeTab': "profile" ,  'id' : personnage.id }) }}">{{ personnage.personnage }}</a>
+
+                                        {% if app.user != null and member.id == app.user.id %}
+                                            {% if personnage.beauxPersonnages == 0  %}
+                                                {% set message =  'btn.remove_beaux_personnages'  %}
+                                            {% else %}
+
+                                                {% set message =  'btn.add_beaux_personnages'  %}
+
+                                            {% endif %}
+                                            <a data-toggle="tooltip"
+                                            data-placement="top"
+                                            data-original-title="
+                                                 {% if personnage.beauxPersonnages == 0  %}
+                                                    {{ 'btn.add_beaux_personnages'|trans }}
+                                                 {% else %}
+                                                    {{ 'btn.remove_beaux_personnages'|trans }} 
+                                                 {% endif %}
+                                                  "
+                                            
+                                            style="padding: 5px 22px 5px 7px;margin-left: 15px; color: #FFFFFF " onclick="beauxPersonnages({{ app.user.id }} , '{{ message|trans }}' , {{ personnage.id }})" class="btn btn-orange  btn-lg" id="beauxPersonnages{{ personnage.id }}" name="submit" >
+                                                {% if personnage.beauxPersonnages == 0  %}
+                                                
+                                                    {{ 'btn.icon_add_beaux_personnages'|trans }}
+                                                {% else %}
+                                                
+                                                    {{ 'btn.icon_remove_beaux_personnages'|trans }} 
+                                                {% endif %}
+                                            </a>
+                                        {% endif %}   </h4>
+
+                                    <p id="personnage-description-{{ personnage.id }}">
+                                         {{ personnage.description[:200] }} {% if  personnage.description|length > 200 %}... {% endif %} 
+                                    </p>
+                                    
+                                    
+                                    <div class="vote col-md-12 col-sm-12 col-xs-12">
+                                     
+                                        <div class=" col-md-3 col-sm-12 col-xs-12" style="float: right;padding-top: 17px;">
+                                        <div class="vote-bar">
+                                            <div class="vote-progress"></div>
+                                        </div>
+                                        <div class="votes-btns">
+                                            <button class="vote-btn vote-like" style="{% for vote in personnage.personnageVotes %}{% if app.user != null and vote.user.id == app.user.id and vote.vote == 1 %}color:green; {% set break = true %}{% endif %}{% endfor %}" id="like{{ personnage.id }}" onclick="likeDislike(1, {{ personnage.id }}, {% if app.user != null %}{{ app.user.id }}{% else %}null{% endif %})"><i class="fa fa-thumbs-up font-size"></i> <span id="nbr_like_{{ personnage.id }}">{{ personnage.id|countNbrLikePersonnage }}</span></button>
+                                {#            <button class="vote-btn vote-dislike" style="{% for vote in personnage.personnageVotes %}{% if app.user != null and vote.user.id == app.user.id and vote.vote == 0 %}color:red; {% set break = true %}{% endif %}{% endfor %}" id="dislike{{ personnage.id }}" onclick="likeDislike(0, {{ personnage.id }}, {% if app.user != null %}{{ app.user.id }}{% else %}null{% endif %})" ><i class="fa fa-thumbs-down font-size"></i> <span id="nbr_dislike_{{ personnage.id }}">{{ personnage.id|countNbrDislikePersonnage }}</span></button>
+                                #}        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    </div>
+{% endfor %}

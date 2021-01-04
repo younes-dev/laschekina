@@ -1,0 +1,155 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}{{ 'page.gallery'|trans }}{% endblock %}
+
+{% block hiarche %}
+
+    {% set menuactive = app.session.get('menuactive') %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('vip_in_home') }}">
+                    <span> List des VIPs </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+   
+    {% block body %}
+        {% set menuactive = app.session.get('menuactive') %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase">  {{ 'page-breadcrumb.add'|trans }}
+                                 </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form action="#" method="post"> 
+                      
+                        <div class="form-body">
+
+                            <div class="form-group"
+                               <label>Liste des VIPs</label>
+                                <div class="input-group">
+                                 <select name="listeVips[]" data-placeholder="Liste des VIPs..." multiple class="chosen-select">
+                                {% for item in users %}
+                                        <option value='{{ item.id }}'>
+                                         
+              
+                {% if item.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{ item.prenom ~" "~ item.nom }}
+
+          <option>
+                                 {% endfor %}
+                                 </select>
+                                </div>
+                            </div>
+                       </div>
+                        <div class="form-actions">
+                                <button type="submit" class="btn blue">{{'btn.add'|trans}}  </button>
+                          
+                        </div>
+                       <form>
+                    </div>
+                </div>
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-red-sunglo">
+                            <i class="icon-settings font-red-sunglo"></i>
+                            <span class="caption-subject bold uppercase"> Liste des VIP dans page home </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <div id="draggable" class="col-md-12 ui-sortable">
+                                        {% for item in usersShowHome %}
+                                            <div class="col-md-3 col-sm-12">
+                                            <div class="panel panel-profile">
+                                                    <div class="panel-body">
+                                                        <div class="user-card dim-user-card">
+                                                                 
+                                                                 {% if item.pictureprofil != null %}
+                                                          
+                                                                    <img src=" {{ path_picture ~ item.pictureprofil }}" style="width: 124px;    height: 124px;"
+                                                                         class="img-responsive  centre-img ">
+                                                                         {% else %}
+                                                                    <img src="{{ asset('assets/images/avatar.png') }}"
+                                                                         class="img-responsive centre-img">
+                                                                     
+                                                          
+                                                            {% endif %}
+                                                        </div>
+                                                        <hr class="outsider">
+                                                        
+                                                        <div class="text-center">
+                                                             <span>
+  
+              
+                {% if item.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{ item.prenom ~" "~ item.nom }}
+
+                                                         </span>
+                                                       <br/>
+                                                          
+                                                            <a data-toggle="modal" id="sup192"
+                                                               href="#myModal{{ item.id }}" type="button"
+                                                               class="btn btn-danger" style="margin-top: 10px;">
+                                                                Supprimer</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% for entity in usersShowHome %}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ entity.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title">  {{ 'message_alert_remove'|trans }}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h2>  {{ 'message_validation_remove'|trans }} </h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"> {{ 'btn.cancel'|trans }}  </button>
+                            <a href="{{ path('vip_delete_in_home', {'id': entity.id}) }}">
+                                <button type="button" class="btn btn-danger"><i
+                                            class="fa fa-trash"></i> {{ 'btn.remove'|trans }} </button>
+                            </a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endfor %}
+    {% endblock %}
+    
+
+
+   

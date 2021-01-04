@@ -1,0 +1,113 @@
+<?php
+
+namespace BackBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TypeMedia
+ *
+ * @ORM\Table(name="type_media")
+ * @ORM\Entity(repositoryClass="BackBundle\Repository\TypeMediaRepository")
+ */
+class TypeMedia
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
+     */
+    private $title;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Medias", mappedBy="typemedia"  )
+     */
+    private $medias;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+        /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return TypeMedia
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Add media
+     *
+     * @param \BackBundle\Entity\Medias $media
+     *
+     * @return TypeMedia
+     */
+    public function addMedia(\BackBundle\Entity\Medias $media)
+    {
+        $this->medias[] = $media;
+
+        return $this;
+    }
+
+    /**
+     * Remove media
+     *
+     * @param \BackBundle\Entity\Medias $media
+     */
+    public function removeMedia(\BackBundle\Entity\Medias $media)
+    {
+        $this->medias->removeElement($media);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+}

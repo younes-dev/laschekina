@@ -1,0 +1,322 @@
+ <div class="tab-content clearfix">
+
+
+    <div class="tab-pane   {% if activeTab == "vip" %} active {% endif %}" id="tab1">
+        {% if member.description != null or   (app.user != null  and member.id == app.user.id ) %}
+
+            <div class="col-md-12">
+                {% for flashMessage in app.session.flashbag.get('collectionDescriptionVip') %}
+                    <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-12">
+
+
+                {% if (app.user != null  and member.id == app.user.id ) %}
+                    <div class="pull-right"><a href="#" class="edit-btn" data-toggle="modal"
+                                               data-target="#edit-modal"><i class="zmdi zmdi-edit"></i></a></div>
+                {% endif %}
+                <div class="clearfix"></div>
+
+
+                <div class="text-inner-vip">
+
+                    <p>
+                        {% if member.description != null %}
+                            {{ member.description|raw }}
+                        {% else %}
+                           {{ 'collection_description_default'|trans }}
+                        {% endif %}
+                    </p>
+
+
+                </div>
+            </div>
+        {% endif %}
+
+
+        {% if listeVideoYoutoubeMp4|length > 0 %}
+            <div class="col-md-12"><h3>{{ 'collection_video'|trans }}</h3></div>
+             {% for item in listeVideoYoutoubeMp4 %}
+
+                    <div class="col-md-4 col-xs-12 col-sm-4">
+                            <div class="box-page-video">
+                                <div class="box-page-video">
+                                    <div class="video-poster">
+                                        <div class="iframe-resize ">
+                                            {% if item.sourcevideo =="vimeo" %}
+                                            <iframe src="//player.vimeo.com/video/{{ item.url }}?byline=0&amp;portrait=0"
+                                                    frameborder="0" webkitallowfullscreen mozallowfullscreen
+                                                    allowfullscreen></iframe>
+                                            {% elseif item.sourcevideo == "dailymotion" %}
+                                                <iframe frameborder="0"
+                                                        src="//www.dailymotion.com/embed/video/{{ item.url }}"
+                                                        allowfullscreen></iframe>
+                                            {% elseif  item.sourcevideo == "youtube"   %}
+                                            <iframe   allowfullscreen="allowfullscreen"
+                                                      mozallowfullscreen="mozallowfullscreen"
+                                                      msallowfullscreen="msallowfullscreen"
+                                                      oallowfullscreen="oallowfullscreen"
+                                                      webkitallowfullscreen="webkitallowfullscreen"   src="https://www.youtube.com/embed/{{ item.url }}"></iframe>
+                                                {% else %}
+                                                    <video width="250" height="150" controls="">
+                                                        <source src="{{ path_picture~ item.path }}" type="video/mp4">
+
+                                                        {% if app.request.locale == 'fr' %}
+                                                            Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                                        {% else %}
+                                                            Your browser does not support HTML5 video.
+                                                        {% endif %}
+                                                    </video>
+                                                {% endif %}
+                                        </div>
+
+                                        <div class="info-video">
+                                            <p>{{ item.title }} </p>
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+             {% endfor %}
+        {% endif %}
+
+
+
+        {% if listePhotos|length > 0 %}
+            <div class="clearfix"></div>
+
+            <div class="col-md-12"><h3>{{ 'photos'|trans }}</h3></div>
+            <div class="photo-vip">
+                <div class="col-md-4 col-sm-4 col-xs-12 padd-right">
+
+                    <a href="{{ path_picture ~ listePhotos[0].picture }}" class="fancybox">
+
+                        <div class="big-photo-vip img-resize imgLiquid">
+                            <img src="{{ path_picture ~ listePhotos[0].picture }}">
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12 no-padd ">
+                    {% if listePhotos|length > 1 %}
+                        <a href="{{ path_picture ~ listePhotos[1].picture }}" class="fancybox">
+
+                            <div class="small-photo-vip img-resize imgLiquid">
+
+                                <img src="{{ path_picture ~ listePhotos[1].picture }}">
+
+
+                            </div>
+                        </a>
+                    {% endif %}
+                    {% if listePhotos|length > 2 %}
+                        <a href="{{ path_picture ~ listePhotos[2].picture }}" class="fancybox">
+                            <div class="small-photo-vip img-resize imgLiquid">
+
+                                <img src="{{ path_picture ~ listePhotos[2].picture }}">
+
+
+                            </div>
+                        </a>
+                    {% endif %}
+
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12 padd-left">
+                    {% if listePhotos|length > 3 %}
+
+                        <a href="{{ path_picture ~ listePhotos[3].picture }}" class="fancybox">
+
+                            <div class="small-photo-vip img-resize imgLiquid">
+
+                                <img src="{{ path_picture ~ listePhotos[3].picture }}">
+
+
+                            </div>
+                        </a>
+                    {% endif %}
+                    {% if listePhotos|length > 4 %}
+
+                        <a href="{{ path_picture ~ listePhotos[4].picture }}" class="fancybox">
+                            <div class="small-photo-vip img-resize imgLiquid">
+
+
+                                <img src="{{ path_picture ~ listePhotos[4].picture }}">
+
+
+                            </div>
+                        </a>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        {% endif %}
+        {% if listeNews|length > 0 %}
+            <div class="clearfix"></div>
+
+            <div class="col-md-12"><h3>{{ 'collection_news'|trans }} </h3></div>
+
+            <div class="news-block" id="Liste_news_vip">
+
+                {% for item in listeNews %}
+                    {% if loop.index < 4 %}
+                        <div class="post-news clearfix">
+                            <div class="col-md-4 col-sm-4 col-xs-12 ">
+                                <div class="image-holder-content">
+
+                                    <a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                                    <div class="small-photo-vip img-resize imgLiquid">
+                                        <img src="{{ path_picture ~ item.picture }}">
+                                    </div>
+                                        </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+
+                                <div class="post-news-content">
+                                    <h4 id="new-title-{{ item.id }}">{{ item.title }}</h4>
+
+                                    <p id="new-description-{{ item.id }}">
+                                        {{ item.descriptionCourt[:200] }} {% if  item.descriptionCourt|length > 200 %}... {% endif %} </p>
+
+
+                                    <div style="display: none" id="id-news-description-{{ item.id }}"> {{ item.description|raw }} </div>
+                                    <p style="display: none" id="descriptionCourt_edit_news-{{ item.id }}"> {{ item.descriptionCourt|raw }} </p>
+
+
+
+                                        <a href="#" type="button"  onclick='OpenmodalNews({{ item.id }} )'>{{ 'collection_lire_suite'|trans }}</a>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        {% endif %}
+
+        {% if member.roles[0] in ["ROLE_VIP"  , "ROLE_PRO"  ]   %}
+
+
+            <div class="clearfix"></div>
+
+            <div class="col-md-12" style="margin-top: -15px;">
+            <h3>  {{ 'collection_ma_crossing'|trans }}  </h3>
+            </div>
+                <div class="form-group clearfix">
+
+                <div class="col-md-12 mag-bttom-sm">
+                    <div id="mapid" style="width: 100%; height: 600px;">
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group clearfix" >
+
+                <div class="col-md-12 mag-bttom-sm">
+                    <ul class="list-colors">
+
+
+                            <div class="row">
+                                <div class="col-md-8 col-sm-12">
+                                    <li> <label class="label-control  width-30"  ><div class="zen">&nbsp;</div></label>{{ 'emotioncard.zen'|trans }}  </li>
+                                    {% if totla != null %}
+                                    <div class="progress">
+                                        <div class="progress-bar zen progress-bar-striped active" role="progressbar" aria-valuenow="40"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:  {%- if totla  >  0 -%}{{- (ListFanszen|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                            {{ ListFanszen|length }}
+                                        </div>
+                                    </div>
+
+                                    {% endif %}
+                                    <li> <label class="label-control width-30"  ><div class="gaite">&nbsp;</div></label>{{ 'emotioncard.gaite'|trans }}</li>
+                                    {% if totla != null %}
+                                    <div class="progress">
+                                        <div class="progress-bar gaite" role="progressbar" aria-valuenow="40"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:  {%- if totla  >  0 -%}{{- (ListFansgaite|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                            {{ ListFansgaite|length }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <li> <label class="label-control width-30"   ><div class="deprime">&nbsp;</div></label>{{ 'emotioncard.deprime'|trans }}</li>
+                                    {% if totla != null %}
+                                    <div class="progress">
+                                        <div class="progress-bar deprime progress-bar-striped" role="progressbar" aria-valuenow="40"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: {%- if totla  >  0 -%}{{- (ListFansdeprime|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+
+                                            {{ ListFansdeprime|length }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <li> <label class="label-control width-30 "   ><div class="colere">&nbsp;</div></label>{{ 'emotioncard.colere'|trans }}</li>
+                                    {% if totla != null %}
+                                    <div class="progress">
+                                        <div class="progress-bar colere" role="progressbar" aria-valuenow="40"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:  {%- if totla  >  0 -%}{{- (ListFanscolere|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                            {{ ListFanscolere|length }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    <li> <label class="label-control width-30"   ><div class="fatigue">&nbsp;</div></label>{{ 'emotioncard.fatigue'|trans }}</li>
+                                    {% if totla != null %}
+                                    <div class="progress">
+                                        <div class="progress-bar fatigue" role="progressbar" aria-valuenow="40"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:  {%- if totla  >  0 -%}{{- (ListFansfatigue|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                            {{ ListFansfatigue|length }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    <li> <label class="label-control width-30"   ><div class="energique">&nbsp;</div></label>{{ 'emotioncard.energique'|trans }}</li>
+                                    {% if totla != null %}
+                                    <div class="progress">
+                                        <div class="progress-bar energique" role="progressbar" aria-valuenow="40"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:  {%- if totla  >  0 -%}{{- (ListFansenergique|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                            {{ ListFansenergique|length }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% if pictureCourantHumeur != null %}
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="small-photo-vip" style="width: 100% ;    margin-top: 6%;">
+                                    <img src="{{ path_picture ~pictureCourantHumeur.picture }}" style=" width:100%">
+                                    </div>
+                                    <p class="{{ pictureCourantHumeur.type }} center-text"  > {{ pictureCourantHumeur.type }} </p>
+                                </div>
+                                {% endif %}
+                            </div>
+
+
+
+                    </ul>
+                    <br/>
+                </div>
+            </div>
+{% endif %}
+
+    </div>

@@ -1,0 +1,18 @@
+crawlerprogramme_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Crawlerprogramme:index" }
+
+
+crawlerprogramme_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Crawlerprogramme:show" }
+
+crawlerprogramme_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Crawlerprogramme:edit" }
+
+
+crawlerprogramme_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Crawlerprogramme:delete" }
+

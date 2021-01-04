@@ -1,0 +1,260 @@
+<div class="tab-pane  box-page-bg    " id="tab2">
+    {% if (app.user != null  and personnage.collectionMedia.member.id == app.user.id ) %}
+        <div class="col-md-12"><h3>{{ 'collection_Media'|trans }}</h3></div>
+        <div class="col-md-12 col-xs-12 col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('collectionPersonnagesuccess') %}
+                <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            
+
+                 <form action="{{ path('front_end_personnage_add_medias',{'id': personnage.id }) }}" method="post"
+                      enctype="multipart/form-data">
+                    <input type="file"  name="picture" style="display: none">
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                            <label class="label-control">{{ 'form.title'|trans }}</label>
+
+                            <input type="text" name="title" maxlength="255" class="form-control ">
+
+                        </div>
+                    </div>
+                    <div style="display: none">
+                        <input type="file" name="picture">
+
+                    </div>
+
+
+
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                            <label class="label-control sign-up-label">{{ 'form.typeVideo'|trans }}</label>
+                            <select id="typeVideo" name="typeVideo" onchange="showMedia(this.value)"
+                                    class="form-control ">
+                                <option value="1">{{ 'form.sourcevideo'|trans }}</option>
+                                <option value="2">{{ 'video_mp4'|trans }}</option>
+                                <option value="4">{{ 'collection_picture'|trans }}</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                            <input name="url" class="form-control " id="sourcevideoVip" placeholder="https://...">
+
+                            <span style="display: none" id="upload-mediaVidoe">
+                                <input type="file" name="mediaVidoe" id="mediaVidoe"
+                                       data-label="Choisir vedio mp4"
+                                       data-preview="on">
+                            </span>
+
+
+                          
+                            <span style="display: none" id="upload-book-image-couverture">
+                              <label class="label-control sign-up-label">{{ 'collection_picture'|trans }}</label>
+                                 <input type="file" name="picture" id="mediaBook"
+                                        data-label="Choisir image de livre"
+                                        data-preview="on">
+
+                               </span>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="login-button col-md-8 ">
+
+                            <input type="submit" class="btn btn-orange" name="ajouter" value="{{ 'btn.add'|trans }}">
+                        </div>
+
+                    </div>
+
+                </form> 
+        </div>
+        <div class="col-md-12">
+            <hr/>
+        </div>
+    {% endif %}
+
+
+ 
+
+    {% if listeVideoMp4|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+            <div class="col-md-12 ">
+
+                <div class="col-md-12">
+                    <div class="seperator-catg title-v">
+                        <div> {{ 'title_video'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+
+
+            {% for item in listeVideoMp4 %}
+                <div class="col-md-4 col-xs-12 col-sm-4">
+                    <div class="box-page-video">
+                        <div class="box-page-video">
+
+                            <div class="video-poster">
+                                <div class="iframe-resize ">
+
+
+                                    <video width="250" height="150" controls="">
+                                        <source src="{{ path_picture~ item.path }}" type="video/mp4">
+
+                                        {% if app.request.locale == 'fr' %}
+                                            Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                        {% else %}
+                                            Your browser does not support HTML5 video.
+                                        {% endif %}
+                                    </video>
+
+                                </div>
+
+
+                                <div class="info-video">
+                                    <p>{{ item.title }} </p>
+
+
+                                </div>
+
+
+                            </div>
+                           {% if (app.user != null  and personnage.collectionMedia.member.id == app.user.id ) %}
+                                <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            {% endfor %}
+
+        </div>
+    {% endif %}
+
+    {% if listeVideosUrl|length > 0 %}
+        <div class="clearfix mag-bttom-sm">
+
+            <div class="col-md-12 ">
+
+                <div class="col-md-12">
+                    <div class="seperator-catg title-v">
+                        <div> {{ 'title_autre_video'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% for item in listeVideosUrl %}
+                <div class="col-md-4 col-xs-12 col-sm-4">
+                    <div class="box-page-video">
+                        <div class="box-page-video">
+                            <div class="video-poster">
+                                <div class="iframe-resize ">
+
+
+                                    {% if item.sourcevideo =="vimeo" %}
+                                    <iframe style="width: 100%;  height: 100%;"
+                                            src="//player.vimeo.com/video/{{ item.url }}?byline=0&amp;portrait=0"
+                                            frameborder="0"
+                                            webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                    {% elseif item.sourcevideo == "dailymotion" %}
+                                        <iframe style="width: 100%;  height: 100%;" frameborder="0"
+                                                src="//www.dailymotion.com/embed/video/{{ item.url }}"
+                                                allowfullscreen></iframe>
+                                    {% elseif  item.sourcevideo == "youtube"   %}
+                                        <iframe   allowfullscreen="allowfullscreen"
+                                                  mozallowfullscreen="mozallowfullscreen"
+                                                  msallowfullscreen="msallowfullscreen"
+                                                  oallowfullscreen="oallowfullscreen"
+                                                  webkitallowfullscreen="webkitallowfullscreen" src="https://www.youtube.com/embed/{{ item.url }}"    ></iframe>
+                                    {% else %}
+                                        <video style="width: 100%;  background: #030203;" controls="">
+                                            <source src="{{ path_picture~ item.path }}" type="video/mp4">
+
+                                            {% if app.request.locale == 'fr' %}
+                                                Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                            {% else %}
+                                                Your browser does not support HTML5 video.
+                                            {% endif %}
+                                        </video>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="info-video">
+                                    <p>{{ item.title }}</p>
+
+
+                                </div>
+
+
+                            </div>
+                           {% if (app.user != null  and personnage.collectionMedia.member.id == app.user.id ) %}
+        <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'video')">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            {% endfor %}
+
+
+        </div>
+    {% endif %}
+
+
+     {% if listePhotos != null %}
+    <div class="col-md-12"><h3>{{ 'photos'|trans }}</h3></div>
+    <div class="clearfix"></div>
+
+
+    <div class="list-images clearfix">
+        {% for item in listePhotos %}
+            <div class="col-md-4 col-xs-12 col-sm-4 margin-bottom-40">
+
+                <div class="image-holder-content">
+				<a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                    <div class="small-photo-vip img-resize imgLiquid">
+
+                        <img src="{{ path_picture ~ item.picture }}">
+                    </div>
+					</a>
+                    <div class="info-video">
+                        <p>{{ item.title }}</p>
+
+
+                    </div>
+
+                 {% if (app.user != null  and personnage.collectionMedia.member.id == app.user.id ) %}
+    
+                    <a class="delete-btn" type="button" onclick="Openmodal({{ item.id }} , 'Personnagemedia')">
+                        <i class="zmdi zmdi-close"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+ 
+
+</div>
+
+  

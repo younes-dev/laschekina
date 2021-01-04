@@ -1,0 +1,45 @@
+<form action="{{ path('collection_add_item',{'activeTab': active}) }}" {% if active == 'photos'   %} onsubmit="return  ValidaionForm(); "  {% endif %} method="post" enctype="multipart/form-data">
+
+    <div class="form-group clearfix" >
+        <div class="col-md-12 mag-bttom-sm">
+            <label class="label-control">{{ 'form.title'|trans }}</label>
+
+            <input type="text" name="title" maxlength="255" class="form-control ">
+            <input type="hidden"  name="typeVideo" value="">
+        </div>
+    </div>
+
+    <div class="form-group clearfix" {% if active not in ['photos' , 'news'] %} style="display: none;" {% endif %}>
+        <div class="col-md-12 mag-bttom-sm">
+            <div class="alert alert-danger alert-block"
+                 id="messageerror" style="display: none">
+            </div>
+            <input type="file" name="picture"  id="IdPicture"
+                   data-field-type="bootstrap-file-filed"
+                   data-file-types="image/jpeg,image/png,image/gif"
+                   data-preview="on">
+
+        </div>
+    </div>
+
+
+
+    <div class="form-group clearfix" {% if active not in ['news'] %} style="display: none;" {% endif %}>
+        <div class="col-md-12 mag-bttom-sm">
+            <label class="label-control">{{ 'form.description'|trans }} </label>
+            <textarea name="description" rows="4" class="form-control"></textarea>
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+
+        <div class="login-button col-md-8 ">
+
+            <input type="submit" class="btn btn-orange" name="ajouter" value="{{ 'btn.add'|trans }}">
+        </div>
+
+    </div>
+
+</form>

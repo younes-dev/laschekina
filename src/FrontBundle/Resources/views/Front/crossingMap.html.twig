@@ -1,0 +1,460 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.video'|trans }}{% endblock %}
+ {% block stylesheets %}
+
+     <!-- video -->
+     <link rel="stylesheet" href="{{ asset('dev/front/video/css/elite.css') }}" type="text/css" media="screen"/>
+     <link rel="stylesheet" href="{{ asset('dev/front/video/css/elite-font-awesome.css') }}" type="text/css">
+     <link rel="stylesheet" href="{{ asset('dev/front/video/css/jquery.mCustomScrollbar.css') }}" type="text/css">
+     <!-- end video -->
+     <style>
+         #content {
+             background: #ffffff !important;
+         }
+.mag-bttom-sm {
+    z-index: 0 !important;
+}
+         .elite_vp_mainContainer {
+             position: relative !important;
+             margin-bottom: 40px !important;
+         }
+
+     </style>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+           integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+           crossorigin=""/>
+
+     <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+             integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+             crossorigin=""></script>
+
+ {% endblock %}
+ {% block imgscreen %}
+     <!-- gallerie -->
+     <div class="owl-carousel accueil-gallerie owl-theme">
+
+         {% for entity in gallerysBanners %}
+             <a href="{{ path_picture~entity.picture }}" class="item fancybox">
+                 <div class="img-resize imgLiquid">
+                     {% if entity.bannerpicture is defined %}
+                         <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                     {% else %}
+                         <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                     {% endif %}
+                 </div>
+             </a>
+         {% endfor %}
+     </div>
+     <!-- End gallerie -->
+
+ {% endblock %}
+
+ {% block body %}
+
+     <div class="clearfix"></div>
+<div class="content-page inner-xs " style="    background: #eaeaea;">
+
+
+        <div class="container width-100">
+            <div class="col-md-9 col-sm-9 col-xs-12" style="background: #ffffff;">
+     <div class="col-md-12">
+         <h4>{{ 'collection_HUMEUR'|trans }} <span class="active-menu">  {{ 'collection_fans'|trans }}</span></h4>
+     </div>
+     <div class="form-group clearfix">
+
+         <div class="col-md-12 mag-bttom-sm">
+             <form   method="post" action="{{ path('front_end_home_crossingMap') }}" class="form-search" >
+                 <div class="holder">
+
+                     <input type="text" class="form-control search-input" style="width: 80%;display: initial !important;"  onkeyup="ajaxGetUserHome()" id="search-member"  autofocus  name="searchWord" placeholder="{{ 'page.research'|trans }}">
+    <button class="btn btn-default btn-search" type="submit" data-toggle="search-form"><i class="zmdi zmdi-search"></i></button>
+                  
+                 </div>
+
+             </form>
+
+         </div>
+     </div>
+
+
+     <div class="col-md-12">
+     {% if user != null %}
+         <h4><a href="{{ path('collection',{'activeTab': "vip" ,'fullName': user[0].username  , 'id': user[0].id}) }}"> {{ user[0].nom }} <span class="active-menu">
+         
+              
+              
+                {% if user[0].fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{ user[0].prenom ~" "~ user[0].nom }}
+                {% if user[0].roles[0] == "ROLE_VIP"   and  user[0].fan == 0   %}
+                        {% set numbre_etoile = 0 %}
+                        {% if user[0].id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif user[0].id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif user[0].id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif user[0].id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+          
+          </span></a></h4>
+     {% elseif user == null and search != null  %}
+         <h4><span class="active-menu"> {{ search }} :</span> {{ 'resultat_recherche_null'|trans }} </h4>
+     {% endif %}
+     </div>
+     <div class="form-group clearfix">
+
+         <div class="col-md-12 mag-bttom-sm">
+             <div id="mapid" style="width: 90%; height: 680px; margin: 0 auto;z-index: 1 !important;">
+
+
+             </div>
+         </div>
+     </div>
+
+     <div class="form-group clearfix">
+
+         <div class="col-md-12 mag-bttom-sm">
+             <ul class="list-colors">
+
+
+                 <div class="row">
+                     <div class="col-md-8 col-sm-12">
+                         <li><label class="label-control  width-30">
+                                 <div class="zen">&nbsp;</div>
+                             </label>{{ 'emotioncard.zen'|trans }}  </li>
+
+                         <div class="progress">
+                             <div class="progress-bar zen progress-bar-striped active" role="progressbar"
+                                  aria-valuenow="40"
+                                  aria-valuemin="0" aria-valuemax="100"
+                                  style="width: {%- if totla  >  0 -%}{{- (ListFanszen|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                 {{ ListFanszen|length }}
+                             </div>
+                         </div>
+
+
+                         <li><label class="label-control width-30">
+                                 <div class="gaite">&nbsp;</div>
+                             </label>{{ 'emotioncard.gaite'|trans }}</li>
+
+                         <div class="progress">
+                             <div class="progress-bar gaite" role="progressbar" aria-valuenow="40"
+                                  aria-valuemin="0" aria-valuemax="100"
+                                  style="width:{%- if totla  >  0 -%}{{- (ListFansgaite|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                 {{ ListFansgaite|length }}
+                             </div>
+                         </div>
+
+
+                         <li><label class="label-control width-30">
+                                 <div class="deprime">&nbsp;</div>
+                             </label>{{ 'emotioncard.deprime'|trans }}</li>
+
+                         <div class="progress">
+                             <div class="progress-bar deprime progress-bar-striped" role="progressbar"
+                                  aria-valuenow="40"
+                                  aria-valuemin="0" aria-valuemax="100"
+                                  style="width: {%- if totla  >  0 -%}{{- (ListFansdeprime|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+
+                                 {{ ListFansdeprime|length }}
+                             </div>
+                         </div>
+
+
+                         <li><label class="label-control width-30 ">
+                                 <div class="colere">&nbsp;</div>
+                             </label>{{ 'emotioncard.colere'|trans }}</li>
+
+                         <div class="progress">
+                             <div class="progress-bar colere" role="progressbar" aria-valuenow="40"
+                                  aria-valuemin="0" aria-valuemax="100"
+                                  style="width: {%- if totla  >  0 -%}{{- (ListFanscolere|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                 {{ ListFanscolere|length }}
+                             </div>
+                         </div>
+
+
+                         <li><label class="label-control width-30">
+                                 <div class="fatigue">&nbsp;</div>
+                             </label>{{ 'emotioncard.fatigue'|trans }}</li>
+
+                         <div class="progress">
+                             <div class="progress-bar fatigue" role="progressbar" aria-valuenow="40"
+                                  aria-valuemin="0" aria-valuemax="100"
+                                  style="width: {%- if totla  >  0 -%}{{- (ListFansfatigue|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                 {{ ListFansfatigue|length }}
+                             </div>
+                         </div>
+
+
+                         <li><label class="label-control width-30">
+                                 <div class="energique">&nbsp;</div>
+                             </label>{{ 'emotioncard.energique'|trans }}</li>
+
+                         <div class="progress">
+                             <div class="progress-bar energique" role="progressbar" aria-valuenow="40"
+                                  aria-valuemin="0" aria-valuemax="100"
+                                  style="width: {%- if totla  >  0 -%}{{- (ListFansenergique|length * 100) / totla -}} {%- else -%} 0 {%- endif -%}%">
+                                 {{ ListFansenergique|length }}
+                             </div>
+                         </div>
+
+                     </div>
+
+                     {% if pictureCourantHumeur != null %}
+                         <div class="col-md-4 col-sm-12">
+                             <div class="small-photo-vip " style="   width: 100%;  margin-top: 6%;">
+                                 <img src="{{ path_picture ~pictureCourantHumeur.picture }}" style=" width:100%">
+                             </div>
+                             <p class="{{ pictureCourantHumeur.type }} center-text"  > {{ pictureCourantHumeur.type }} </p>
+                         </div>
+                     {% endif %}
+                 </div>
+
+             </ul>
+             <br/>
+         </div>
+     </div>
+     <div class="form-group clearfix ">
+
+         <div class="col-md-12 mag-bttom-sm">
+
+                 <div class="contact-info">
+                     <h2>{{ 'page.video'|trans }}</h2>
+
+                     <div id="Elite_video_player"></div>
+
+
+                 </div>
+
+             </div>
+
+     </div>
+
+
+
+
+
+
+        </div>
+        
+            <div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+                <div class="col-md-12  box-page-bg ">
+
+                    <h3 style="margin-top: 0;">{{ 'collection_tourne'|trans }}  </h3>
+
+
+                    <div class="list-vip">
+                        {% for item in listeVIP %}
+
+
+                            <div class="vip-block clearfix">
+
+                                <div class="vip-img img-resize imgLiquid">
+                                    <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username , 'id': item.id}) }}" >  {% if item.pictureprofil != null %}
+                                            <img src="{{ path_picture ~ item.pictureprofil }}" >
+                                        {% else %}
+                                            <img src="{{ asset('assets/images/avatar.png') }}" >
+                                        {% endif %} </a></div>
+
+                                <div class="vip-info">
+                                    <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username  , 'id': item.id}) }}" >
+                                        <span>    {{   item.prenom ~" "~   item.nom }}   </span>
+                                    </a>
+                                </div>
+
+
+                            </div>
+
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+                <div class="box-page-bg clearfix">
+                    <div class="fb-page" data-href="vipcrossing" data-tabs="timeline" style="width : 100% !important ;"
+                         data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                         data-show-facepile="true">
+                        <blockquote cite="vipcrossing" class="fb-xfbml-parse-ignore" style="width : 100% !important ;" ><a
+                                    href="vipcrossing">‎VIPCrossing‎</a></blockquote>
+                    </div>
+
+                </div>
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+
+
+
+                <div class="box-page-bg clearfix" id="tweets" style="display: none">
+                    <a class="twitter-timeline" data-height="430"
+                       href="https://twitter.com/vipcrossing">Tweets </a>
+                </div>
+
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+            </div>
+    </div><!--//end row-->
+  </div><!--//end row-->
+
+
+
+ {% endblock %}
+
+{% block javascripts %}
+
+
+    <script>
+        var mymap = L.map('mapid').setView([48.734507, 2.301897],2);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 40,
+            id: 'mapbox.streets'
+        }).addTo(mymap);
+        {% if user == null %}
+
+        {% for entity in ListFans %}
+        {% if  entity.latitude != null and entity.longitude != null and entity.showposotion == 1 %}
+        L.circle([{{ entity.latitude }}, {{ entity.longitude }}], 5, {
+            color: '{% if entity.coloremotioncard == "zen" %} #9abb59{% elseif entity.coloremotioncard == "gaite" %} #be23cd {% elseif entity.coloremotioncard == "deprime" %} #eb982d {% elseif entity.coloremotioncard == "colere" %}  #ea2c80 {% elseif entity.coloremotioncard == "fatigue" %} #53b241 {% else %} #ffcf2d {% endif %}',
+            fillOpacity: 0.5
+        }).addTo(mymap).bindPopup('<a href="{{ path('collection',{'activeTab': "vip" ,'fullName': entity.username    , 'id': entity.id}) }}">' +
+                {% if entity.showmapphoto == 1 %}
+                {% if entity.pictureprofil != null %}
+            '<img src="{{ path_picture ~ entity.pictureprofil }}" alt="" class="roundedImageMenu"/>&nbsp; ' +
+                {% else %}
+            ' <img src="{{ asset('assets/images/avatar.png') }}" class="roundedImageMenu" alt="">&nbsp; ' +
+                {% endif %}
+                {% endif %}
+            ' {% if entity.username != null %}&nbsp; {{ entity.username }}{% endif %}' +
+            '</a> ');
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        {% for entity in ListFans %}
+        {% if  entity.membre.latitude != null and entity.membre.longitude != null and entity.membre.showposotion == 1 %}
+        L.circle([{{ entity.membre.latitude }}, {{ entity.membre.longitude }}], 5, {
+            color: '{% if entity.membre.coloremotioncard == "zen" %} #9abb59{% elseif entity.membre.coloremotioncard == "gaite" %} #be23cd {% elseif entity.membre.coloremotioncard == "deprime" %} #eb982d {% elseif entity.membre.coloremotioncard == "colere" %}  #ea2c80 {% elseif entity.membre.coloremotioncard == "fatigue" %} #53b241 {% else %} #ffcf2d {% endif %}',
+            fillOpacity: 0.5
+        }).addTo(mymap).bindPopup('<a href="{{ path('collection',{'activeTab': "vip" ,'fullName': entity.membre.username   , 'id': entity.membre.id}) }}">' +
+                {% if entity.membre.showmapphoto == 1 %}
+                {% if entity.membre.pictureprofil != null %}
+            '<img src="{{ path_picture ~ entity.membre.pictureprofil }}" alt="" class="roundedImageMenu"/>&nbsp; ' +
+                {% else %}
+            ' <img src="{{ asset('assets/images/avatar.png') }}" class="roundedImageMenu" alt="">&nbsp; ' +
+                {% endif %}
+                {% endif %}
+            ' {% if entity.membre.username != null %}&nbsp; {{ entity.membre.username }}{% endif %}' +
+            '</a> ');
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </script>
+
+
+    <script src="{{ asset('dev/front/video/js/froogaloop.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('dev/front/video/js/jquery.mCustomScrollbar.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('dev/front/video/js/THREEx.FullScreen.js') }}"></script>
+    <script src="{{ asset('dev/front/video/js/videoPlayer.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('dev/front/video/js/Playlist.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('dev/front/video/js/ZeroClipboard.js') }}"></script>
+
+
+    <script type="text/javascript" charset="utf-8">
+        {% if videos != null %}
+        $(document).ready(function($)
+        {
+            videoPlayer = $("#Elite_video_player").Video({   //ALL PLUGIN OPTIONS
+
+                instanceName:"player1",
+                instanceTheme:"dark",
+                autohideControls:3,
+                hideControlsOnMouseOut:"No",
+                playerLayout: "fixedSize",
+                videoPlayerWidth:1006,
+                videoPlayerHeight:420,
+                lightBox:false,
+                lightBoxAutoplay: false,
+                lightBoxThumbnail:"images/preview_images/poster.jpg",
+                lightBoxThumbnailWidth: 400,
+                lightBoxThumbnailHeight: 220,
+                lightBoxCloseOnOutsideClick: true,
+                playlist:"Right playlist",
+                playlistScrollType:"light",
+                playlistBehaviourOnPageload:"opened (default)",
+                autoplay:true,
+                colorAccent:"#cc181e",
+                vimeoColor:"00adef",
+                youtubeControls:"custom controls",
+                youtubeSkin:"light",
+                youtubeColor:"white",
+                youtubeShowRelatedVideos:"No",
+                videoPlayerShadow:"effect1",
+                loadRandomVideoOnStart:"No",
+                shuffle:"No",
+                posterImg:"images/preview_images/poster.jpg",
+                onFinish:"Lire la vidéo suivante",
+                nowPlayingText:"Yes",
+                fullscreen:"Fullscreen native",
+                rightClickMenu:true,
+                hideVideoSource:false,
+                showAllControls:true,
+                allowSkipAd:true,
+                infoShow:"Yes",
+                shareShow:"Yes",
+                facebookShow:"Yes",
+                twitterShow:"Yes",
+                mailShow:"Yes",
+                facebookShareName:"Elite video player",
+                facebookShareLink:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434",
+                facebookShareDescription:"Elite Video Player is stunning, modern, responsive, fully customisable high-end video player for WordPress that support advertising and the most popular video platforms like YouTube, Vimeo or self-hosting videos (mp4).",
+                facebookSharePicture:"https://0.s3.envato.com/files/123866118/preview.jpg",
+                twitterText:"Elite video player",
+                twitterLink:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434",
+                twitterHashtags:"wordpressvideoplayer",
+                twitterVia:"Creative media",
+                googlePlus:"http://codecanyon.net/item/elite-video-player-wordpress-plugin/10496434",
+                logoShow:"Yes",
+                logoClickable:"Yes",
+                logoPath:"images/logo/logo.png",
+                logoGoToLink:"http://codecanyon.net/",
+                logoPosition:"bottom-left",
+                embedShow:"Yes",
+                embedCodeSrc:"www.yourwebsite.com/videoplayer/index.html",
+                embedCodeW:"746",
+                embedCodeH:"420",
+                embedShareLink:"www.yourwebsite.com/videoplayer/index.html",
+                youtubePlaylistID:"",
+                youtubeChannelID:"",
+                //manual playlist
+                videos:[
+                    {% for item in videos %}
+                    {
+                        videoType:"HTML5",
+                        title:"{{ item.title }}",
+                        mp4:"{{  path_picture~item.path }}",
+                        description:" ",
+                        thumbImg:"{{  path_picture~item.member.pictureprofil }}",
+                        info:" "
+
+                    },
+                    {% endfor %}
+
+                ]
+            });
+        });
+        {% endif %}
+    </script>
+
+
+
+
+{% endblock %}
+

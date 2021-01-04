@@ -1,0 +1,111 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+  {% block  meta %}
+        {{ render(controller( 'FrontBundle:Front:referancement' ,  { 'type': "ref_concert" }   )) }}
+       {% endblock %}
+  
+{% block title %}  {{ 'page.concert'|trans }}{% endblock %}
+ {% block imgscreen %}
+
+     <!--slide caroussel-->
+
+    
+     <div id="owl-full-width" class="owl-carousel owl-theme">
+         {% if nextMedias != null %}
+             {% for item in nextMedias %}
+                 <div class="item">
+                     <div class="img-resize imgLiquid">
+                         <img src="{{ path_picture ~ item.backgroundpicture }}">
+                     </div>
+                     <div class="inner-item">
+
+                         <span> <a href="{{ path('front_end_show_media',{'id':  item.id}) }}"> {{ item.title }}  </a> </span>
+                         <p>{{ item.shortdescription[:300] }} {% if item.shortdescription|length > 300 %}...{% endif %}</p>
+
+                     </div>
+                 </div>
+             {% endfor %}
+         {% else %}
+
+
+             {% for item in videoConcert %}
+                 <div class="item">
+                     <div class="img-resize imgLiquid">
+                         <img src="{{ path_picture ~ item.backgroundpicture }}">
+                     </div>
+                     <div class="inner-item">
+
+                         <span> <a href="{{ path('front_end_show_media',{'id':  item.id}) }}"> {{ item.title }}  </a> </span>
+                         <p>{{ item.shortdescription[:300] }} {% if item.shortdescription|length > 300 %}...{% endif %}</p>
+
+                     </div>
+                 </div>
+             {% endfor %}
+         {% endif %}
+     </div>
+     <!--slide caroussel-->
+
+ {% endblock %}
+   {% block body %}
+
+
+
+       <div class="content-page inner-xs ">
+
+
+           {{  include('FrontBundle:Concert:next_events.html.twig', { 'nextEvents': nextMedias }) }}
+
+
+
+           {{  include('FrontBundle:Concert:vidoes_concert.html.twig', { 'videoConcert': videoConcert }) }}
+
+
+           {{  include('FrontBundle:Concert:old_events.html.twig', { 'oldEvents': oldEvents }) }}
+
+
+
+       </div>
+
+   {% endblock %}
+
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(window).scroll(function () {
+            var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
+            var scrolltrigger = 0.99;
+            if ((wintop / (docheight - winheight)) > scrolltrigger) {
+                var lastId = $('.item:last').attr('id') ;
+                var data = {
+                    'lastId': lastId,
+                    'type': "concert",
+                    'language': "{{  app.request.getLocale() }}"
+
+                };
+                var url = '{{ path('front_end_scroll_media') }}';
+                $.ajax({
+                    url: url, // La ressource ciblée
+                    type: 'POST', // Le type de la requête HTTP.
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.status == true){
+
+                            $('.tousPeople').append(data.tousPeopleHtml);
+                        }
+
+
+
+                    },
+
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        })
+    </script>
+{% endblock %}
+
+
+

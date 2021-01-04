@@ -1,0 +1,748 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.research'|trans }}{% endblock %}
+ {% block imgscreen %}
+     <div class="owl-carousel accueil-gallerie owl-theme">
+
+         {% for entity in gallerys_banner %}
+             {% if entity.picture is defined %}
+                 <a href="{{ path_picture~entity.picture }}" class="item fancybox">
+                     <div class="img-resize imgLiquid">
+                         <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                     </div>
+                 </a>
+             {% endif %}
+         {% endfor %}
+     </div>
+
+ {% endblock %}
+   {% block body %}
+
+
+       <div class="container">
+
+
+           <div class="row row-centered">
+
+               <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 col-centered">
+
+
+                   <div class="search-box  search-member outer-xs">
+
+                       <form action="{{ path('front_end_research') }}" method="post">
+                           <div class="input-group">
+                               <i class="zmdi zmdi-search"></i>
+                               <input type="text" name="searchWord" class="form-control" placeholder="Recherche...">
+                               <div class="input-group-btn">
+                                   <button class="btn btn-default" type="submit">{{ 'page.research'|trans }}</button>
+                               </div>
+                           </div>
+                       </form>
+
+                   </div>
+
+               </div>
+
+           </div>
+
+           {% if searchWord != null %}
+               <div class="result-search">
+                   <div class="title-result">
+                       {{ 'resultat_recherche'|trans }} {{ searchWord }}
+                   </div>
+
+               </div>
+
+           {% endif %}
+       </div>
+       {% if ListeUser != null and  ListeUser != null %}
+           <div id="center_colmun" class="container">
+               <div class="row">
+                   <div class="col-md-12">
+                       <div class="accueil-bloc home-slider-1">
+                           <div class="holder">
+                               <div id="Liste_membre_home" class="list-search">
+                                   <img id="loading-search" src="{{ asset('dev/front/images/loading.gif') }}"
+                                        class="displayed" style="margin-bottom:8px ;display: none;">
+
+                                   <div class="list-slider owl-carousel caroussel-Liste-membre-recherche"
+                                        id="content_Liste_membre_home">
+
+                                       {% for item in ListeUser %}
+                                           <a class="item img-thumb" data-toggle="tab"
+                                              onclick="getVipUser({{ item.id }})"
+                                              href="#home-slider-1-bloc-{{ item.id }} ">
+                                               <div class="img-resize imgLiquid ">
+
+                                                   {% if item.pictureprofil != null %}
+                                                       <img src="{{ path_picture ~ item.pictureprofil }}" alt=""
+                                                            class="image-resize img-responsive media-object img-circle">
+                                                   {% else %}
+                                                       <img src="{{ asset('assets/images/avatar.png') }}" alt=""
+                                                            class="image-resize img-responsive media-object img-circle">
+                                                   {% endif %}
+                                               </div>
+                                           </a>
+                                       {% endfor %}
+                                   </div>
+                               </div>
+                               <div class="tab-content">
+
+                                   <div id="home-slider-1-bloc-{{ ListeUser[0].id }}"
+                                        class="content-slider-1 tab-pane fade in  active ">
+
+                                       <div class="row" id="pictureCourant">
+                                           {{ include('FrontBundle:Ajax:photosCourant.html.twig', { 'Photos': ListePhotos , 'vipUser': ListeUser[0] }) }}
+                                       </div>
+
+                                       <div class="separateur"></div>
+                                       <div class="row" id="ListeNews">
+                                           {{ include('FrontBundle:Ajax:news.html.twig', { 'ListeNews': ListeNews }) }}
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="accueil-bloc home-slider-2">
+                           <div class="holder">
+                               <div id="ListePhotos" class="images-container-2">
+                                   {{ include('FrontBundle:Ajax:photos.html.twig', { 'ListePhotos': ListePhotos }) }}
+
+                               </div>
+                               <div class="bloc2" id="instagram">
+
+                                   {{ include('FrontBundle:Ajax:instagram.html.twig', { 'vipUser': ListeUser[0] }) }}
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       <div class="accueil-bloc home-slider-3" id="facebook">
+
+                           {{ include('FrontBundle:Ajax:facebook.html.twig', {  'vipUser': ListeUser[0] }) }}
+
+                       </div>
+                       <div class="accueil-bloc-modal videos-box" tabindex="-1">
+                           <div class="modal-content">
+                               <div class="modal-header">
+                                   <button type="button" class="close" data-dismiss="window"><span
+                                               aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                   <div class="dropdown">
+                                       <a href="#" aria-haspopup="true"
+                                          aria-expanded="true"><h4
+                                                   class="modal-title">{{ 'collection_videos'|trans }} </h4></a>
+
+                                   </div>
+                               </div>
+                               <div class="modal-body" id="ListeVideos">
+
+                                   {{ include('FrontBundle:Ajax:videos.html.twig', { 'ListeVideos': ListeVideos }) }}
+
+
+                               </div>
+                           </div>
+                       </div>
+                       <div class="accueil-bloc-modal twitter-box" tabindex="-1">
+                           <div class="modal-content" id="twitter">
+
+
+                               {{ include('FrontBundle:Ajax:twitter.html.twig', { 'vipUser': ListeUser[0] }) }}
+
+                           </div>
+                       </div>
+                       <div class="accueil-bloc-modal timeline-box" tabindex="-1">
+                           <div class="modal-content">
+                               <div class="modal-header">
+                                   <button type="button" class="close" data-dismiss="window"><span
+                                               aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+
+                                   <h4 class="modal-title">{{ 'alertes'|trans }} </h4>
+
+                               </div>
+                               <div class="modal-body">
+
+                                   <ul class="nav nav-tabs">
+                                       <li class="active"><a data-toggle="tab"
+                                                             href="#tab1-alerte">{{ 'alertes-tab1'|trans }}</a></li>
+                                       <li><a data-toggle="tab" href="#tab2-alerte">{{ 'alertes-tab2'|trans }} <span
+                                                       class="badge-alerte"
+                                                       id="notif_alerte" {% if mediasToDay|length == 0 %} style="display: none" {% endif %}>{{ mediasToDay|length }}</span></a>
+                                       </li>
+                                   </ul>
+
+
+                                   <div class="timeline">
+
+                                       <div class="tab-content">
+                                           <div id="tab1-alerte" class="tab-pane fade in active">
+
+
+                                               {{ include('FrontBundle:Ajax:tab1-alerte.html.twig', { 'Listealerte': alerteVip , 'alerteRendezvous' : null  }) }}
+                                           </div>
+
+                                           <div id="tab2-alerte" class="tab-pane fade">
+                                               {{ include('FrontBundle:Ajax:tab2-alerte.html.twig', {  'mediasToDay': mediasToDay }) }}
+                                           </div>
+
+                                       </div>
+
+
+                                   </div>
+                               </div>
+
+                           </div>
+                       </div>
+
+                   </div>
+               </div>
+           </div>
+       {% endif %}
+       <div class="footer-accueil">
+           <div class="container">
+               {% if (ListeProgramme != null and ListeProgramme|length > 0 )  or (ListeCrawlerProgramme != null and  ListeCrawlerProgramme|length > 0 ) %}
+
+                   <div id="cinema-bloc" class="bloc1  color2 ">
+                       <h3 class="titre">
+                           <span>  {{ 'page.cinema'|trans }}   </span>
+                           <a href=" {{ path('front_end_media',{'type' : 'cinema' }) }} "
+                              class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                       <div class="  owl-carousel  home-vids">
+                           {% for item in ListeCinema %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}" class="content-movie">
+                                       <div class="img-container">
+                                           <div class="ribbon">
+                                               <span>{{ item.startdate|date('d') }}</span>
+                                               <small>{{ item.startdate|date('m') }}</small>
+                                               <span>{{ item.startdate|date('Y') }}</span>
+                                           </div>
+
+                                           <div class="img-resize imgLiquid">
+                                               <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                           </div>
+                                           <div class="footer-movie">
+                                             <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                          <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {{ item.shortdescription[:77]~"..." }}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+                           {% for item in ListeCrawlerCinema %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_crawler_media',{'id': item.id , 'tyemedia': 'cinema'}) }}"
+                                      class="content-movie">
+                                       <div class="img-container">
+                                           {% if item.dateStart != null %}
+                                               <div class="ribbon">
+                                                   <span>{{ item.dateStart|date('d') }}</span>
+                                                   <small>{{ item.dateStart|date('m') }}</small>
+                                                   <span>{{ item.dateStart|date('Y') }}</span>
+                                               </div>
+                                           {% endif %}
+                                           <div class="img-resize imgLiquid">
+
+
+                                               {% if item.typePicture == "local" %}
+                                                   <img src="{{ path_picture ~ item.picture }}">
+                                               {% else %}
+                                                   <img src="{{ item.picture }}">
+                                               {% endif %}
+
+                                           </div>
+                                           <div class="footer-movie">
+                                               {% if item.starttime != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.starttime }}</span>
+                                               {% endif %}
+                                               {% if item.channel != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               {% endif %}
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {% if item.shortdescription != null %}
+                                               {{ item.shortdescription[:77]~"..." }}
+                                           {% endif %}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+
+                       </div>
+                   </div>
+               {% endif %}
+               {% if (ListeConcert != null and ListeConcert|length > 0 )   or ( ListeCrawlerConcert != null and ListeCrawlerConcert|length > 0 )  %}
+
+                   <div id="concert-bloc" class="bloc1  color2 ">
+                       <h3 class="titre">
+                           <span>  {{ 'page.concert'|trans }}   </span>
+                           <a href=" {{ path('front_end_media',{'type' : 'concert' }) }} "
+                              class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                       <div class="  owl-carousel  home-vids">
+                           {% for item in ListeConcert %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}" class="content-movie">
+                                       <div class="img-container">
+                                           <div class="ribbon">
+                                               <span>{{ item.startdate|date('d') }}</span>
+                                               <small>{{ item.startdate|date('m') }}</small>
+                                               <span>{{ item.startdate|date('Y') }}</span>
+                                           </div>
+
+                                           <div class="img-resize imgLiquid">
+                                               <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                           </div>
+                                           <div class="footer-movie">
+                                               <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {{ item.shortdescription[:77]~"..." }}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+                           {% for item in ListeCrawlerConcert %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_crawler_media',{'id': item.id , 'tyemedia': 'concert'}) }}"
+                                      class="content-movie">
+                                       <div class="img-container">
+                                           {% if item.dateStart != null %}
+                                               <div class="ribbon">
+                                                   <span>{{ item.dateStart|date('d') }}</span>
+                                                   <small>{{ item.dateStart|date('m') }}</small>
+                                                   <span>{{ item.dateStart|date('Y') }}</span>
+                                               </div>
+                                           {% endif %}
+                                           <div class="img-resize imgLiquid">
+
+
+                                               {% if item.typePicture == "local" %}
+                                                   <img src="{{ path_picture ~ item.picture }}">
+                                               {% else %}
+                                                   <img src="{{ item.picture }}">
+                                               {% endif %}
+
+                                           </div>
+                                           <div class="footer-movie">
+                                               {% if item.starttime != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.starttime }}</span>
+                                               {% endif %}
+                                               {% if item.channel != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               {% endif %}
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {% if item.shortdescription != null %}
+                                               {{ item.shortdescription[:77]~"..." }}
+                                           {% endif %}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+
+                       </div>
+                   </div>
+               {% endif %}
+
+               {% if ( ListeSpectacle != null and ListeSpectacle|length > 0 ) or ( ListeCrawlerSpectacle != null and ListeCrawlerSpectacle|length > 0)  %}
+
+                   <div id="spectacle-bloc" class="bloc1  color2 ">
+                       <h3 class="titre">
+                           <span>  {{ 'page.spectacle'|trans }}   </span>
+                           <a href=" {{ path('front_end_media',{'type' : 'spectacle' }) }} "
+                              class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                       <div class="  owl-carousel  home-vids">
+                           {% for item in ListeSpectacle %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}" class="content-movie">
+                                       <div class="img-container">
+                                           <div class="ribbon">
+                                               <span>{{ item.startdate|date('d') }}</span>
+                                               <small>{{ item.startdate|date('m') }}</small>
+                                               <span>{{ item.startdate|date('Y') }}</span>
+                                           </div>
+
+                                           <div class="img-resize imgLiquid">
+                                               <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                           </div>
+                                           <div class="footer-movie">
+                                            <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                           <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {{ item.shortdescription[:77]~"..." }}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+                           {% for item in ListeCrawlerSpectacle %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_crawler_media',{'id': item.id , 'tyemedia': 'spectacle'}) }}"
+                                      class="content-movie">
+                                       <div class="img-container">
+                                           {% if item.dateStart != null %}
+                                               <div class="ribbon">
+                                                   <span>{{ item.dateStart|date('d') }}</span>
+                                                   <small>{{ item.dateStart|date('m') }}</small>
+                                                   <span>{{ item.dateStart|date('Y') }}</span>
+                                               </div>
+                                           {% endif %}
+                                           <div class="img-resize imgLiquid">
+
+
+                                               {% if item.typePicture == "local" %}
+                                                   <img src="{{ path_picture ~ item.picture }}">
+                                               {% else %}
+                                                   <img src="{{ item.picture }}">
+                                               {% endif %}
+
+                                           </div>
+                                           <div class="footer-movie">
+                                               {% if item.starttime != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.starttime }}</span>
+                                               {% endif %}
+                                               {% if item.channel != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               {% endif %}
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {% if item.shortdescription != null %}
+                                               {{ item.shortdescription[:77]~"..." }}
+                                           {% endif %}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+
+                       </div>
+                   </div>
+               {% endif %}
+
+               {% if (ListeRadio != null and ListeRadio|length > 0 )  or (ListeCrawlerRadio != null and ListeCrawlerRadio|length > 0 ) %}
+
+                   <div id="radio-bloc" class="bloc1  color2 ">
+                       <h3 class="titre">
+                           <span>  {{ 'page.radio'|trans }}   </span>
+                           <a href=" {{ path('front_end_media',{'type' : 'radio' }) }} "
+                              class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                       <div class="  owl-carousel  home-vids">
+                           {% for item in ListeRadio %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}" class="content-movie">
+                                       <div class="img-container">
+                                           <div class="ribbon">
+                                               <span>{{ item.startdate|date('d') }}</span>
+                                               <small>{{ item.startdate|date('m') }}</small>
+                                               <span>{{ item.startdate|date('Y') }}</span>
+                                           </div>
+
+                                           <div class="img-resize imgLiquid">
+                                               <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                           </div>
+                                           <div class="footer-movie">
+                                               <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                        <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {{ item.shortdescription[:77]~"..." }}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+                           {% for item in ListeCrawlerRadio %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_crawler_media',{'id': item.id , 'tyemedia': 'radio'}) }}"
+                                      class="content-movie">
+                                       <div class="img-container">
+                                           {% if item.dateStart != null %}
+                                               <div class="ribbon">
+                                                   <span>{{ item.dateStart|date('d') }}</span>
+                                                   <small>{{ item.dateStart|date('m') }}</small>
+                                                   <span>{{ item.dateStart|date('Y') }}</span>
+                                               </div>
+                                           {% endif %}
+                                           <div class="img-resize imgLiquid">
+
+
+                                               {% if item.typePicture == "local" %}
+                                                   <img src="{{ path_picture ~ item.picture }}">
+                                               {% else %}
+                                                   <img src="{{ item.picture }}">
+                                               {% endif %}
+
+                                           </div>
+                                           <div class="footer-movie">
+                                               {% if item.starttime != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.starttime }}</span>
+                                               {% endif %}
+                                               {% if item.channel != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               {% endif %}
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {% if item.shortdescription != null %}
+                                               {{ item.shortdescription[:77]~"..." }}
+                                           {% endif %}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+
+                       </div>
+                   </div>
+               {% endif %}
+
+
+               {% if (ListePeople != null and ListePeople|length > 0 ) or (ListeCrawlerPeople != null and ListeCrawlerPeople|length > 0 ) %}
+
+                   <div id="people-bloc" class="bloc1  color2 ">
+                       <h3 class="titre">
+                           <span>  {{ 'page.people'|trans }}   </span>
+                           <a href=" {{ path('front_end_media',{'type' : 'people' }) }} "
+                              class="pull-right">{{ "plus_information"|trans }}</a></h3>
+
+                       <div class="  owl-carousel  home-vids">
+                           {% for item in ListePeople %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_media',{'id': item.id}) }}" class="content-movie">
+                                       <div class="img-container">
+                                           <div class="ribbon">
+                                               <span>{{ item.startdate|date('d') }}</span>
+                                               <small>{{ item.startdate|date('m') }}</small>
+                                               <span>{{ item.startdate|date('Y') }}</span>
+                                           </div>
+
+                                           <div class="img-resize imgLiquid">
+                                               <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                           </div>
+                                           <div class="footer-movie">
+                                                <span><i class="zmdi zmdi-eye"></i>{{ item.nbrShow }}</span>
+                                       <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {{ item.shortdescription[:77]~"..." }}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+                           {% for item in ListeCrawlerPeople %}
+                               <div class="item">
+                                   <a href="{{ path('front_end_show_crawler_media',{'id': item.id , 'tyemedia': 'people'}) }}"
+                                      class="content-movie">
+                                       <div class="img-container">
+                                           {% if item.dateStart != null %}
+                                               <div class="ribbon">
+                                                   <span>{{ item.dateStart|date('d') }}</span>
+                                                   <small>{{ item.dateStart|date('m') }}</small>
+                                                   <span>{{ item.dateStart|date('Y') }}</span>
+                                               </div>
+                                           {% endif %}
+                                           <div class="img-resize imgLiquid">
+
+
+                                               {% if item.typePicture == "local" %}
+                                                   <img src="{{ path_picture ~ item.picture }}">
+                                               {% else %}
+                                                   <img src="{{ item.picture }}">
+                                               {% endif %}
+
+                                           </div>
+                                           <div class="footer-movie">
+                                               {% if item.starttime != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.starttime }}</span>
+                                               {% endif %}
+                                               {% if item.channel != null %}
+                                                   <span><i class="glyphicon glyphicon-time"></i>{{ item.channel }}</span>
+                                               {% endif %}
+                                               <span><i class="glyphicon glyphicon-bell"></i></span>
+                                           </div>
+
+                                       </div>
+                                       <h3>{{ item.title[:18] }} </h3>
+                                       <p>
+                                           {% if item.shortdescription != null %}
+                                               {{ item.shortdescription[:77]~"..." }}
+                                           {% endif %}
+                                       </p>
+                                   </a>
+                               </div>
+                           {% endfor %}
+
+                       </div>
+                   </div>
+               {% endif %}
+
+
+               {% if (listeMediaWebExterne != null and listeMediaWebExterne|length > 0 )  %}
+                   <div id="radio-bloc" class="bloc1  color1 ">
+                       <h3 class="titre">
+                           <span>   {{ 'resultat_web_externe'|trans }}  </span>
+
+                       </h3>
+
+                       <div class="  owl-carousel  home-vids">
+                           {% for item in  listeMediaWebExterne|reverse %}
+                               <div class="item">
+                                   <a href="{{ item.lien }}" class="content-movie" target="_blank">
+                                       <div class="img-container">
+
+
+                                           <div class="img-resize imgLiquid">
+                                               {% if item.image != null %}
+                                                   <img src="{{- item.image -}}" alt="">
+                                               {% else %}
+                                                   <img src="{{ asset('assets/images/no-image.jpg') }}" alt="">
+                                               {% endif %}
+                                           </div>
+
+                                       </div>
+                                       <h3>{{- item.title[:16]|raw -}}{% if item.title|length > 16 %} ... {% endif %} </h3>
+                                       <p>
+                                           {{- item.description[:90]|raw~"." -}}
+                                           <span style="color: #ff5722 ;">{% if  item.path != null %}
+                                                   &nbsp;{{- item.path -}}
+                                               {% else %}
+                                                   &nbsp; {{ ' plus_information'|trans }}
+                                               {% endif %}</span>
+
+
+                                       </p>
+
+                                   </a>
+                               </div>
+                           {% endfor %}
+
+                       </div>
+                   </div>
+
+               {% endif %}
+
+
+           </div>
+       </div>
+
+
+   {% endblock %}
+
+        {% block javascripts %}
+
+
+            <script src="{{ asset('dev/front/js/embeds.js') }}"></script>
+            <script src="{{ asset('dev/front/js/auto-complete.js') }}"></script>
+            <script src="{{ asset('dev/front/js/jquery.blockUI.js') }}"></script>
+
+            <script>
+
+                function getVipUser(id) {
+                    startloading();
+                    var data = {'id': id};
+                    var url = '{{ path('front_end_media_ajax') }}';
+                    $.ajax({
+                        url: url, // La ressource ciblée
+                        type: 'POST', // Le type de la requête HTTP.
+                        cache: false,
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            $('#facebook').html(data.facebook);
+                            $('#pictureCourant').html(data.current);
+                            $('#ListeNews').html(data.news);
+                            $('#ListePhotos').html(data.photos);
+                            $('#instagram').html(data.instagram);
+                            $('#ListeVideos').html(data.videos);
+                            $('#twitter').html(data.twitter);
+                            $('#tab1-alerte').html(data.alerte);
+
+                            $(".small-caroussel-vip").owlCarousel({
+                                loop: true,
+                                items: 1,
+                                dots: true,
+                                navs: false,
+                                singleItem: true
+                            });
+                        },
+                        complete: function (xhr, data) {
+                            window.instgrm.Embeds.process();
+                            FB.XFBML.parse();
+                            endloading();
+
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                }
+
+                setInterval(ajaxCall, 900000); //900000 MS == 5 minutes
+                function ajaxCall() {
+                    var url = '{{ path('front_end_media_alerte_ajax') }}';
+                    $.ajax({
+                        url: url, // La ressource ciblée
+                        type: 'POST', // Le type de la requête HTTP.
+                        cache: false,
+                        dataType: "json",
+                        success: function (data) {
+                            $('#tab2-alerte').html(data.alerte);
+                            if (data.notif == 0) {
+                                $('#notif_alerte').hide();
+                            } else {
+                                $('#notif_alerte').html(data.notif);
+                            }
+
+                        },
+
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+
+                }
+
+                function endloading() {
+                    $(document).ajaxStop($.unblockUI);
+                }
+
+                function startloading() {
+                    $.blockUI({message: '<img src="{{ asset('dev/front/images/loading.gif') }}" />'});
+                }
+            </script>
+
+        {% endblock %}

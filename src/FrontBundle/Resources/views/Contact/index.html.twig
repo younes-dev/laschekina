@@ -1,0 +1,122 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.contact'|trans }}{% endblock %}
+ {% block imgscreen %}
+     <style>
+         #content {
+             background: #ffffff;
+         }
+     </style>
+     <div class="img-screen">
+         <div class="img-resize imgLiquid">
+             <img src="{{ path_picture ~ gallerybanner.picture }}">
+         </div>
+         <div class="title-page-holder">
+             <h1>{{ 'page.contact'|trans }}</h1>
+
+         </div>
+     </div>
+ {% endblock %}
+   {% block body %}
+
+       <div class="container ">
+           <div class="row">
+
+               <div class="col-xs-12 col-md-6 col-lg-6 col-sm-6">
+
+                   <div class="contact-info">
+                       <h2>{{ 'contact_information'|trans }}</h2>
+                        {% if app.request.locale == "fr"%}
+                               {{ information.descriptionContactfr|raw }}
+                        {% elseif  app.request.locale == "en" %}
+                             {{ information.descriptionContacten|raw }}
+                   
+                        {% else %}
+                             {{ information.descriptionContactes|raw }}
+                   
+                        {% endif %}
+                       <ul>
+                           {% if  information.adress != null %}
+                               <li><span class="zmdi zmdi-pin"></span> {{ information.adress }}</li>
+                           {% endif %}
+                           {% if  information.phone != null %}
+                               <li><span class="zmdi zmdi-phone"></span>{{ information.phone }}</li>
+                           {% endif %}
+                           {% if  information.email != null %}
+                               <li><span class="zmdi zmdi-email"></span>{{ information.email }}</li>
+                           {% endif %}
+
+
+                       </ul>
+
+                   </div>
+
+               </div>
+
+
+               <div class="col-xs-12 col-md-6 col-lg-6 col-sm-6">
+
+
+                   <div class="form-contact">
+                       <h2>{{ 'contact_question_commentaire'|trans }}</h2>
+                       <div id="success" style="display: none" class="alert alert-success">
+                           Votre message a été envoyé avec succès
+                       </div>
+
+
+                       <div id="danger" style="display: none" class="alert alert-danger">
+                           champs captcha est obligatoire
+                       </div>
+                       <form class="form" id="contactForm" role="form" method="POST">
+
+                           <div class="form-group">
+                               <label for="nom">{{ 'form.prenom'|trans ~" & "~ 'form.nom'|trans }}</label>
+                               <input type="text" id="name" class="form-control" name="">
+                           </div>
+
+
+                           <div class="form-group">
+                               <label for="email">{{ 'form.email'|trans }}</label>
+                               <input type="email" id="email" class="form-control" name="">
+                           </div>
+
+                           <div class="form-group">
+                               <label for="sujet">{{ 'form.sujet'|trans }}</label>
+                               <input type="text" id="objet" class="form-control" name="">
+                           </div>
+
+                           <div class="form-group">
+                               <label for="message"> {{ 'form.message'|trans }}</label>
+                               <textarea class="form-control" id="message" rows="7"></textarea>
+                           </div>
+
+                           <div class="form-group">
+                               <label for="recaptcha"> &nbsp;</label>
+                               <div class="g-recaptcha" data-sitekey="6Lfi9MwUAAAAACENWLBdRKMUbufcUm34eiXFmy6f"></div>
+                           </div>
+
+
+                           <div class="form-group pull-right">
+
+
+                               <input type="submit"  class="btn btn-orange  btn-lg" id="save" name="submit"
+                                      value="{{ 'form.envoyer'|trans }}">
+                                <img id="loading" src="{{ asset('dev/front/images/loading.gif') }}"  style="display: none;">
+
+                           </div>
+                       </form>
+
+                   </div>
+               </div>
+
+           </div>
+
+       </div>
+
+   {% endblock %}
+
+{% block javascripts %}
+    <script src='//www.google.com/recaptcha/api.js'></script>
+
+    <script src='{{ asset('dev/front/js/script.js') }}'></script>
+{% endblock %}

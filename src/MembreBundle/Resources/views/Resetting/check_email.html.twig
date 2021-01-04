@@ -1,0 +1,26 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+ {% block imgscreen %}
+     {{ render(controller('FrontBundle:Front:imageslider' )) }}
+ {% endblock %}
+{% block body %}
+
+    <div class="container">
+        <div class="row row-centered">
+
+            <div class="col-xs-12 col-md-6 col-lg-7 col-sm-7 col-centered">
+
+                <div class="content-form mag-bot-40">
+
+                    <h5 class="confirmed">{{ 'resetting.email.subject'|trans}}</h5><br/>
+
+                    {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

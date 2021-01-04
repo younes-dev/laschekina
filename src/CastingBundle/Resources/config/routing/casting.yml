@@ -1,0 +1,31 @@
+casting_homepage:
+    path:     /{_locale}/casting
+    defaults: { _controller: CastingBundle:Default:index }
+
+casting_liste_candidats:
+    path:     /{_locale}/liste-candidats/{id}
+    defaults: { _controller: CastingBundle:Default:listeCandidats , 'id': null}
+
+casting_msgenvoye:
+    path:     /{_locale}/casting-tv-msgenvoye/{idUserreceiver}/{idCastingReponse}
+    defaults: { _controller: CastingBundle:Default:msgenvoye }
+
+casting_notification:
+    path:     /{_locale}/casting-notification/{idUserreceiver}/{idCastingReponse}
+    defaults: { _controller: CastingBundle:Default:castingNotification }
+
+casting_createOrUpdate:
+    path:     /{_locale}/add-casting/{id}
+    defaults: { _controller: CastingBundle:Default:createOrUpdate , 'id': null}
+
+delete_casting:
+    path:     /{_locale}/delete-casting
+    defaults: { _controller: CastingBundle:Default:deleteCasting }
+
+add_casting_scenario:
+    path:     /{_locale}/add-scenario-casting/{id}
+    defaults: { _controller: CastingBundle:Default:addScenarioCasting }
+
+delete_vidoe_casting:
+    path:    /{_locale}/delete-vidoe-casting
+    defaults: { _controller: CastingBundle:Default:deleteVidoeCasting }

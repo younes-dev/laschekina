@@ -1,0 +1,96 @@
+  <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                            <label class="label-control">Title</label>
+
+                            <input type="text" name="title" maxlength="255" value="{{ media.title }}" class="form-control ">
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <div class="form-group clearfix">
+                        <div class="col-md-12 mag-bttom-sm">
+                            
+ 
+ <span style="" id="upload-book-image-couverture">
+                              <label class="label-control sign-up-label"> {{ 'form.image_couverture'|trans }}</label>
+                                 <input type="file" name="mediaBook" id="mediaBook" data-label="Choisir image de livre" data-preview="on">
+
+                               </span>
+<br/>
+
+<span style="" id="upload-book">
+                              <label class="label-control sign-up-label"> {{ 'livre'|trans }}</label>
+                                 <input type="file" name="mediapathBook" id="mediapathBook" data-label="Choisir livre" data-preview="on">
+
+                               </span>
+
+                        </div>
+                    </div>
+
+                              <input name="nbrImage" type="hidden" value="{% if BookImagesBD|length > 0 %} {{ BookImagesBD|length }} {% else %} 0 {% endif %}">
+                     <div class="form-group clearfix" >
+                        <div class="col-md-12 mag-bttom-sm" >
+                        <span style="" id="date-sortie-book">
+                           <label class="label-control sign-up-label"> {{ 'form.dateSortie'|trans }}</label>
+                           <input name="dateSortieBook" value="{{ media.dateSortie }}" class="form-control selectDatePicker">
+                         </span>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group clearfix" >
+                        <div class="col-md-12 mag-bttom-sm">
+                                <span style="" id="edition-book">
+                                <label class="label-control sign-up-label"> {{ 'form.editionBook'|trans }}</label>
+                                    <input name="editionBook" value="{{ media.editionBook }}"  class="form-control">
+                            </span>
+
+                        </div>
+                    </div>
+                     <div class="form-group clearfix"  style="display: none">
+                        <div class="col-md-12 mag-bttom-sm">
+                                <span style="" id="price-book">
+                                <label class="label-control sign-up-label">  {{ 'form.priceBook'|trans }}</label>
+                                    <input type="number" step="any" name="priceBook" value="{{ media.PriceBook }}" class="form-control">
+                            </span>
+
+                        </div>
+                    </div> 
+                            <div class="form-group clearfix">
+                            <div class="col-md-12 mag-bttom-sm">
+                            <span style="" id="description-book">
+                            <label class="label-control sign-up-label">   {{ 'form.remarque_description'|trans }}</label>
+                            <textarea style="height: 100px;" maxlength="300" name="descriptionBook" class="form-control " id="descriptionBook">
+                            {{- media.description|raw -}}  
+                            </textarea>
+                            </span>
+
+                            </div>
+                        </div> 
+                        
+                            <div class="form-group clearfix">
+                                <div class="col-md-12 mag-bttom-sm">
+                                <span style="" id="contenu-book">
+                                <label class="label-control sign-up-label">    {{ 'form.contenuBook'|trans }} </label>
+                                <textarea style="height: 100px;"   name="contenuBook" class="form-control ckeditor" id="contenuBook">
+                                    {{- media.contenuBook|raw -}}
+                                               
+                                 
+                                </textarea>
+                                </span>
+
+                                </div>
+                            </div> 
+
+                        <input  type="hidden"   name="typeMedia" id="typeMedia" value="{{  media.typeMedia }}">
+                            
+                            
+                

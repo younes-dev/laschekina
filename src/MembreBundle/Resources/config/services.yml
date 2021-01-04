@@ -1,0 +1,12 @@
+services:
+    MediasCollection:
+        class: MembreBundle\Twig\Extension\MediaExtension
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: twig.extension }
+
+    Country_extension:
+        class: MembreBundle\Twig\Extension\CountryExtension
+        tags:
+            - { name: twig.extension }
+

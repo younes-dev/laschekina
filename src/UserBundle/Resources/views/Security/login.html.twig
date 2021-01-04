@@ -1,0 +1,340 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block title %} {{ 'layout.login'|trans }}{% endblock %}
+ {% block imgscreen %}
+	 <!-- gallerie -->
+	 <div class="owl-carousel accueil-gallerie owl-theme">
+
+         {% for entity in gallerys_banner %}
+			 <a href="{{ path_picture~entity.picture }}"
+				title="<a href='{{ path('collection',{'activeTab': 'vip' , 'fullName': entity.member.username , 'id': entity.member.id}) }}' style=' color: #ff5722;'>
+                 {{ entity.member.prenom  ~' ' ~ entity.member.nom}} {% if entity.member.fan == 1 %} - FAN {% endif %}</a>"
+
+
+
+				data-caption="test"  class="item fancybox">
+				 <div class="img-resize imgLiquid">
+                     {% if entity.bannerpicture is defined %}
+						 <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                     {% else %}
+						 <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                     {% endif %}
+				 </div>
+			 </a>
+         {% endfor %}
+         {% for personnage in personnageMediasBanners %}
+             {% if personnage.image != null  %}
+				 <a href="{{ path_picture ~ 'personnage_media/' ~ personnage.image }}"
+					title="<a href='{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id' : personnage.id }) }}' style=' color: #ff5722;'>
+                                {{ personnage.personnage }} </a>"
+
+
+
+					data-caption="test"  class="item fancybox">
+					 <div class="img-resize imgLiquid">
+						 <img src="{{  path_picture ~ 'personnage_media/' ~ personnage.image }}" alt="" class="resizeme "/>
+
+					 </div>
+				 </a>
+
+             {% endif %}
+         {% endfor %}
+	 </div>
+	 <!-- End gallerie -->
+
+ {% endblock %}
+   {% block body %}
+
+	   <div class="container">
+		   <div class="row row-centered">
+
+
+			   <div class="col-xs-12 col-md-6 col-lg-7 col-sm-9 col-centered" style="padding-top: 50px;">
+
+				   <div class="content-form mag-bot-40" style="top: 0 !important;">
+					   <div style="display: none" id="map"></div>
+
+					   <ul class="nav nav-tabs md-tabs nav-justified">
+						   <li class="nav-item active">
+							   <a class="nav-link " data-toggle="tab" href="#account_panel_Profile" role="tab" aria-controls="account_panel_Profile" style="    text-transform: uppercase;"> {{ 'layout.pagelogin'|trans }}</a>
+						   </li>
+						   <li class="nav-item">
+							   <a class="nav-link" data-toggle="tab" href="#account_panel_Settings" role="tab" aria-controls="account_panel_Settings">{{ 'page.create'|trans }}</a>
+						   </li>
+					   </ul>
+
+
+					   <div class="tab-content card">
+
+						   <!--Panel 1-->
+						   <div class="tab-pane fade in   active" id="account_panel_Profile" role="tabpanel">
+							   <div class="row">
+
+
+								   <div class="md-form" style="  margin-top: 35px;">
+									   <div class="col-md-12">
+                                           {% if error %}
+											   <div class="alert alert-danger alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                                                   {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                           {% endif %}
+										   <form action="{{ path('fos_user_security_check') }}" class="login-form" method="post">
+
+											   <div class="form-group  has-feedback">
+												   <input type="text" id="username" name="_username"   value="{{ last_username }}"  placeholder="{{ 'form.username'|trans ~" OR " ~ 'form.email'|trans }} "  class="form-control" >
+												   <span class="zmdi zmdi-account-circle form-control-feedback" aria-hidden="true"></span>
+											   </div>
+											   <div class="form-group  has-feedback">
+												   <input type="password" class="form-control"  autocomplete="off" id="password"  placeholder="{{ 'form.password'|trans }}" name="_password">
+												   <span class="zmdi zmdi-lock form-control-feedback" aria-hidden="true"></span>
+											   </div>
+
+											   <input name="latitude" id="latitude"  type="hidden">
+											   <input name="longitude" id="longitude" type="hidden">
+											   <div class="checkbox">
+												   <label><input type="checkbox" class="input-checked"  id="remember_me" name="_remember_me"  checked="checked">   {{ 'layout.remember_me'|trans }}</label>
+											   </div>
+
+
+											   <div class="form-group">
+												   <div class="login-button">
+
+													   <input type="submit" class="btn btn-orange  f-width" name="login" value="{{ 'layout.login'|trans }}">
+
+                                                       {% if csrf_token %}
+														   <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                                       {% endif %}
+												   </div>
+												   <p class="new-profile"><a href="{{ path('espace_member_resetting_request') }}" class="color-orange" style="float: right ; margin-top: 10px" >{{ 'resetting.reset.submit'|trans }}</a> </p>
+
+											   </div>
+										   </form>
+
+
+									   </div>
+
+								   </div>
+
+							   </div>
+
+						   </div>
+						   <div class="tab-pane fade" id="account_panel_Settings" role="tabpanel">
+							   <div class="row">
+
+
+								   <div class="md-form " style="  margin-top: 35px;">
+								   <div class="col-md-12 "  >
+
+
+
+                                           {{ form_start(form, {'method': 'post', 'action': path('front_registration'), 'attr': {'class': 'login-form'}}) }}
+
+										   <div class="form-group">
+											   <br/>  <span class="error-message">  {{ form_errors(form.typecompte  ) }} </span>
+											   <span style="display: none;color: red;" id="message_error_userName" class="error-message">  {{ 'form.typecompte'|trans}} </span>
+                                               {{ form_widget(form.typecompte, { 'attr': {  'placeholder' : 'form.typecompte'} }) }}
+
+										   </div>
+										   	<p id="ROLE_MEMBRE" class="borders">
+												{{ 'form.message_compte_membre'|trans}}
+											</p>
+											
+											<p id="ROLE_VIP" class="borders" style="display:none;">
+												{{ 'form.message_compte_vip'|trans}}
+											</p>
+											<p id="ROLE_FAN" class="borders" style="display:none;">
+												{{ 'form.message_compte_fan'|trans}}
+											</p>
+											<p id="ROLE_PRO" class="borders" style="display:none;">
+												{{ 'form.message_compte_pro'|trans}}
+											</p>
+										  <div class="form-group">
+											   <br/>  <span class="error-message">  {{ form_errors(form.username  ) }} </span>
+											   <span style="display: none;color: red;" id="message_error_userName" class="error-message">  {{ 'alertes_message_error_edit_profil'|trans}} </span>
+                                               {{ form_widget(form.username, { 'attr': {  'placeholder' : 'form.username'} }) }}
+
+										   </div>
+
+										   <div class="form-group ">
+											   <span class="error-message"> {{ form_errors(form.nom  ) }} </span>
+                                               {{ form_widget(form.nom, { 'attr': { 'placeholder' : 'form.nom'} }) }}
+
+										   </div>
+										   <div class="form-group ">
+											   <span class="error-message"> {{ form_errors(form.prenom  ) }} </span>
+                                               {{ form_widget(form.prenom, { 'attr': { 'placeholder' : 'form.prenom'} }) }}
+
+										   </div>
+
+
+										   <div class="form-group">
+											   <span class="error-message">   {{ form_errors(form.email  ) }}</span>
+                                               {{ form_widget(form.email, { 'attr': { 'placeholder' : 'form.email'} }) }}
+
+										   </div>
+
+
+										   <div class="form-group hidden" id="nomentreprise" >
+											   <span class="error-message"> {{ form_errors(form.nomentreprise  ) }} </span>
+                                               {{ form_widget(form.nomentreprise, { 'attr': { 'placeholder' : 'Nom de l’entreprise'} }) }}
+
+										   </div>
+										   <div class="form-group hidden" id="numsiret">
+											   <span class="error-message"> {{ form_errors(form.numseret  ) }} </span>
+                                               {{ form_widget(form.numseret, { 'attr': { 'placeholder' : 'N° Siret'} }) }}
+										   </div>
+
+										   <div class="form-group">
+											   <span class="error-message">  {{ form_errors(form.plainPassword.first ) }} </span>
+                                               {{ form_widget(form.plainPassword.first , { 'attr': {  'placeholder' : 'form.password'|trans} }) }}
+
+										   </div>
+
+										   <div class="form-group">
+											   <span class="error-message">  {{ form_errors(form.plainPassword.second ) }} </span>
+                                               {{ form_widget(form.plainPassword.second , { 'attr': {  'placeholder' : 'form.password_confirmation'|trans} }) }}
+
+										   </div>
+										   <div class="checkbox form-group" >
+
+											   <label><input type="checkbox" class="input-checked"   required> {{ 'form.accepter_conditions_utilisation'|trans }} <a target="_blank" style="color: #ff5722;" href="{{ path('front_conditions_utilisation',{'typeContent': "conditions_utilisation"}) }}"> {{ 'page.conditions_utilisation'|trans }} </a></label>
+
+										   </div><br/>
+
+
+										   <div class="form-group">
+											   <div class="login-button">
+
+												   <input id="btnEdit" type="submit" class="btn btn-orange  f-width" name="login" value="{{ 'registration.submit'|trans }}">
+											   </div>
+
+										   </div>
+                                           {{ form_end(form) }}
+									   </div>
+									   </div>
+
+
+
+							   </div>
+						   </div>
+					   </div>
+
+
+
+
+				   </div>
+
+			   </div>
+
+
+
+		   </div>
+
+	   </div>
+
+   {% endblock %}
+{% block javascripts %}
+
+	<script>
+        document.getElementById("fos_user_registration_form_username").addEventListener("keyup", verificationUsername);
+
+        function verificationUsername()  {
+
+            const sentence = $("#fos_user_registration_form_username").val();
+
+            const word = '.';
+
+            if(sentence.includes(word) == true ){
+                $("#btnEdit").hide();
+                $("#message_error_userName").show();
+            }else{
+                $("#btnEdit").show();
+                $("#message_error_userName").hide();
+            }
+
+        }
+	</script>
+
+	<script>   
+        document.getElementById("fos_user_registration_form_typecompte").onchange = function() {myFunction()};
+        function myFunction() {
+			var nameRole = document.getElementById("fos_user_registration_form_typecompte").value ;
+			$("#ROLE_MEMBRE").hide();
+           $("#ROLE_VIP").hide();
+           $("#ROLE_FAN").hide();
+           $("#ROLE_PRO").hide();
+           $("#"+nameRole).show();
+        
+		   }
+	</script>
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtO_7iSEYddfh60L2-getmDjEVahDPUPo"></script>
+	<script type="text/javascript">
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+        }
+	</script>
+	<script type="text/javascript">
+        $(document).ready(function () {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 51.505, lng: -0.09},
+                zoom: 2
+            });
+            var infoWindow = new google.maps.InfoWindow({map: map});
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition( function(position) {
+                        // CAS HTTPS
+                        var data = { 'latitude': position.coords.latitude ,  'longitude': position.coords.longitude};
+                        var url = "{{ path('user_position_ajax') }}";
+                        $.ajax({
+                            url: url, // La ressource ciblée
+                            type: 'POST', // Le type de la requête HTTP.
+                            cache:false,
+                            data: data,
+                            dataType: "json",
+                            success: function (data) {
+                                console.log("latitude : " + data.latitude + " | longitude : " + data.longitude)
+                            },
+                            error: function(response){
+                                console.log(response);
+                            }
+                        });
+                    },
+                    function(failure) {
+                        // CAS HTTP
+                        $.getJSON('https://ipinfo.io/geo', function(response) {
+                            var loc = response.loc.split(',');
+                            var coords = {
+                                latitude: loc[0],
+                                longitude: loc[1]
+                            };
+                            console.log(coords)
+                            var data = { 'latitude': coords.latitude ,  'longitude': coords.longitude};
+                            var url = "{{ path('user_position_ajax') }}";
+
+                            $.ajax({
+                                url: url, // La ressource ciblée
+                                type: 'POST', // Le type de la requête HTTP.
+                                cache: false,
+                                data: data,
+                                dataType: "json",
+                                success: function (data) {
+                                    console.log("latitude : " + data.latitude + " | longitude : " + data.longitude)
+                                },
+                                error: function(response){
+                                    console.log(response);
+                                }
+
+                            });
+
+                        });
+                        handleLocationError(true, infoWindow, map.getCenter());
+                    });
+            } else {
+                alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+            }
+        });
+	</script>
+{% endblock %}

@@ -1,0 +1,12 @@
+vod_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Vod:index" }
+
+vod_createOrUpdate:
+    path:     /createOrUpdate/{id}
+    defaults: { _controller: "BackBundle:Vod:createOrUpdate" , id: null  }
+
+vod_delete:
+    path:     /delete
+    defaults: { _controller: "BackBundle:Vod:delete" }
+

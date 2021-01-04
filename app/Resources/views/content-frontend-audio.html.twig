@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="copyright" content="VIP Crossing" />
+    <meta name="description" content="La plateforme interactive des personnalités et des fans qui veulent communiquer différemment.">
+    <meta name="generator" content="Symfony" />
+
+    {% block  meta %}
+      {{ render(controller( 'FrontBundle:Front:referancement' ,  { 'type': "ref_home" }   )) }}
+  {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ asset('dev/front/css/bootstrap.min.css') }}" rel="stylesheet">
+    {% block stylesheets %}
+    {% endblock %}
+       <link href="{{ asset('dev/front/css/material-design-iconic-font.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('dev/front/css/scrollPress.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('dev/front/js/fancybox.2.1.5/jquery.fancybox.css') }}" rel="stylesheet">
+    <link href="{{ asset('dev/front/css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('dev/front/css/slim.min.css') }}" rel="stylesheet">
+    <!-- Owl Style pour gallerie accueil -->
+    <link href="{{ asset('dev/front/css/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('dev/front/css/owl.theme.default.css') }}" rel="stylesheet">
+    <link href="{{ asset('dev/front/css/tweet.css') }}" rel="stylesheet">
+    <link href="{{ asset('dev/front/css/jScrollPane.css') }}" rel="stylesheet">
+<link href="{{ asset('dev/front/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+<link href="{{ asset('dev/front/css/imgal.min.css') }}" rel="stylesheet">
+    
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+  
+<body style="  background-color: #2b2b2b;">
+  
+ 
+<div id="page"><!-- class="hidden" -->
+    <nav class="navbar" id="header" style="z-index: 999999999;">
+
+        {{ render(controller( 'FrontBundle:Front:menu' ,  { 'rout': "front_end_index" }   )) }}
+    </nav>
+
+
+
+    <div id="content">
+
+        {% block body %}
+        {% endblock %}
+    </div>
+    <!-- Footer -->
+
+
+</div>
+<!-- Fin Footer -->
+<!-- jQuery Version 1.11.1 -->
+<script src="{{ asset('dev/front/js/jquery.js') }}"></script>
+  <script src="{{ asset('dev/front/js/bootstrap.min.js') }}"></script>
+ 
+{% block javascripts %}{% endblock %}
+ <script>
+     /**** sendNewsletter *****/
+     function sendNewsletter()  {
+
+         //  $('#loading').show();
+         stats = $("#etat-courant-newsletter").val() ;
+         email = $("#email_newslette").val() ;
+
+         if( email != "" ){
+
+             if(ValidateEmail(email) == true) {
+
+                 var data = {
+                     'newsletter-email': email ,
+                     'stats': stats
+                 };
+                 var url = '{{ path('front_end_sendNewsletter') }}';
+                 $.ajax({
+                     url: url, // La ressource ciblée
+                     type: 'POST', // Le type de la requête HTTP.
+                     data: data,
+                     dataType: "json",
+                     success: function (data) {
+                         // $('#loading').hide();
+
+                         if(stats == 1 ){
+                             $('#abonner').show();
+                         }else{
+                             $('#desabonner').show();
+                         }
+                         $('#messageNewsletter').show();
+                         $('#messageNewsletter').html(data.alerte);
+                         $("#email_newslette").val("");
+
+                     },
+
+                     error: function (response) {
+                         console.log(response);
+                     }
+                 });
+             }else{
+                 $('#messageNewsletter').show();
+                 $('#messageNewsletter').html("Le format de l'adresse électronique n'est pas respecté");
+             }
+         }else{
+             $('#messageNewsletter').show();
+             $('#messageNewsletter').html("Champs obligatoire");
+
+
+         }
+
+     }
+
+
+
+     function ValidateEmail(mail)
+     {
+         var expressionReguliere = /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+         if (expressionReguliere.test(mail))
+         {
+             return true;
+         }
+         else
+         {
+             return false;
+         }
+     }
+     function abonnerOrDesabonner() {
+         satus = $("#etat-courant-newsletter").val();
+         console.log(satus);
+
+         if ( satus == 1){
+             $("#abonner").hide();
+             $("#desabonner").show();
+             $("#etat-courant-newsletter").val(0);
+         }else{
+             $("#desabonner").hide();
+             $("#abonner").show();
+             $("#etat-courant-newsletter").val(1);
+         }
+
+     }
+
+
+ </script>
+</body>
+
+</html>
+
+

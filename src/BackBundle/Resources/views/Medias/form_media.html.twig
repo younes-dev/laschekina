@@ -1,0 +1,275 @@
+{% set  menuactive =  app.session.get('menuactive') %}
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+            <i class="icon-settings font-red-sunglo"></i>
+            <span class="caption-subject bold uppercase">
+              {% if (id is defined) %}
+                  {{ 'page-breadcrumb.edit'|trans }}
+              {% else %}
+                  {{ 'page-breadcrumb.add'|trans }}
+              {% endif %}
+            </span>
+        </div>
+    </div>
+    {% for flashMessage in app.session.flashbag.get('datedeleteEdit') %}
+        <br/>
+        <div class="alert alert-danger alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div class="portlet-body form">
+        {% if (id is defined) %}
+            {{ form_start(form, {'method': 'post', 'action': path('medias_edit',{'id': media.id }), 'attr': {'class': 'form-horizontal'}}) }}
+        {% else %}
+            {{ form_start(form, {'method': 'post', 'action': path('medias_new'), 'attr': {'class': 'form-horizontal'}}) }}
+        {% endif %}
+
+
+        <div class="form-body">
+
+            <div class="form-group">
+                <label>{{ form_label(form.title  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.title  ) }} </span>
+                    {{ form_widget(form.title) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ form_label(form.titleHome  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.titleHome  ) }} </span>
+                    {{ form_widget(form.titleHome) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.users  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.users  ) }} </span>
+                    {{ form_widget(form.users) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label> Module pub</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.sowPub  ) }} </span>
+                    {{ form_widget(form.sowPub) }}
+
+                </div>
+            </div>
+
+   <div class="form-group">
+                <label>{{ form_label(form.typeContentMedia  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.typeContentMedia  ) }} </span>
+                    {{ form_widget(form.typeContentMedia) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ form_label(form.personnage  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.personnage  ) }} </span>
+                    {{ form_widget(form.personnage) }}
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ form_label(form.channel  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.channel  ) }} </span>
+                    {{ form_widget(form.channel) }}
+
+                </div>
+            </div>
+            <div class="form-group"{% if menuactive not in [ "radio"] %} style="display: none"{% endif %}>
+                <label>{{ form_label(form.urlradio  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.urlradio  ) }} </span>
+                    {{ form_widget(form.urlradio) }}
+
+                </div>
+            </div>
+            <div class="form-group"{% if menuactive not in [ "programme"] %} style="display: none"{% endif %}>
+                <label>{{ form_label(form.vod  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.vod  ) }} </span>
+                    {{ form_widget(form.vod) }}
+
+                </div>
+            </div>
+            <div class="form-group"{% if menuactive in [ "radio"] %} style="display: none"{% endif %}>
+                <label>{{ form_label(form.urlvideo  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.urlvideo  ) }} </span>
+                    {{ form_widget(form.urlvideo) }}
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{ form_label(form.pictureHome  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.pictureHome  ) }} </span>
+                    {{ form_widget(form.pictureHome) }}
+
+                </div>
+            </div>
+             <div class="form-group">
+                <label>{{ form_label(form.picture  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.picture  ) }} </span>
+                    {{ form_widget(form.picture) }}
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{ form_label(form.backgroundpicture  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.backgroundpicture  ) }} </span>
+                    {{ form_widget(form.backgroundpicture) }}
+
+                </div>
+            </div>
+            <div class="form-group"   style="display: none"  >
+                <label>{{ form_label(form.startdate  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.startdate  ) }} </span>
+                    {{ form_widget(form.startdate) }}
+
+                </div>
+            </div>
+            <div class="form-group"   style="display: none"  >
+                <label>{{ form_label(form.enddate  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.enddate  ) }} </span>
+                    {{ form_widget(form.enddate) }}
+
+                </div>
+            </div>
+
+            <div class="form-group"  style="display: none"  >
+                <label>{{ form_label(form.startTime  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.startTime  ) }} </span>
+                    {{ form_widget(form.startTime) }}
+
+                </div>
+            </div>
+
+            <hr />
+            <h4 style="color: #2196F3;"> Liste des dates</h4>
+            <hr   />
+            <div id="p_scents" class="field_wrapper form-group">
+            </div>
+
+            <div class="m-form__actions">
+                <a href="javascript:void(0);" class="add_button" title="Add field">
+                    <i title="Ajouter contact"
+                       class="m-nav__link-icon fa fa-plus-circle style-cone-plus"></i>
+                </a>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="form-group">
+                <hr   />
+            </div>
+            {% if (id is defined) and media.listedates|length > 0 %}
+                <table class="table table-striped table-bordered table-hover dt-responsive" width="100%"
+                       id="sample_3">
+                    <thead>
+                    <tr>
+                          <th> {{ 'form.startdate'|trans }} </th>
+                        <th> {{ 'form.enddate'|trans }} </th>
+                        <th> Stat Time </th>
+                        <th> End Time </th>
+                        <th> Action </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in media.listedates %}
+                        <tr>
+
+                              <td>{{ entity.startdate|date('d/m/Y') }}</td>
+                            <td>{% if entity.enddate != null  %}{{ entity.enddate|date('d/m/Y')  }} {% endif %}</td>
+                            <td>{{ entity.startTime}}</td>
+                            <td>{{ entity.endtime}}</td>
+                            <td>
+                                 <a title="{{ 'btn.remove'|trans }} " href="#myModal{{ entity.id }}" data-toggle="modal"
+                                   class="btn btn-outline btn-circle dark btn-sm black">
+                                    <i class="fa fa-trash-o"></i> </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            {% endif %}
+            <div class="form-group">
+            <hr   />
+            </div>
+            <div class="form-group">
+                <label>{{ form_label(form.shortdescription  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.shortdescription  ) }} </span>
+                    {{ form_widget(form.shortdescription) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ form_label(form.detaileddescription  ) }}</label>
+                <div class="input-group">
+                    <span class="error-message">  {{ form_errors(form.detaileddescription  ) }} </span>
+                    {{ form_widget(form.detaileddescription) }}
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{{ 'btn.save'|trans }}  </button>
+            <a href="{{ path('gallerys_index',{'type_gallery': menuactive}) }}" type="button"
+               class="btn default">{{ 'btn.cancel'|trans }} </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% for entity in media.listedates %}
+    <!-- Modal -->
+    <div class="modal fade" id="myModal{{ entity.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2 class="modal-title">  {{ 'message_alert_remove'|trans }}</h2>
+                </div>
+                <div class="modal-body">
+                    <h2>  {{ 'message_validation_remove'|trans }} </h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"> {{ 'btn.cancel'|trans }}  </button>
+                    <a href="{{ path('medias_edit_date_delete', {'id': entity.id , 'idMedia': media.id }) }}">
+                        <button type="button" class="btn btn-danger"><i
+                                    class="fa fa-trash"></i> {{ 'btn.remove'|trans }} </button>
+                    </a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endfor %}
+

@@ -1,0 +1,768 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block title %}  {{ 'page.cinema'|trans }} - {{ media.title }}{% endblock %}
+
+{% block  meta %}
+    <!--- share  of facbook -->
+
+
+    <meta property="og:description" content=" {{ media.shortdescription }}"/>
+        <meta name="description" content="{{ media.shortdescription }}">
+        <meta property="og:url" content="{{absolute_url( path('front_end_show_media',{'id': media.id}) )}}"/>
+        <meta property="og:title" content="{{ media.title }}"/>
+      
+        {% if media.pictureHome != null %}
+           <meta property="og:image" content="{{ path_picture ~ media.pictureHome }}"/>
+        {% elseif media.backgroundpicture != null %}
+           <meta property="og:image" content="{{ path_picture ~ media.backgroundpicture }}"/>
+        {% else %}
+            <meta property="og:image" content="{{ path_picture|getImageDefault()}}"/>
+        {% endif %}
+      
+
+    <!--- share  of google plus -->
+    <link rel="canonical" href="{{ path('front_end_show_media',{'id': media.id}) }}"/>
+    <!--- share  of twitter -->
+
+    <link rel="me" href="https://twitter.com/vipcrossing">
+   {% endblock %}
+ {% block imgscreen %}
+     <div class="bg-post">
+         <div class="img-resize imgLiquid">
+             {% if media.backgroundpicture != null %}
+                 <img src="{{ path_picture ~ media.backgroundpicture }}">
+             {% else %}
+
+                 <img src="{{ path_picture|getImageDefault()}}">
+             {% endif %}
+         </div>
+     </div>
+ {% endblock %}
+   {% block body %}
+
+       <div class="content-warpper bg-color-1">
+           <div class="container">
+               <div class="row">
+
+
+                   <div class="movie-warpper">
+
+                       <div class="row">
+                           <div class="col-xs-12 col-sm-3 col-md-3 padd-right">
+
+                               <div class="img-wrap">
+                                   <div class="img-resize imgLiquid">
+                                       {% if media.picture != null %}
+                                           <img src="{{ path_picture ~ media.picture }}" class="img-responsive" alt=""/>
+                                       {% else %}
+                                           <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""
+                                                class="img-responsive"/>
+                                       {% endif %}   </div>
+                                   {% if  media.urlvideo != null %}
+                                       <div class="caption-img-wrap">
+                                           <a href="{{ media.urlvideo }}" class="fancyboxYoutube fancybox.iframe">
+
+                                               {{ 'open_video'|trans }} <i class="zmdi zmdi-play-circle-outline"></i>
+                                           </a>
+                                       </div>
+                                   {% endif %}
+
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-xs-12 col-sm-9 col-md-9  ">
+
+                               <div class="movie-warpper-info">
+
+                                   <h1> {{ media.title }} </h1>
+
+                                   <div class="dte-info-movie">
+                                       {% set dateResultat = media.id|getDateStart %}
+                                       {% if dateResultat != null %}
+
+                                       <ul>
+                                           <li>
+                                               <i class="zmdi zmdi-calendar-alt"></i> {{ dateResultat|localizeddate('none', 'none', app.request.locale, null, 'd MMMM Y') }}                               </li>
+
+                                       </ul>
+                                       {% endif %}
+                                   </div>
+
+                                   <div class="info-movie-inner  outer-bottom-20 clearfix">
+
+                                       <span><small>{{ 'form.channel'|trans }}</small>{{ media.channel }}</span>
+                                       {% if Listeacteurs != null or Listepersonnages != null %}
+                                           <span> <small>{{ 'form.users'|trans }}</small>
+                                               {% for item in Listeacteurs %} {{ item }}{% if loop.index < Listeacteurs|length %} , {% endif %}{% endfor %}
+                                               {% for item in Listepersonnages %} {{  item.nom ~" "~ item.prenom  }} {% if loop.index < Listepersonnages|length %} , {% endif %}{% endfor %}
+                                       </span>
+                                       {% endif %}
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+
+                       </div>
+                   </div>
+
+
+                   <div class="col-md-offset-3 col-md-8 col-sm-8 col-xs-12">
+
+                       <div class="movie-details">
+
+                           <div class="share-movie">
+
+                               <div class="social-share-title">{{ 'partger'|trans }} <i class="zmdi zmdi-share"></i>
+                               </div>
+
+                               <div class="post-share-social">
+                                   <div class="clearfix">
+                                       <div class="btn-share">
+                                           <a class="twitter-share-button"
+                                              href="https://twitter.com/intent/tweet?text=Hello%20world">
+                                               Tweet</a>
+
+                                       </div>
+
+                                       <div class="btn-share align-btn">
+                                           <div class="fb-share-button"
+                                                data-href="{{ path('front_end_show_media',{'id': media.id}) }}"
+                                                data-layout="button_count"
+                                                data-size="small" data-mobile-iframe="true">
+                                               <a class="fb-xfbml-parse-ignore" target="_blank"
+                                                  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Partager</a>
+                                           </div>
+
+                                       </div>
+
+                                       <div class="btn-share">
+                                           <!-- Place this tag where you want the share button to render. -->
+                                           <div class="g-plus" data-action="share"></div>
+                                       </div>
+
+                                   </div>
+
+
+                               </div>
+
+
+                                   <div class="pull-right">
+                                       <div class="right-block">
+
+                                           <ul>
+                                               {%  if is_granted("ROLE_SUPER_ADMIN")  %}
+                                               <li>
+
+                                                       <span  >
+                                                     <a  target="_blank" href="{{ path('medias_edit', {'id': media.id}) }}" class="btn btn-icon mobile-width "
+                                                         data-toggle="tooltip"
+                                                         title=" {{ "btn.edit"|trans }}"><i
+                                                                 class="zmdi zmdi-edit"></i></a>
+
+                                                </span>
+
+                                               </li>
+                                               {% endif %}
+                                               <li >
+                                                          <a    class="btn btn-icon like  mobile-width "  >
+                                                <span  > {{ media.nbrShow|convertirNbrShow }}  {% if media.nbrShow > 1  %}  {{ 'media_views'|trans }} {% else %} {{ 'media_view'|trans }} {% endif %} </span>
+                                                <i class="zmdi zmdi-eye" style="margin-left: 10px;"></i>
+                                            </a>
+                                      </li>
+                                               {% if app.user != null %}
+                                               <li>
+                                                      <span id="likeMedia">
+                                                      {{ include('MembreBundle:Box:ajaxboxLike.html.twig', { 'LikeUserMedia': LikeUserMedia ,'item': media  }) }}
+
+                                                   </span>
+
+
+                                               </li>
+                                                   <li>
+                                                        <span id="box">
+                                                      {{ include('MembreBundle:Box:ajaxbox.html.twig', { 'itemInBox': mediaInBox ,'item': media , "typebox" :  'cinema' }) }}
+                                                </span>
+                                                       <img id="loading" src="{{ asset('dev/front/images/loading.gif') }}"
+                                                            style="display: none;">
+                                                   </li>
+                                               {% else %}
+
+
+                                                       <li>
+                                                           <span id="likeMedia">
+                                                                  <a   onclick="openModelLogin()"   class="btn btn-icon like  mobile-width " data-toggle="tooltip"  >
+                                                                          {% if LikeUserMedia|length > 0  %}  {{ LikeUserMedia|length  }} {% else %} 1 {% endif %}
+                                                                             <i class="zmdi zmdi-thumb-up"  style="margin-left: 10px;"></i>
+                                                               </a>
+                                                           </span>
+                                                       </li>
+
+
+                                                       <li>
+                                                           <span id="likeMedia">
+                                                                  <a   onclick="openModelLogin()"   class="btn btn-icon like  mobile-width  " data-toggle="tooltip"  >
+                                                                     {% if media.box|length > 0  %}   {{ media.box|length  }} {% else %} 0 {% endif %}
+                                                                      <i   class="zmdi zmdi-favorite-outline" style="margin-left: 10px;"></i>
+                                                               </a>
+                                                           </span>
+                                                       </li>
+
+                                               {% endif %}
+                                           </ul>
+
+                                       </div>
+                                   </div>
+
+
+                           </div>
+                           <!-- Annonces_bloc_1 -->
+
+                       </div>
+
+
+                   </div>
+
+
+               </div>
+
+               <div class="row  mag-top-30">
+
+                   <div class="col-md-8  col-sm-8 col-xs-12 padd-left">
+
+                       <div class="movie-text">
+                          
+
+                           {{ media.detaileddescription|raw }}
+                              {% if media.listedates|length > 0 %}
+
+
+         
+       {% endif %}                  
+                     
+                       </div>
+
+                       {% if Listeacteurs != null or  Listepersonnages != null %}
+                           <h4>{{ 'acteurs_actrices'|trans }}  </h4>
+
+                           <div class="clearfix"></div>
+
+                           <div class=" owl-carousel {% if  Listeacteurs|length +  Listepersonnages|length > 4 %}list-videos {% else %} caroussel-acteur {% endif %} ">
+                               {% for item in Listeacteurs %}
+
+                                   <div class="item">
+                                       <a href="{{ path('collection',{'activeTab': "vip" , 'fullName': item.username  ,'id': item.id}) }}"
+                                          class="content-movie">
+                                           <div class="img-container">
+                                               {% if item.pictureprofil != null %}
+                                                   <div class="img-resize imgLiquid"><img
+                                                               src="{{ path_picture ~ item.pictureprofil }}"
+                                                               class="img-responsive"
+                                                       >
+                                                   </div>
+                                               {% else %}
+                                                   <div class="img-resize imgLiquid"><img
+                                                               src="{{ asset('assets/images/avatar.png') }}"
+                                                               class="img-responsive"
+                                                       >
+                                                   </div>
+                                               {% endif %}
+
+
+                                           </div>
+                                           <div class=" style-title-name  title-vip-name {% if item.coloremotioncard == null %}     title-vip-name-color {% else %}   {{ item.coloremotioncard }} {% endif %} ">
+                                              
+                                               
+              
+                {% if item.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{ item.prenom ~" "~ item.nom }}
+                {% if item.roles[0] == "ROLE_VIP"  and item.fan == 0 %}
+                        {% set numbre_etoile = 0 %}
+                        {% if item.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif item.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif item.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif item.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+     
+                                               <img src="{{ asset('assets/images/icone_logo.png') }}" style="width: 16px"> </div>
+
+                                       </a>
+                                   </div>
+
+                               {% endfor %}
+                               {% for item in Listepersonnages %}
+
+                                   <div class="item">
+                                       <a href="{{ path('front_end_profil_personnage' ,{'id': item.id }) }}"
+                                          class="content-movie">
+                                           <div class="img-container">
+                                               {% if item.image != "" %}
+                                                   <div class="img-resize imgLiquid"><img
+                                                               src="{{ path_picture ~ item.image }}"
+                                                               class="img-responsive"
+                                                       ></div>
+                                               {% else %}
+                                                   <div class="img-resize imgLiquid"><img
+                                                               src="{{ asset('assets/images/avatar.png') }}"
+                                                               class="img-responsive"
+                                                       ></div>
+                                               {% endif %}
+
+
+                                           </div>
+                                          
+  <div class=" style-title-name  title-vip-name  title-vip-personnages-name-color ">
+                                               {{ item.nom ~" "~ item.prenom  }} 
+                                                </div>
+
+              
+                                       </a>
+                                   </div>
+
+                               {% endfor %}
+
+                           </div>
+
+                       {% endif %}
+
+                   </div>
+
+                   <div class="col-md-4  col-sm-4 col-xs-12 ">
+
+
+                       {% if Tweeteracteur|length > 1 %}
+                           <div id="twitter-ticker">
+                               <div><h5>Twiteer box </h5>
+                                   <hr/>
+                               </div>
+                               <div id="tweet-container">
+                                   <img id="loading-tweet"
+                                        src="{{ asset('dev/front/images/loading.gif') }}"
+                                        width="16"
+                                        height="11" alt="Loading.."/></div>
+
+                           <hr>
+                           </div>
+
+                       {% elseif Tweeteracteur|length == 1 %}
+
+
+                           <div >
+
+                               <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/{{ Tweeteracteur[0].twitter }}" >Tweet  </a>
+
+                               <script src="https://platform.twitter.com/widgets.js"></script>
+                               <hr>
+                           </div>
+
+                       {% else %}
+
+                           <div  >
+
+                               <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/vipcrossing" >Tweet </a>
+
+                               <script src="https://platform.twitter.com/widgets.js"></script>
+                               <hr>
+                           </div>
+
+                       {% endif %}
+
+                       {{ render(controller('FrontBundle:Template:pub' )) }}
+
+
+
+
+                       {% if media.sowPub == 1 %}
+
+
+
+                           {% set countAlert =  mediasToDay|length  + mediasToDayRDV|length  %}
+                           {% if  countAlert > 0 %}
+                               <div class="news-block-content mag-bot-40">
+
+                                   <h2>{{ 'alertes'|trans }} </h2>
+                                   <div class="info-alert">
+                                       {% for entity in mediasToDay %}
+                                           <div class="inner-news row">
+
+                                               <div class="col-md-5 col-xs-5 col-sm-5">
+                                                   <a href="{{ path('front_end_show_media',{'id':  entity.id}) }}">
+                                                       <div class="img-resize imgLiquid">
+                                                           {% if entity.pictureHome != null %}
+                                                               <img src="{{ path_picture ~ entity.pictureHome }}" alt="" />
+                                                           {% else %}
+                                                               <img src="{{ path_picture ~ entity.picture }}" alt="" />
+                                                           {% endif %}
+                                                       </div>
+                                                   </a>
+                                               </div>
+
+                                               <div class="col-md-7 col-xs-7 col-sm-7">
+
+                                                   <div class="info-news">
+                                                       <h3><a href="{{ path('front_end_show_media',{'id':  entity.id}) }}"
+                                                              class="fond-black">
+
+                                                               {% if  entity.titleHome != null  %}
+                                                                   {{ entity.titleHome[:35] }} {% if  entity.titleHome|length > 35  %} .. {% endif %}
+                                                               {% else %}
+                                                                   {{ entity.title[:35] }}  {% if entity.title|length > 35 %}...{% endif %}
+                                                               {% endif %}
+                                                           </a>
+
+
+
+                                                       </h3>
+                                                       <p style="    text-align: inherit !important;">{% if entity.shortdescription != null %}
+                                                               {{ entity.shortdescription[:50]~"..." }}<br/>
+                                                           {% endif %}
+                                                           <a href="{{ path('front_end_show_media',{'id':  entity.id}) }}"
+                                                              class="fond-black">
+
+                                                           </a></p>
+
+                                                   </div>
+                                               </div>
+
+                                           </div>
+                                       {% endfor %}
+
+                                       {% for entity in mediasToDayRDV %}
+                                           <div class="inner-news row">
+
+                                               <div class="col-md-5 col-xs-5 col-sm-5">
+                                                   <a href="{{ path('collection',{'activeTab': "rendez-vous" , 'fullName': entity.vip.id  , 'id': entity.vip.id}) }}">
+                                                       <div class="img-resize imgLiquid">
+                                                           {% if entity.vip.pictureprofil != null %}
+                                                               <img src="{{ path_picture ~ entity.vip.pictureprofil }}" alt="" />
+                                                           {% else %}
+                                                               <img src="{{ asset('assets/images/avatar.png') }}" alt="" />
+                                                           {% endif %}
+                                                       </div>
+                                                   </a>
+                                               </div>
+
+                                               <div class="col-md-7 col-xs-7 col-sm-7">
+
+                                                   <div class="info-news">
+                                                       <h3><a href="{{ path('collection',{'activeTab': "rendez-vous" , 'fullName': entity.vip.username  , 'id': entity.vip.id}) }}"
+                                                              class="fond-black">
+
+
+                                                               {{ entity.title[:35] }} {% if  entity.title|length > 35  %} .. {% endif %}
+
+                                                           </a>
+
+
+
+                                                       </h3>
+                                                       <p style="    text-align: inherit !important;">
+                                                           {% if entity.description != null %}
+                                                               {{ entity.description[:50]~"..." }}<br/>
+                                                           {% endif %}
+                                                           <a href="{{ path('collection',{'activeTab': "rendez-vous" , 'fullName': entity.vip.username  , 'id': entity.vip.id}) }}"
+                                                              class="fond-black">
+
+                                                           </a>
+                                                       </p>
+
+                                                   </div>
+                                               </div>
+
+                                           </div>
+                                       {% endfor %}
+                                   </div>
+                               </div>
+                           {% endif %}
+
+
+                           {{ render(controller('FrontBundle:Template:pub' )) }}
+
+                       {% endif %}
+
+
+
+                   </div>
+
+
+               </div>
+           </div>
+
+           {% if listePhotos != null %}
+               <div class="outer-bottom-20 ">
+                   <div class="container">
+                       <div class="poster-film row outer-bottom-20">
+                           <div class="col-md-6 col-sm-6 col-xs-12">
+                               <h2>{{ 'photos'|trans }}</h2>
+
+                               <div class="row">
+                                   <div class="col-md-4 col-sm-4 col-xs-12 padd-right-poster">
+                                       {% for item in listePhotos %}
+                                           {% if loop.index < 5%}
+                                               <div class=" {% if loop.index == 4 %} big-film-poster {% else %}img-film-poster{% endif %}">
+                                                   <a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                                                       <div class="img-resize imgLiquid">
+
+                                                           <img src="{{ path_picture ~ item.picture }}" class="img-responsive">
+                                                       </div>
+                                                   </a>
+
+                                               </div>
+                                               {% if loop.index == 3 %}
+                                           </div>
+                                           <div class="col-md-8 col-sm-8 col-xs-12 no-padd">
+                                               {% endif %}
+                                               {% if loop.index == 4 %}
+                                                   </div>
+                                               {% endif %}
+                                           {% endif %}
+                                       {% endfor %}
+                                    </div>
+
+                           </div>
+
+                           <div class="col-md-6 col-sm-6 col-xs-12">
+                               <h2>&nbsp; </h2>
+                               <div class="row">
+                                   <div class="col-md-8 col-sm-8 col-xs-12 padd-right-poster">
+                                       {% for item in listePhotos %}
+                                       {% if loop.index > 4 %}
+                                       <div class=" {% if loop.index == 5 %} big-film-poster {% else %}img-film-poster{% endif %}">
+                                           <a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                                           <div class="img-resize imgLiquid">
+                                                   <img src="{{ path_picture ~ item.picture }}" class="img-responsive">
+                                               </div>
+                                           </a>
+
+                                       </div>
+
+                                       {% if loop.index == 5 %}
+                                   </div>
+                                   <div class="col-md-4 col-sm-4 col-xs-12 no-padd">
+                                       {% endif %}
+                                       {% if loop.index == 8 %}
+                                   </div>
+                                   {% endif %}
+                                   {% endif %}
+                                   {% endfor %}
+
+                               </div>
+
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           {% endif %}
+           <div class="outer-bottom-20 ">
+
+               <div class="container">
+
+
+                   <div class="poster-film row outer-bottom-20">
+
+
+                       <div class="col-md-6 col-sm-6 col-xs-12">
+                           <h2>{{ 'autre_cinema'|trans }}</h2>
+
+
+                           <div class="row">
+                               <div class="col-md-4 col-sm-4 col-xs-12 padd-right-poster">
+                                   {% for item in mediaListe %}
+
+                                   <div class=" {% if loop.index == 4 %} big-film-poster {% else %}img-film-poster{% endif %}">
+                                       <a href="{{ path('front_end_show_media',{'id': item.id}) }}">
+                                           <div class="img-resize imgLiquid">
+
+                                               <img src="{{ path_picture ~ item.picture }}" class="img-responsive">
+                                           </div>
+                                       </a>
+
+                                   </div>
+
+                                   {% if loop.index == 3 %}
+
+                               </div>
+                               <div class="col-md-8 col-sm-8 col-xs-12 no-padd">
+
+                                   {% endif %}
+
+                                   {% if loop.index == 4 %}
+
+                               </div>
+
+                               {% endif %}
+                               {% endfor %}
+
+                           </div>
+
+
+                       </div>
+
+                       <div class="col-md-6 col-sm-6 col-xs-12">
+                           <h2>  {{ 'video'|trans }}</h2>
+                           <div class="row">
+                               {% for video in mediaListe %}
+                                   {% if loop.index < 4 %}
+                                       <div class="
+                                       {% if loop.index == 1 %}
+                                                col-md-12 col-xs-12 col-sm-12
+                                        {% elseif loop.index == 2 %}
+                                                    col-md-6 col-sm-6 col-xs-12 padd-right-poster
+
+                                        {% elseif loop.index == 3 %}
+                                                    col-md-6 col-sm-6 col-xs-12 padd-left-poster
+                                       {% endif %}
+                                   ">
+
+                                           <a href="{{ video.urlvideo }}"
+                                              class="fancyboxYoutube fancybox.iframe">
+
+                                               <div class="{% if loop.index == 1 %} big-video-poster {% else %} video-poster  {% endif %}">
+                                                   <div class="img-resize imgLiquid">
+                                                       {% if video.picture != null %}
+                                                           <img src="{{ path_picture ~ video.picture }}" alt=""/>
+                                                       {% elseif video.backgroundpicture != null %}
+                                                           <img src="{{ path_picture ~ video.backgroundpicture }}">
+                                                       {% else %}
+                                                           <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                                       {% endif %}
+
+                                                   </div>
+                                                   <div class="play-btn">
+                                                       <i class="zmdi zmdi-play-circle"></i>
+                                                   </div>
+                                               </div>
+                                           </a>
+                                       </div>
+                                   {% endif %}
+                               {% endfor %}
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+
+{% if app.user == null  %}
+       <div class="modal fade" id="modal-alert-no-connect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+           <div class="modal-dialog"  >
+               <div class="modal-content">
+                   <div class="modal-body modalBodyDelete">
+
+                       {{'alert_like_book'|trans}}
+
+                   </div>
+                   <div class="modal-footer modalFooterDelete">
+                       <button type="button" class="btn btn-secondary" data-dismiss="modal">  {{'modal_close'|trans}}  </button>
+                       <a href="{{ path('fos_user_security_login') }}" class="btn btn-orange">{{'authentication.btn'|trans}} </a>
+
+                   </div>
+               </div>
+           </div>
+
+       </div>
+
+{% endif %}
+   {% endblock %}
+
+
+           {% block javascripts %}
+
+
+
+               <script>
+
+                   {% if app.user == null  %}
+                   function openModelLogin() {
+                       $('#modal-alert-no-connect').modal();
+                   }
+                   {% endif %}
+                   {% if Tweeteracteur != null %}
+                   $(function(){
+
+                       var tweetUsers = [{% for item in Tweeteracteur %}  '{{ item.twitter }}'  {% if loop.index <  Tweeteracteur|length %} , {% endif %}{% endfor %}],
+                           container = $('#tweet-container');
+
+                       $('#twitter-ticker').slideDown('slow');
+
+                       $.post('{{ path('front_end_proxy') }}', {handles: tweetUsers}, function (response) {
+
+                           // Empty the container
+                           container.html('');
+
+                           $.each(response.statuses, function(){
+
+                               var str = ' <div class="tweet">\
+                        <div class="avatar-tweet"><a href="http://twitter.com/'+this.user.screen_name+'" target="_blank"><img src="'+this.user.profile_image_url+'" alt="'+this.from_user+'" /></a></div>\
+                        <div class="user"><a href="http://twitter.com/'+this.user.screen_name+'" target="_blank">'+this.user.screen_name+'</a></div>\
+                        <div class="time">'+relativeTime(this.created_at)+'</div>\
+                        <div class="txt">'+formatTwitString(this.text)+'</div>\
+                        </div>';
+
+                               container.append(str);
+
+                           });
+
+                           // Initialize the jScrollPane plugin
+                           container.jScrollPane({
+                               mouseWheelSpeed:25
+                           });
+
+                       });
+
+                       // Helper functions
+
+                       function formatTwitString(str){
+                           str=' '+str;
+                           str = str.replace(/((ftp|https?):\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?)/gm,'<a href="$1" target="_blank">$1</a>');
+                           str = str.replace(/([^\w])\@([\w\-]+)/gm,'$1@<a href="http://twitter.com/$2" target="_blank">$2</a>');
+                           str = str.replace(/([^\w])\#([\w\-]+)/gm,'$1<a href="http://twitter.com/search?q=%23$2" target="_blank">#$2</a>');
+                           return str;
+                       }
+
+                       function relativeTime(pastTime){
+                           var origStamp = Date.parse(pastTime);
+                           var curDate = new Date();
+                           var currentStamp = curDate.getTime();
+
+                           var difference = parseInt((currentStamp - origStamp)/1000);
+
+                           if(difference < 0) return false;
+
+                           if(difference <= 5)              return "Just now";
+                           if(difference <= 20)         return "Seconds ago";
+                           if(difference <= 60)         return "A minute ago";
+                           if(difference < 3600)            return parseInt(difference/60)+" minutes ago";
+                           if(difference <= 1.5*3600)       return "One hour ago";
+                           if(difference < 23.5*3600)       return Math.round(difference/3600)+" hours ago";
+                           if(difference < 1.5*24*3600) return "One day ago";
+
+                           var dateArr = pastTime.split(' ');
+                           return dateArr[4].replace(/\:\d+$/,'')+' '+dateArr[2]+' '+dateArr[1]+(dateArr[3]!=curDate.getFullYear()?' '+dateArr[3]:'');
+                       }
+
+                   });
+                   {% endif %}
+               </script>
+
+
+
+           {% endblock %}
+
+

@@ -1,0 +1,121 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+  {% block crop %}
+      <link href="{{ asset('dev/front/css/crop-save.css') }}" rel="stylesheet">
+<style>
+.slim .slim-btn-group{
+        z-index: 0 !important;
+}
+.img-screen.banner-bg .slim .slim-btn-group {
+     
+    z-index: 0 !important;
+}
+
+</style>
+
+
+  {% endblock %}
+
+{% block title %}  {{ 'profile.edit.submit'|trans }}{% endblock %}
+ {% block imgscreen %}
+
+     <div class="img-screen  banner-bg">
+         <div data-module="ui/Demo" data-conditions="element:{was visible}">
+
+             <div class="slim"
+                  data-label="Charger une image de couverture"
+                  data-service="{{ path('front_end_upload_picture' ,{'typepicture' : 'couverture'}) }}"
+                  data-status-image-too-small="L'image est trop petite, la taille minimale est de 1200 , 180"
+                  data-min-size="1200,180"
+                          >
+
+
+                 {% if app.user.picturecover != null %}
+                     <img src="{{ path_picture ~ app.user.picturecover }}">
+                 {% endif %}
+                 <input type="file" name="slim[]"/>
+
+             </div>
+
+         </div>
+
+
+     </div>
+
+ {% endblock %}
+   {% block body %}
+
+       <div class="container">
+           <div class="row row-centered">
+
+               <div class="col-xs-12 col-md-10 col-lg-10 col-sm-10 col-centered">
+
+                   <div class="content-bloc  mag-bot-40 clearfix">
+
+                       <div class="col-xs-12 col-md-12 col-sm-12">
+
+                           <div class="avatar-icon-edit">
+                               <div data-module="ui/Demo" data-conditions="element:{was visible}">
+                                   <div class="avatar-edit"></div>
+                                   <div class="slim"
+                                        data-label="Charger une image"
+                                        data-service="{{ path('front_end_upload_picture' ,{'typepicture' : 'profil'}) }}"
+                                        data-status-image-too-small="L'image est trop petite, la taille minimale est de 375 , 500"
+                                        data-min-size="375,500">
+                                       {% if app.user.pictureprofil != null %}
+                                           <img src="{{ path_picture ~ app.user.pictureprofil }}">
+                                       {% endif %}
+                                       <input type="file" name="slim[]"/>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-edit ">
+
+                               <div class="title-page inner-top-sm padd-bot-20">
+
+                                   <h3>{{ 'profile.edit.title'|trans }} </h3>
+
+                               </div>
+
+
+                               {% include "MembreBundle:Membre:edit_profil_content.html.twig" %}
+
+                           </div>
+
+                       </div>
+
+
+                   </div>
+
+               </div>
+
+           </div>
+
+
+       </div>
+
+   {% endblock %}
+
+   
+{% block javascripts %}
+
+    <script>
+        document.getElementById("fos_user_profile_form_username").addEventListener("keyup", verificationUsername);
+
+        function verificationUsername() {
+
+            const sentence = $("#fos_user_profile_form_username").val();
+
+            const word = '.';
+
+            if(sentence.includes(word) == true ){
+                $("#btnEdit").hide();
+                $("#message_error_userName").show();
+            }else{
+                $("#btnEdit").show();
+                $("#message_error_userName").hide();
+            }
+
+        }
+    </script>
+
+{% endblock %}

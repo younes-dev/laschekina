@@ -1,0 +1,36 @@
+{% extends "::content-backend.html.twig" %}
+{% block title %}
+    {{ 'menu_crawler_news'|trans }}
+{% endblock %}
+
+   {% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+              <li>
+                <a href="{{ path('crawlernews_index') }}"> <span>   {{ 'menu_crawler_news'|trans }}  </span></a>
+            </li>
+            <li>
+                <a href="#"> <span>
+                             {{ 'page-breadcrumb.edit'|trans }}
+                          </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+
+        {% include "BackBundle:Crawlernews:form_news.html.twig" %}
+
+    {% endblock %}
+      {% block javascripts %}
+        <script>
+            $('#backbundle_Crawlernews_startTime').timepicker();
+           
+        </script>
+    {% endblock %}
+
+   
+
+
+

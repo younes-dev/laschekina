@@ -1,0 +1,53 @@
+<div class="tab-pane {% if activeTab == "avis" %} active {% endif %} " id="tab5">
+    <div class="col-md-12 col-xs-12">
+        {% for flashMessage in app.session.flashbag.get('collectionAvisdelete') %}
+
+            <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                {{ flashMessage }}
+            </div>
+{% endfor %}
+    </div>
+    <div class="col-md-12">
+        <h3>{{ 'collection_avis'|trans }}</h3>
+
+        {% for item in member.commentaire|reverse %}
+
+            <div class="post-content clearfix">
+
+                <div class="avatar-post">
+                    <a href="{{ path('front_end_show_media',{'id': item.media.id }) }}">
+                        {% if  item.media.backgroundpicture != null %}
+                            <img src="{{ path_picture ~ item.media.backgroundpicture }}">
+                        {% else %}
+                            <img src="{{ path_picture|getImageDefault()}}">
+                        {% endif %}
+                    </a>
+                    {% if app.user != null and member.id == app.user.id %}
+
+                    <div class="delete-post">
+                        <a class="delete-btn" type="button" onclick="OpenmodalDeleteCommentaire({{ item.id }})">
+                            <i class="zmdi zmdi-close"></i></a>
+
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="post-body">
+                    <header class="comment-header">
+                      <a href="{{ path('front_end_show_media',{'id': item.media.id}) }}" >
+                          <span class="comment-name">{{ item.media.title }}</span>
+                      </a>
+                        <span class="comment-time">{{ item.datecreate|date('d/m/Y H:m') }}</span>
+                    </header>
+
+                    <div class="post-inner-body">
+                        <p>
+                            {{ item.description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>

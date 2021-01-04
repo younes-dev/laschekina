@@ -1,0 +1,152 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block title %}  {{ 'page.create'|trans }}{% endblock %}
+ {% block imgscreen %}
+     {{ render(controller('FrontBundle:Front:imageslider' )) }}
+ {% endblock %}
+   {% block body %}
+
+       <div class="container">
+           <div class="row row-centered">
+
+               <div class="col-xs-12 col-md-6 col-lg-7 col-sm-7 col-centered">
+
+                   <div class="content-form mag-bot-40">
+
+                       <h3> {{ 'page.create'|trans }}</h3>
+
+
+
+                       {{ form_start(form, {'method': 'post', 'action': path('front_registration'), 'attr': {'class': 'form-horizontal'}}) }}
+                       <div class="form-group">
+                           <span class="error-message"> {{ form_errors(form.typecompte  ) }} </span>
+
+
+                               {{ form_widget(form.typecompte, { 'attr': { 'placeholder' : 'form.typecompte'} }) }}
+
+
+                       </div>
+                          	<p id="ROLE_MEMBRE" class="borders">
+												{{ 'form.message_compte_membre'|trans}}
+											</p>
+											
+											<p id="ROLE_VIP" class="borders" style="display:none;">
+												{{ 'form.message_compte_vip'|trans}}
+											</p>
+											<p id="ROLE_FAN" class="borders" style="display:none;">
+												{{ 'form.message_compte_fan'|trans}}
+											</p>
+											<p id="ROLE_PRO" class="borders" style="display:none;">
+												{{ 'form.message_compte_pro'|trans}}
+											</p>
+                       <div class="form-group">
+                           <br/>  <span class="error-message">  {{ form_errors(form.username  ) }} </span>
+                           <span style="display: none;color: red;" id="message_error_userName" class="error-message">  {{ 'alertes_message_error_edit_profil'|trans}} </span>
+                           {{ form_widget(form.username, { 'attr': {  'placeholder' : 'form.username'} }) }}
+
+                       </div>
+
+                       <div class="form-group ">
+                           <span class="error-message"> {{ form_errors(form.nom  ) }} </span>
+                           {{ form_widget(form.nom, { 'attr': { 'placeholder' : 'form.nom'} }) }}
+
+                       </div>
+                       <div class="form-group ">
+                           <span class="error-message"> {{ form_errors(form.prenom  ) }} </span>
+                           {{ form_widget(form.prenom, { 'attr': { 'placeholder' : 'form.prenom'} }) }}
+
+                       </div>
+
+
+                       <div class="form-group">
+                           <span class="error-message">   {{ form_errors(form.email  ) }}</span>
+                           {{ form_widget(form.email, { 'attr': { 'placeholder' : 'form.email'} }) }}
+
+                       </div>
+
+
+                       <div class="form-group hidden" id="nomentreprise" >
+                           <span class="error-message"> {{ form_errors(form.nomentreprise  ) }} </span>
+                           {{ form_widget(form.nomentreprise, { 'attr': { 'placeholder' : 'Nom de l’entreprise'} }) }}
+
+                       </div>
+                       <div class="form-group hidden" id="numsiret">
+                           <span class="error-message"> {{ form_errors(form.numseret  ) }} </span>
+                           {{ form_widget(form.numseret, { 'attr': { 'placeholder' : 'N° Siret'} }) }}
+                       </div>
+
+                       <div class="form-group">
+                           <span class="error-message">  {{ form_errors(form.plainPassword.first ) }} </span>
+                           {{ form_widget(form.plainPassword.first , { 'attr': {  'placeholder' : 'form.password'|trans} }) }}
+
+                       </div>
+
+                       <div class="form-group">
+                           <span class="error-message">  {{ form_errors(form.plainPassword.second ) }} </span>
+                           {{ form_widget(form.plainPassword.second , { 'attr': {  'placeholder' : 'form.password_confirmation'|trans} }) }}
+
+                       </div>
+                       <div class="checkbox form-group" >
+
+                           <label><input type="checkbox" class="input-checked"   required> {{ 'form.accepter_conditions_utilisation'|trans }} <a target="_blank" style="color: #ff5722;" href="{{ path('front_conditions_utilisation',{'typeContent': "conditions_utilisation"}) }}"> {{ 'page.conditions_utilisation'|trans }} </a></label>
+
+                       </div><br/>
+
+
+                       <div class="form-group">
+                           <div class="login-button">
+
+                               <input id="btnEdit" type="submit" class="btn btn-orange  f-width" name="login" value="{{ 'registration.submit'|trans }}">
+                           </div>
+
+                       </div>
+                       {{ form_end(form) }}
+
+
+                   </div>
+
+               </div>
+
+           </div>
+
+       </div>
+
+   {% endblock %}
+
+{% block javascripts %}
+ 
+<script>
+document.getElementById("fos_user_registration_form_username").addEventListener("keyup", verificationUsername);
+
+function verificationUsername()  {
+   
+const sentence = $("#fos_user_registration_form_username").val();
+
+const word = '.';
+
+if(sentence.includes(word) == true ){
+    $("#btnEdit").hide();
+    $("#message_error_userName").show();
+}else{
+     $("#btnEdit").show();
+    $("#message_error_userName").hide();
+}
+
+}
+</script>
+
+     <script>
+          
+           document.getElementById("fos_user_registration_form_typecompte").onchange = function() {myFunction()};
+        function myFunction() {
+			var nameRole = document.getElementById("fos_user_registration_form_typecompte").value ;
+			$("#ROLE_MEMBRE").hide();
+           $("#ROLE_VIP").hide();
+           $("#ROLE_FAN").hide();
+           $("#ROLE_PRO").hide();
+           $("#"+nameRole).show();
+        
+		   }
+       </script>
+ 
+
+{% endblock %}

@@ -1,0 +1,325 @@
+<div class="tab-content  box-page-bg clearfix">
+
+
+    <div class="tab-pane    active " id="tab1">
+
+        {% if personnage.description != null or    (app.user != null  and personnage.collectionMedia.member.id == app.user.id ) %}
+  
+  
+             {% for flashMessage in app.session.flashbag.get('collectionDescriptionPersonnage') %}
+              
+                    <div class="col-md-12">
+                        <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                                {{ flashMessage }}
+                            </div>
+                    </div>
+            
+                {% endfor %}
+            <div class="col-md-12 ">
+                <div class="pull-left"><h3>{{ 'personnage_description'|trans }}</h3></div>
+
+                {% if    (app.user != null  and personnage.collectionMedia.member.id == app.user.id ) %}
+                    <div class="pull-right"><a href="#" class="edit-btn" data-toggle="modal"
+                                               data-target="#edit-modal"><i class="zmdi zmdi-edit"></i></a></div>
+                {% endif %}
+                <div class="clearfix "></div>
+
+
+                <div class="text-inner-vip">
+
+                    <p>
+                        {% if personnage.description != null %}
+                            {{ personnage.description|raw }}
+                        {% else %}
+                           {{ 'collection_description_default'|trans }}
+                        {% endif %}
+                    </p>
+
+
+                </div>
+            </div>
+        {% endif %}
+        {% if listeVideosUrl|length > 0 %}
+            <div class="col-md-12"><h3>{{ 'collection_video'|trans }}</h3></div>
+             {% for item in listeVideosUrl %}
+
+                    <div class="col-md-4 col-xs-12 col-sm-4">
+                            <div class="box-page-video">
+                                <div class="box-page-video">
+                                    <div class="video-poster">
+                                        <div class="iframe-resize ">
+                                            {% if item.sourcevideo =="vimeo" %}
+                                            <iframe src="//player.vimeo.com/video/{{ item.url }}?byline=0&amp;portrait=0"
+                                                    frameborder="0" webkitallowfullscreen mozallowfullscreen
+                                                    allowfullscreen></iframe>
+                                            {% elseif item.sourcevideo == "dailymotion" %}
+                                                <iframe frameborder="0"
+                                                        src="//www.dailymotion.com/embed/video/{{ item.url }}"
+                                                        allowfullscreen></iframe>
+                                            {% elseif  item.sourcevideo == "youtube"   %}
+                                            <iframe   allowfullscreen="allowfullscreen"
+                                                      mozallowfullscreen="mozallowfullscreen"
+                                                      msallowfullscreen="msallowfullscreen"
+                                                      oallowfullscreen="oallowfullscreen"
+                                                      webkitallowfullscreen="webkitallowfullscreen"   src="https://www.youtube.com/embed/{{ item.url }}"></iframe>
+                                                {% else %}
+                                                    <video width="250" height="150" controls="">
+                                                        <source src="{{ path_picture~ item.path }}" type="video/mp4">
+
+                                                        {% if app.request.locale == 'fr' %}
+                                                            Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                                        {% else %}
+                                                            Your browser does not support HTML5 video.
+                                                        {% endif %}
+                                                    </video>
+                                                {% endif %}
+                                        </div>
+
+                                        <div class="info-video">
+                                            <p>{{ item.title }} </p>
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+             {% endfor %}
+        {% endif %}
+     
+        {% if listeVideoMp4|length > 0 %}
+            <div class="col-md-12"><h3>{{ 'collection_video'|trans }}</h3></div>
+             {% for item in listeVideoMp4 %}
+
+                    <div class="col-md-4 col-xs-12 col-sm-4">
+                            <div class="box-page-video">
+                                <div class="box-page-video">
+                                    <div class="video-poster">
+                                        <div class="iframe-resize ">
+                                                 <video width="250" height="150" controls="">
+                                                        <source src="{{ path_picture~ item.path }}" type="video/mp4">
+
+                                                        {% if app.request.locale == 'fr' %}
+                                                            Votre navigateur ne prend pas en charge la vidéo HTML5.
+                                                        {% else %}
+                                                            Your browser does not support HTML5 video.
+                                                        {% endif %}
+                                                    </video> 
+                                        </div>
+
+                                        <div class="info-video">
+                                            <p>{{ item.title }} </p>
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+             {% endfor %}
+        {% endif %}
+     
+     
+     
+        {% if listePhotos|length > 0 %}
+            <div class="clearfix "></div>
+
+            <div class="col-md-12"><h3>{{ 'photos'|trans }}</h3></div>
+            <div class="photo-vip">
+                <div class="col-md-4 col-sm-4 col-xs-12 padd-right">
+
+                    <a href="{{ path_picture ~ listePhotos[0].picture }}" class="fancybox">
+
+                        <div class="big-photo-vip img-resize imgLiquid">
+                            <img src="{{ path_picture ~ listePhotos[0].picture }}">
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12 no-padd ">
+                    {% if listePhotos|length > 1 %}
+                        <a href="{{ path_picture ~ listePhotos[1].picture }}" class="fancybox">
+
+                            <div class="small-photo-vip img-resize imgLiquid">
+
+                                <img src="{{ path_picture ~ listePhotos[1].picture }}">
+
+
+                            </div>
+                        </a>
+                    {% endif %}
+                    {% if listePhotos|length > 2 %}
+                        <a href="{{ path_picture ~ listePhotos[2].picture }}" class="fancybox">
+                            <div class="small-photo-vip img-resize imgLiquid">
+
+                                <img src="{{ path_picture ~ listePhotos[2].picture }}">
+
+
+                            </div>
+                        </a>
+                    {% endif %}
+
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12 padd-left">
+                    {% if listePhotos|length > 3 %}
+
+                        <a href="{{ path_picture ~ listePhotos[3].picture }}" class="fancybox">
+
+                            <div class="small-photo-vip img-resize imgLiquid">
+
+                                <img src="{{ path_picture ~ listePhotos[3].picture }}">
+
+
+                            </div>
+                        </a>
+                    {% endif %}
+                    {% if listePhotos|length > 4 %}
+
+                        <a href="{{ path_picture ~ listePhotos[4].picture }}" class="fancybox">
+                            <div class="small-photo-vip img-resize imgLiquid">
+
+
+                                <img src="{{ path_picture ~ listePhotos[4].picture }}">
+
+
+                            </div>
+                        </a>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        {% endif %}
+
+
+
+        {% if book.personnagesMedia|length > 0 %}
+            <div class="clearfix  margin-bottom-20"></div>
+            <div   class="row block-separer"></div>
+            <div class="col-md-12 padding-top-15"><h3>{{ 'personnages_autres_personnages'|trans }} </h3></div>
+            <div class="col-md-12 margin-bottom-20">
+                {% for entity in  book.personnagesMedia|reverse %}
+
+                    {%  if entity.id != personnage.id  %}
+                        <a class="col-md-3 col-sm-3  center-td col-xs-12 margin-bottom-25" href="{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id': entity.id }) }}">
+                            <img   style="    width: 200px; height: 250px;   margin-bottom: 20px;" src="
+                                                         {% if entity.image != '' and entity.image is not null %}
+                                                           {{- path_picture ~ 'personnage_media/' ~ entity.image -}}
+                                                       {% else %}
+                                                           {{- path_no_image ~ 'assets/images/no-image.jpg' -}}
+                                                       {% endif %}"><br/>
+                                    <span  class="color-name-personnage" style="font-weight: bold;"> {{ entity.personnage }}</span>
+                        </a>
+
+
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
+
+
+        {% if listeBookBD|length > 0 %}
+            <div class="clearfix  margin-bottom-20"></div>
+            <div   class="row block-separer"></div>
+            <div class="col-md-12  padding-top-15"><h3>{{ 'personnages_pourriezaimer'|trans }}</h3></div>
+            <div class="col-md-12 margin-bottom-20">
+
+            {% for item in listeBookBD %}
+                {%  if item.id !=  book.id  %}
+                <div style="margin-bottom: 10px" class="livre row  ">
+
+                    <div class="col-md-3 margin-bottom-30">
+                        <div class="media-livre">
+                            <a href="{{ path('collection',{'activeTab': "videos" ,'fullName': item.member.username  , 'id': item.member.id}) }}">
+                               <img src="{{ path_picture~ item.path }}"
+                                 class="img-responsive">
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-8 ">
+                    <div class="col-md-12 borders">
+
+
+                        <h5> <a style="font-weight: bold;" href="{{ path('collection',{'activeTab': "videos" ,'fullName': item.member.username  , 'id': item.member.id}) }}">
+                            {{ item.title }} </a></h5>
+                        <p  >
+                            <br/>
+                         <span  style="font-weight: bold;">  {{ "form.createur"|trans }} :  {{ item.member }}</span> <br/>
+                            {{ "personnage_description"|trans }} : <br/>
+                            {{ item.descriptionCourt|raw }} <br/>
+
+
+
+                        <br/>
+
+
+                        </p>
+
+                    </div>
+                    </div>
+                </div>
+
+                    <hr style=" border: 1px solid #eaeaea;   margin-bottom: 33px;">
+                    {% endif %}
+
+            {% endfor %}
+            </div>
+        {% endif %}
+
+
+    </div>
+
+    <div id="edit-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <form class="form" action="{{ path('front_end_personnag_collection_edit_description' , {'activeTab':'profile' , 'id': personnage.id }) }}" method="POST">
+
+                    <div class="modal-body text-center">
+                        <h4 class="text-left">{{ 'description'|trans }}</h4>
+
+                        <div class="form-group clearfix">
+                            <div class="mag-bttom-sm">
+
+                                <textarea name="description" rows="4" class="form-control">{{ personnage.description }} </textarea>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer text-center">
+                        <input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+                        <button type="button" class="btn btn-default btn-md"
+                                data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+

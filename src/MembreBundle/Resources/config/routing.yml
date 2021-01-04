@@ -1,0 +1,12 @@
+front_membre:
+    resource: "@MembreBundle/Resources/config/routing/membre.yml"
+    prefix:   /
+espace_member:
+    resource: "@MembreBundle/Resources/config/routing/espacemembre.yml"
+    prefix:   /espace-member
+espace_member_messaging:
+    resource: "@MembreBundle/Resources/config/routing/messaging.yml"
+    prefix:   /espace-member/messaging
+espace_member_collection:
+    resource: "@MembreBundle/Resources/config/routing/collection.yml"
+    prefix:   /collection

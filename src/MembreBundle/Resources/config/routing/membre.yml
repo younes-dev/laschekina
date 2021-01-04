@@ -1,0 +1,59 @@
+front_registration:
+    path:     /{_locale}/registration
+    defaults: { _controller: MembreBundle:FrontMembre:Registration }
+    requirements:
+        _locale: fr|en|es
+
+front_end_collection_delete_bd:
+    path:     /collection_delete_bd
+    defaults: { _controller: MembreBundle:FrontMembre:collectionDeleteBd }
+    requirements:
+        _locale: fr|en|es
+
+front_end_collection_change_etat_image_bd:
+    path:     /collection_change_etat_image_bd/{idBd}/{idMedia}
+    defaults: { _controller: MembreBundle:FrontMembre:collectionChangeEtatImageBd }
+    requirements:
+        _locale: fr|en|es
+
+front_confirmed:
+    path:     /{_locale}/{id}/confirmed
+    defaults: { _controller: MembreBundle:FrontMembre:confirmed }
+    requirements:
+        _locale: fr|en|es
+
+espace_member_resetting_request:
+    path:     /{_locale}/forgot-account
+    defaults: { _controller: MembreBundle:FrontResetting:request }
+    requirements:
+        _locale: fr|en|es
+
+espace_member_resetting_check_email:
+    path:     /{_locale}/{username}/resetting-check-email/{user}
+    defaults: { _controller: MembreBundle:FrontResetting:checkEmail , user: null }
+    requirements:
+        _locale: fr|en|es
+
+espace_member_resetting_send_email:
+    path:     /{_locale}/resetting-send-email
+    defaults: { _controller: MembreBundle:FrontResetting:sendEmail }
+    requirements:
+        _locale: fr|en|es
+
+fos_user_resetting_reset:
+    path:     /{_locale}/resetting/reset/{token}
+    defaults: { _controller: MembreBundle:FrontResetting:reset }
+    requirements:
+        _locale: fr|en|es
+
+espace_member_profil:
+    path:     /{_locale}/resetting/reset/{token}
+    defaults: { _controller: MembreBundle:FrontResetting:reset }
+    requirements:
+        _locale: fr|en|es
+
+front_end_upload_picture:
+    path:     /{_locale}/{typepicture}/ajax/upload-picture
+    defaults: { _controller: MembreBundle:FrontMembre:Uploadpicture }
+    requirements:
+        _locale: fr|en|es

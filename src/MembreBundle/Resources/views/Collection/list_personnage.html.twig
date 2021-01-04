@@ -1,0 +1,208 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+ 
+{% block title %}  {{ "Collection" ~" - " ~ member.prenom ~" "~ member.nom ~" - liste des personnages"  }} {% endblock %}
+{% block  meta %} 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+ <meta property="og:title" content="VIP Crossing -   {{ member.prenom ~" "~ member.nom }}"/>
+     
+        <meta name="description"
+              content="Découvrer les personnages du {{ book.title }} ">
+        <meta property="og:description"
+              content="Découvrer les personnages du {{ book.title }}"/>
+ 
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/personnage.css') }}">
+<script src="https://use.fontawesome.com/fe459689b4.js"></script>
+{% endblock %}
+{% block imgscreen %}
+<div class="channel-cover">
+<div class="bg-post">
+   <div class="img-resize imgLiquid">
+      {% if member.picturecover != null %}
+      <img src="{{ path_picture ~ member.picturecover }}">
+      {% else %}
+      <img src="{{ path_picture|getImageDefault()}}">
+      {% endif %}
+   </div>
+</div>
+{% endblock %}
+{% block body %}
+<div class="author-overlay container width-100">
+   <div class="channel-header">
+      <div class="author-avatar img-resize imgLiquid">
+         {% if member.pictureprofil != null %}
+         <img src="{{ path_picture ~ member.pictureprofil }}" class="avatar-acteur">
+         {% else %}
+         <img src="{{ asset('assets/images/avatar.png') }}" class="avatar-acteur">
+         {% endif %}
+      </div>
+      <div class="author-meta title-collection-name {% if member.coloremotioncard == null %} energique   {% else %}   {{ member.coloremotioncard }} {% endif %} ">
+         <h3 class="author-name">
+            {% if member.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %}
+            {{ member.prenom ~" "~ member.nom }}
+            {% if member.roles[0] == "ROLE_VIP"  and  member.fan == 0   %}
+            {% set numbre_etoile = 0  %}
+            {% if member.id|countNbrFans  > 0  %}
+            {% set numbre_etoile = 1 %}
+            {% elseif member.id|countNbrFans  > 10000  %}
+            {% set numbre_etoile = 2 %}
+            {% elseif member.id|countNbrFans  > 100000  %}
+            {% set numbre_etoile = 3 %}
+            {% elseif member.id|countNbrFans  > 1000000  %}
+            {% set numbre_etoile = 4 %}
+            {% endif %}
+            {% if numbre_etoile > 0 %}
+            {% for i in 1..numbre_etoile %}
+            <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+            {% endfor %}
+            {% endif %}
+            {% endif %}
+         </h3>
+         <span class="author-name" style="font-size: 10px;">
+         {% if  member.id|countNbrFans  > 0  %}
+         {% if member.id|countNbrFans  > 999 and member.id|countNbrFans < 1000000  %}
+         {%  set  numbre =  member.id|countNbrFans / 1000 %} {{ numbre|round(1, 'floor') }} K
+         {% elseif member.id|countNbrFans  > 1000000 %}
+         {%  set  numbre =  member.id|countNbrFans / 1000000 %} {{ numbre|round(1, 'floor') }} M
+         {% else %}
+         {{ member.id|countNbrFans  }}
+         {% endif %}   {{ 'abonnes'|trans }}
+         {% endif %}
+         {% if  member.numbervu  > 0 and   member.id|countNbrFans  > 0   %}
+         ,
+         {% endif %}
+         {% if  member.numbervu  > 0  %}
+         {% if member.numbervu  > 999 and member.numbervu < 1000000  %}
+         {%  set  numbre =  member.numbervu / 1000 %} {{ numbre|round(1, 'floor') }} K
+         {% elseif member.numbervu  > 1000000 %}
+         {%  set  numbre =  member.numbervu / 1000000 %} {{ numbre|round(1, 'floor') }} M
+         {% else %}
+         {{ member.numbervu  }}
+         {% endif %}   {{ 'collection_visiteurs'|trans }}
+         {% endif %}
+         </span>
+      </div>
+   </div>
+</div>
+<div class="content-page inner-xs ">
+   <div class="container">
+      <div class="row">
+
+         <div class="col-md-9 box-page-bg">
+         {% if app.user != null  and member.id == app.user.id   %}
+         <div class="col-md-12 box-page-bg">
+            <a  style="width: 100% ; vertical-align: middle;"  class="btn btn-primary margin-bottom-30" href="{{ path('collection_add_personnage', {'livre' : livre, 'member' : member.id}) }}" >{{ 'btn.ajouter_personnage'|trans }}</a>
+         </div>
+         <br/>
+         {% endif %}
+            {% for personnage in personnagesMedia %}
+            <div class="post-news row">
+               <div class="col-md-3 col-sm-3 col-xs-12 ">
+                  <div class="image-holder-content">
+                     <a href="{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id' : personnage.id }) }}" >
+                     <div class="small-photo-vip img-resize imgLiquid" style="    height: 250px !important;">
+                        <img style="width: 270px ; height: 175px; " src="{% if personnage.image != '' and personnage.image is not null  %}{{ path_picture ~ 'personnage_media/' ~ personnage.image }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}">
+                        {% if app.user != null and member.id == app.user.id %}
+                        <a class="delete-btn" type="button" href="{{ path('collection_delete_ajax_personnage',{'id' : personnage.id }) }}">
+                        <i class="zmdi zmdi-close"></i>
+                        </a>
+                        {% endif %}
+                     </div>
+                     </a>
+                  </div>
+               </div>
+               <div class="col-md-9 col-sm-9 col-xs-12">
+                  <div class="post-news-content">
+                     <h4 id="personnage-name-{{ personnage.id }}"> <a href="{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id' : personnage.id }) }}">{{ personnage.personnage }}</a>
+                        {% if app.user != null and member.id == app.user.id %}
+                        {% if personnage.beauxPersonnages == 0  %}
+                        {% set message =  'btn.remove_beaux_personnages'  %}
+                        {% else %}
+                        {% set message =  'btn.add_beaux_personnages'  %}
+                        {% endif %}
+                        <a class="btn-arrondi-personnage"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           data-original-title="
+                           {% if personnage.beauxPersonnages == 0  %}
+                           {{- 'btn.add_beaux_personnages'|trans -}}
+                           {% else %}
+                           {{- 'btn.remove_beaux_personnages'|trans -}}
+                           {% endif %}
+                           "
+                           onclick="beauxPersonnages({{ app.user.id }} , '{{ message|trans }}' , {{ personnage.id }})" class="btn btn-orange  btn-lg" id="beauxPersonnages{{ personnage.id }}" name="submit" >
+                        {% if personnage.beauxPersonnages == 0  %}
+                        <i class="zmdi zmdi-plus" ></i>
+                        {% else %}
+                        <i class="zmdi zmdi-minus" ></i>
+                        {% endif %}
+                        </a>
+                        {% endif %}
+                     </h4>
+                     <p id="personnage-description-{{ personnage.id }}">
+                        {{ personnage.description[:200] }} {% if  personnage.description|length > 200 %}... {% endif %}
+                     </p>
+                     <div class="vote col-md-12 col-sm-12 col-xs-12">
+                        <div class=" col-md-3 col-sm-12 col-xs-12" style="float: right;padding-top: 17px;">
+                           <div class="vote-bar">
+                              <div class="vote-progress"></div>
+                           </div>
+                           <div class="votes-btns">
+                              <button class="vote-btn vote-like" style="{% for vote in personnage.personnageVotes %}{% if app.user != null and vote.user.id == app.user.id and vote.vote == 1 %}color:green; {% set break = true %}{% endif %}{% endfor %}" id="like{{ personnage.id }}" onclick="likeDislike(1, {{ personnage.id }}, {% if app.user != null %}{{ app.user.id }}{% else %}null{% endif %})"><i class="fa fa-thumbs-up font-size"></i> <span id="nbr_like_{{ personnage.id }}">{{ personnage.id|countNbrLikePersonnage }}</span></button>
+                              {#            <button class="vote-btn vote-dislike" style="{% for vote in personnage.personnageVotes %}{% if app.user != null and vote.user.id == app.user.id and vote.vote == 0 %}color:red; {% set break = true %}{% endif %}{% endfor %}" id="dislike{{ personnage.id }}" onclick="likeDislike(0, {{ personnage.id }}, {% if app.user != null %}{{ app.user.id }}{% else %}null{% endif %})" ><i class="fa fa-thumbs-down font-size"></i> <span id="nbr_dislike_{{ personnage.id }}">{{ personnage.id|countNbrDislikePersonnage }}</span></button>
+                              #}
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <hr style="    border-top: 3px solid #eee !important;"/>
+            {% endfor %}
+         </div>
+         <!--//end col-md-9-->
+         <div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+            <div class="box-page-bg clearfix">
+               <div class="col-md-12">
+                  <div class="list-vip">
+                     <div class="vip-block clearfix">
+                        <a href="{{ path('collection',{'activeTab': "videos" ,'fullName': member.username  , 'id': member.id}) }}" >
+                        <img src=" {% if book.path !=  null %} {{ path_picture~ book.path }}{% else %}
+                           {{ path_no_image ~ 'assets/images/no-image.jpg' }}
+                           {% endif %}" class="img-responsive">
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% if member.twitter != null %}
+            <div class="box-page-bg clearfix">
+               <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/{{ member.twitter }}" >Tweets </a>
+            </div>
+            {% endif %}
+            <br/>
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+                <br>
+              <div class="box-page-bg clearfix">
+
+                {{ include('FrontBundle:Ajax:facebook.html.twig', {  'vipUser': member }) }}
+            </div>
+
+      <br/>
+      {{ render(controller('FrontBundle:Template:pub' )) }}
+      <br/>
+         </div>
+      </div>
+      <!--//end row-->
+   </div>
+   <!--//end container-->
+</div>
+<!--//end content-page-->
+<!--Modal-->
+{% include 'MembreBundle:Collection:modal_personnage.html.twig' %}
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('assets/js/personnage.js') }}"></script>
+{% endblock %}

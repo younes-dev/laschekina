@@ -1,0 +1,327 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.casting'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/personnage.css') }}">
+    <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+{% endblock %}
+ {% block imgscreen %}
+     <style>
+         .padding-top-0{
+             padding-top:0px !important;
+         }
+     </style>
+     <!-- gallerie -->
+     <div class="owl-carousel accueil-gallerie owl-theme">
+
+         {% for entity in gallerys_banner %}
+             <a href="{{ path_picture~entity.picture }}"
+                title="<a href='{{ path('collection',{'activeTab': 'vip' , 'fullName': entity.member.username , 'id': entity.member.id}) }}' style=' color: #ff5722;'>
+                 {{ entity.member.prenom  ~' ' ~ entity.member.nom}} {% if entity.member.fan == 1 %} - FAN {% endif %}</a>"
+
+
+
+                data-caption="test"  class="item fancybox">
+                 <div class="img-resize imgLiquid">
+                     {% if entity.bannerpicture is defined %}
+                         <img src="{{ path_picture~entity.bannerpicture }}" alt="" class="resizeme "/>
+                     {% else %}
+                         <img src="{{ path_picture~entity.picture }}" alt="" class="resizeme "/>
+                     {% endif %}
+                 </div>
+             </a>
+         {% endfor %}
+     </div>
+     <!-- End gallerie -->
+
+ {% endblock %}
+{% block body %}
+
+
+    <div class="content-page inner-xs padding-top-0 ">
+
+
+        <div class="container width-100">
+            <div class="col-md-9 col-sm-9 col-xs-12">
+
+                <div class="box-page-bg clearfix padding-20">
+
+                {% for flashMessage in app.session.flashbag.get('Casting_postuler') %}
+                        <br/>
+                        <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                    {% if castings|length > 0 %}
+                    {% for entity in castings %}
+                        <div class="post-news row">
+                            <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                <div class="image-holder-content">
+                                    <a href="#" >
+                                        <div class="small-photo-vip img-resize imgLiquid">
+                                            <img style="width: 270px ; height: 175px; " src="{% if entity.path != null   %}{{ path_picture  ~ entity.path }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}">
+                                     
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="post-news-content">
+                                    <h4  > <a href="#">{{ entity.scenario }} </a> </h4>
+                                <p   style="  font-weight: 400;">
+                              
+                                                                   
+                                        {% if  entity.lieuTournage != null  %}   <b>{{ 'form.lieu_tournage'|trans }} : </b>{{ entity.lieuTournage }} <br/> {% endif %}
+                                        {% if  entity.datesTournageDebut != null and entity.datesTournageEnd != null  %}
+
+                                            <b>{{ 'form.dates_tournage'|trans }} : </b>{{ entity.datesTournageDebut|date('d/m/Y') ~" à De "~ entity.datesTournageEnd|date('d/m/Y')  }} <br/>
+
+                                    {% set leftDays=entity.datesTournageDebut|datediffFilter(entity.datesTournageEnd )%}
+                                         {% if leftDays > 0  %}
+                                            <b>{{ 'form.nbr_jours'|trans }} : </b>     {{ leftDays }} jours      <br/>
+                                         {% endif %}
+
+                                        {% endif %}
+                                        {% if  entity.tarif != null  %}     <b>{{ 'form.tarif_prestation'|trans }} : </b>{{ entity.tarif   }} <br/> {% endif %}
+                                        {% if  entity.description != null  %}     <b>{{ 'form.description'|trans }} : <br/> </b>{{ entity.description[:700]   }} <br/> {% endif %}
+                                      <br/>
+                                            
+
+ 
+                             
+                                </p>
+
+
+                                </div>
+
+                            </div>
+
+                           <div class=" col-md-3 col-sm-3 col-xs-12 div-casting " >
+                                    {% if   app.user != null  and  entity.videoCasting|length > 0  %}
+                                        {% if  entity.id|castingExiste(app.user.id)  == 'postuler' %}
+                                      
+                                              <a   class="btn btn-primary btn-casting width-100 col-md-12 col-sm-12 col-xs-12  " href="{{ path('casting_postuler_scenario',{'id' : entity.id }) }}"> 
+                                              {{ 'btn.postuler'|trans }}</a><br/>
+                                      
+                                        {% elseif  entity.id|castingExiste(app.user.id)  == 'valide' %}
+                                        <a   class="btn btn-success btn-casting width-100 col-md-12 col-sm-12 col-xs-12  " href="{{ path('casting_liste_candidats_envoyer') }}">
+                                              {{ 'btn.postuler-valide'|trans }}</a><br/><br/>
+                                       
+                                         {% if  entity.id|castingResponse(app.user.id)  == null %}
+                                                    
+                                                        <a   class="btn btn-primary btn-casting width-100 col-md-12 col-sm-12 col-xs-12  " href="{{ path('casting_liste_candidats_envoyer') }}">
+                                                        {{ 'btn.postuler-en-attent'|trans }}</a><br/><br/>
+                                                
+                                                        {% elseif  entity.id|castingResponse(app.user.id)  == 1 %}
+                                                        
+                                                        <a   class="btn btn-success btn-casting width-100 col-md-12 col-sm-12 col-xs-12  " href="{{ path('casting_liste_candidats_envoyer') }}">
+                                                        {{ 'btn.postuler-accepter'|trans }}</a><br/><br/>
+                                                
+                                                        {% elseif  entity.id|castingResponse(app.user.id)  == 2 %}
+                                                    
+                                                    <a   class="btn btn-danger btn-casting width-100 col-md-12 col-sm-12 col-xs-12  " href="{{ path('casting_liste_candidats_envoyer') }}">
+                                                        {{ 'btn.postuler-annuler'|trans }}</a><br/><br/>
+                                                
+                                                        {% endif %}
+                                       
+                                        {% elseif  entity.id|castingExiste(app.user.id)  == 'non-valide' %}
+                                       
+                                         <a   class="btn btn-primary btn-casting width-100 col-md-12 col-sm-12 col-xs-12  " href="{{ path('casting_postuler_scenario',{'id' : entity.id }) }}"> 
+                                              {{ 'btn.modifier_postuler'|trans }}</a><br/>
+                                      
+                                        <br/><br/>
+                                       
+                                         <a   class="btn btn-orange btn-casting width-100 col-md-12 col-sm-12 col-xs-12  " onclick="OpenmodalValidationCasting({{ entity.id  }})" > 
+                                              {{ 'btn.valide_condidateur'|trans }}</a><br/>
+                                      
+                                       
+                                        <br/><br/>
+                                       
+                                         <a   class="btn btn-danger btn-casting width-100 col-md-12 col-sm-12 col-xs-12  "  onclick="OpenmodalDeleteCasting({{ entity.id  }})" > 
+                                              {{ 'btn.delete_condidateur'|trans }}</a><br/>
+
+                                       
+                                        {% endif %}
+                    
+                                  
+                                    {% endif %}
+                                    {% if    entity.pathPdf != null %}
+                                        <a class=" col-md-12 col-sm-12 col-xs-12 " title="{{ 'btn.info_personnage'|trans }}"   href="{{  path_picture  ~ entity.pathPdf }}" target="_blank">
+                                            <img src="{{ asset('dev/front/images/telecharger_book.png') }}" style="width:64px; float: right; margin-top: 20px;">
+                                        </a>
+                                    {% endif %}
+                                </div>
+
+
+                        </div>
+                        <hr style="    border-top: 3px solid #eee !important;"/>
+                    {% endfor %}
+             
+             {% else %}
+
+             <h2>{{ 'form.message_error_casting'|trans}} </h2>
+             {% endif %}
+             
+                </div><!--//end col-md-9-->
+
+            </div>
+
+
+            <div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+                <div class="col-md-12  box-page-bg ">
+
+                    <h3 style="margin-top: 0;">{{ 'collection_tourne'|trans }}  </h3>
+
+
+                    <div class="list-vip">
+                        {% for item in listeVIP %}
+
+
+                            <div class="vip-block clearfix">
+
+                                <div class="vip-img img-resize imgLiquid">
+                                    <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username , 'id': item.id}) }}" >  {% if item.pictureprofil != null %}
+                                            <img src="{{ path_picture ~ item.pictureprofil }}" >
+                                        {% else %}
+                                            <img src="{{ asset('assets/images/avatar.png') }}" >
+                                        {% endif %} </a></div>
+
+                                <div class="vip-info">
+                                    <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username  , 'id': item.id}) }}" >
+                                        <span>    {{   item.prenom ~" "~   item.nom }}   </span>
+                                    </a>
+                                </div>
+
+
+                            </div>
+
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+                <div class="box-page-bg clearfix">
+                    <div class="fb-page" data-href="vipcrossing" data-tabs="timeline" style="width : 100% !important ;"
+                         data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                         data-show-facepile="true">
+                        <blockquote cite="vipcrossing" class="fb-xfbml-parse-ignore" style="width : 100% !important ;" ><a
+                                    href="vipcrossing">‎VIPCrossing‎</a></blockquote>
+                    </div>
+
+                </div>
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+
+
+
+                <div class="box-page-bg clearfix">
+                    <a class="twitter-timeline" data-height="430"
+                       href="https://twitter.com/vipcrossing">Tweets </a>
+                </div>
+
+                {{ render(controller('FrontBundle:Template:pub' )) }}
+            </div>
+
+
+
+
+        </div>
+            </div><!--//end row-->
+
+
+
+
+
+
+    <div id="validation-casting" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form action="{{ path('casting_valider_postuler') }}" method="post">
+                    <div class="modal-body text-center">
+
+                        <div class="sa-icon sa-error animateErrorIcon" style="display: block;border-color: #009688 !important;">
+													<span class="sa-x-mark animateXMark">
+														<span class="sa-line sa-left" style="background-color: #009688 !important;width: 29px !important;;"></span>
+														<span class="sa-line sa-right" style="background-color: #009688 !important;width: 29px !important;;"></span>
+													</span>
+                        </div>
+
+                        <h2 class="title-modal">{{ 'modal_oops'|trans }}</h2>
+                        <p> {{ 'message_validation_casting'|trans }} </p>
+                        <input type="hidden" name="id-item-casting-validation" id="id-item-casting-validation">
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+                        <button type="button" class="btn btn-default btn-md"
+                                data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+  <div id="delete-casting" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form action="{{ path('casting_delete_postuler') }}" method="post">
+                    <div class="modal-body text-center">
+
+                        <div class="sa-icon sa-error animateErrorIcon" style="display: block;">
+													<span class="sa-x-mark animateXMark">
+														<span class="sa-line sa-left"></span>
+														<span class="sa-line sa-right"></span>
+													</span>
+                        </div>
+
+                        <h2 class="title-modal">{{ 'modal_oops'|trans }}</h2>
+                        <p> {{ 'message_validation_remove'|trans }} </p>
+                        <input type="hidden" name="id-item-casting" id="id-item-casting">
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+                        <button type="button" class="btn btn-default btn-md"
+                                data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script >
+
+        function OpenmodalDeleteCasting(id) {
+            $('#id-item-casting').val(id);
+            $("#delete-casting").modal();
+        }
+
+        function OpenmodalVideoCasting(id) {
+            $('#id-item-video-casting').val(id);
+            $("#delete-video-casting").modal();
+        }
+
+        function OpenmodalValidationCasting(id) {
+            $('#id-item-casting-validation').val(id);
+            $("#validation-casting").modal();
+        }
+    </script>
+{% endblock %}
+

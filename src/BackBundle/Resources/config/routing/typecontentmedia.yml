@@ -1,0 +1,13 @@
+typecontentmedia_index:
+    path:     /
+    defaults: { _controller: "BackBundle:TypeContentMedia:index" }
+
+typecontentmedia_createOrUpdate:
+    path:     /createOrUpdate/{id}
+    defaults: { _controller: "BackBundle:TypeContentMedia:createOrUpdate" , id: null  }
+
+
+typecontentmedia_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:TypeContentMedia:delete" }
+

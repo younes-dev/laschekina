@@ -1,0 +1,30 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}
+    {% set menuactive = app.session.get('menuactive') %}
+    {% set page =  'page.'~menuactive %}
+    {{ page|trans }}
+{% endblock %}
+
+{% block hiarche %}
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                {% set menuactive = app.session.get('menuactive') %}
+                {% set page =  'page.'~menuactive %}
+                <a href="{{ path('information_index') }}"> <span> {{ page|trans }} </span></a>
+            </li>
+            <li>
+                <a href="#"> <span> {{ 'page-breadcrumb.edit'|trans }} </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+
+
+    {% block body %}
+
+    {% include "BackBundle:Content:edit_content.html.twig" %}
+
+{% endblock %}

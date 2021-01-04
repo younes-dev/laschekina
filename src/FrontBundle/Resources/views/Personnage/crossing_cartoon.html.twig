@@ -1,0 +1,155 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% block  meta %}
+    <meta property="og:url" content="https://vipcrossing.com/fr/personnage/crossing-cartoon"/>
+    <meta property="og:title" content="VIP Crossing -  {{ 'collection_crossing_cartoon'|trans }}"/>
+    {{ render(controller( 'FrontBundle:Front:referancement' ,  { 'type': "ref_crossing_carton" }   )) }}
+{% endblock %}
+{% block title %}
+    {{ 'collection_crossing_cartoon'|trans }}
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/personnage.css') }}">
+<script src="https://use.fontawesome.com/fe459689b4.js"></script>
+{% endblock %}
+
+{% block imgscreen %}
+<style>
+    #content {
+        background: #ffffff;
+    }
+    .img-screen {
+    height: 250px !important;
+    overflow: hidden;
+}
+</style>
+<div class="img-screen">
+    <div class="img-resize imgLiquid">
+        {% if gallerybanner != null %}
+        <img src="{{ path_picture ~ gallerybanner.path }}">
+        {% else %}
+        <img src="{{ path_picture|getImageDefault()}}"> {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+{% block body %}
+
+
+<div class="content-page inner-xs " style="    background: #eaeaea;">
+
+
+        <div class="container width-100">
+            <div class="col-md-9 col-sm-9 col-xs-12" style="background: #ffffff;">
+
+                <div class="title-pg">
+                    <h3><strong>{{ 'collection_crossing_cartoon'|trans }}</strong> <i class="zmdi zmdi-chevron-right"></i></h3>
+                </div>
+
+                 <div class="col-md-12  imgal-container   ">
+                    {% for personnage in personnagesMedia %}
+
+                    <div class="content-img content-img-crossing-cartoon">
+
+                        <a  title="{{'afficher_profil'|trans}} {{ personnage.personnage }} " href="{{ path('front_end_personnage_profile',{'activeTab': " profile " , 'id' : personnage.id }) }}" >
+                            <img src="{% if personnage.image != '' and personnage.image is not null  %}{{ path_picture ~ 'personnage_media/' ~ personnage.image }}{% else %}{{ path_no_image ~ 'assets/images/no-image.jpg' }}{% endif %}" alt="" class="media-object  " style="width: 100%">
+                        </a>
+                        <div style="padding: 3;left: 0px;" class="title-vip-name  crossing-cartoon  ">
+                            <div class="votes-btns">
+                                <button class="vote-btn vote-like" style="{% for vote in personnage.personnageVotes %}{% if app.user != null and vote.user.id == app.user.id and vote.vote == 1 %}color:green; {% set break = true %}{% endif %}{% endfor %}" id="like{{ personnage.id }}" onclick="likeDislike(1, {{ personnage.id }}, {% if app.user != null %}{{ app.user.id }}{% else %}null{% endif %})"><i class="fa fa-thumbs-up font-size"></i> <span id="nbr_like_{{ personnage.id }}">{{ personnage.id|countNbrLikePersonnage }}</span></button>
+                          {#      <button class="vote-btn vote-dislike" style="{% for vote in personnage.personnageVotes %}{% if app.user != null and vote.user.id == app.user.id and vote.vote == 0 %}color:red; {% set break = true %}{% endif %}{% endfor %}" id="dislike{{ personnage.id }}" onclick="likeDislike(0, {{ personnage.id }}, {% if app.user != null %}{{ app.user.id }}{% else %}null{% endif %})"><i class="fa fa-thumbs-down font-size"></i> <span id="nbr_dislike_{{ personnage.id }}">{{ personnage.id|countNbrDislikePersonnage }}</span></button>
+                          #}     {% if app.user != null  %}
+                                    <span id="box{{personnage.id}}">                                              
+                                        {% if personnage.id|verifierPersonnage(  app.user.id ) != null %}
+                                                <a onclick="AddOrRemoveBoxPersonnage({{ personnage.id }} ,'remove'  )" class="btn btn-icon btn-cartoon"
+                                                   
+                                                    title="{{ 'box_delete'|trans }}"><i
+                                                            class="zmdi zmdi-favorite"></i></a>
+                                            {% else %}
+                                                <a onclick="AddOrRemoveBoxPersonnage({{ personnage.id }} ,'add' )" class="btn btn-icon btn-cartoon"
+                                                 
+                                                    title="{{ 'box_add'|trans }}"><i
+                                                            class="zmdi zmdi-favorite-outline"></i></a>
+                                            {% endif %}
+                                    </span>
+                                    <img class="loading-cartoon" id="loading{{personnage.id}}" src="{{ asset('dev/front/images/loading.gif') }}"
+                                        style="display: none;">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+                        <div class="col-md-12  box-page-bg ">
+
+                            <h3 style="margin-top: 0;">{{ 'collection_tourne'|trans }}  </h3>
+
+
+                            <div class="list-vip">
+                                {% for item in listeVIP %}
+
+
+                                    <div class="vip-block clearfix">
+
+                                        <div class="vip-img img-resize imgLiquid">
+                                            <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username , 'id': item.id}) }}" >  {% if item.pictureprofil != null %}
+                                                    <img src="{{ path_picture ~ item.pictureprofil }}" >
+                                                {% else %}
+                                                    <img src="{{ asset('assets/images/avatar.png') }}" >
+                                                {% endif %} </a></div>
+
+                                        <div class="vip-info">
+                                            <a href="{{ path('collection',{'activeTab': "vip" ,'fullName' : item.username  , 'id': item.id}) }}" >
+                                                <span>    {{   item.prenom ~" "~   item.nom }}   </span>
+                                            </a>
+                                        </div>
+
+
+                                    </div>
+
+                                {% endfor %}
+                            </div>
+
+
+                        </div>
+                        <div class="box-page-bg clearfix">
+                            <div class="fb-page" data-href="vipcrossing" data-tabs="timeline" style="width : 100% !important ;"
+                                data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                                data-show-facepile="true">
+                                <blockquote cite="vipcrossing" class="fb-xfbml-parse-ignore" style="width : 100% !important ;" ><a
+                                            href="vipcrossing">‎VIPCrossing‎</a></blockquote>
+                            </div>
+
+                        </div>
+                        {{ render(controller('FrontBundle:Template:pub' )) }}
+
+
+
+                        <div class="box-page-bg clearfix" id="tweets" style="display: none">
+                            <a class="twitter-timeline" data-height="430"
+                            href="https://twitter.com/vipcrossing">Tweets </a>
+                        </div>
+
+                        {{ render(controller('FrontBundle:Template:pub' )) }}
+            </div>
+		
+        </div>
+            <!--//end col-md-9-->
+
+        </div>
+    
+<!--Modal-->
+{% include 'MembreBundle:Collection:modal_personnage.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assets/js/personnage.js') }}"></script>
+
+{% endblock %}

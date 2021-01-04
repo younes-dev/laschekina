@@ -1,0 +1,42 @@
+
+
+
+<div class="container">
+    <div class="row row-centered">
+
+        <div class="col-xs-12 col-md-6 col-lg-7 col-sm-9 col-centered">
+   
+            <div class="content-form mag-bot-40">
+{% for flashMessage in app.session.flashbag.get('compteerror') %}
+           
+            <div class="alert alert-danger alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+                <h3>{{'resetting.request.username'|trans  }}</h3>
+
+                <form action="{{ path('espace_member_resetting_send_email') }}" method="POST" class="fos_user_resetting_request form" >
+
+                    <div class="form-group  has-feedback">
+                        <input type="text" class="form-control"  id="username" name="username" required="required" >
+                        <span class="zmdi zmdi-account-circle form-control-feedback" aria-hidden="true"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="login-button">
+
+                            <input type="submit" class="btn btn-orange  f-width"  value="{{ 'resetting.request.submit'|trans }}" name="login">
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

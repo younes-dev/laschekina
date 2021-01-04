@@ -1,0 +1,18 @@
+bundle_casting_pro:
+    resource: "@CastingBundle/Resources/config/routing/casting.yml"
+    prefix:   /espace-casting
+
+bundle_casting_membre:
+    resource: "@CastingBundle/Resources/config/routing/postuler.yml"
+    prefix:   /espace-member
+
+casting_liste_casting:
+    path:     /{_locale}/liste-casting
+    defaults: { _controller: CastingBundle:Default:listeCasting }
+
+casting_tv:
+    path:     /{_locale}/casting-tv/{idCastingReponse}
+    defaults: { _controller: CastingBundle:Default:castingsTv }
+
+
+

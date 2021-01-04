@@ -1,0 +1,304 @@
+<!doctype html>
+
+
+<!--[if lt IE 7 ]>
+<html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>
+<html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>
+<html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>
+<html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <script>(function (H) {
+            H.className = H.className.replace(/\bno-js\b/, 'js')
+        })(document.documentElement)</script>
+    <meta charset="utf-8">
+    <style>
+        .js #features {
+            margin-left: -12000px;
+            width: 100%;
+        }
+
+        .prgram-inner-content {
+            width: 25% !important;
+        }
+
+        .slimScrollDiv {
+            height: 195px !important;
+        }
+
+        #down_list {
+            height: 195px !important;
+        }
+
+        #across_list {
+            height: 195px !important;
+        }
+
+        #dragger {
+            height: 280px !important;
+        }
+
+        #dragger {
+            height: 280px !important;
+        }
+
+        #crossword_canvas {
+            width: 300px !important;
+            height: 280px !important;
+        }
+
+        .bottom-cover h4 {
+            font-size: 9px !important;
+        }
+
+        .program-inner-bottom span {
+            font-size: 11px !important;
+            font-family: 'News Cycle', sans-serif;
+        }
+
+        .wowbook-page p, .wowbook-page ul {
+            margin-top: 0 !important;
+        }
+
+        .event-date {
+            float: right !important;
+            font-family: inherit !important;
+            font-size: 8px !important;
+        }
+    </style>
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+    Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title> Magazine</title>
+    <meta name="description" content="">
+    <meta name="author" content="Marcio Aguiar">
+
+    <!--  Mobile viewport optimized: j.mp/bplateviewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS : implied media="all" -->
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/wow_book.css') }}" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/style-word.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/preview.css') }}"><!-- Uncomment if you are specifically targeting less enabled mobile browsers
+    <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/materialize.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/magzine/css/font-awesome.min.css') }}">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('dev/magzine/css/preview.css') }}">
+    <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+    <script src="{{ asset('dev/magzine/js/modernizr-1.6.min.js') }}"></script>
+    <!-- Include config file -->
+
+    <!-- Include events calendar language file -->
+    <script src="{{ asset('dev/magzine/languages/en.js') }}"></script>
+
+</head>
+<body>
+<div id="container">
+    <nav>
+        <ul>
+            <li><a id='first' href="#" title='Première page'> </a></li>
+            <li><a id='back' href="#" title='Arrière'></a></li>
+            <li><a id='next' href="#" title='Prochain'></a></li>
+            <li><a id='last' href="#" title='dernière page'></a></li>
+            <li><a id='zoomin' href="#" title='Agrandir'></a></li>
+            <li><a id='zoomout' href="#" title='Dézoomer'></a></li>
+            <li><a id='slideshow' href="#" title='Diaporama'></a></li>
+            <li><a id='flipsound' href="#" title='Flip sonore'></a></li>
+            <li><a id='fullscreen' href="#" title='Plein écran'></a></li>
+            <li><a id='thumbs' href="#" title='Pouces'></a></li>
+        </ul>
+    </nav>
+    <div id="main">
+
+        <div id='features'>
+
+            <!--page1-->
+            <div id='cover'>
+                <img src="{{ path_picture~ livre.path }}">
+
+                <div class="logo-mag"><img src="{{ asset('dev/magzine/images/logo-book.png') }}"/></div>
+
+            </div>
+
+            <!--page1-->
+
+            <!--page2-->
+
+            <div class='feature pagefx hardpage page2'>
+
+            </div>
+
+            <!--page 2-->
+            {% for item in listeDescription %}
+            <div class=' pagefx softpage' style="padding: 10px !important;">
+            <p style=" text-align: justify; text-justify: inter-word;">
+                {{ item|raw }}
+            </p>
+            </div>
+
+            {% endfor %}
+
+            <div class='last_cover'>
+                <img src="{{ asset('dev/magzine/images/cover_last.png') }}" width="100%" height="100%"/>
+            </div>
+
+        </div> <!-- features -->
+
+    </div>
+    <div id='thumbs_holder'>
+    </div>
+    <footer>
+
+    </footer>
+</div> <!--! end of #container -->
+</div>
+
+<!-- Javascript at the bottom for fast page loading -->
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script type="text/javascript" src="{{ asset('dev/magzine/js/jquery-2.1.4.min.js') }}"></script>
+<script>!window.jQuery && document.write(unescape('%3Cscript src="./js/libs/jquery-2.1.4.min.js"%3E%3C/script%3E'))</script>
+<!-- resize-image -->
+
+<script src="{{ asset('dev/magzine/js/resize-image.js') }} "></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/wow_book.min.js') }}"></script>
+
+<script type="text/javascript">
+
+
+    /*----------------resize image--------------------*/
+
+    $(document).ready(function () {
+        $(".img-resize").imgLiquid({fill: true});
+    });
+
+    $(document).ready(function () {
+
+
+        $('#features').wowBook({
+            height: 500
+            , width: 800
+            , centeredWhenClosed: true
+            , hardcovers: true
+            , turnPageDuration: 1000
+            , numberedPages: [1, -2]
+            , controls: {
+                zoomIn: '#zoomin',
+                zoomOut: '#zoomout',
+                next: '#next',
+                back: '#back',
+                first: '#first',
+                last: '#last',
+                slideShow: '#slideshow',
+                flipSound: '#flipsound',
+                thumbnails: '#thumbs',
+                fullscreen: '#fullscreen'
+            }
+            , scaleToFit: "#container"
+            , thumbnailsPosition: 'bottom'
+            , onFullscreenError: function () {
+                var msg = "Fullscreen failed.";
+                if (self != top) msg = "The frame is blocking full screen mode. Click on 'remove frame' button above and try to go full screen again."
+                alert(msg);
+            }
+        }).css({'display': 'none', 'margin': 'auto'}).fadeIn(1000);
+
+        $("#cover").click(function () {
+            $.wowBook("#features").advance();
+        });
+
+        var book = $.wowBook("#features");
+
+        function rebuildThumbnails() {
+            book.destroyThumbnails()
+            book.showThumbnails()
+            $("#thumbs_holder").css("marginTop", -$("#thumbs_holder").height() / 2)
+        }
+
+        $("#thumbs_position button").on("click", function () {
+            var position = $(this).text().toLowerCase()
+            if ($(this).data("customized")) {
+                position = "top"
+                book.opts.thumbnailsParent = "#thumbs_holder";
+            } else {
+                book.opts.thumbnailsParent = "body";
+            }
+            book.opts.thumbnailsPosition = position
+            rebuildThumbnails();
+        })
+        $("#thumb_automatic").click(function () {
+            book.opts.thumbnailsSprite = null
+            book.opts.thumbnailWidth = null
+            rebuildThumbnails();
+        })
+        $("#thumb_sprite").click(function () {
+            book.opts.thumbnailsSprite = "images/thumbs.jpg"
+            book.opts.thumbnailWidth = 136
+            rebuildThumbnails();
+        })
+        $("#thumbs_size button").click(function () {
+            var factor = 0.02 * ( $(this).index() ? -1 : 1 );
+            book.opts.thumbnailScale = book.opts.thumbnailScale + factor;
+            rebuildThumbnails();
+        })
+
+    });
+</script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script src="{{ asset('dev/magzine/js/plugins.js') }}"></script>
+<script src="{{ asset('dev/magzine/js/script.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/easeljs-0.7.1.min.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('dev/magzine/js/easytimer.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/iscroll.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/jquery.slimscroll.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/crossword.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dev/magzine/js/materialize.js') }}"></script>
+
+
+<script type="text/javascript">
+
+    $('#across_list').slimScroll({
+        height: 130
+    });
+
+
+    $('#down_list').slimScroll({
+        height: 130
+    });
+
+    $(document).ready(loadJsonFile);
+
+
+    function loadJsonFile() {
+        $.getJSON("http://www.laschekina.com/vipcrossing/web/dev/magzine/data.json?r=" + Math.random())
+            .done(jsonLoaded)
+            .fail(function () {
+                alert('failed to load json');
+            });
+    }
+</script>
+
+<script src="{{ asset('dev/magzine/js/calendar.js') }}"></script>
+<!-- end concatenated and minified scripts-->
+
+<!--[if lt IE 7 ]>
+<script src="{{ asset('dev/magzine/js/dd_belatedpng.js')}}"></script>
+<script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
+<![endif]-->
+
+</body>
+</html>

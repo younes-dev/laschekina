@@ -1,0 +1,54 @@
+<div class="content-img">
+	
+    <a href="{{ path('collection',{'activeTab': "vip" , 'fullName': vipUser.prenom  ~ '-' ~ vipUser.nom ,'id': vipUser.id}) }}" class="fancybox ">
+        <div class="img-resize  ">
+            <img src="
+            {%if photosshowHome  != null %}
+              {{ path_picture ~  photosshowHome.picture }}
+            {%elseif Photos  != null %}
+             {{ path_picture ~  Photos[0].picture }}
+              {%else%}{{ asset('assets/images/avatar.png') }}
+               {%endif%}" alt=""
+                 class="media-object " > 
+        </div>
+	<div  data-toggle="tooltip" data-placement="top" title="{{'afficher_profil'|trans}}  {{ vipUser.prenom ~" "~ vipUser.nom}}  {% if vipUser.fan == 1 %} - FAN {% endif %} "
+     class="title-vip-name  {% if vipUser.coloremotioncard == null %}  energique {% else %}   {{ vipUser.coloremotioncard }} {% endif %}">
+        <a href="{{ path('collection',{'activeTab': "vip" , 'fullName': vipUser.username , 'id': vipUser.id}) }}">
+         {% if vipUser.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i> &nbsp; {% endif %} 
+               
+        {{ vipUser.prenom ~" "~ vipUser.nom}} 
+          {% if vipUser.roles[0] == "ROLE_VIP"   and vipUser.fan == 0  %}
+            {% set numbre_etoile = 0 %}
+                {% if  vipUser.id|countNbrFans  > 0  %}
+              
+                  {% set numbre_etoile = 1 %}
+              
+                {% elseif vipUser.id|countNbrFans  > 10000  %}
+               
+                  {% set numbre_etoile = 2 %}
+                {% elseif vipUser.id|countNbrFans  > 100000  %}
+               
+                  {% set numbre_etoile = 3 %}
+              
+                {% elseif vipUser.id|countNbrFans  > 1000000  %}
+                    {% set numbre_etoile = 4 %}
+              
+                {% endif %}             
+               {% if numbre_etoile > 0 %}
+               {% for i in 1..numbre_etoile %}
+               <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+               {% endfor %}
+                {% endif %}
+          {% endif %}
+        
+        
+         </a></div>
+    </a>
+
+</div>
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+

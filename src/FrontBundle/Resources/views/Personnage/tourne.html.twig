@@ -1,0 +1,63 @@
+<div class="col-md-12">
+ 
+
+    <div class="list-vip">
+   
+      
+        <div class="vip-block clearfix">
+
+              <a href="{{ path('collection',{'activeTab': "videos" ,'fullName': book.member.username  , 'id': book.member.id}) }}" >
+                            
+                            <img src="{{ path_picture~ book.path }}" class="img-responsive center-img">
+ 
+                </a>
+                 
+
+           
+
+        </div>  
+    </div>
+
+
+</div>
+{% if listeAutrepersonnage != null  %}
+
+<div class="col-md-12">
+
+    <h4>{{ 'collection_tourne'|trans }}</h4>
+
+
+    <div class="list-vip">
+{% for item in listeAutrepersonnage %}
+      
+      
+        <div class="vip-block clearfix">
+
+            <div class="vip-img img-resize imgLiquid">
+             <a href="{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id' : item.id }) }}" > 
+              {% if item.image != null %}
+                    <img src="{{ path_picture ~ 'personnage_media/' ~ item.image}}" >
+                {% else %}
+                    <img src="{{ asset('assets/images/avatar.png') }}" >
+                {% endif %} </a></div>
+
+            <div class="vip-info">
+                <a href="{{ path('front_end_personnage_profile',{'activeTab': "profile" , 'id' : item.id }) }}" > 
+                <span> 
+                  {{ item.personnage   }}
+                 </span>
+                </a>
+            </div>
+
+
+        </div> 
+{% endfor %}
+
+        {{ render(controller('FrontBundle:Template:pub' )) }}
+
+    </div>
+
+
+</div>
+
+{% endif %}

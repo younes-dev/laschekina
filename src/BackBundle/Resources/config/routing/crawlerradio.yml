@@ -1,0 +1,16 @@
+crawlerradio_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Crawlerradio:index" }
+
+
+crawlerradio_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Crawlerradio:show" }
+
+crawlerradio_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Crawlerradio:edit" }
+
+crawlerradio_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Crawlerradio:delete" }

@@ -1,0 +1,84 @@
+<?php
+
+namespace BackBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
+class MediasType extends AbstractType
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+
+            ->add('urlradio', null, array('label' => 'form.urlradio' , 'required' => false, 'attr' => array('class' => 'form-control ')))
+            ->add('title', null, array('label' => 'form.title' , 'required' => true, 'attr' => array('class' => 'form-control ')))
+            ->add('channel', null, array('label' => 'form.channel' , 'required' => true, 'attr' => array('class' => 'form-control ')))
+            ->add('urlvideo', null, array('label' => 'form.sourcevideo' , 'required' => false, 'attr' => array('class' => 'form-control ')))
+            ->add('shortdescription', null, array('label' => 'form.shortdescription' , 'required' => true, 'attr' => array('class' => 'form-control ')))
+            ->add('detaileddescription', null, array('label' => 'form.description' , 'required' => true, 'attr' => array('class' => 'form-control  ckeditor')))
+            ->add('picture', FileType::class, array('label' => "form.picture", 'required' => false, 'data_class' => null , 'attr' => array( 'data-file-types'=>"image/jpeg,image/png,image/gif" , 'data-preview'=>"on",'data-field-type' => "bootstrap-file-filed" )))
+            ->add('backgroundpicture', FileType::class, array('label' => "form.backgroundpicture", 'required' => false, 'data_class' => null , 'attr' => array( 'data-file-types'=>"image/jpeg,image/png,image/gif" , 'data-preview'=>"on",'data-field-type' => "bootstrap-file-filed" )))
+            ->add('startdate', null, array('label' => "form.startdate" , 'required' => true, 'widget' => 'single_text','format' => 'DD/MM/YYYY' , 'attr' => array('class' => 'form-control mask')))
+            ->add('startTime', TimeType::class, array(
+                'input'  => 'datetime',
+                 'label' => "form.startTime",
+                 'attr' => array('class' => 'form-control') ,
+                'required' => true,
+
+            ))
+            ->add( 'personnage',  EntityType::class, array(
+                'attr' => array('class' => 'form-control selectpicker ','data-live-search'=>"true") ,
+                'label' => "page.personnage",
+                'class' => 'BackBundle:Personnage',
+                'multiple' => true,
+                'required' => false ,
+                'query_builder' => function(EntityRepository $er ) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy("c.id", 'DESC');
+                      //  ->setMaxResults ( 200 );
+
+                }))
+            ->add( 'users',  EntityType::class, array(
+               'attr' => array('class' => 'form-control selectpicker ','data-live-search'=>"true") ,
+                'label' => "form.users",
+                'class' => 'UserBundle:User',
+                'multiple' => true,
+                'required' => false ,
+                'query_builder' => function(EntityRepository $er ) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy("u.username", 'ASC')
+                        ->where('u.roles LIKE :roles')
+                        ->setParameter('roles', '%"ROLE_VIP"%');
+
+                }))
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'BackBundle\Entity\Medias'
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'backbundle_medias';
+    }
+
+
+}

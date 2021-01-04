@@ -1,0 +1,16 @@
+crawlerconcert_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Crawlerconcert:index" }
+
+crawlerconcert_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Crawlerconcert:show" }
+
+crawlerconcert_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Crawlerconcert:edit" }
+
+crawlerconcert_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Crawlerconcert:delete" }
+

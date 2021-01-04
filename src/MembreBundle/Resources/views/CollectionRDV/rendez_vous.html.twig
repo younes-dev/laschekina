@@ -1,0 +1,170 @@
+<div class="tab-pane {% if activeTab == "rendez-vous" %} active {% endif %}" id="tab9">
+
+    {% if (app.user != null  and member.id == app.user.id ) %}
+        <div class="col-md-12 col-xs-12"><h4>{{ 'collection_add_rendez_vous'|trans }}</h4></div>
+        <div class="col-md-12 col-xs-12">
+            <div class="alert alert-success alert-block" id="collectionRDVsuccess" style="display: none">
+                <a href="#" data-dismiss="alert" class="close">×</a>
+            </div>
+
+        </div>
+        {% for flashMessage in app.session.flashbag.get('collectionrendezVoussuccess') %}
+            <div class="col-md-12 col-xs-12">
+                <div class="alert alert-success alert-block">
+                    <a href="#" data-dismiss="alert" class="close">×</a>
+                    {{ flashMessage }}
+                </div>
+            </div>
+        {% endfor %}
+        <form action="{{ path('collection_add_rendez_vous',{'activeTab': "rendez-vous"}) }}" method="post">
+
+            <div class="form-group clearfix">
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.title'|trans }}</label>
+                    <input type="text" name="title_rendez_vous" id="title_rendez_vous" maxlength="255"
+                           class="form-control ">
+
+                </div>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.startdate'|trans }}</label>
+
+                    <input name="startdate_rendez_vous" id="startdate_rendez_vous" type="text"
+                           class='form-control selectDatePicker'>
+
+                </div>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.enddate'|trans }}</label>
+
+                    <input name="enddate_rendez_vous" id="enddate_rendez_vous" type="text"
+                           class="form-control selectDatePicker">
+
+                </div>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.startTime'|trans }}</label>
+
+                    <input name="start_heur" id="start_heur" type="text" class="form-control " placeholder="HH:mm">
+
+                </div>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.endTime'|trans }}</label>
+
+                    <input name="end_heur" id="end_heur" type="text" class="form-control" placeholder="HH:mm">
+
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.media'|trans }}</label>
+
+                <select name="media" class="form-control " >
+                 <option value="0">Choisir un média </option>
+                {% for item in getListeacteur %}
+                    <option value="{{ item.id }}"> {% if item.typemedia != null %}{% set title = "page."~item.typemedia.title  %}{{ title|trans }} : {% endif %} {{ item.title  }} </option>
+                    {% endfor %}
+                </select>   
+                
+                </div>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.adresse'|trans }}</label>
+
+                    <input id="searchInput" name="searchInput" class="input-controls" type="text"
+                           placeholder="Enter a location">
+                    <div class="map" id="map" style="width: 100%; height: 300px;"></div>
+                    <div class="form_area">
+                        <input type="text" name="location" id="location" readonly style="display: none;">
+                        <input type="text" name="lat" id="lat" readonly style="display: none;">
+                        <input type="text" name="lng" id="lng" readonly style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="col-md-12 mag-bttom-sm">
+                    <label class="label-control">{{ 'form.description'|trans }}</label>
+
+                    <textarea name="description_rendez_vous" class="form-control "></textarea>
+                </div>
+            </div>
+
+            <div class="form-group" style="float: right;">
+
+                <div class="login-button col-md-8 ">
+
+                    <input type="submit" class="btn btn-orange" value="{{ 'btn.add'|trans }}">
+
+                </div>
+
+            </div>
+        </form>
+        <div class="col-md-12">
+            <hr/>
+        </div>
+    {% endif %}
+
+
+    <div class="keyword-block-content">
+
+
+        <div class=" col-md-12">
+            <h3>{{ 'collection_rendez_vous'|trans }}</h3>
+            <div class="tiva-events-calendar full" data-source="json"></div>
+            {% for item in ListeRendezvous %}
+                <div class="keyword-block-inner" style="  margin-left: 10px;  margin-right: 10px;">
+                    <p>
+                          <b> {{ item.title }} </b> <br/>
+                    <span>
+                            {% if item.startDate == item.endDate %}
+                                {{ item.startDate|date('d/m/Y')  }}
+                            {% else %}
+                                {{ item.startDate|date('d/m/Y')~" à "~ item.endDate|date('d/m/Y') }}
+                            {% endif %}
+                        </span>
+                  
+                        - {{ item.startheur ~" à "~ item.endheur }} :  <br/>
+                       {% if item.media != null  %} 
+                       <span> <b>  Media :</b>  </span>
+                        <a style="
+    color: #ff5722;" href="{{ path('front_end_show_media',{'id': item.media.id}) }}" >
+                        {{ item.media.title }} 
+                        </a>
+                        {% endif %}
+                         <br/>
+                         {{ item.description }} 
+                        
+                        </p>
+
+                    {% if  app.user != null and app.user.id == member.id %}
+                        <a href="{{ path('collection_delete_rdv',{'id': item.id }) }}" class="close-btn">
+                            <span class="zmdi zmdi-close"></span>
+                        </a>
+                        <img id="delete_loading_rdv_{{ item.id }}" src="{{ asset('dev/front/images/loading.gif') }}"
+                             style="display: none;">
+                    {% endif %}
+
+                </div>
+                {% if  ListeRendezvous|length > loop.index %}
+                    <div class="clearfix"></div>
+                {% endif %}
+            {% endfor %}
+
+
+        </div>
+    </div>
+
+
+</div>

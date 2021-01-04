@@ -1,0 +1,131 @@
+{% extends '::content-backend.html.twig' %}
+
+{% block title %}
+    {{ 'menu_crawler_concert'|trans }}
+{% endblock %}
+{% block hiarche %}
+<div class="page-content" style="min-height: 930px; ">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{{ path('crawlerconcert_index') }}"> <span>   {{ 'menu_crawler_concert'|trans }}  </span></a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    {% block body %}
+        {% for flashMessage in app.session.flashbag.get('crawlerconcertssuccess') %}
+            <br/>
+            <div class="alert alert-success alert-block"><a href="#" data-dismiss="alert" class="close">×</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green">
+                            <i class="icon-users font-green"></i>
+                            <span class="caption-subject bold uppercase">   {{ 'menu_crawler_concert'|trans }}</span>
+                        </div>
+                        <a   href="{{ path('front_end_robot_Crawler_concerts') }}"
+                           class="btn btn-primary center-btn"> <i class="fa fa-plus"></i> &nbsp;{{ 'btn.executer_robots'|trans }}   </a>
+                        <div class="tools"></div>
+                    </div>
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-hover dt-responsive" width="100%"
+                               id="sample_3">
+                            <thead>
+                            <tr>
+                                <th> N°</th>
+                                <th>  {{ 'form.picture'|trans }}</th>
+                                <th style="width: 250px !important;"> {{ 'form.title'|trans }} </th>
+                                <th> {{ 'form.pays'|trans }} </th>
+                                <th> {{ 'form.plus_information'|trans }} </th>
+                                <th> {{ 'form.action'|trans }} </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entity in crawlerconcerts %}
+                                <tr>
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+
+                                    <td>   {% if entity.picture != null %}
+                                            <img src="{{ entity.picture }}" class="media-picture" >
+                                        {% else %}
+                                            --
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if entity.title != null %}
+                                            {{ entity.title|raw }}
+                                        {% else %}
+                                            --
+                                        {% endif %}
+
+                                    </td>
+                                    <td>
+                                        {% if entity.pays != null %}
+                                            {{ entity.pays }}
+                                        {% else %}
+                                            --
+                                        {% endif %}
+
+                                    </td>
+                                    <td>
+                                        {% if entity.url != null %}
+                                            <a href="{{ entity.url }}" target="_blank"> {{ 'form.plus_information'|trans }} </a>
+                                        {% else %}
+                                            --
+                                        {% endif %}
+
+                                    </td> <td>
+
+
+                                        <a title=" {{ "btn.edit"|trans }}" href="{{ path('crawlerconcert_edit', {'id': entity.id}) }}" class="btn btn-outline btn-circle btn-sm blue">
+                                            <i class="fa fa-edit"></i>  {{ "btn.edit"|trans }}</a>
+
+                                        <a title=" {{ "btn.show"|trans }}" href="{{ path('crawlerconcert_show', {'id': entity.id}) }}" class="btn btn-outline btn-circle btn-sm green">
+                                            <i class="fa fa-search"></i>  {{ "btn.show"|trans }}</a>
+                                        <a href="#myModal{{ entity.id }}" data-toggle="modal"
+                                           class="btn btn-outline btn-circle dark btn-sm black">
+                                            <i class="fa fa-trash-o"></i>{{ 'btn.remove'|trans }}  </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+        {% for entity in crawlerconcerts %}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ entity.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title">  {{ 'message_alert_remove'|trans }}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h2>  {{ 'message_validation_remove'|trans }} </h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"> {{ 'btn.cancel'|trans }}  </button>
+                            <a href="{{ path('crawlerconcert_delete', {'id': entity.id}) }}">
+                                <button type="button" class="btn btn-danger"><i
+                                            class="fa fa-trash"></i> {{ 'btn.remove'|trans }} </button>
+                            </a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endfor %}
+    {% endblock %}

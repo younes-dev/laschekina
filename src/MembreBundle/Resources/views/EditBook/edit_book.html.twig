@@ -1,0 +1,174 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block title %}  {{ 'page.collection'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/personnage.css') }}">
+    <link rel="stylesheet" href="{{ asset('dev/front/css/styles.css') }}">
+{% endblock %}
+{% block imgscreen %}
+<div class="channel-cover">
+
+    <div class="bg-post">
+
+        <div class="img-resize imgLiquid">
+
+            {% if member.picturecover != null %}
+                <img src="{{ path_picture ~ member.picturecover }}">
+            {% else %}
+                <img src="{{ path_picture|getImageDefault()}}">
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+<div class="author-overlay container">
+        <div class="channel-header">
+            <div class="author-avatar img-resize imgLiquid">
+                {% if member.pictureprofil != null %}
+                    <img src="{{ path_picture ~ member.pictureprofil }}" class="avatar-acteur">
+                {% else %}
+                    <img src="{{ asset('assets/images/avatar.png') }}" class="avatar-acteur">
+                {% endif %}
+
+            </div>
+            <div class="author-meta">
+                <h3 class="author-name">
+                 
+              
+                {% if  member.fan == 1 %}   <i class="zmdi zmdi-accounts-alt"></i>&nbsp; {% endif %} 
+                
+                {{  member.prenom ~" "~  member.nom }}
+                {% if  member.roles[0] == "ROLE_VIP"  and  member.fan == 0  %}
+                        {% set numbre_etoile = 0 %}
+                        {% if  member.id|countNbrFans  > 0  %}
+                        {% set numbre_etoile = 1 %}
+                        {% elseif  member.id|countNbrFans  > 10000  %}
+                        {% set numbre_etoile = 2 %}
+                        {% elseif  member.id|countNbrFans  > 100000  %}
+                        {% set numbre_etoile = 3 %}
+                        {% elseif  member.id|countNbrFans  > 1000000  %}
+                            {% set numbre_etoile = 4 %}
+                    
+                        {% endif %}
+                        {% if numbre_etoile > 0 %}
+                    {% for i in 1..numbre_etoile %}
+                    <i class="zmdi zmdi-star" style="color: yellow;margin-left: 1px;"></i>
+                    {% endfor %}
+                        {% endif %}
+                {% endif %}
+    
+                </h3>
+              </div>
+        </div>
+    </div>
+</div>
+    <div class="content-page inner-xs ">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 box-page-bg clearfix">
+                            
+                          <form action="{{path('collection_edit_book',{'livre': media.id})}}" method="post" enctype="multipart/form-data">
+ 
+
+                        {% if media.typeMedia == 'book'%}
+                        
+                                {% include "MembreBundle:EditBook:edit_type_book.html.twig" %}
+
+                        {% endif %} 
+
+                     {% if media.typeMedia == 'liver_bd'%}
+                        
+                                {% include "MembreBundle:EditBook:edit_type_liver_bd.html.twig" %}
+
+                        {% endif %}
+                   
+                  {% if media.typeMedia == 'contes_histoires_enfants'%}
+                        
+                                {% include "MembreBundle:EditBook:edit_type_contes_histoires_enfants.html.twig" %}
+
+                        {% endif %}
+                   
+                    <div class="form-group">
+
+                        <div class="login-button col-md-8 ">
+
+                            <input type="submit" class="btn btn-orange" name="Modifier" value="Modifier">
+                        </div>
+
+                    </div>
+
+                </form>
+                        </div><!--//end box-page-bg-->
+                    </div>
+                     <!--//end row-->
+                </div><!--//end col-md-9-->
+                <div class="col-md-3 col-sm-3  col-xs-12 mag-bot-40 ">
+
+                    <div class="box-page-bg clearfix">
+
+                        {% include 'MembreBundle:Collection:tourne.html.twig' %}
+                    </div>
+                    {% if member.twitter != null %}
+                            <div class="box-page-bg clearfix">
+
+                                <a class="twitter-timeline"   data-height="430"  href="https://twitter.com/{{ member.twitter }}" >Tweets </a>
+                            </div>
+                    {% endif %}
+                    {{ render(controller('FrontBundle:Template:pub' )) }}
+
+                </div>
+            </div><!--//end row-->
+        </div><!--//end container-->
+    </div><!--//end content-page-->
+
+
+    <div id="delete-bd-media" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form action="{{ path('front_end_collection_delete_bd') }}" method="post">
+
+                    <div class="modal-body text-center">
+
+                        <div class="sa-icon sa-error animateErrorIcon" style="display: block;">
+													<span class="sa-x-mark animateXMark">
+														<span class="sa-line sa-left"></span>
+														<span class="sa-line sa-right"></span>
+													</span>
+                        </div>
+
+                        <h2 class="title-modal">{{ 'modal_oops'|trans }}</h2>
+                        <p> {{ 'message_validation_remove'|trans }}</p>
+                        <input type="hidden" name="id-bd-item" id="id-bd-item">
+                        <input type="hidden" name="id-media" id="id-media">
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <input type="submit" class="btn btn-orange btn-md" value="{{ 'modal_valider'|trans }}">
+
+                        <button type="button" class="btn btn-default btn-md"
+                                data-dismiss="modal">{{ 'modal_close'|trans }}</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+<!--Modal-->
+    {% include 'MembreBundle:Collection:modal_personnage.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assets/js/personnage.js') }}"></script>
+{% endblock %}

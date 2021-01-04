@@ -1,0 +1,43 @@
+{
+  "name": "Bower",
+  "description": "Symfony =========",
+  "main": "index.js",
+  "authors": [
+    "Mouadh Ben Alaya"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.11.3",
+    "bootstrap": "~3.0.3",
+    "components-font-awesome": "^4.7.0",
+    "simple-line-icons": "^2.4.1",
+    "jquery-backstretch-2": "^2.1.15",
+    "datatables.net-bs": "^1.10.13"
+  },
+  "group": {
+    "admin": [
+      "jquery",
+      "bootstrap",
+      "components-font-awesome",
+      "simple-line-icons",
+      "datatables.net-bs",
+      "jquery-backstretch-2"
+    ],
+    "frontend": [
+      "jquery",
+      "bootstrap",
+      "components-font-awesome",
+      "simple-line-icons"
+
+    ]
+  }
+}

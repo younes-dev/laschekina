@@ -1,0 +1,22 @@
+
+<img id="loading-search" src="{{ asset('dev/front/images/loading.gif') }}" class="displayed" style="margin-bottom:8px ;display: none;">
+
+
+<div class="list-slider owl-carousel caroussel-Liste-membre-home {% if ListeVIP == null %} no-image {% endif %}" id="content_Liste_membre_home" >
+
+    {% for item in ListeVIP %}
+        <a class="item img-thumb" data-toggle="tab" onclick="getVipUser({{ item.id }})"
+           href="#home-slider-1-bloc-{{ item.id }} ">
+            <div class="img-resize " style="width: 40px ; height: 42px;">
+
+                {% if item.pictureprofil != null %}
+                    <img src="{{ path_picture ~ item.pictureprofil }}" alt=""
+                         class="image-resize img-responsive media-object " style="width: 40px ; height: 42px;">
+                {% else %}
+                    <img src="{{ asset('assets/images/avatar.png') }}" alt=""
+                         class="image-resize img-responsive media-object " style="width: 40px ; height: 42px;">
+                {% endif %}
+            </div>
+        </a>
+    {% endfor %}
+</div>

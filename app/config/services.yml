@@ -1,0 +1,35 @@
+services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+    app.img_upload:
+        class: UserBundle\Services\FileUpload
+        arguments: ['%upload_dir%']
+    app.codebird:
+        class: UserBundle\Services\Codebird
+
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+#        public: false
+
+
+    # controllers are imported separately to make sure they're public
+    # and have a tag that allows actions to type-hint services
+    UserBundle\Controller\RegistrationController:
+        public: true
+        arguments:
+            - "@event_dispatcher"
+            - "@fos_user.registration.form.factory"
+            - "@fos_user.user_manager"
+            - "@security.token_storage"
+        calls:
+            - method: setContainer
+              arguments:
+                  - '@service_container'

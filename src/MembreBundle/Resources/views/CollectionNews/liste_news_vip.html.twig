@@ -1,0 +1,32 @@
+{% for item in ItemNews %}
+        <div class="post-news clearfix">
+            <div class="col-md-4 col-sm-4 col-xs-12 ">
+                <div class="image-holder-content">
+                    <a href="{{ path_picture ~ item.picture }}" class="fancybox">
+                    <div class="small-photo-vip img-resize ">
+                        <img src="{{ path_picture ~ item.picture }}" style=" width: 245px !important; height: 175px !important;">
+                    </div>
+                        </a>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-sm-8 col-xs-12">
+
+                <div class="post-news-content">
+                    <h4 id="new-title-{{ item.id }}">{{ item.title }}</h4>
+
+                    <p id="new-description-{{ item.id }}">
+                        {{ item.descriptionCourt[:200] }} {% if  item.descriptionCourt|length > 200 %}... {% endif %} </p>
+                    <div style="display: none" id="id-news-description-{{ item.id }}"> {{ item.description|raw }} </div>
+                    <p style="display: none" id="descriptionCourt_edit_news-{{ item.id }}"> {{ item.descriptionCourt|raw }} </p>
+
+                    <a href="#" type="button"  onclick='OpenmodalNews({{ item.id }} )'>{{ 'collection_lire_suite'|trans }}</a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+{% endfor %}

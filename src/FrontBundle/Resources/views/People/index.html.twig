@@ -1,0 +1,305 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+  {% block  meta %}
+        {{ render(controller( 'FrontBundle:Front:referancement' ,  { 'type': "ref_people" }   )) }}
+       {% endblock %}
+{% block title %}  {{ 'page.people'|trans }}{% endblock %}
+ {% block imgscreen %}
+
+
+     <div class="actu-block">
+         <div class="owl-carousel people-caroussel owl-theme">
+             {% for item in listeImgscreenPeople %}
+             <a href="{{ path('front_end_show_media',{'id':  item.id}) }}" class="item">
+                 <div class="img-resize imgLiquid">
+                     <img src="{{ path_picture ~ item.picture }}" alt="" class="resizeme"/>
+                 </div>
+             </a>
+            {% endfor %}
+         </div>
+
+         <div class="badge-actu">{{'people_actu'|trans}}</div>
+
+     </div>
+
+ {% endblock %}
+   {% block body %}
+       <div class="content-page mag-top-40 ">
+
+           <div class="people-content-block  mag-top-20">
+               <div class="container">
+                   {% for item in listePeople %}
+
+                   <div class="col-md-4 col-xs-12 col-sm-4">
+
+                       <div class="post">
+                           <div class="inner-post">
+
+                               <div class="image-post">
+                                   <div class="img-resize imgLiquid">
+                                        {% if  item.backgroundpicture != null%}
+                                       <img src="{{ path_picture ~ item.backgroundpicture }}">
+                                        {% elseif  item.picture != null %}
+                                            <img src="{{ path_picture ~ item.picture }}" alt=""/>
+                                        {% else %}
+                                           <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                       {% endif %}
+                                   </div>
+                               </div>
+
+                               <div class="inner-post-content">
+
+
+                                   <h3><a href="{{ path('front_end_show_media',{'id':  item.id}) }}">{% if item.title != null  %} {{ item.title[:40] }} {% else %} {{ item.titleHome[:40] }} {% endif %} ..</a></h3>
+
+                                   <p>{{ item.shortdescription[:200] }}{% if item.shortdescription|length > 200 %}...{% endif %}</p>
+
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+
+                   {% endfor %}
+               </div>
+           </div>
+           <div class="clearfix videos-film people-video mag-top-40 bg-white inner-vs">
+               <div class="container">
+
+
+
+                  
+                   <div class="col-md-9 col-sm-9 col-xs-12">
+
+                       <div class="title-pg">
+                           <h3><strong>{{ 'video_people'|trans }}</strong> <i class="zmdi zmdi-chevron-right"></i></h3>
+                       </div>
+
+
+                       <div class="col-md-8 col-xs-12 col-sm-8 padd-vd ">
+
+                           <div class="article-video">
+
+                               <a href="{{ videoPeople[0].urlvideo }}"
+                                  class="fancyboxYoutube fancybox.iframe">
+                                   <div class="box-page big-video-people">
+
+                                       <div class="img-resize imgLiquid">
+                                           {% if videoPeople[0].backgroundpicture != null  %}
+                                           <img src="{{ path_picture ~ videoPeople[0].backgroundpicture }}" alt=""/>
+                                           {% elseif  videoPeople[0].picture != null %}
+                                               <img src="{{ path_picture ~ videoPeople[0].picture }}" alt=""/>
+                                           {% else %}
+                                               <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                           {% endif %}
+                                       </div>
+
+                                       <div class="inner-video">
+
+                                           <div class="inner-video-caption">
+
+                                               <span>
+
+                                                   {% if videoPeople[0].title != null  %} {{ videoPeople[0].title[:40] }} {% else %} {{ videoPeople[0].titleHome[:40] }} {% endif %} ..
+                                               </span>
+                                           </div>
+                                            {% if videoPeople[0].urlvideo != null  %}
+                                           <div class="play-btn">
+
+                                               <i class="zmdi zmdi-play-circle"></i>
+                                           </div>
+                                            {% endif %}
+
+                                       </div>
+
+                                   </div>
+                               </a>
+
+                           </div>
+                       </div>
+
+                       <div class="col-md-4 col-xs-12 col-sm-4 padd-left-5">
+                            {% for i in 1..3 %}
+                           <div class="box-video box-video-people">
+
+                               <a href="{{ videoPeople[i].urlvideo }}"
+                                  class="fancyboxYoutube fancybox.iframe">
+                                   <div class="box-page">
+                                       <div class="img-resize imgLiquid">
+                                           {% if videoPeople[i].backgroundpicture != null  %}
+                                           <img src="{{ path_picture ~ videoPeople[i].backgroundpicture }}" alt=""/>
+                                           {% elseif  videoPeople[i].picture != null %}
+                                               <img src="{{ path_picture ~ videoPeople[i].picture }}" alt=""/>
+                                           {% else %}
+                                               <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                           {% endif %}
+                                       </div>
+
+                                        {% if videoPeople[i].urlvideo != null  %}
+                                           <div class="play-btn">
+
+                                           <i class="zmdi zmdi-play-circle"></i>
+                                       </div>
+                                       {% endif %}
+
+                                   </div>
+                               </a>
+
+                           </div>
+                            {% endfor %}
+                       </div>
+
+
+                   </div>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+
+                       <div class="title-pg">
+                           <h3><strong>{{ 'top_people'|trans }}</strong> <i class="zmdi zmdi-chevron-right"></i></h3>
+                       </div>
+
+                       <div class="owl-carousel first-look-caroussel owl-theme">
+                           {% for entity in listeTopPeople %}
+
+
+                           <div class="item">
+
+                               <div class="look-box ">
+                                   <div class="img-resize imgLiquid">
+                                       <a title="{{ entity.title }}" href="{{ path('front_end_show_media',{'id':  entity.id}) }}">
+                                        {% if entity.backgroundpicture != null   %}
+                                       <img src="{{ path_picture ~ entity.backgroundpicture }}">
+                                        {% elseif  entity.picture != null %}
+                                            <img src="{{ path_picture ~ entity.picture }}" alt=""/>
+                                        {% else %}
+                                           <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""/>
+                                       {% endif %}
+                                       </a>
+                                   </div>
+
+
+
+                               </div>
+                           </div>
+{% endfor %}
+
+                       </div>
+
+
+                   </div>
+
+                   <div class="col-md-12 col-xs-12 col-sm-12">
+
+                       <h3><strong>{{ 'page.tous_people'|trans }}</strong> <i class="zmdi zmdi-chevron-right"></i></h3>
+                       <div class="list-program row mag-top-20">
+
+
+
+                   <div class="col-md-12 col-xs-12 col-sm-12 tousPeople">
+
+                       {% for entity in tousPeoplescrollInfini  %}
+                           <div class="col-md-3 col-xs-12 col-sm-4 item" id="{{ entity.id }}" >
+                               <div class="post video-post" style="    margin-bottom: 5px !important;">
+                                   <div class="inner-post" >
+                                       <div class="image-post">
+                                           
+
+
+
+
+
+                                           <div class="img-resize imgLiquid">
+                                               {% if entity.pictureHome != null %}
+                                                   <img src="{{ path_picture ~ entity.pictureHome }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                               {% elseif entity.picture != null %}
+                                                   <img src="{{ path_picture ~ entity.picture }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                               {% elseif entity.backgroundpicture != null %}
+                                                   <img src="{{ path_picture ~ entity.backgroundpicture }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                               {% else %}
+                                                   <img src="{{ asset('assets/images/no-image.jpg') }}" style="width: 100%;   height: 275px;    visibility: initial !important;">
+                                               {% endif %}
+                                           </div>
+                                       </div>
+                                       <div class="inner-post-content" style="   border: 1px solid #a7a7a7cc; padding: 10px !important;height: 120px; ">
+                                           <h3><a href="{{ path('front_end_show_media',{'id': entity.id}) }}">
+
+                                                   {% if entity.titleHome != null  %} {{ entity.titleHome[:50] }} {% else %} {{ entity.title[:50] }} {% endif %}
+                                               </a></h3>
+                                           <p>{{ entity.shortdescription[:80] }}
+                                               {% if entity.shortdescription|length > 80    %} .. {% endif %}
+
+                                               <br/>
+                                               <span>  {{ entity.channel }}</span>
+
+                                               {% if entity.title  in [ 'programme'  , 'concert' , 'radio' , 'spectacle' ] %}
+
+                                                   <span>
+                                                    <i class="glyphicon glyphicon-time"></i>
+
+                                                               {% set timeResultat = entity.id|getTimeStart %}
+                                                               {% if timeResultat != null %}
+                                                                   {{ timeResultat}}
+                                                               {% endif %}
+                                                </span>
+                                               {% endif %}
+
+                                           </p>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       {% endfor %}
+                   </div>
+
+
+
+                       </div>
+
+                   </div>
+
+
+               </div>
+           </div>
+
+        </div>
+
+
+   {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(window).scroll(function () {
+             var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
+            var scrolltrigger = 0.99;
+            if ((wintop / (docheight - winheight)) > scrolltrigger) {
+                  var lastId = $('.item:last').attr('id') ;
+               var data = {
+                   'lastId': lastId,
+                   'type': "people",
+                   'language': "{{  app.request.getLocale() }}"
+
+               };
+               var url = '{{ path('front_end_scroll_media') }}';
+               $.ajax({
+                   url: url, // La ressource ciblée
+                   type: 'POST', // Le type de la requête HTTP.
+                   data: data,
+                   dataType: "json",
+                   success: function (data) {
+                       if(data.status == true){
+
+                           $('.tousPeople').append(data.tousPeopleHtml);
+                       }
+
+
+
+                   },
+
+                   error: function (response) {
+                       console.log(response);
+                   }
+               });
+           }
+        })
+    </script>
+{% endblock %}

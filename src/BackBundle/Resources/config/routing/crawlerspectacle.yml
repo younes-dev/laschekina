@@ -1,0 +1,16 @@
+crawlerspectacle_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Crawlerspectacle:index" }
+
+crawlerspectacle_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Crawlerspectacle:show" }
+
+crawlerspectacle_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Crawlerspectacle:edit" }
+
+crawlerspectacle_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Crawlerspectacle:delete" }
+

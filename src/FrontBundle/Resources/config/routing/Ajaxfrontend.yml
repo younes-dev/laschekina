@@ -1,0 +1,56 @@
+# function ajax
+front_end_media_ajax:
+    path:     /media/vip/ajax
+    defaults: { _controller: FrontBundle:AjaxFront:ajaxvip }
+    options:
+        expose: true
+
+
+front_end_add_question:
+    path:      /add-question
+    defaults: { _controller: FrontBundle:AjaxFront:question }
+    options:
+        expose: true
+
+front_end_add_like_media:
+    path:      /like-media
+    defaults: { _controller: FrontBundle:AjaxFront:likeMedia }
+    options:
+        expose: true
+
+front_end_scroll_media:
+    path:     /media/scroll-media
+    defaults: { _controller: FrontBundle:AjaxFront:scrollMedia }
+    options:
+        expose: true
+
+
+front_end_scroll_book_images_bd:
+    path:     /book_images_bd/scroll-media
+    defaults: { _controller: FrontBundle:AjaxFront:scrollBookImages }
+    options:
+        expose: true
+
+front_end_send_contact:
+    path:     /ajax-send-contact
+    defaults: { _controller: FrontBundle:AjaxFront:sendcontact }
+    options:
+        expose: true
+
+front_end_media_alerte_ajax:
+    path:     /ajax-send-alerte
+    defaults: { _controller: FrontBundle:AjaxFront:getaleteToDay }
+    options:
+        expose: true
+
+front_end_sendNewsletter:
+    path:     /ajax-send-newsletter
+    defaults: { _controller: FrontBundle:AjaxFront:sendNewsletter }
+    options:
+        expose: true
+
+collection_get_user:
+    path:     /ajax/get-user
+    defaults: { _controller: FrontBundle:AjaxFront:ajaxgetuser  }
+    options:
+        expose: true
